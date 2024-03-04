@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Tramite registrado</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="node_modules/simplebar/dist/simplebar.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+    <script src="/js/spinners.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+</head>
+
+<body>
+
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <aside class="left-sidebar">
+            <!-- Logo Institucional-->
+            <div>
+                <div class="brand-logo d-flex align-items-center justify-content-between mt-3">
+                    <a href="home" class="text-nowrap logo-img d-flex justify-content-center align-items-center">
+                        <img src="/images/img2.png" class="dark-logo mx-auto" width="180" alt="" />
+                    </a>
+                </div>
+                <!-- Barra de navegación-->
+                <nav class="sidebar-nav scroll-sidebar" data-simplebar>
+                    <ul id="sidebarnav">
+                        <!-- ============================= -->
+                        <!--       Matriculación           -->
+                        <!-- ============================= -->
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">MATRICULACIÓN</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="registro-diario" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-file-text"></i>
+                                </span>
+                                <span class="hide-menu">Registro diario</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="listado-tramites" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-file-check"></i>
+                                </span>
+                                <span class="hide-menu">Trámites realizados</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <span class="d-flex">
+                                    <i class="ti ti-report-search"></i>
+                                </span>
+                                <span class="hide-menu">Reportes</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a href="reporte-diario" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Reporte diario </span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="reporte-diario" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Reporte de especies</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="calcular-valores" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-coin"></i>
+                                </span>
+                                <span class="hide-menu">Valores a pagar</span>
+                            </a>
+                        </li>
+                        <!-- =================== -->
+                        <!-- Gestión de placas   -->
+                        <!-- =================== -->
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">GESTIÓN DE PLACAS</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="report-plate" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-checkup-list"></i>
+                                </span>
+                                <span class="hide-menu">Reporte de pagos</span>
+                            </a>
+                        </li>
+                        <!-- =================== -->
+                        <!--       Otros         -->
+                        <!-- =================== -->
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">OTROS</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="configuracion-cuenta" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-user-circle"></i>
+                                </span>
+                                <span class="hide-menu">Cuenta</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" aria-expanded="false" id="logoutButton" href="login">
+                                <span>
+                                    <i class="ti ti-login"></i>
+                                </span>
+                                <span class="hide-menu">Login</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Barra de navegación -->
+            </div>
+        </aside>
+        <!--  Fin de barra de navegación -->
+        <!--  Contendio principal -->
+        <div class="body-wrapper">
+            <!--  Encabezado de pagina -->
+            <header class="app-header">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                </nav>
+            </header>
+            <!--  Fin de encabezado de pagina  -->
+            <!--  Fin de encabezado de pagina  -->
+            <div class="container-fluid" style="width: 50%;">
+                <div class="widget-content searchable-container list">
+
+                    <div class="card">
+                        <div class="px-4 py-3 border-bottom">
+                            <div class="d-flex no-block align-items-center">
+                                <h5 class="mb-0">Trámite registrado con éxito</h5>
+                                <div class="ms-auto">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn bg-primary-subtle text-primary font-medium"
+                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="ti ti-check fs-4 me-2"></i>Finalizado
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="px-4">
+                            <div class="card-body p-4 border-bottom">
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label class="form-label col-md-4">Placa:</label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">
+                                                <%= placa %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label class="form-label col-md-4">Clase de vehiculo:</label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">
+                                                <%= clase_vehiculo %>
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label class="form-label  col-md-4">Clase de transporte:</label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">
+                                                <%= clase_transporte %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label class="form-label col-md-4">Trámite:</label>
+                                        <div class="col-md-8" style="white-space: nowrap; overflow: hidden;">
+                                            <p class="form-control-static">
+                                                <%= tipo_tramite %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label class="form-label col-md-4">C.I. / RUC:</label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">
+                                                <%= id_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label class="form-label col-md-4">Propietario:</label>
+                                        <div class="col-md-8" style="white-space: nowrap; overflow: hidden;">
+                                            <p class="form-control-static">
+                                                <%= nombre_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label class="form-label  col-md-4">Centro de matriculación:</label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">
+                                                <%= nombre_corto_empresa %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label class="form-label  col-md-4">Usuario:</label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">
+                                                <%= username %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label class="form-label  col-md-4">Fecha:</label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">
+                                                <%= fecha_ingreso %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div class="col-8">
+                                    <div class="form-group row">
+                                        <div class="input-group mb-3">
+                                            <button class="btn btn-search text-black font-medium rounded-start d-flex align-items-center col-6"
+                                                    type="button" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                    data-bs-original-title="Tooltip on right">
+                                                <strong>ADHESIVO</strong>
+                                            </button>
+                                
+                                            <input type="text" class="form-control  text-center" placeholder=""
+                                                    aria-label="" aria-describedby="basic-addon1"
+                                                    value="<%= numero_adhesivo %>">
+                                
+                                            <button class="btn btn-search text-black font-medium rounded-end d-flex align-items-center "
+                                                    type="button" id="myButton">
+                                                <i class="ti ti-copy fs-4 me-1"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <script>
+                                    document.getElementById('myButton').addEventListener('click', function () {
+                                        // Obtener el contenido del input
+                                        var inputContent = document.querySelector('.form-control').value;
+                                
+                                        // Copiar el contenido al portapapeles
+                                        navigator.clipboard.writeText(inputContent)
+                                            .then(function () {
+                                                // Acción después de copiar (opcional)
+                                                // Activar el tooltip después de copiar al portapapeles
+                                                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                                                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                                                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                                                });
+                                                // Activar el tooltip con el mensaje "COPIADO" a la derecha del botón
+                                                var myButton = document.getElementById('myButton');
+                                                var tooltip = new bootstrap.Tooltip(myButton, {
+                                                    title: 'COPIADO',
+                                                    placement: 'right'
+                                                });
+                                            })
+                                            .catch(function (error) {
+                                                // Manejo de errores
+                                                console.error('Error al copiar contenido al portapapeles: ', error);
+                                                alert('Error al copiar contenido al portapapeles');
+                                            });
+                                    });
+                                </script>
+                                
+
+
+
+
+                                <div class="col-8">
+                                    <div class="form-group row">
+                                        <div class="input-group mb-3 ">
+                                            <button
+                                                class="btn btn-search text-black font-medium rounded-start d-flex align-items-center col-6"
+                                                type="button">
+                                                <strong>MATRICULA</strong>
+                                            </button>
+
+                                            <input type="text" class="form-control  text-center" placeholder=""
+                                                aria-label="" aria-describedby="basic-addon1"
+                                                value="<%= numero_matricula %>">
+                                            <!-- Botón con tooltip -->
+                                            <button class="btn btn-search text-black font-medium rounded-end d-flex align-items-center "
+                                            type="button" id="myButton">
+                                        <i class="ti ti-copy fs-4 me-1"></i>
+                                    </button>
+                                    
+                                    <!-- Script para activar el tooltip al hacer clic en el botón -->
+                                    <script>
+                                        // Función para activar el tooltip al hacer clic en el botón
+                                        document.getElementById('myButton').addEventListener('click', function () {
+                                            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                                            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                                                return new bootstrap.Tooltip(tooltipTriggerEl);
+                                            });
+                                        });
+                                    </script>
+                                    
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="spinner-wrapper" class="spinner-wrapper">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading..</span>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+</body>
+
+</html>

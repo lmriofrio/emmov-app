@@ -1,0 +1,52 @@
+{
+  "name": "mi-aplicacion-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tabler/icons": "^2.46.0",
+    "apexcharts": "^3.45.2",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "bootstrap": "^5.3.2",
+    "connect-flash": "^0.1.1",
+    "debug": "^4.3.4",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "express-myconnection": "^1.0.4",
+    "express-session": "^1.18.0",
+    "express-session-mysql": "^0.4.3",
+    "express-validator": "^7.0.1",
+    "jquery": "^3.7.1",
+    "jspdf": "^2.5.1",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.45",
+    "morgan": "^1.10.0",
+    "ms": "^2.1.3",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.8.0",
+    "owl.carousel": "^2.3.4",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pdfkit": "^0.14.0",
+    "puppeteer": "^22.3.0",
+    "sequelize": "^6.35.2",
+    "simplebar": "^6.2.5",
+    "sweetalert2": "^11.10.4",
+    "timeago.js": "^4.0.2",
+    "toastr": "^2.1.4",
+    "tzdata": "^1.0.40",
+    "util": "^0.12.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}
