@@ -231,63 +231,57 @@
 
 
                                 <div class="col-12 mb-2">
-                                    <div class="form-group row">
-                                        <div class="col-md-3">
+                                    <div class="form-group">
 
-                                            <div class="text-end  gap-3">
-                                                <button type="submit" class="btn btn-primary"
-                                                    id="generarReporteDiario">Procesar</button>
-
-
-                                            </div>
-                                            <div class="text-end  gap-3">
-                                                <button type="submit" class="btn btn-primary"
-                                                    id="generarPDFReporteDiario">HACER PDF</button>
-
-                                                    <script>
-                                                        $(document).ready(function () {
-                                                            console.log('Asignando evento de clic...');
-                                                            $('#generarPDFReporteDiario').click(function () {
-                                                                $.ajax({
-                                                                    type: 'GET',
-                                                                    url: '/generar-pdf',
-                                                                    success: function (response) {
-                                                                        console.log('PDF generado correctamente');
-                                                                        // Aquí podrías mostrar un mensaje de éxito o realizar otras acciones si es necesario
-                                                                    },
-                                                                    error: function (error) {
-                                                                        console.error('Error al generar el PDF:', error);
-                                                                        // Aquí podrías mostrar un mensaje de error al usuario si es necesario
-                                                                    }
-                                                                });
-                                                            });
-                                                        });
-                                                    </script>
-                                                    
-                                            </div>
+                                        <label for="area"
+                                            class="col-md-2 form-label fw-semibold  col-form-label"></label>
 
 
 
+                                        <button type="submit" class="btn btn-primary me-3"
+                                            id="generarReporteDiario">Procesar consulta</button>
 
-                                            <button id="exportToPDF">Exportar a PDF</button>
+
+                                        <button type="button" class="btn btn-secondary"
+                                            id="generar-pdf">Generar PDF</button>
 
                                             <script>
-                                                        document.getElementById('exportToPDF').addEventListener('click', async () => {
-                                                            try {
-                                                                const response = await fetch('/generar-pdf', { method: 'GET' });
-                                                                const data = await response.text();
-                                                                console.log(data); // Muestra el mensaje de respuesta en la consola
-                                                            } catch (error) {
-                                                                console.error('Error al llamar a la ruta para generar el PDF:', error);
+                                                $(document).ready(function () {
+                                                    $('#generar-pdf').click(function () {
+                                                        $.ajax({
+                                                            type: 'GET',
+                                                            url: '/generar-pdf',
+                                                            success: function (response) {
+                                                                console.log('PDF generado correctamente');
+                                                                // Aquí podrías mostrar un mensaje de éxito o realizar otras acciones si es necesario
+                                                            },
+                                                            error: function (error) {
+                                                                console.error('Error al generar el PDF:', error);
+                                                                // Aquí podrías mostrar un mensaje de error al usuario si es necesario
                                                             }
                                                         });
+                                                    });
+                                                });
                                             </script>
+                                            
 
 
 
-                                            <div class="col-md-9">
 
-                                            </div>
+
+
+
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 mb-2">
+                                    <div class="">
+                                        <div class="col">
+
+
+
                                         </div>
                                     </div>
 

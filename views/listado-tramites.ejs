@@ -16,6 +16,9 @@
     <script src="/js/activar-items-navbar.js"></script>
     <script src="/js/spinners.js"></script>
 
+
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body>
@@ -159,6 +162,8 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div id="usernameSesion" data-username="<%= usernameSesion %>"></div>
+
 
                             <div class="form-items">
                                 <label for="" class="form-label fw-semibold" style="width: 5%">PLACA</label>
@@ -193,6 +198,24 @@
                         </div>
 
 
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="permisosModal" tabindex="-1" aria-labelledby="permisosModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="permisosModalLabel">Permisos insuficientes</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Usted no tiene permisos para editar este trámite.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
                     </div>
                 </div>
             </div>

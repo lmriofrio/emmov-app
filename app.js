@@ -9,6 +9,7 @@ const fecha_actual_ecuador = moment().format();
 
 // Resto del código de tu aplicación...
 
+
 const toastr = require('toastr');
 const express = require('express');
 const session = require('express-session');
@@ -31,7 +32,8 @@ const PayOrder = require('./models/payOrder');
 const SeleccionarTipoTramites = require('./models/SeleccionarTipoTramites');
 const SeleccionarCantones = require('./models/SeleccionarCantones');
 const util = require('util');
-const jsPDF = require('jspdf');
+const { jsPDF } = require("jspdf"); 
+
 const puppeteer = require('puppeteer');
 const vehiculoRoutes = require('./routes/vehiculoRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
@@ -238,6 +240,7 @@ app.get('/registrar-pago-placas', (req, res) => {
 
 app.get('/listado-tramites', async (req, res) => {
   try {
+    const usernameSesion = req.session.user.username;
     const totalRecords = await Tramite.count(); // Total de registros
     const totalPages = Math.ceil(totalRecords / PAGE_SIZE); // Calcular el número total de páginas
 
@@ -250,7 +253,10 @@ app.get('/listado-tramites', async (req, res) => {
       offset: offset
     });
 
+    console.log('EL USERNAME EN SECION      :', usernameSesion);
+
     res.render('listado-tramites', {
+      usernameSesion,
       tramites,
       pageNum: page,
       totalPages: totalPages,
@@ -624,6 +630,121 @@ app.post('/reg-pago-placas', async (req, res) => {
   }
 });
 
+app.post('/act-tramite', async (req, res) => {
+  try {
+    const { id_tramite, tipo_tramite, numero_adhesivo, numero_matricula, fecha_ingreso, numero_fojas, placa, clase_transporte, clase_vehiculo, id_usuario,
+      nombre_usuario, canton_usuario, celular_usuario, email_usuario, pago_placas_entidad_bancaria, id_tramite_axis, pago_placas_comprobante, pago_placas_newservicio,
+      pago_placas_valor, pago_placas_fecha, username, nombre_corto_empresa } = req.body;
+
+    console.log('ID del trámite a actualizar:', id_tramite);
+    console.log('Valores recibidos para actualizar:', {
+      tipo_tramite,numero_adhesivo, numero_matricula,fecha_ingreso, numero_fojas, placa, clase_transporte, clase_vehiculo, id_usuario, nombre_usuario, canton_usuario, 
+      celular_usuario, email_usuario, pago_placas_entidad_bancaria, id_tramite_axis, pago_placas_comprobante, pago_placas_newservicio, pago_placas_valor, pago_placas_fecha,
+      username, nombre_corto_empresa
+    });
+
+    // Verificar los valores recibidos en la solicitud
+    console.log('Valores recibidos en la solicitud:', req.body);
+
+    // Buscar el trámite por su ID
+    console.log('Buscando el trámite por ID:', id_tramite);
+    const tramite = await RegistroTramites.findOne({ where: { id_tramite } });
+
+    if (tramite) {
+      // Actualizar los campos del trámite con los nuevos valores
+      console.log('Trámite encontrado. Actualizando campos...');
+      tramite.tipo_tramite = tipo_tramite;
+      tramite.numero_adhesivo = numero_adhesivo;
+      tramite.numero_matricula = numero_matricula;
+      tramite.fecha_ingreso = fecha_ingreso;
+      tramite.numero_fojas = numero_fojas;
+      tramite.placa = placa;
+      tramite.clase_transporte = clase_transporte;
+      tramite.clase_vehiculo = clase_vehiculo;
+      tramite.id_usuario = id_usuario;
+      tramite.nombre_usuario = nombre_usuario;
+      tramite. canton_usuario =  canton_usuario;
+      tramite.celular_usuario = celular_usuario;
+      tramite.email_usuario = email_usuario;
+      tramite.pago_placas_entidad_bancaria = pago_placas_entidad_bancaria;
+      tramite.id_tramite_axis = id_tramite_axis;
+      tramite. pago_placas_comprobante =  pago_placas_comprobante;
+      tramite.pago_placas_newservicio = pago_placas_newservicio;
+      tramite.pago_placas_valor = pago_placas_valor;
+      tramite.pago_placas_fecha = pago_placas_fecha;
+
+
+      // Verificar si el valor de pago_placas_valor está vacío o no es un número válido
+      if (!pago_placas_valor || isNaN(pago_placas_valor)) {
+        // Si está vacío o no es un número válido, establecer el valor predeterminado a 0
+        tramite.pago_placas_valor = 0;
+      } else {
+        // Si es un número válido, convertirlo a número decimal y asignarlo
+        tramite.pago_placas_valor = parseFloat(pago_placas_valor);
+      }
+
+
+      // Verificar si la fecha de pago está presente y es válida
+      if (pago_placas_fecha && pago_placas_fecha !== 'Invalid date') {
+        tramite.pago_placas_fecha = pago_placas_fecha;
+      } else {
+        // Si no se proporciona una fecha válida, establecerla como null o cualquier otro valor predeterminado
+        tramite.pago_placas_fecha = null; // O cualquier otro valor predeterminado que desees
+      }
+
+      tramite.pago_placas_valor = pago_placas_valor;
+
+      // Guardar los cambios en la base de datos
+      console.log('Guardando cambios en la base de datos...');
+      await tramite.save();
+
+      console.log('Trámite actualizado y guardado en la base de datos');
+
+      // Redirigir a una página de éxito o mostrar un mensaje de éxito
+
+      res.redirect(`/tramite-registrado?placa=${placa}&tipo_tramite=${tipo_tramite}&id_tramite=${id_tramite}&id_usuario=${id_usuario}&nombre_usuario=${nombre_usuario}&clase_vehiculo=${clase_vehiculo}&clase_transporte=${clase_transporte}&fecha_ingreso=${fecha_ingreso}&numero_adhesivo=${numero_adhesivo}&numero_matricula=${numero_matricula}&username=${username}&nombre_corto_empresa=${nombre_corto_empresa}`);
+    } else {
+      // Si no se encuentra el trámite, redirigir o mostrar un mensaje de error
+      console.log('Trámite no encontrado');
+      res.redirect('/error-tramite-no-encontrado');
+    }
+  } catch (error) {
+    console.error('Error al actualizar el trámite:', error);
+    res.status(500).send('Error al actualizar el trámite');
+  }
+});
+
+app.post('/eliminar-tramite', async (req, res) => {
+  try {
+    const { id_tramite } = req.body;
+
+    console.log('ID del trámite a eliminar:', id_tramite);
+
+    // Buscar y eliminar el trámite por su ID
+    console.log('Buscando el trámite por ID:', id_tramite);
+    const tramite = await RegistroTramites.findByPk(id_tramite);
+
+    if (tramite) {
+      // Eliminar el trámite de la base de datos
+      console.log('Trámite encontrado. Eliminando...');
+      await tramite.destroy();
+
+      console.log('Trámite eliminado');
+
+      // Redirigir a una página de éxito o mostrar un mensaje de éxito
+      res.render('home');
+    } else {
+      // Si no se encuentra el trámite, redirigir o mostrar un mensaje de error
+      console.log('Trámite no encontrado');
+      res.redirect('/error-tramite-no-encontrado');
+    }
+  } catch (error) {
+    console.error('Error al eliminar el trámite:', error);
+    res.status(500).send('Error al eliminar el trámite');
+  }
+});
+
+
 
 
 // En login valida el ingreso hacia home
@@ -677,6 +798,19 @@ app.get('/home', (req, res) => {
 });
 
 
+
+
+  app.get('/PDFreport-diario', (req, res) => {
+    if (req.session.user) {
+      
+      res.render('PDFreport-diario', { userData: req.session.user });
+    } else {
+      
+      res.redirect('/');
+    }
+  });
+  
+  
 
 
 // Función para formatear la fecha
