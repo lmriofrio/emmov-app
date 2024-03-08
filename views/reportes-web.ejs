@@ -21,22 +21,18 @@
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Sidebar Start -->
         <aside class="left-sidebar">
-            <!-- Sidebar scroll-->
+            <!-- Logo Institucional-->
             <div>
-                <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="index.html" class="text-nowrap logo-img">
-                        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/dark-logo.svg"
-                            class="dark-logo" width="180" alt="" />
+                <div class="brand-logo d-flex align-items-center justify-content-between mt-3">
+                    <a href="home" class="text-nowrap logo-img d-flex justify-content-center align-items-center">
+                        <img src="/images/img3.jpg" class="dark-logo mx-auto" width="180" alt="" />
                     </a>
-                    <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-                        <i class="ti ti-x fs-8 text-muted"></i>
-                    </div>
                 </div>
-                <!-- Sidebar navigation-->
+                <!-- Barra de navegación-->
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar>
                     <ul id="sidebarnav">
                         <!-- ============================= -->
-                        <!-- MATRICULACIÓN -->
+                        <!--       Matriculación           -->
                         <!-- ============================= -->
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -52,7 +48,7 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="form-register-matri.html" aria-expanded="false">
+                            <a class="sidebar-link" href="listado-tramites" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-file-check"></i>
                                 </span>
@@ -60,12 +56,30 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="reportes-web" aria-expanded="false">
-                                <span>
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <span class="d-flex">
                                     <i class="ti ti-report-search"></i>
                                 </span>
                                 <span class="hide-menu">Reportes</span>
                             </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a href="reporte-diario" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Reporte diario </span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="reporte-diario" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Reporte de especies</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="calcular-valores" aria-expanded="false">
@@ -76,14 +90,37 @@
                             </a>
                         </li>
                         <!-- =================== -->
-                        <!-- OTROS -->
+                        <!-- Gestión de placas   -->
+                        <!-- =================== -->
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">GESTIÓN DE PLACAS</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="report-plate" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-checkup-list"></i>
+                                </span>
+                                <span class="hide-menu">Reporte de pagos</span>
+                            </a>
+                        </li>
+                        <!-- =================== -->
+                        <!--       Otros         -->
                         <!-- =================== -->
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">OTROS</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="/" aria-expanded="false">
+                            <a class="sidebar-link" href="configuracion-cuenta" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-user-circle"></i>
+                                </span>
+                                <span class="hide-menu">Cuenta</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" aria-expanded="false" id="logoutButton" href="login">
                                 <span>
                                     <i class="ti ti-login"></i>
                                 </span>
@@ -92,9 +129,10 @@
                         </li>
                     </ul>
                 </nav>
-                <!-- End Sidebar navigation -->
+                <!-- Barra de navegación -->
             </div>
-            <!-- End Sidebar scroll-->
+        </aside>
+        <!--  Fin de barra de navegación -->
         </aside>
         <!--  Sidebar End -->
         <!--  Main wrapper -->

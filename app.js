@@ -374,17 +374,15 @@ app.post('/calcular-valores', async (req, res) => {
 });
 
 
-// Ruta para la página de registro diario
+
 app.get('/registro-diario', async (req, res) => {
   try {
-    let mostrarModal = false; // Inicializar mostrarModal como false
-    // Verificar si hay un usuario en sesión
+    let mostrarModal = false; 
     if (req.session.user) {
-      mostrarModal = true; // Si hay un usuario en sesión, establecer mostrarModal como true
-      // Obtener el nombre de usuario del usuario en sesión
-      const username = req.session.user.username;
+      mostrarModal = true; 
 
-      // Obtener los registros del usuario actual filtrando por username
+      const username = req.session.user.username;
+      
       const registros = await RegistroTramites.findAll({ where: { username } });
 
       // Filtrar los registros según los tipos de trámites deseados
@@ -421,25 +419,19 @@ app.get('/registro-diario', async (req, res) => {
         registro.tipo_tramite == 'ACTUALIZACIÓN DE DATOS DEL VEHÍCULO'
       );
 
-
-
-
-
-      // Instanciar el selector de tipos de trámites
+      // Selector
       const selectorTramites = new SeleccionarTipoTramites();
       const selectorCantones = new SeleccionarCantones();
-      // Obtener tipos de trámites y cantones utilizando promisify para hacerlo compatible con async/await
+      // Obtener tipos de trámites y cantones 
       const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
-      const obtenerCantonesAsync = util.promisify(selectorCantones.obtenerTiposCantones.bind(selectorCantones)); // Corregido el nombre de la función
+      const obtenerCantonesAsync = util.promisify(selectorCantones.obtenerTiposCantones.bind(selectorCantones)); 
       const tiposTramites = await obtenerTiposTramitesAsync();
-      const tiposCantones = await obtenerCantonesAsync(); // Corregido el nombre de la variable
-      // Renderizar la página registro-diario y pasar los tipos de trámites y MAX_ITEMS como datos
+      const tiposCantones = await obtenerCantonesAsync(); 
+      
+      //console.log('REGISTROS DE LA TABLA 1:', registrosTabla1);
 
-      console.log('REGISTROS DE LA TABLA 1:', registrosTabla1);
-
-      res.render('registro-diario', { registros, tiposTramites, tiposCantones, MAX_ITEMS, formatDate, mostrarModal, registrosTabla1, registrosTabla2, registrosTabla3 }); // Asumiendo que MAX_ITEMS está definido previamente
+      res.render('registro-diario', { registros, tiposTramites, tiposCantones, MAX_ITEMS, formatDate, mostrarModal, registrosTabla1, registrosTabla2, registrosTabla3 }); 
     } else {
-      // Si no hay un usuario en sesión, redirigir a la página de inicio de sesión
       res.redirect('/login');
     }
   } catch (error) {
@@ -450,19 +442,15 @@ app.get('/registro-diario', async (req, res) => {
 
 
 
-// Guardar trámite
+
 app.post('/guardar-tramite', async (req, res) => {
   try {
 
-    // Obtiene datos de la seción
     const { id_funcionario, username, nombre_funcionario, id_empresa, nombre_empresa, nombre_corto_empresa, estado_empresa, provincia_empresa, canton_empresa, id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion } = req.session.user;
-    // Define los campos para el trámite
+   
     const { placa, tipo_tramite, id_usuario, nombre_usuario, celular_usuario, email_usuario, canton_usuario, clase_vehiculo, clase_transporte, fecha_ingreso, numero_fojas, numero_adhesivo, numero_matricula } = req.body;
 
     // Ajustar la fecha de ingreso al huso horario de Ecuador
-
-
-
 
     if (placa.length >= 8) {
       // Mostrar un cuadro modal con el mensaje
@@ -479,7 +467,6 @@ app.post('/guardar-tramite', async (req, res) => {
     const id_tramite = nuevoTramite.id_tramite;
 
     console.log('PRIMER MENSAJE Nuevo trámite:', nuevoTramite);
-    console.log('SEGUNDO MENSAJE ID del nuevo trámite:', id_tramite);
 
     // Verificar si el vehículo ya existe 
     let vehiculo = await RegistroVehiculos.findOne({ where: { placa } });
