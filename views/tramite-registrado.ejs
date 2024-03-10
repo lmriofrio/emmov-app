@@ -272,37 +272,105 @@
                                             </button>
                                 
                                             <input type="text" class="form-control  text-center" placeholder=""
-                                                    aria-label="" aria-describedby="basic-addon1"
+                                                    aria-label="" aria-describedby="basic-addon1" name="numero_adhesivo" id="numero_adhesivo"
                                                     value="<%= numero_adhesivo %>">
                                 
                                             <button class="btn btn-search text-black font-medium rounded-end d-flex align-items-center "
-                                                    type="button" id="myButton">
+                                                    type="button" id="myButton1">
                                                 <i class="ti ti-copy fs-4 me-1"></i>
                                             </button>
+
+                                            <script>
+                                                document.getElementById('myButton1').addEventListener('click', function () {
+                                                   
+                                                    var inputContent = document.querySelector('#numero_adhesivo').value;
+            
+                                                    navigator.clipboard.writeText(inputContent)
+                                                        .then(function () {
+                                    
+                                                            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                                                            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                                                                return new bootstrap.Tooltip(tooltipTriggerEl);
+                                                            });
+                                              
+                                                            var myButton = document.getElementById('myButton1');
+                                                            var tooltip = new bootstrap.Tooltip(myButton, {
+                                                                title: 'COPIADO',
+                                                                placement: 'right'
+                                                            });
+                                                        })
+                                                        .catch(function (error) {
+                                                            // Manejo de errores
+                                                            console.error('Error al copiar contenido al portapapeles: ', error);
+                                                            alert('Error al copiar contenido al portapapeles');
+                                                        });
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                                
+                                <div class="col-8">
+                                    <div class="form-group row">
+                                        <div class="input-group mb-3">
+                                            <button class="btn btn-search text-black font-medium rounded-start d-flex align-items-center col-6"
+                                                type="button">
+                                                <strong>MATRICULA</strong>
+                                            </button>
+                                
+                                            <input type="text" class="form-control text-center" placeholder=""
+                                                aria-label="" aria-describedby="basic-addon1"
+                                                value="<%= numero_matricula %>" name="numero_matricula"  id="numero_matricula">
+                                            
+                                            <button class="btn btn-search text-black font-medium rounded-end d-flex align-items-center "
+                                                type="button" id="matriculaButton">
+                                                <i class="ti ti-copy fs-4 me-1"></i>
+                                            </button>
+
+                                            <script>
+                                                document.getElementById('matriculaButton').addEventListener('click', function () {
+                                                   
+                                                    var inputContent = document.querySelector('#numero_matricula').value;
+            
+
+                                                    navigator.clipboard.writeText(inputContent)
+                                                        .then(function () {
+
+                                                            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                                                            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                                                                return new bootstrap.Tooltip(tooltipTriggerEl);
+                                                            });
+
+                                                            var myButton = document.getElementById('matriculaButton');
+                                                            var tooltip = new bootstrap.Tooltip(myButton, {
+                                                                title: 'COPIADO',
+                                                                placement: 'right'
+                                                            });
+                                                        })
+                                                        .catch(function (error) {
+                                                   
+                                                            console.error('Error al copiar contenido al portapapeles: ', error);
+                                                            alert('Error al copiar contenido al portapapeles');
+                                                        });
+                                                });
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <script>
-                                    document.getElementById('myButton').addEventListener('click', function () {
-                                        // Obtener el contenido del input
-                                        var inputContent = document.querySelector('.form-control').value;
+                                    document.getElementById('matriculaButton').addEventListener('click', function () {
+                                        // Obtener el contenido del segundo input
+                                        var inputContent = document.querySelector('.numero_matricula').value;
                                 
                                         // Copiar el contenido al portapapeles
                                         navigator.clipboard.writeText(inputContent)
                                             .then(function () {
                                                 // Acción después de copiar (opcional)
-                                                // Activar el tooltip después de copiar al portapapeles
-                                                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-                                                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                                                    return new bootstrap.Tooltip(tooltipTriggerEl);
-                                                });
-                                                // Activar el tooltip con el mensaje "COPIADO" a la derecha del botón
-                                                var myButton = document.getElementById('myButton');
-                                                var tooltip = new bootstrap.Tooltip(myButton, {
-                                                    title: 'COPIADO',
-                                                    placement: 'right'
-                                                });
+                                                console.log('Contenido copiado al portapapeles: ', inputContent);
+                                                alert('Contenido copiado al portapapeles: ' + inputContent);
                                             })
                                             .catch(function (error) {
                                                 // Manejo de errores
@@ -312,44 +380,7 @@
                                     });
                                 </script>
                                 
-
-
-
-
-                                <div class="col-8">
-                                    <div class="form-group row">
-                                        <div class="input-group mb-3 ">
-                                            <button
-                                                class="btn btn-search text-black font-medium rounded-start d-flex align-items-center col-6"
-                                                type="button">
-                                                <strong>MATRICULA</strong>
-                                            </button>
-
-                                            <input type="text" class="form-control  text-center" placeholder=""
-                                                aria-label="" aria-describedby="basic-addon1"
-                                                value="<%= numero_matricula %>">
-                                            <!-- Botón con tooltip -->
-                                            <button class="btn btn-search text-black font-medium rounded-end d-flex align-items-center "
-                                            type="button" id="myButton">
-                                        <i class="ti ti-copy fs-4 me-1"></i>
-                                    </button>
-                                    
-                                    <!-- Script para activar el tooltip al hacer clic en el botón -->
-                                    <script>
-                                        // Función para activar el tooltip al hacer clic en el botón
-                                        document.getElementById('myButton').addEventListener('click', function () {
-                                            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-                                            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                                                return new bootstrap.Tooltip(tooltipTriggerEl);
-                                            });
-                                        });
-                                    </script>
-                                    
-
-
-                                        </div>
-                                    </div>
-                                </div>
+                                
 
 
                             </div>
