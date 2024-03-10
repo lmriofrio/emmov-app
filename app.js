@@ -7,8 +7,6 @@ moment.tz.setDefault('America/Guayaquil');
 // Ahora, cuando necesites obtener la fecha actual en la zona horaria de Ecuador, puedes hacerlo así:
 const fecha_actual_ecuador = moment().format();
 
-// Resto del código de tu aplicación...
-
 
 const toastr = require('toastr');
 const express = require('express');
@@ -53,7 +51,6 @@ const formatDate = dateString => {
 const fechaHoraServidor = new Date();
 console.log(fechaHoraServidor);
 
-// Función para ajustar la fecha al huso horario de Ecuador
 
 
 // Configuración de Express
@@ -107,7 +104,7 @@ app.use('/', tramiteRoutes);
 app.use('/', reportesRoutes);
 app.use('/', pdfRoutes);
 
-//3.- RUTAS                     //////////////////////////////////////////////////////////////////////////////////////////
+//3.- RUTAS                     
 // Página de inicio (login)
 // Maneja la solicitud GET en la ruta raíz '/'
 app.get('/', (req, res) => {
@@ -161,7 +158,6 @@ app.get('/configuracion-cuenta', (req, res) => {
     res.redirect('/login');
   }
 });
-
 
 
 
@@ -221,7 +217,6 @@ app.get('/edicion-tramites', async (req, res) => {
 
 
 
-
 app.get('/registrar-pago-placas', (req, res) => {
   // Verificar si hay un usuario en sesión
   if (req.session.user) {
@@ -239,32 +234,34 @@ app.get('/registrar-pago-placas', (req, res) => {
 
 
 app.get('/listado-tramites', async (req, res) => {
-  try {
-    const usernameSesion = req.session.user.username;
-    const totalRecords = await Tramite.count(); // Total de registros
-    const totalPages = Math.ceil(totalRecords / PAGE_SIZE); // Calcular el número total de páginas
 
-    // Página actual (obtenida de la consulta o predeterminada a 1)
-    const page = req.query.page ? parseInt(req.query.page) : 1;
-    const offset = (page - 1) * PAGE_SIZE; // Calcular el offset
-
-    const tramites = await Tramite.findAll({
-      limit: PAGE_SIZE,
-      offset: offset
-    });
-
-    console.log('EL USERNAME EN SECION      :', usernameSesion);
-
-    res.render('listado-tramites', {
-      usernameSesion,
-      tramites,
-      pageNum: page,
-      totalPages: totalPages,
-      formatDate
-    });
-  } catch (error) {
-    console.error('Error al obtener los datos de los trámites:', error);
-    res.status(500).send('Error al obtener los datos de los trámites');
+  if (req.session.user) {
+      
+      const usernameSesion = req.session.user.username;
+      const totalRecords = await Tramite.count(); 
+      const totalPages = Math.ceil(totalRecords / PAGE_SIZE); 
+  
+      // Página actual (obtenida de la consulta o predeterminada a 1)
+      const page = req.query.page ? parseInt(req.query.page) : 1;
+      const offset = (page - 1) * PAGE_SIZE; 
+  
+      const tramites = await Tramite.findAll({
+          limit: PAGE_SIZE,
+          offset: offset
+      });
+  
+      console.log(' USERNAME EN SECION:  ', usernameSesion);
+  
+      res.render('listado-tramites', {
+          usernameSesion,
+          tramites,
+          pageNum: page,
+          totalPages: totalPages,
+          formatDate
+      });
+  } else {
+      
+      res.redirect('/login');
   }
 });
 
@@ -455,7 +452,7 @@ app.post('/guardar-tramite', async (req, res) => {
     if (placa.length >= 8) {
       // Mostrar un cuadro modal con el mensaje
       $('#modalPlacaExtensa').modal('show');
-      return; // Salir de la función para evitar la solicitud AJAX
+      return; 
     }
 
     // Guardar el nuevo trámite 
@@ -466,43 +463,43 @@ app.post('/guardar-tramite', async (req, res) => {
     });
     const id_tramite = nuevoTramite.id_tramite;
 
-    console.log('PRIMER MENSAJE Nuevo trámite:', nuevoTramite);
+    console.log(' Nuevo trámite:', nuevoTramite);
 
     // Verificar si el vehículo ya existe 
     let vehiculo = await RegistroVehiculos.findOne({ where: { placa } });
 
     if (vehiculo) {
-      // Si el vehículo ya existe, actualizar sus datos
+      // Si el vehículo ya existe, actualizar 
       await vehiculo.update({
         id_usuario, nombre_usuario, canton_usuario, celular_usuario, email_usuario, clase_vehiculo, clase_transporte,
         fecha_ultimo_proceso: fecha_ingreso, id_funcionario, username, id_centro_matriculacion
       });
     } else {
-      // Si el vehículo no existe, crear un nuevo registro
+      // Si el vehículo no existe, crear 
       vehiculo = await RegistroVehiculos.create({
         placa, id_usuario, nombre_usuario, canton_usuario, celular_usuario, email_usuario, clase_vehiculo, clase_transporte,
         fecha_ultimo_proceso: fecha_ingreso, id_funcionario, username, id_centro_matriculacion
       });
     }
+
     // Verificar si el usuario ya existe
     let usuario = await RegistroUsuarios.findOne({ where: { id_usuario } });
 
     if (usuario) {
-      // Si el usuario ya existe, actualizar sus datos
+      // Si el usuario ya existe, actualizar 
       await usuario.update({
         nombre_usuario, canton_usuario, celular_usuario, email_usuario,
         fecha_ultimo_proceso: fecha_ingreso, id_funcionario, username, id_centro_matriculacion
       });
     } else {
-      // Si el usuario no existe, crear un nuevo registro
+      // Si el usuario no existe, crear 
       usuario = await RegistroUsuarios.create({
         id_usuario, nombre_usuario, canton_usuario, celular_usuario, email_usuario,
         fecha_ultimo_proceso: fecha_ingreso, id_funcionario, username, id_centro_matriculacion
       });
     }
 
-
-    // Renderizar la vista con los datos
+    // Renderizar la vista con la informacion
     if (tipo_tramite === "CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR" ||
       tipo_tramite === "CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO" ||
       tipo_tramite === "CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA" ||
@@ -524,7 +521,6 @@ app.post('/guardar-tramite', async (req, res) => {
       tipo_tramite === "DUPLICADO DE PLACAS" ||
       tipo_tramite === "EMISION DE MATRICULA POR PRIMERA VEZ"
     ) {
-      // Redirigir a la página registrar-pago-placas y pasar los datos del trámite como parámetros de consulta
       res.redirect(`/registrar-pago-placas?placa=${placa}&tipo_tramite=${tipo_tramite}&id_tramite=${id_tramite}&id_usuario=${id_usuario}&nombre_usuario=${nombre_usuario}&clase_vehiculo=${clase_vehiculo}&clase_transporte=${clase_transporte}&fecha_ingreso=${fecha_ingreso}&numero_adhesivo=${numero_adhesivo}&numero_matricula=${numero_matricula}&username=${username}&nombre_corto_empresa=${nombre_corto_empresa}`);
     } else {
       res.redirect(`/tramite-registrado?placa=${placa}&tipo_tramite=${tipo_tramite}&id_tramite=${id_tramite}&id_usuario=${id_usuario}&nombre_usuario=${nombre_usuario}&clase_vehiculo=${clase_vehiculo}&clase_transporte=${clase_transporte}&fecha_ingreso=${fecha_ingreso}&numero_adhesivo=${numero_adhesivo}&numero_matricula=${numero_matricula}&username=${username}&nombre_corto_empresa=${nombre_corto_empresa}`);
@@ -638,7 +634,7 @@ app.post('/act-tramite', async (req, res) => {
     const tramite = await RegistroTramites.findOne({ where: { id_tramite } });
 
     if (tramite) {
-      // Actualizar los campos del trámite con los nuevos valores
+      
       console.log('Trámite encontrado. Actualizando campos...');
       tramite.tipo_tramite = tipo_tramite;
       tramite.numero_adhesivo = numero_adhesivo;
@@ -661,37 +657,30 @@ app.post('/act-tramite', async (req, res) => {
       tramite.pago_placas_fecha = pago_placas_fecha;
 
 
-      // Verificar si el valor de pago_placas_valor está vacío o no es un número válido
+      
       if (!pago_placas_valor || isNaN(pago_placas_valor)) {
-        // Si está vacío o no es un número válido, establecer el valor predeterminado a 0
         tramite.pago_placas_valor = 0;
       } else {
-        // Si es un número válido, convertirlo a número decimal y asignarlo
         tramite.pago_placas_valor = parseFloat(pago_placas_valor);
       }
 
 
-      // Verificar si la fecha de pago está presente y es válida
       if (pago_placas_fecha && pago_placas_fecha !== 'Invalid date') {
         tramite.pago_placas_fecha = pago_placas_fecha;
       } else {
-        // Si no se proporciona una fecha válida, establecerla como null o cualquier otro valor predeterminado
-        tramite.pago_placas_fecha = null; // O cualquier otro valor predeterminado que desees
+        tramite.pago_placas_fecha = null; 
       }
 
       tramite.pago_placas_valor = pago_placas_valor;
 
-      // Guardar los cambios en la base de datos
+     
       console.log('Guardando cambios en la base de datos...');
       await tramite.save();
 
-      console.log('Trámite actualizado y guardado en la base de datos');
-
-      // Redirigir a una página de éxito o mostrar un mensaje de éxito
 
       res.redirect(`/tramite-registrado?placa=${placa}&tipo_tramite=${tipo_tramite}&id_tramite=${id_tramite}&id_usuario=${id_usuario}&nombre_usuario=${nombre_usuario}&clase_vehiculo=${clase_vehiculo}&clase_transporte=${clase_transporte}&fecha_ingreso=${fecha_ingreso}&numero_adhesivo=${numero_adhesivo}&numero_matricula=${numero_matricula}&username=${username}&nombre_corto_empresa=${nombre_corto_empresa}`);
     } else {
-      // Si no se encuentra el trámite, redirigir o mostrar un mensaje de error
+      
       console.log('Trámite no encontrado');
       res.redirect('/error-tramite-no-encontrado');
     }

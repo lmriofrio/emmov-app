@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <script src="/js/table-placas.js"></script>
+
     <script src="/js/buscar-tramite.js"></script>
     <script src="/js/activar-items-navbar.js"></script>
     <script src="/js/spinners.js"></script>
@@ -27,7 +27,7 @@
         <aside class="left-sidebar">
             <!-- Logo Institucional-->
             <div>
-                <div class="brand-logo d-flex align-items-center justify-content-between mt-3">
+                <div class="brand-logo d-flex align-items-center justify-content-between mt-2">
                     <a href="home" class="text-nowrap logo-img d-flex justify-content-center align-items-center">
                         <img src="/images/img3.webp" class="dark-logo mx-auto" width="180" alt="" />
                     </a>
@@ -155,416 +155,433 @@
                             <form action="/act-tramite" method="POST">
                                 <input type="hidden" name="id_tramite" value="<%= tramite.id_tramite %>">
                                 <input type="hidden" name="username" value="<%= tramite.username %>">
-                                
-    
-                                    <div class="px-4 py-3">
-        
-                                        <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
-                                            <div class="mb-3 mb-sm-0">
-                                                <h5 class="card-title fw-semibold">Actualización de datos del trámite</h5>
-                                                <p class="card-subtitle mb-0">Información del proceso de matriculación</p>
-                                            </div>
-        
-                                            <div class="ms-auto">
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn bg-danger-subtle text-danger font-medium"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="ti ti-edit fs-4 me-2"></i>Edición</button>
-                                                </div>
-                                            </div>
-        
-                                        </div>
-        
-                                        <div class="alert bg-primary-subtle text-info alert-dismissible fade show mb-0"
-                                            role="alert">
-                                            <div class="d-flex align-items-center text-primary font-medium">
-                                                <i class="ti ti-info-circle me-2 fs-4"></i>
-                                                Se realiza la actualización de la información del trámite
-                                            </div>
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close"></button>
-                                        </div>
-        
-                                    </div>
-        
-        
-                                    <div class="px-4 py-3">
-        
-                                        <h5 class="fs-4 fw-semibold">INFORMACIÓN DEL PROCESO DE MATRICULACIÓN:</h5>
-        
-                                        <div class="py-3">
-        
-        
-                                            <div class="row">
-                                                <div class="col-lg-6">
-        
-                                                    <div class="mb-4">
-                                                        <label for="tipo_tramite" class="form-label fw-semibold">Tipo de
-                                                            trámite</label>
-                                                        <select class="form-select" name="tipo_tramite" id="tipo_tramite"
-                                                            aria-label="Default select example" required>
-                                                            <option selected></option>
-                                                            <% tiposTramites.forEach(tipo=> { %>
-                                                                <option value="<%= tipo.tipo_tramite %>" <% if
-                                                                    (tramite.tipo_tramite===tipo.tipo_tramite) { %> selected <%
-                                                                        } %>>
-                                                                        <%= tipo.tipo_tramite %>
-                                                                </option>
-                                                                <% }); %>
-                                                        </select>
-                                                    </div>
-        
-        
-        
-        
-        
-        
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Fecha</label>
-                                                        <input type="date" name="fecha_ingreso" class="form-control"
-                                                            id="fecha_ingreso" value="<%= tramite.fecha_ingreso %>">
-                                                    </div>
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Adhesivo</label>
-                                                        <input type="number" name="numero_adhesivo" class="form-control"
-                                                            id="numero_adhesivo" autocomplete="off"
-                                                            value="<%= tramite.numero_adhesivo %>">
-                                                    </div>
-        
-        
-        
-        
-                                                </div>
-        
-                                                <div class="col-lg-6">
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Identificador</label>
-                                                        <input type="text" name="id_tramite" class="form-control"
-                                                            id="id_tramite" placeholder="" autocomplete="off"
-                                                            value="<%= tramite.id_tramite %>" disabled>
-                                                    </div>
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Nº Fojas</label>
-                                                        <input type="text" name="numero_fojas" class="form-control"
-                                                            id="numero_fojas" placeholder="" autocomplete="off"
-                                                            value="<%= tramite.numero_fojas %>">
-                                                    </div>
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Matricula</label>
-                                                        <input type="number" name="numero_matricula" class="form-control"
-                                                            id="numero_matricula" autocomplete="off"
-                                                            value="<%= tramite.numero_matricula %>">
-                                                    </div>
-        
-        
-        
-        
-        
-        
-        
-                                                </div>
-                                            </div>
-        
-                                        </div>
-        
-                                    </div>
-        
-                                    <hr>
-        
-                                    <div class="px-4 py-3">
-        
-                                        <h5 class="fs-4 fw-semibold">INFORMACIÓN DEL VEHÍCULO:</h5>
-        
-                                        <div class="py-3">
-        
-        
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Placa</label>
-                                                        <input type="text" name="placa" class="form-control" placeholder=""
-                                                            aria-label="Recipient's username" aria-describedby="basic-addon2"
-                                                            autocomplete="off" value="<%= tramite.placa %>">
-                                                    </div>
-        
-        
-                                                    <div class="mb-4">
-                                                        <label for="clase_vehiculo" class="form-label fw-semibold">Clase de
-                                                            vehiculo</label>
-                                                        <select class="form-select" name="clase_vehiculo" id="clase_vehiculo"
-                                                            aria-label="Default select example">
-                                                            <option value="VEHICULO" <% if (tramite.clase_vehiculo==='VEHICULO'
-                                                                ) { %> selected <% } %>>VEHICULO</option>
-                                                            <option value="MOTOCICLETA" <% if
-                                                                (tramite.clase_vehiculo==='MOTOCICLETA' ) { %> selected <% } %>
-                                                                    >MOTOCICLETA</option>
-                                                        </select>
-                                                    </div>
-        
-                                                </div>
-        
-                                                <div class="col-lg-6">
-                                                    <div class="mb-4">
-                                                        <label for="clase_transporte" class="form-label fw-semibold">Clase de
-                                                            transporte</label>
-                                                        <select class="form-select" name="clase_transporte"
-                                                            id="clase_transporte" aria-label="Default select example">
-                                                            <option value="COMERCIAL" <% if
-                                                                (tramite.clase_transporte==='COMERCIAL' ) { %> selected <% } %>
-                                                                    >COMERCIAL</option>
-                                                            <option value="PARTICULAR" <% if
-                                                                (tramite.clase_transporte==='PARTICULAR' ) { %> selected <% } %>
-                                                                    >PARTICULAR</option>
-                                                            <option value="PUBLICO" <% if (tramite.clase_transporte==='PUBLICO'
-                                                                ) { %> selected <% } %>>PUBLICO</option>
-                                                            <option value="ESTATAL" <% if (tramite.clase_transporte==='ESTATAL'
-                                                                ) { %> selected <% } %>>ESTATAL</option>
-                                                            <option value="MUNICIPAL" <% if
-                                                                (tramite.clase_transporte==='MUNICIPAL' ) { %> selected <% } %>
-                                                                    >MUNICIPAL</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-        
-                                            </div>
-        
-                                        </div>
-        
-                                    </div>
-        
-                                    <hr>
-        
-                                    <div class="px-4 py-3">
-        
-                                        <h5 class="fs-4 fw-semibold">INFORMACIÓN DEL PROPIETARIO:</h5>
-        
-                                        <div class="py-3">
-        
-        
-                                            <div class="row">
-                                                <div class="col-lg-6">
-        
-        
-        
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">C.I. / RUC</label>
-                                                        <input type="text" name="id_usuario" class="form-control" placeholder=""
-                                                            aria-label="Recipient's username" aria-describedby="basic-addon2"
-                                                            id="id_usuario" autocomplete="off"
-                                                            value="<%= tramite.id_usuario %>">
-                                                    </div>
-        
-        
-                                                    <div class="mb-4">
-                                                        <label for="canton_usuario" class="form-label fw-semibold">Domicilio
-                                                            (cantón)</label>
-                                                        <select class="form-select" name="canton_usuario" id="canton_usuario"
-                                                            aria-label="Default select example" autocomplete="off">
-                                                            <option selected></option>
-                                                            <% tiposCantones.forEach(canton=> { %>
-                                                                <option value="<%= canton.nombre_canton %>" <% if
-                                                                    (canton.nombre_canton===tramite.canton_usuario) { %>
-                                                                    selected <% } %>>
-                                                                        <%= canton.nombre_canton %>
-                                                                </option>
-                                                                <% }); %>
-                                                        </select>
-                                                    </div>
-        
-        
-        
-        
-        
-        
-        
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Email</label>
-                                                        <input type="text" name="email_usuario" class="form-control"
-                                                            id="email_usuario" placeholder="" autocomplete="off"
-                                                            value="<%= tramite.email_usuario %>">
-                                                    </div>
-        
-                                                </div>
-        
-                                                <div class="col-lg-6">
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Nombre</label>
-                                                        <input type="text" name="nombre_usuario" class="form-control"
-                                                            id="nombre_usuario" placeholder="" autocomplete="off"
-                                                            value="<%= tramite.nombre_usuario %>">
-                                                    </div>
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Celular</label>
-                                                        <input type="number" name="celular_usuario" class="form-control"
-                                                            id="celular_usuario" placeholder="" autocomplete="off"
-                                                            value="<%= tramite.celular_usuario %>">
-                                                    </div>
-    
-                                                        
-                                                    <div class="mb-4">
-                                                        <input type="hidden" name="nombre_corto_empresa" class="form-control"
-                                                            id="nombre_corto_empresa" placeholder="" autocomplete="off"
-                                                            value="<%= tramite.nombre_corto_empresa %>">
-                                                    </div>
-        
-        
-        
-                                                </div>
-                                            </div>
-        
-                                        </div>
-        
-                                    </div>
-        
-                                    <hr>
-        
-                                    <div class="px-4 py-3">
-        
-                                        <h5 class="fs-4 fw-semibold">INFORMACIÓN DEL COMPROBANTE DE PAGO:</h5>
-        
-                                        <div class="py-3">
-        
-        
-                                            <div class="row">
-                                                <div class="col-lg-6">
-        
-        
-        
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Entidad bancaria</label>
-                                                        <input type="text" name="pago_placas_entidad_bancaria"
-                                                            class="form-control" id="pago_placas_entidad_bancaria"
-                                                            placeholder="" autocomplete="off"
-                                                            value="<%= tramite.pago_placas_entidad_bancaria %>">
-                                                    </div>
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Fecha de pago</label>
-                                                        <input type="date" name="pago_placas_fecha" class="form-control"
-                                                            id="pago_placas_fecha" placeholder="" autocomplete="off"
-                                                            value="<%= tramite.pago_placas_fecha %>">
-                                                    </div>
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Trámite AXIS</label>
-                                                        <input type="text" name="id_tramite_axis" class="form-control"
-                                                            id="id_tramite_axis" placeholder="" autocomplete="off"
-                                                            value="<%= tramite.id_tramite_axis %>">
-                                                    </div>
-        
-                                                </div>
-        
-                                                <div class="col-lg-6">
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">N° Comprobante</label>
-                                                        <input type="number" name="pago_placas_comprobante" class="form-control"
-                                                            id="pago_placas_comprobante" placeholder="" autocomplete="off"
-                                                            value="<%= tramite.pago_placas_comprobante %>">
-                                                    </div>
-        
-                                                    <div class="mb-4">
-                                                        <label for="pago_placas_valor"
-                                                            class="form-label fw-semibold">Valor</label>
-                                                        <select class="form-select" name="pago_placas_valor"
-                                                            id="pago_placas_valor" aria-label="Default select example"
-                                                            autocomplete="off">
-                                                            <option selected></option>
-                                                            <option value="23.00" <% if (tramite.pago_placas_valor==="23.00" ) {
-                                                                %> selected <% } %>>23.00</option>
-                                                            <option value="13.00" <% if (tramite.pago_placas_valor==="13.00" ) {
-                                                                %> selected <% } %>>13.00</option>
-                                                        </select>
-                                                    </div>
-        
-        
-                                                    <div class="mb-4">
-                                                        <label for="" class="form-label fw-semibold">Nuevo tipo servicio</label>
-                                                        <input type="text" name="pago_placas_newservicio" class="form-control"
-                                                            id="pago_placas_newservicio" placeholder="" autocomplete="off"
-                                                            value="<%= tramite.pago_placas_newservicio %>">
-        
-                                                    </div>
-        
-        
-        
-                                                </div>
-                                            </div>
-        
-                                        </div>
-        
-                                    </div>
-        
-                                    <div class="px-4 py-3">
-        
-        
-        
-        
-        
-        
-                                        <div class="col-lg-12 d-flex justify-content-end mt-4">
-    
-                                            
-                                            
-                                            <div class="gap-3">
 
 
-                                                <button type="submit" class="btn btn-secondary btn-rounded me-3 mb-3" id="btnEliminarTramite">
-                                                    <i class="ti ti-trash fs-4 me-2"></i> Eliminar trámite
-                                                </button>
+                                <div class="px-4 py-3">
 
-                                                <script>
-                                                    $(document).ready(function () {
-                                                        $('#btnEliminarTramite').click(function (event) {
-                                                            // Evitar que el formulario se envíe automáticamente
-                                                            event.preventDefault();
-                                                
-                                                            // Obtener el ID del trámite a eliminar
-                                                            const idTramite = $('#idTramiteEliminar').val();
-                                                
-                                                            // Asignar el ID del trámite al campo oculto del formulario
-                                                            $('#idTramiteEliminar').val(idTramite);
-                                                
-                                                            // Enviar el formulario al servidor
-                                                            $('#formEliminarTramite').submit();
-                                                        });
+                                    <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                        <div class="mb-3 mb-sm-0">
+                                            <h5 class="card-title fw-semibold">Actualización de datos del trámite</h5>
+                                            <p class="card-subtitle mb-0">Información del proceso de matriculación</p>
+                                        </div>
+
+                                        <div class="ms-auto">
+                                            <div class="btn-group">
+                                                <button type="button"
+                                                    class="btn bg-danger-subtle text-danger font-medium"
+                                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                    <i class="ti ti-edit fs-4 me-2"></i>Edición</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="alert bg-primary-subtle text-info alert-dismissible fade show mb-0"
+                                        role="alert">
+                                        <div class="d-flex align-items-center text-primary font-medium">
+                                            <i class="ti ti-info-circle me-2 fs-4"></i>
+                                            Se realiza la actualización de la información del trámite
+                                        </div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="px-4 py-3">
+
+                                    <h5 class="fs-4 fw-semibold">INFORMACIÓN DEL PROCESO DE MATRICULACIÓN:</h5>
+
+                                    <div class="py-3">
+
+
+                                        <div class="row">
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label for="tipo_tramite" class="form-label fw-semibold">Tipo de
+                                                        trámite</label>
+                                                    <select class="form-select" name="tipo_tramite" id="tipo_tramite"
+                                                        aria-label="Default select example" required>
+                                                        <option selected></option>
+                                                        <% tiposTramites.forEach(tipo=> { %>
+                                                            <option value="<%= tipo.tipo_tramite %>" <% if
+                                                                (tramite.tipo_tramite===tipo.tipo_tramite) { %> selected
+                                                                <% } %>>
+                                                                    <%= tipo.tipo_tramite %>
+                                                            </option>
+                                                            <% }); %>
+                                                    </select>
+                                                </div>
+
+
+
+
+
+
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Fecha</label>
+                                                    <input type="date" name="fecha_ingreso" class="form-control"
+                                                        id="fecha_ingreso" value="<%= tramite.fecha_ingreso %>">
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Adhesivo</label>
+                                                    <input type="number" name="numero_adhesivo" class="form-control"
+                                                        id="numero_adhesivo" autocomplete="off"
+                                                        value="<%= tramite.numero_adhesivo %>">
+                                                </div>
+
+
+
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Identificador</label>
+                                                    <input type="text" name="id_tramite" class="form-control"
+                                                        id="id_tramite" placeholder="" autocomplete="off"
+                                                        value="<%= tramite.id_tramite %>" disabled>
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Nº Fojas</label>
+                                                    <input type="text" name="numero_fojas" class="form-control"
+                                                        id="numero_fojas" placeholder="" autocomplete="off"
+                                                        value="<%= tramite.numero_fojas %>">
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Matricula</label>
+                                                    <input type="number" name="numero_matricula" class="form-control"
+                                                        id="numero_matricula" autocomplete="off"
+                                                        value="<%= tramite.numero_matricula %>">
+                                                </div>
+
+
+
+
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <hr>
+
+                                <div class="px-4 py-3">
+
+                                    <h5 class="fs-4 fw-semibold">INFORMACIÓN DEL VEHÍCULO:</h5>
+
+                                    <div class="py-3">
+
+
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Placa</label>
+                                                    <input type="text" name="placa" class="form-control" placeholder=""
+                                                        aria-label="Recipient's username"
+                                                        aria-describedby="basic-addon2" autocomplete="off"
+                                                        value="<%= tramite.placa %>">
+                                                </div>
+
+
+                                                <div class="mb-4">
+                                                    <label for="clase_vehiculo" class="form-label fw-semibold">Clase de
+                                                        vehiculo</label>
+                                                    <select class="form-select" name="clase_vehiculo"
+                                                        id="clase_vehiculo" aria-label="Default select example">
+                                                        <option value="VEHICULO" <% if
+                                                            (tramite.clase_vehiculo==='VEHICULO' ) { %> selected <% } %>
+                                                                >VEHICULO</option>
+                                                        <option value="MOTOCICLETA" <% if
+                                                            (tramite.clase_vehiculo==='MOTOCICLETA' ) { %> selected <% }
+                                                                %>
+                                                                >MOTOCICLETA</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="mb-4">
+                                                    <label for="clase_transporte" class="form-label fw-semibold">Clase
+                                                        de
+                                                        transporte</label>
+                                                    <select class="form-select" name="clase_transporte"
+                                                        id="clase_transporte" aria-label="Default select example">
+                                                        <option value="COMERCIAL" <% if
+                                                            (tramite.clase_transporte==='COMERCIAL' ) { %> selected <% }
+                                                                %>
+                                                                >COMERCIAL</option>
+                                                        <option value="PARTICULAR" <% if
+                                                            (tramite.clase_transporte==='PARTICULAR' ) { %> selected <%
+                                                                } %>
+                                                                >PARTICULAR</option>
+                                                        <option value="PUBLICO" <% if
+                                                            (tramite.clase_transporte==='PUBLICO' ) { %> selected <% }
+                                                                %>>PUBLICO</option>
+                                                        <option value="ESTATAL" <% if
+                                                            (tramite.clase_transporte==='ESTATAL' ) { %> selected <% }
+                                                                %>>ESTATAL</option>
+                                                        <option value="MUNICIPAL" <% if
+                                                            (tramite.clase_transporte==='MUNICIPAL' ) { %> selected <% }
+                                                                %>
+                                                                >MUNICIPAL</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <hr>
+
+                                <div class="px-4 py-3">
+
+                                    <h5 class="fs-4 fw-semibold">INFORMACIÓN DEL PROPIETARIO:</h5>
+
+                                    <div class="py-3">
+
+
+                                        <div class="row">
+                                            <div class="col-lg-6">
+
+
+
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">C.I. / RUC</label>
+                                                    <input type="text" name="id_usuario" class="form-control"
+                                                        placeholder="" aria-label="Recipient's username"
+                                                        aria-describedby="basic-addon2" id="id_usuario"
+                                                        autocomplete="off" value="<%= tramite.id_usuario %>">
+                                                </div>
+
+
+                                                <div class="mb-4">
+                                                    <label for="canton_usuario" class="form-label fw-semibold">Domicilio
+                                                        (cantón)</label>
+                                                    <select class="form-select" name="canton_usuario"
+                                                        id="canton_usuario" aria-label="Default select example"
+                                                        autocomplete="off">
+                                                        <option selected></option>
+                                                        <% tiposCantones.forEach(canton=> { %>
+                                                            <option value="<%= canton.nombre_canton %>" <% if
+                                                                (canton.nombre_canton===tramite.canton_usuario) { %>
+                                                                selected <% } %>>
+                                                                    <%= canton.nombre_canton %>
+                                                            </option>
+                                                            <% }); %>
+                                                    </select>
+                                                </div>
+
+
+
+
+
+
+
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Email</label>
+                                                    <input type="text" name="email_usuario" class="form-control"
+                                                        id="email_usuario" placeholder="" autocomplete="off"
+                                                        value="<%= tramite.email_usuario %>">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Nombre</label>
+                                                    <input type="text" name="nombre_usuario" class="form-control"
+                                                        id="nombre_usuario" placeholder="" autocomplete="off"
+                                                        value="<%= tramite.nombre_usuario %>">
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Celular</label>
+                                                    <input type="number" name="celular_usuario" class="form-control"
+                                                        id="celular_usuario" placeholder="" autocomplete="off"
+                                                        value="<%= tramite.celular_usuario %>">
+                                                </div>
+
+
+                                                <div class="mb-4">
+                                                    <input type="hidden" name="nombre_corto_empresa"
+                                                        class="form-control" id="nombre_corto_empresa" placeholder=""
+                                                        autocomplete="off" value="<%= tramite.nombre_corto_empresa %>">
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <hr>
+
+                                <div class="px-4 py-3">
+
+                                    <h5 class="fs-4 fw-semibold">INFORMACIÓN DEL COMPROBANTE DE PAGO:</h5>
+
+                                    <div class="py-3">
+
+
+                                        <div class="row">
+                                            <div class="col-lg-6">
+
+
+
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Entidad
+                                                        bancaria</label>
+                                                    <input type="text" name="pago_placas_entidad_bancaria"
+                                                        class="form-control" id="pago_placas_entidad_bancaria"
+                                                        placeholder="" autocomplete="off"
+                                                        value="<%= tramite.pago_placas_entidad_bancaria %>">
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Fecha de pago</label>
+                                                    <input type="date" name="pago_placas_fecha" class="form-control"
+                                                        id="pago_placas_fecha" placeholder="" autocomplete="off"
+                                                        value="<%= tramite.pago_placas_fecha %>">
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Trámite AXIS</label>
+                                                    <input type="text" name="id_tramite_axis" class="form-control"
+                                                        id="id_tramite_axis" placeholder="" autocomplete="off"
+                                                        value="<%= tramite.id_tramite_axis %>">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">N° Comprobante</label>
+                                                    <input type="number" name="pago_placas_comprobante"
+                                                        class="form-control" id="pago_placas_comprobante" placeholder=""
+                                                        autocomplete="off"
+                                                        value="<%= tramite.pago_placas_comprobante %>">
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <label for="pago_placas_valor"
+                                                        class="form-label fw-semibold">Valor</label>
+                                                    <select class="form-select" name="pago_placas_valor"
+                                                        id="pago_placas_valor" aria-label="Default select example"
+                                                        autocomplete="off">
+                                                        <option selected></option>
+                                                        <option value="23.00" <% if (tramite.pago_placas_valor==="23.00"
+                                                            ) { %> selected <% } %>>23.00</option>
+                                                        <option value="13.00" <% if (tramite.pago_placas_valor==="13.00"
+                                                            ) { %> selected <% } %>>13.00</option>
+                                                    </select>
+                                                </div>
+
+
+                                                <div class="mb-4">
+                                                    <label for="" class="form-label fw-semibold">Nuevo tipo
+                                                        servicio</label>
+                                                    <input type="text" name="pago_placas_newservicio"
+                                                        class="form-control" id="pago_placas_newservicio" placeholder=""
+                                                        autocomplete="off"
+                                                        value="<%= tramite.pago_placas_newservicio %>">
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="px-4 py-3">
+
+
+
+
+
+
+                                    <div class="col-lg-12 d-flex justify-content-end mt-4">
+
+
+
+                                        <div class="gap-3">
+
+
+                                            <button type="submit" class="btn btn-secondary btn-rounded me-3 mb-3"
+                                                id="btnEliminarTramite">
+                                                <i class="ti ti-trash fs-4 me-2"></i> Eliminar trámite
+                                            </button>
+
+                                            <script>
+                                                $(document).ready(function () {
+                                                    $('#btnEliminarTramite').click(function (event) {
+                                                        // Evitar que el formulario se envíe automáticamente
+                                                        event.preventDefault();
+
+                                                        // Obtener el ID del trámite a eliminar
+                                                        const idTramite = $('#idTramiteEliminar').val();
+
+                                                        // Asignar el ID del trámite al campo oculto del formulario
+                                                        $('#idTramiteEliminar').val(idTramite);
+
+                                                        // Enviar el formulario al servidor
+                                                        $('#formEliminarTramite').submit();
                                                     });
-                                                </script>
-                                                
+                                                });
+                                            </script>
 
-                                                <button type="submit" class="btn btn-primary btn-rounded  mb-3">
-                                                    <i class="ti ti-device-floppy fs-4 me-2"></i> Guardar cambios
-                                                </button>
-                                            </div>
-    
-    
-        
+
+                                            <button type="submit" class="btn btn-primary btn-rounded  mb-3">
+                                                <i class="ti ti-device-floppy fs-4 me-2"></i> Guardar cambios
+                                            </button>
                                         </div>
-        
-        
-        
-        
+
+
+
                                     </div>
-        
-        
-        
-        
-                                
-    
-    
+
+
+
+
+                                </div>
+
+
+
+
+
+
+
                             </form>
-    
-                                
+
+
                             <form id="formEliminarTramite" action="/eliminar-tramite" method="post">
 
                                 <div class="">
