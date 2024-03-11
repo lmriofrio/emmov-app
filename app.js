@@ -22,7 +22,7 @@ const Usuario = require('./models/Usuario');
 const Canton = require('./models/Canton');
 const CentroMatriculacion = require('./models/CentroMatriculacion');
 const Tramite = require('./models/Tramite');
-const pdfGenerator = require('./models/pdfGenerator');
+
 const RegistroTramites = require('./models/RegistroTramites');
 const RegistroVehiculos = require('./models/RegistroVehiculos');
 const RegistroUsuarios = require('./models/RegistroUsuarios');
@@ -30,7 +30,7 @@ const PayOrder = require('./models/payOrder');
 const SeleccionarTipoTramites = require('./models/SeleccionarTipoTramites');
 const SeleccionarCantones = require('./models/SeleccionarCantones');
 const util = require('util');
-const { jsPDF } = require("jspdf"); 
+const { jsPDF } = require("jspdf");
 
 const puppeteer = require('puppeteer');
 const vehiculoRoutes = require('./routes/vehiculoRoutes');
@@ -38,7 +38,7 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 const tramiteRoutes = require('./routes/tramiteRoutes');
 const reportesRoutes = require('./routes/reportesRoutes');
 const placasRoutes = require('./routes/placasRoutes');
-const pdfRoutes = require('./routes/pdfRoutes');
+
 const MAX_ITEMS = 8;
 const { Op, literal } = require('sequelize');
 
@@ -102,7 +102,7 @@ app.use('/', placasRoutes);
 app.use('/', usuarioRoutes);
 app.use('/', tramiteRoutes);
 app.use('/', reportesRoutes);
-app.use('/', pdfRoutes);
+
 
 //3.- RUTAS                     
 // Página de inicio (login)
@@ -146,6 +146,18 @@ app.get('/reporte-diario', (req, res) => {
     res.redirect('/login');
   }
 });
+
+app.get('/reporte-diario2', (req, res) => {
+
+  if (req.session.user) {
+
+    res.render('reporte-diario2', { userData: req.session.user });
+  } else {
+
+    res.redirect('/login');
+  }
+});
+
 
 
 app.get('/configuracion-cuenta', (req, res) => {
@@ -236,32 +248,32 @@ app.get('/registrar-pago-placas', (req, res) => {
 app.get('/listado-tramites', async (req, res) => {
 
   if (req.session.user) {
-      
-      const usernameSesion = req.session.user.username;
-      const totalRecords = await Tramite.count(); 
-      const totalPages = Math.ceil(totalRecords / PAGE_SIZE); 
-  
-      // Página actual (obtenida de la consulta o predeterminada a 1)
-      const page = req.query.page ? parseInt(req.query.page) : 1;
-      const offset = (page - 1) * PAGE_SIZE; 
-  
-      const tramites = await Tramite.findAll({
-          limit: PAGE_SIZE,
-          offset: offset
-      });
-  
-      console.log(' USERNAME EN SECION:  ', usernameSesion);
-  
-      res.render('listado-tramites', {
-          usernameSesion,
-          tramites,
-          pageNum: page,
-          totalPages: totalPages,
-          formatDate
-      });
+
+    const usernameSesion = req.session.user.username;
+    const totalRecords = await Tramite.count();
+    const totalPages = Math.ceil(totalRecords / PAGE_SIZE);
+
+    // Página actual (obtenida de la consulta o predeterminada a 1)
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const offset = (page - 1) * PAGE_SIZE;
+
+    const tramites = await Tramite.findAll({
+      limit: PAGE_SIZE,
+      offset: offset
+    });
+
+    console.log(' USERNAME EN SECION:  ', usernameSesion);
+
+    res.render('listado-tramites', {
+      usernameSesion,
+      tramites,
+      pageNum: page,
+      totalPages: totalPages,
+      formatDate
+    });
   } else {
-      
-      res.redirect('/login');
+
+    res.redirect('/login');
   }
 });
 
@@ -272,48 +284,56 @@ const PAGE_SIZE = 10; // Define el número de registros por página
 
 app.get('/report-plate', async (req, res) => {
   try {
-    const totalRecords = await Tramite.count(); // Total de registros
-    const totalPages = Math.ceil(totalRecords / PAGE_SIZE); // Calcular el número total de páginas
-
-    // Página actual (obtenida de la consulta o predeterminada a 1)
-    const page = req.query.page ? parseInt(req.query.page) : 1;
-    const offset = (page - 1) * PAGE_SIZE; // Calcular el offset
-
     const currentYear = moment().year(); // Obtener el año actual
 
+    // Construir objeto de filtro para tipos de trámite y año actual
+    const filter = {
+      [Op.and]: [
+        {
+          tipo_tramite: {
+            [Op.or]: [
+              "CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR",
+              "CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO",
+              "CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA",
+              "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A COMERCIAL",
+              "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PARTICULAR",
+              "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO",
+              "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A USO DE CUENTA PROPIA",
+              "CAMBIO DE SERVICIO DE PARTICULAR A COMERCIAL",
+              "CAMBIO DE SERVICIO DE PARTICULAR A ESTATAL U OFICIAL",
+              "CAMBIO DE SERVICIO DE PARTICULAR A PUBLICO",
+              "CAMBIO DE SERVICIO DE PARTICULAR A USO DE CUENTA PROPIA",
+              "CAMBIO DE SERVICIO DE PARTICULAR A USO DIPLOMATICO U ORGANISMOS INTERNACIONALES",
+              "CAMBIO DE SERVICIO DE PUBLICO A COMERCIAL",
+              "CAMBIO DE SERVICIO DE PUBLICO A PARTICULAR",
+              "CAMBIO DE SERVICIO DE PUBLICO A USO DE CUENTA PROPIA",
+              "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A COMERCIAL",
+              "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR",
+              "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PUBLICO",
+              "DUPLICADO DE PLACAS",
+              "EMISION DE MATRICULA POR PRIMERA VEZ"
+
+            ]
+          }
+        },
+        
+        literal(`YEAR(fecha_ingreso) = ${currentYear}`)
+      ]
+    };
+
+    
+    const totalRecords = await Tramite.count({ where: filter });
+
+    
+    const totalPages = Math.ceil(totalRecords / PAGE_SIZE);
+
+    
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const offset = (page - 1) * PAGE_SIZE; 
+
+    
     const tramites = await Tramite.findAll({
-      where: {
-        [Op.and]: [
-          {
-            tipo_tramite: {
-              [Op.or]: [
-                "CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR",
-                "CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO",
-                "CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA",
-                "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A COMERCIAL",
-                "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PARTICULAR",
-                "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO",
-                "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A USO DE CUENTA PROPIA",
-                "CAMBIO DE SERVICIO DE PARTICULAR A COMERCIAL",
-                "CAMBIO DE SERVICIO DE PARTICULAR A ESTATAL U OFICIAL",
-                "CAMBIO DE SERVICIO DE PARTICULAR A PUBLICO",
-                "CAMBIO DE SERVICIO DE PARTICULAR A USO DE CUENTA PROPIA",
-                "CAMBIO DE SERVICIO DE PARTICULAR A USO DIPLOMATICO U ORGANISMOS INTERNACIONALES",
-                "CAMBIO DE SERVICIO DE PUBLICO A COMERCIAL",
-                "CAMBIO DE SERVICIO DE PUBLICO A PARTICULAR",
-                "CAMBIO DE SERVICIO DE PUBLICO A USO DE CUENTA PROPIA",
-                "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A COMERCIAL",
-                "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR",
-                "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PUBLICO",
-                "DUPLICADO DE PLACAS",
-                "EMISION DE MATRICULA POR PRIMERA VEZ"
-              ]
-            }
-          },
-          // Filtrar por el año actual en la fecha de ingreso
-          literal(`YEAR(fecha_ingreso) = ${currentYear}`)
-        ]
-      },
+      where: filter,
       limit: PAGE_SIZE,
       offset: offset
     });
@@ -329,6 +349,7 @@ app.get('/report-plate', async (req, res) => {
     res.status(500).send('Error al obtener los datos de los trámites');
   }
 });
+
 
 
 
@@ -374,12 +395,12 @@ app.post('/calcular-valores', async (req, res) => {
 
 app.get('/registro-diario', async (req, res) => {
   try {
-    let mostrarModal = false; 
+    let mostrarModal = false;
     if (req.session.user) {
-      mostrarModal = true; 
+      mostrarModal = true;
 
       const username = req.session.user.username;
-      
+
       const registros = await RegistroTramites.findAll({ where: { username } });
 
       // Filtrar los registros según los tipos de trámites deseados
@@ -421,13 +442,13 @@ app.get('/registro-diario', async (req, res) => {
       const selectorCantones = new SeleccionarCantones();
       // Obtener tipos de trámites y cantones 
       const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
-      const obtenerCantonesAsync = util.promisify(selectorCantones.obtenerTiposCantones.bind(selectorCantones)); 
+      const obtenerCantonesAsync = util.promisify(selectorCantones.obtenerTiposCantones.bind(selectorCantones));
       const tiposTramites = await obtenerTiposTramitesAsync();
-      const tiposCantones = await obtenerCantonesAsync(); 
-      
+      const tiposCantones = await obtenerCantonesAsync();
+
       //console.log('REGISTROS DE LA TABLA 1:', registrosTabla1);
 
-      res.render('registro-diario', { registros, tiposTramites, tiposCantones, MAX_ITEMS, formatDate, mostrarModal, registrosTabla1, registrosTabla2, registrosTabla3 }); 
+      res.render('registro-diario', { registros, tiposTramites, tiposCantones, MAX_ITEMS, formatDate, mostrarModal, registrosTabla1, registrosTabla2, registrosTabla3 });
     } else {
       res.redirect('/login');
     }
@@ -444,7 +465,7 @@ app.post('/guardar-tramite', async (req, res) => {
   try {
 
     const { id_funcionario, username, nombre_funcionario, id_empresa, nombre_empresa, nombre_corto_empresa, estado_empresa, provincia_empresa, canton_empresa, id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion } = req.session.user;
-   
+
     const { placa, tipo_tramite, id_usuario, nombre_usuario, celular_usuario, email_usuario, canton_usuario, clase_vehiculo, clase_transporte, fecha_ingreso, numero_fojas, numero_adhesivo, numero_matricula } = req.body;
 
     // Ajustar la fecha de ingreso al huso horario de Ecuador
@@ -452,7 +473,7 @@ app.post('/guardar-tramite', async (req, res) => {
     if (placa.length >= 8) {
       // Mostrar un cuadro modal con el mensaje
       $('#modalPlacaExtensa').modal('show');
-      return; 
+      return;
     }
 
     // Guardar el nuevo trámite 
@@ -621,7 +642,7 @@ app.post('/act-tramite', async (req, res) => {
 
     console.log('ID del trámite a actualizar:', id_tramite);
     console.log('Valores recibidos para actualizar:', {
-      tipo_tramite,numero_adhesivo, numero_matricula,fecha_ingreso, numero_fojas, placa, clase_transporte, clase_vehiculo, id_usuario, nombre_usuario, canton_usuario, 
+      tipo_tramite, numero_adhesivo, numero_matricula, fecha_ingreso, numero_fojas, placa, clase_transporte, clase_vehiculo, id_usuario, nombre_usuario, canton_usuario,
       celular_usuario, email_usuario, pago_placas_entidad_bancaria, id_tramite_axis, pago_placas_comprobante, pago_placas_newservicio, pago_placas_valor, pago_placas_fecha,
       username, nombre_corto_empresa
     });
@@ -634,7 +655,7 @@ app.post('/act-tramite', async (req, res) => {
     const tramite = await RegistroTramites.findOne({ where: { id_tramite } });
 
     if (tramite) {
-      
+
       console.log('Trámite encontrado. Actualizando campos...');
       tramite.tipo_tramite = tipo_tramite;
       tramite.numero_adhesivo = numero_adhesivo;
@@ -646,18 +667,18 @@ app.post('/act-tramite', async (req, res) => {
       tramite.clase_vehiculo = clase_vehiculo;
       tramite.id_usuario = id_usuario;
       tramite.nombre_usuario = nombre_usuario;
-      tramite. canton_usuario =  canton_usuario;
+      tramite.canton_usuario = canton_usuario;
       tramite.celular_usuario = celular_usuario;
       tramite.email_usuario = email_usuario;
       tramite.pago_placas_entidad_bancaria = pago_placas_entidad_bancaria;
       tramite.id_tramite_axis = id_tramite_axis;
-      tramite. pago_placas_comprobante =  pago_placas_comprobante;
+      tramite.pago_placas_comprobante = pago_placas_comprobante;
       tramite.pago_placas_newservicio = pago_placas_newservicio;
       tramite.pago_placas_valor = pago_placas_valor;
       tramite.pago_placas_fecha = pago_placas_fecha;
 
 
-      
+
       if (!pago_placas_valor || isNaN(pago_placas_valor)) {
         tramite.pago_placas_valor = 0;
       } else {
@@ -668,19 +689,19 @@ app.post('/act-tramite', async (req, res) => {
       if (pago_placas_fecha && pago_placas_fecha !== 'Invalid date') {
         tramite.pago_placas_fecha = pago_placas_fecha;
       } else {
-        tramite.pago_placas_fecha = null; 
+        tramite.pago_placas_fecha = null;
       }
 
       tramite.pago_placas_valor = pago_placas_valor;
 
-     
+
       console.log('Guardando cambios en la base de datos...');
       await tramite.save();
 
 
       res.redirect(`/tramite-registrado?placa=${placa}&tipo_tramite=${tipo_tramite}&id_tramite=${id_tramite}&id_usuario=${id_usuario}&nombre_usuario=${nombre_usuario}&clase_vehiculo=${clase_vehiculo}&clase_transporte=${clase_transporte}&fecha_ingreso=${fecha_ingreso}&numero_adhesivo=${numero_adhesivo}&numero_matricula=${numero_matricula}&username=${username}&nombre_corto_empresa=${nombre_corto_empresa}`);
     } else {
-      
+
       console.log('Trámite no encontrado');
       res.redirect('/error-tramite-no-encontrado');
     }
@@ -776,17 +797,33 @@ app.get('/home', (req, res) => {
 
 
 
-  app.get('/PDFreport-diario', (req, res) => {
-    if (req.session.user) {
-      
-      res.render('PDFreport-diario', { userData: req.session.user });
-    } else {
-      
-      res.redirect('/');
-    }
-  });
-  
-  
+app.get('/PDFreport-diario', (req, res) => {
+  if (req.session.user) {
+
+    res.render('PDFreport-diario', { userData: req.session.user });
+  } else {
+
+    res.redirect('/');
+  }
+});
+
+
+app.get('/call-PDF-report-diario', (req, res) => {
+  if (req.session.user) {
+    // Llamar a la función generar-reporte-diario antes de renderizar la vista
+
+
+
+
+    // Renderizar la vista PDFreport-diario con los datos del usuario
+    res.render('reporte-diario2', { userData: req.session.user });
+  } else {
+    // Redirigir al inicio si no hay usuario en la sesión
+    res.redirect('/');
+  }
+});
+
+
 
 
 // Función para formatear la fecha

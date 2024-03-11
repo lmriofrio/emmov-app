@@ -238,32 +238,25 @@
 
 
 
-                                        <button type="submit" class="btn btn-primary me-3"
-                                            id="generarReporteDiario">Procesar consulta</button>
+
+                                        <button type="submit" class="btn btn-primary me-3" id="generarReporteDiario">
+                                            <i class="ti ti-search fs-4 me-2"></i>
+                                            <font _mstmutation="1" _msttexthash="76830" _msthash="372"> Procesar
+                                                consulta
+                                            </font>
+                                        </button>
+
+ 
+                                    
 
 
-                                        <button type="button" class="btn btn-secondary"
-                                            id="generar-pdf">Generar PDF</button>
 
-                                            <script>
-                                                $(document).ready(function () {
-                                                    $('#generar-pdf').click(function () {
-                                                        $.ajax({
-                                                            type: 'GET',
-                                                            url: '/generar-pdf',
-                                                            success: function (response) {
-                                                                console.log('PDF generado correctamente');
-                                                                // Aquí podrías mostrar un mensaje de éxito o realizar otras acciones si es necesario
-                                                            },
-                                                            error: function (error) {
-                                                                console.error('Error al generar el PDF:', error);
-                                                                // Aquí podrías mostrar un mensaje de error al usuario si es necesario
-                                                            }
-                                                        });
-                                                    });
-                                                });
-                                            </script>
-                                            
+                                        <a href="call-PDF-report-diario" class="btn btn-secondary" target="_blank">
+                                            <i class="ti ti-file-type-pdf fs-4 me-2"></i>
+                                            <span>Generar PDF</span>
+                                        </a>
+                                        
+
 
 
 
@@ -312,6 +305,7 @@
                                             <tbody id="tbody-tramites">
                                                 <!-- Aquí se agregarán dinámicamente los trámites -->
                                             </tbody>
+
                                         </table>
                                     </div>
 
