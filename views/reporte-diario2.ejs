@@ -22,8 +22,6 @@
 
 <body>
 
-
-    <br>
     <br>
 
     <h5 class="text-center">CUADRO GENERAL DE CLASIFICACIÓN DOCUMENTAL</h5>
@@ -33,28 +31,24 @@
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-center align-middle col-md-1">Nº</th>
-                        <th class="text-center align-middle col-md-1">SECCIÓN DOCUMENTAL</th>
-                        <th class="text-center align-middle col-md-1">SUBSECCIÓN DOCUMENTAL</th>
-                        <th class="text-center align-middle col-md-1">SERIE DOCUMENTAL</th>
-                        <th class="text-center align-middle col-md-3">SUBSERIE DOCUMENTAL</th>
-                        <th class="text-center align-middle col-md-1">N° FOJAS</th>
-                        <th class="text-center align-middle col-md-1">DESCRIPCIÓN DE LA SERIE DOCUMENTAL</th>
-                        <th class="text-center align-middle col-md-2">ORIGEN DE LA DOCUMENTACIÓN</th>
-                        <th class="text-center align-middle col-md-1">CONDICIONES DE ACCESO</th>
+                        <th class="text-center align-middle col-md-1 small">Nº</th>
+                        <th class="text-center align-middle col-md-1 small">SECCIÓN DOCUMENTAL</th>
+                        <th class="text-center align-middle col-md-1 small">SUBSECCIÓN DOCUMENTAL</th>
+                        <th class="text-center align-middle col-md-1 small">SERIE DOCUMENTAL</th>
+                        <th class="text-center align-middle col-md-3 small">SUBSERIE DOCUMENTAL</th>
+                        <th class="text-center align-middle col-md-1 small">N° FOJAS</th>
+                        <th class="text-center align-middle col-md-1 small">DESCRIPCIÓN DE LA SERIE DOCUMENTAL</th>
+                        <th class="text-center align-middle col-md-2 small">ORIGEN DE LA DOCUMENTACIÓN</th>
+                        <th class="text-center align-middle col-md-1 small">CONDICIONES DE ACCESO</th>
                     </tr>
                 </thead>
-                <tbody id="tbody-tramites">
+                <tbody class="small" id="tbody-tramites">
                     <!-- Aquí se agregarán dinámicamente los trámites -->
                 </tbody>
-
-
             </table>
-
         </div>
-
-
     </div>
+
 
     <br>
     <br>
@@ -84,38 +78,46 @@
 
 
 
-   
-        <div>
 
-                <input type="hidden" class="form-control" name="nombre_centro_matriculacion"
-                    id="nombre_centro_matriculacion" value="<%= userData.nombre_centro_matriculacion %>" disabled
-                    readonly>
+    <div>
 
-                <input type="hidden" class="form-control" name="nombre_funcionario" id="nombre_funcionario"
-                    value="<%= userData.nombre_funcionario %>" disabled readonly>
+        <input type="hidden" class="form-control" name="jefatura_departamento" id="jefatura_departamento"
+            value="<%= userData.jefatura_departamento %>" disabled readonly>
 
+        <input type="hidden" class="form-control" name="area_laboral" id="area_laboral"
+            value="<%= userData.area_laboral %>" disabled readonly>
 
-                <input type="hidden" class="form-control" name="username" id="username" value="<%= userData.username %>"
-                    disabled readonly>
+        <input type="hidden" class="form-control" name="rol_funcionario" id="rol_funcionario"
+            value="<%= userData.rol_funcionario %>" disabled readonly>
 
+        <input type="hidden" class="form-control" name="nombre_funcionario" id="nombre_funcionario"
+            value="<%= userData.nombre_funcionario %>" disabled readonly>
 
-                <input type="hidden" class="form-control" name="fecha_ingreso" id="fecha_ingreso">
-
-                <button type="submit" id="generarReporteDiario" class="d-none">
-                    <font _mstmutation="1" _msttexthash="76830" _msthash="372"> Procesar consulta </font>
-                </button>
-                
-
-        </div>
+            <input type="hidden" class="form-control" name="username" id="username"
+            value="<%= userData.username %>" disabled readonly>
 
 
-   
+        <input type="hidden" class="form-control" name="nombre_centro_matriculacion" id="nombre_centro_matriculacion"
+            value="<%= userData.nombre_centro_matriculacion %>" disabled readonly>
+
+
+        <input type="hidden" class="form-control" name="fecha_ingreso" id="fecha_ingreso">
+
+        <button type="submit" id="generarReporteDiario" class="d-none">
+            <font _mstmutation="1" _msttexthash="76830" _msthash="372"> Procesar consulta </font>
+        </button>
+
+
+    </div>
+
+
+
 
     <script>
 
         $(document).ready(function () {
             // Definir la constante fecha_ingreso (puedes cambiarla por la que necesites)
-            const fecha_ingreso = '2024-03-10'; // Por ejemplo, asignamos una fecha fija
+            const fecha_ingreso = '2020-01-17'; // Por ejemplo, asignamos una fecha fija
 
             // Establecer el valor del input de fecha con la constante
             $('#fecha_ingreso').val(fecha_ingreso);

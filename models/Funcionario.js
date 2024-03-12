@@ -28,6 +28,16 @@ const Funcionario = db.define('Funcionario', {
     type: DataTypes.STRING(45),
     allowNull: true
   },
+  
+  jefatura_departamento: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+  area_laboral: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+
   username: {
     type: DataTypes.STRING(45),
     allowNull: false,

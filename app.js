@@ -7,7 +7,6 @@ moment.tz.setDefault('America/Guayaquil');
 // Ahora, cuando necesites obtener la fecha actual en la zona horaria de Ecuador, puedes hacerlo así:
 const fecha_actual_ecuador = moment().format();
 
-
 const toastr = require('toastr');
 const express = require('express');
 const session = require('express-session');
@@ -226,9 +225,6 @@ app.get('/edicion-tramites', async (req, res) => {
 });
 
 
-
-
-
 app.get('/registrar-pago-placas', (req, res) => {
   // Verificar si hay un usuario en sesión
   if (req.session.user) {
@@ -278,7 +274,7 @@ app.get('/listado-tramites', async (req, res) => {
 });
 
 
-const PAGE_SIZE = 10; // Define el número de registros por página
+const PAGE_SIZE = 10;
 
 
 
@@ -352,7 +348,6 @@ app.get('/report-plate', async (req, res) => {
 
 
 
-
 app.get('/calcular-valores', async (req, res) => {
   try {
     // Obtener todos los registros de trámites
@@ -390,7 +385,6 @@ app.post('/calcular-valores', async (req, res) => {
     res.status(500).send('Error ');
   }
 });
-
 
 
 app.get('/registro-diario', async (req, res) => {
@@ -448,7 +442,7 @@ app.get('/registro-diario', async (req, res) => {
 
       //console.log('REGISTROS DE LA TABLA 1:', registrosTabla1);
 
-      res.render('registro-diario', { registros, tiposTramites, tiposCantones, MAX_ITEMS, formatDate, mostrarModal, registrosTabla1, registrosTabla2, registrosTabla3 });
+      res.render('registro-diario', { registros, tiposTramites, tiposCantones, MAX_ITEMS, mostrarModal, registrosTabla1, registrosTabla2, registrosTabla3 });
     } else {
       res.redirect('/login');
     }
@@ -457,8 +451,6 @@ app.get('/registro-diario', async (req, res) => {
     res.status(500).send('Error al obtener los registros');
   }
 });
-
-
 
 
 app.post('/guardar-tramite', async (req, res) => {
@@ -742,10 +734,6 @@ app.post('/eliminar-tramite', async (req, res) => {
 });
 
 
-
-
-// En login valida el ingreso hacia home
-
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -761,6 +749,8 @@ app.post('/login', async (req, res) => {
         nombre_funcionario: user.nombre_funcionario,
         rol_funcionario: user.rol_funcionario,
         nombre_puesto_funcionario: user.nombre_puesto_funcionario,
+        jefatura_departamento: user.jefatura_departamento,
+        area_laboral: user.area_laboral,
         id_empresa: user.id_empresa,
         nombre_empresa: user.nombre_empresa,
         nombre_corto_empresa: user.nombre_corto_empresa,
@@ -783,7 +773,7 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
 });
-// Maneja la solicitud GET en la ruta '/home.html'
+
 app.get('/home', (req, res) => {
   if (req.session.user) {
     // Si el usuario tiene una sesión activa, permite el acceso a home.html

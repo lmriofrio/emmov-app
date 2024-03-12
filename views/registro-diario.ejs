@@ -376,7 +376,7 @@
                                 <div id="tabla-container" class="table-responsive rounded-2 mb-4">
                                     <% const MAX_ITEMS=4; %>
                                         <table class="table border customize-table mb-0 align-middle">
-                                            <thead class="text-dark fs-4">
+                                            <thead class="text-dark fs-4 col-lg-12">
                                                 <tr>
                                                     <th class="columna-tamañofijo1 text-center">
                                                         <h6 class="fs-4 fw-semibold mb-0">ADHESIVO</h6>
@@ -402,19 +402,21 @@
                                                                 <%= registrosTabla1[i].numero_adhesivo %>
                                                             </span>
                                                         </td>
-                                                        <td>
+                                                        <td class=""
+                                                            style="white-space: nowrap; overflow: hidden;">
                                                             <span>
                                                                 <%= registrosTabla1[i].tipo_tramite %>
                                                             </span>
                                                         </td>
-                                                        <td class="text-center">
+                                                        <td class="">
                                                             <span>
                                                                 <%= registrosTabla1[i].placa %>
                                                             </span>
                                                         </td>
-                                                        <td class="text-center">
+                                                        <td class=""
+                                                            style="white-space: nowrap; overflow: hidden;">
                                                             <span>
-                                                                <%= formatDate(registrosTabla1[i].fecha_ingreso) %>
+                                                                <%= registrosTabla1[i].fecha_ingreso %>
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -454,7 +456,7 @@
                                                             <%= registrosTabla2[i].numero_matricula %>
                                                         </span>
                                                     </td>
-                                                    <td >
+                                                    <td>
                                                         <span>
                                                             <%= registrosTabla2[i].tipo_tramite %>
                                                         </span>
@@ -464,9 +466,10 @@
                                                             <%= registrosTabla2[i].placa %>
                                                         </span>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="text-center"
+                                                        style="white-space: nowrap; overflow: hidden;">
                                                         <span>
-                                                            <%= formatDate(registrosTabla2[i].fecha_ingreso) %>
+                                                            <%= registrosTabla2[i].fecha_ingreso %>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -513,9 +516,10 @@
                                                             <%= registrosTabla3[i].placa %>
                                                         </span>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="text-center"
+                                                        style="white-space: nowrap; overflow: hidden;">
                                                         <span>
-                                                            <%= formatDate(registrosTabla3[i].fecha_ingreso) %>
+                                                            <%= registrosTabla3[i].fecha_ingreso %>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -604,7 +608,7 @@
     </div>
 
 
-    
+
 </body>
 
 </html>
