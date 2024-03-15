@@ -93,15 +93,18 @@
         <input type="hidden" class="form-control" name="nombre_funcionario" id="nombre_funcionario"
             value="<%= userData.nombre_funcionario %>" disabled readonly>
 
-            <input type="hidden" class="form-control" name="username" id="username"
-            value="<%= userData.username %>" disabled readonly>
+        <input type="hidden" class="form-control" name="username" id="username" value="<%= userData.username %>"
+            disabled readonly>
 
 
         <input type="hidden" class="form-control" name="nombre_centro_matriculacion" id="nombre_centro_matriculacion"
             value="<%= userData.nombre_centro_matriculacion %>" disabled readonly>
 
 
-        <input type="hidden" class="form-control" name="fecha_ingreso" id="fecha_ingreso">
+        <input type="hidden" class="form-control" name="fecha_ingreso" id="fecha_ingreso"
+            value="<%= fecha_ingresoPDF %>">
+
+        <input type="date" class="form-control" name="fecha_ingresoPD" id="fecha_ingresoPDF">
 
         <button type="submit" id="generarReporteDiario" class="d-none">
             <font _mstmutation="1" _msttexthash="76830" _msthash="372"> Procesar consulta </font>
@@ -117,7 +120,7 @@
 
         $(document).ready(function () {
             // Definir la constante fecha_ingreso (puedes cambiarla por la que necesites)
-            const fecha_ingreso = '2020-01-17'; // Por ejemplo, asignamos una fecha fija
+            const fecha_ingreso = ; // Por ejemplo, asignamos una fecha fija
 
             // Establecer el valor del input de fecha con la constante
             $('#fecha_ingreso').val(fecha_ingreso);

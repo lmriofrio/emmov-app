@@ -23830,7 +23830,7 @@ progress {
     font-size: .875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #5a6a85;
+    color: #394354;
     background-color: transparent;
     background-clip: padding-box;
     border: var(--bs-border-width) solid #dfe5ef;
@@ -23887,7 +23887,7 @@ progress {
     padding: 8px 16px;
     margin: -8px -16px;
     margin-inline-end: 16px;
-    color: #5a6a85;
+    color: #394354;
     background-color: var(--bs-tertiary-bg);
     pointer-events: none;
     border-color: inherit;
@@ -24004,7 +24004,7 @@ textarea.form-control-lg {
     font-size: .875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #5a6a85;
+    color: #394354;
     background-color: transparent;
     background-image: var(--bs-form-select-bg-img), var(--bs-form-select-bg-icon, none);
     background-repeat: no-repeat;
@@ -24041,7 +24041,7 @@ textarea.form-control-lg {
 
 .form-select:-moz-focusring {
     color: transparent;
-    text-shadow: 0 0 0 #5a6a85
+    text-shadow: 0 0 0 #394354
 }
 
 .form-select-sm {
@@ -24456,7 +24456,7 @@ textarea.form-control-lg {
     font-size: .875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #5a6a85;
+    color: #394354;
     text-align: center;
     white-space: nowrap;
     background-color: #eaeff4;
@@ -53140,29 +53140,6 @@ table.footable thead tr.footable-filtering th ul.dropdown-menu li .checkbox labe
     border: 1px solid #e0e6ed
 }
 
-.app-calendar .fc-event-title {
-    font-weight: 400
-}
-
-.app-calendar .fc .fc-col-header-cell-cushion,
-.app-calendar .fc .fc-daygrid-day-number {
-    color: #5a6a85;
-    text-decoration: none
-}
-
-.app-calendar .fc .fc-button-primary {
-    background-color: #fff;
-    border-color: #157bff;
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #fff
-}
-
-.app-calendar .fc .fc-button-primary:not(:disabled).fc-button-active {
-    background-color: #157bff;
-    font-weight: 400;
-    border-color: #157bff
-}
 
 .app-calendar .fc .fc-button-primary:hover {
     background-color: #157bff;
@@ -54326,7 +54303,7 @@ ul {
     font-size: .875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #5a6a85;
+    color: #394354;
     text-align: center;
     white-space: nowrap;
     background-color: #eaeff4;
@@ -54402,7 +54379,7 @@ input:-internal-autofill-selected {
     font-size: .875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #5a6a85;
+    color: #394354;
     background-color: transparent;
     background-clip: padding-box;
     border: none;

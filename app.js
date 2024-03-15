@@ -21,6 +21,7 @@ const Usuario = require('./models/Usuario');
 const Canton = require('./models/Canton');
 const CentroMatriculacion = require('./models/CentroMatriculacion');
 const Tramite = require('./models/Tramite');
+const favicon = require('serve-favicon');
 
 const RegistroTramites = require('./models/RegistroTramites');
 const RegistroVehiculos = require('./models/RegistroVehiculos');
@@ -89,6 +90,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), { index: false, extensions: ['js'] }))
 app.use('/routes', express.static(path.join(__dirname, 'routes'), { index: false, extensions: ['js'] }))
 app.use('/public', express.static(path.join(__dirname, 'public'), { index: false, extensions: ['js'] }))
+// Middleware para servir el favicon.ico
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // Inicio de la app a travez del puerto
 app.listen(app.get('port'), () => {
@@ -177,7 +180,6 @@ app.get('/tramite-registrado', (req, res) => {
   if (req.session.user) {
     // Obtener los parámetros de consulta (si los hay)
     const { placa, tipo_tramite, id_tramite, id_usuario, nombre_usuario, clase_vehiculo, clase_transporte, numero_adhesivo, numero_matricula, username, fecha_ingreso, nombre_corto_empresa } = req.query;
-    console.log('PRIMER MENSAJE Nuevo trámite:', placa, tipo_tramite, id_tramite, id_usuario, nombre_usuario, clase_vehiculo, clase_transporte, numero_adhesivo, numero_matricula, username, fecha_ingreso, nombre_corto_empresa);
 
     // Renderizar la vista y pasar los datos del usuario y los parámetros de consulta
     res.render('tramite-registrado', { userData: req.session.user, placa, id_tramite, tipo_tramite, id_usuario, nombre_usuario, clase_vehiculo, clase_transporte, numero_adhesivo, numero_matricula, username, fecha_ingreso, nombre_corto_empresa });
@@ -463,7 +465,6 @@ app.post('/guardar-tramite', async (req, res) => {
     // Ajustar la fecha de ingreso al huso horario de Ecuador
 
     if (placa.length >= 8) {
-      // Mostrar un cuadro modal con el mensaje
       $('#modalPlacaExtensa').modal('show');
       return;
     }
@@ -802,11 +803,13 @@ app.get('/call-PDF-report-diario', (req, res) => {
   if (req.session.user) {
     // Llamar a la función generar-reporte-diario antes de renderizar la vista
 
+    const fecha_ingresoPDF = req.query.fecha_ingreso;
+
 
 
 
     // Renderizar la vista PDFreport-diario con los datos del usuario
-    res.render('reporte-diario2', { userData: req.session.user });
+    res.render('reporte-diario2', { userData: req.session.user, fecha_ingresoPDF });
   } else {
     // Redirigir al inicio si no hay usuario en la sesión
     res.redirect('/');

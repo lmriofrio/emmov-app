@@ -19,6 +19,19 @@
 
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
+    <style>
+        
+        .fixed-column {
+            width: 150px;
+            
+        }
+
+        .table-container {
+            max-width: 100%;
+            overflow: hidden;
+        }
+    </style>
+
 
 </head>
 
@@ -403,7 +416,7 @@
                                                             </span>
                                                         </td>
                                                         <td class=""
-                                                            style="white-space: nowrap; overflow: hidden;">
+                                                            style="">
                                                             <span>
                                                                 <%= registrosTabla1[i].tipo_tramite %>
                                                             </span>
@@ -592,6 +605,27 @@
                                     <p>El valor en el campo ¨C.I / RUC¨ es demasiado extenso. Por favor, asegúrate de
                                         que tenga menos
                                         de 14 caracteres.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalNameExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Error: campo nombre</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>El valor en el campo ¨NOMBRE¨ es demasiado extenso. Por favor, asegúrate de
+                                        que tenga menos de 80 caracteres.</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
