@@ -7,7 +7,7 @@ $(document).ready(function () {
         const rol_funcionario = $('input[name="rol_funcionario"]').val();
         const nombre_funcionario = $('input[name="nombre_funcionario"]').val();
 
-        // Comprobar si la fecha está vacía o no es válida
+
         if (!fecha_ingreso) {
             alert('Por favor ingresa una fecha válida.');
             return;
@@ -16,13 +16,13 @@ $(document).ready(function () {
         $.ajax({
             type: 'GET',
             url: '/generar-reporte-diario',
-            data: { fecha_ingreso, username, jefatura_departamento, area_laboral }, // Incluir el nombre de usuario en los datos de la solicitud
+            data: { fecha_ingreso, username, jefatura_departamento, area_laboral }, 
             success: function (response) {
                 const tbody = $('#tbody-tramites');
                 tbody.empty();
 
                 if (response.success) {
-                    let numeroFila = 1; // Inicializar el contador de filas
+                    let numeroFila = 1; 
                     response.tramites.forEach(tramite => {
                         const newRow = `
                             <tr>
@@ -37,7 +37,7 @@ $(document).ready(function () {
                                 <td class="text-center">AUTORIZACIÓN DE GERENCIA</td>
                             </tr>`;
                         tbody.append(newRow);
-                        numeroFila++; // Incrementar el contador de filas
+                        numeroFila++; 
                     });
                 } else {
                     alert('TRÁMITES NO ENCONTRADOS');

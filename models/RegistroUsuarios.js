@@ -2,7 +2,6 @@ const { DataTypes } = require('sequelize');
 const db = require('../db');
 
 const RegistroUsuarios = db.define('registro-usuarios', {
-  // Define tus campos de la tabla Usuario aquí
   id_usuario: {
     type: DataTypes.STRING(13),
     primaryKey: true,

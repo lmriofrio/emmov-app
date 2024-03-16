@@ -5,9 +5,9 @@ $(document).ready(function() {
 
 
       if (id_usuario.length >= 15) {
-        // Mostrar un cuadro modal con el mensaje
+
         $('#modalIDExtensa').modal('show');
-        return; // Salir de la función para evitar la solicitud AJAX
+        return; 
       }
   
       $.ajax({
@@ -20,7 +20,7 @@ $(document).ready(function() {
                   $('#canton_usuario').val(response.usuario.canton_usuario);
                   $('#celular_usuario').val(response.usuario.celular_usuario);
                   $('#email_usuario').val(response.usuario.email_usuario);
-                  // Actualizar otros campos según sea necesario
+
               } else {
                   alert('Usuario no encontrado');
               }

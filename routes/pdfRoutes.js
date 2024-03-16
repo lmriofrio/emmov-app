@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const pdfGenerator = require('../models/pdfGenerator');// Importa la función para generar el PDF
+const pdfGenerator = require('../models/pdfGenerator');
 
 router.get('/generar-pdf', async (req, res) => {
     try {
-        await pdfGenerator(); // Genera el PDF utilizando la función importada
+        await pdfGenerator(); 
         res.send('PDF generado correctamente');
     } catch (error) {
         console.error('Error al generar el PDF:', error);

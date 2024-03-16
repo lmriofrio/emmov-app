@@ -4,7 +4,7 @@ const Tramite = require('../models/Tramite');
 
 router.get('/gen-report-placas', async (req, res) => {
     try {
-        const tramites = await Tramite.findAll(); // Corregido el método de consulta
+        const tramites = await Tramite.findAll(); 
 
         res.json({ success: true, tramites });
     } catch (error) {

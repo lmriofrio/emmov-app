@@ -5,7 +5,7 @@ const sequelize = require('../db');
 
 const Tramite = sequelize.define('registro-tramites', {
 
-  ////////////////////////////////////
+
 
   id_tramite: {
     type: DataTypes.INTEGER (11),

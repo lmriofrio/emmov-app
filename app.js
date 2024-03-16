@@ -1,10 +1,6 @@
-// Importación de módulos
 const moment = require('moment-timezone');
-
-// Establecer la zona horaria de Node.js a Ecuador
 moment.tz.setDefault('America/Guayaquil');
 
-// Ahora, cuando necesites obtener la fecha actual en la zona horaria de Ecuador, puedes hacerlo así:
 const fecha_actual_ecuador = moment().format();
 
 const toastr = require('toastr');
@@ -40,7 +36,7 @@ const reportesRoutes = require('./routes/reportesRoutes');
 const placasRoutes = require('./routes/placasRoutes');
 
 const MAX_ITEMS = 8;
-const { Op, literal } = require('sequelize');
+const { Op, literal, Sequelize } = require('sequelize');
 
 
 const formatDate = dateString => {
@@ -54,7 +50,6 @@ console.log(fechaHoraServidor);
 
 
 // Configuración de Express
-
 const app = express();
 module.exports = app;
 app.set('port', config.app.port);
@@ -69,7 +64,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// Configuración de Express para sesiones de usuario
+// Configuración de Express para las seciones de los usuarios
 app.use(session({
   secret: 't]nTsLU38>9v',
   resave: true,
@@ -85,20 +80,21 @@ db.sync()
     console.error('Error al sincronizar la base de datos:', error);
   });
 
-// Configuración de Express para servir archivos estáticos desde 'node_modules'
+// Configuración de Express para servir los archivos estáticos desde 'node_modules y otras carpetas publicas'
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), { index: false, extensions: ['js'] }))
 app.use('/routes', express.static(path.join(__dirname, 'routes'), { index: false, extensions: ['js'] }))
 app.use('/public', express.static(path.join(__dirname, 'public'), { index: false, extensions: ['js'] }))
-// Middleware para servir el favicon.ico
+
+// Favicon.ico
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
-// Inicio de la app a travez del puerto
+// Inicio de la aplicacion web
 app.listen(app.get('port'), () => {
   console.log('Listening on port', app.get('port'));
 });
 
-// Usar la ruta para consultar vehiculos
+// Declaracion de rutas
 app.use('/', vehiculoRoutes);
 app.use('/', placasRoutes);
 app.use('/', usuarioRoutes);
@@ -106,9 +102,9 @@ app.use('/', tramiteRoutes);
 app.use('/', reportesRoutes);
 
 
-//3.- RUTAS                     
+// 3.- RUTAS                     
 // Página de inicio (login)
-// Maneja la solicitud GET en la ruta raíz '/'
+// Se procesa la solicitud GET en la ruta raíz '/'
 app.get('/', (req, res) => {
   if (req.session.user) {
     res.redirect('/home');
@@ -117,14 +113,11 @@ app.get('/', (req, res) => {
   }
 });
 
-// Renderiza la página de inicio de sesión
 app.get('/login', (req, res) => {
   res.render('login');
 });
 
-// En tu archivo app.js o donde configures tus rutas
 app.post('/logout', (req, res) => {
-  // Destruir la sesión
   req.session.destroy((err) => {
     if (err) {
       console.error('Error al cerrar sesión:', err);
@@ -138,57 +131,42 @@ app.post('/logout', (req, res) => {
 app.get('/reportes-web', (req, res) => {
   res.render('reportes-web');
 });
+
 app.get('/reporte-diario', (req, res) => {
-
   if (req.session.user) {
-
     res.render('reporte-diario', { userData: req.session.user });
   } else {
-
     res.redirect('/login');
   }
 });
 
 app.get('/reporte-diario2', (req, res) => {
-
   if (req.session.user) {
-
     res.render('reporte-diario2', { userData: req.session.user });
   } else {
-
     res.redirect('/login');
   }
 });
-
-
 
 app.get('/configuracion-cuenta', (req, res) => {
-  // Verificar si hay un usuario en sesión
   if (req.session.user) {
-    // Renderizar la vista y pasar los datos del usuario
     res.render('configuracion-cuenta', { userData: req.session.user });
   } else {
-    // Si no hay un usuario en sesión, redirigir a la página de inicio de sesión
     res.redirect('/login');
   }
 });
-
-
 
 app.get('/tramite-registrado', (req, res) => {
 
   if (req.session.user) {
-    // Obtener los parámetros de consulta (si los hay)
+
     const { placa, tipo_tramite, id_tramite, id_usuario, nombre_usuario, clase_vehiculo, clase_transporte, numero_adhesivo, numero_matricula, username, fecha_ingreso, nombre_corto_empresa } = req.query;
 
-    // Renderizar la vista y pasar los datos del usuario y los parámetros de consulta
     res.render('tramite-registrado', { userData: req.session.user, placa, id_tramite, tipo_tramite, id_usuario, nombre_usuario, clase_vehiculo, clase_transporte, numero_adhesivo, numero_matricula, username, fecha_ingreso, nombre_corto_empresa });
   } else {
-    // Si no hay un usuario en sesión, redirigir a la página de inicio de sesión
     res.redirect('/login');
   }
 });
-
 
 
 app.get('/edicion-tramites', async (req, res) => {
@@ -196,28 +174,27 @@ app.get('/edicion-tramites', async (req, res) => {
     if (req.session.user) {
       const idTramite = req.query.id_tramite;
 
-      // Busca el trámite por su ID utilizando Sequelize
+      // Busca el trámite por su ID
       const tramite = await RegistroTramites.findByPk(idTramite);
 
-      // Instanciar el selector de tipos de trámites
       const selectorTramites = new SeleccionarTipoTramites();
       const selectorCantones = new SeleccionarCantones();
-      // Obtener tipos de trámites y cantones utilizando promisify para hacerlo compatible con async/await
+
       const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
-      const obtenerCantonesAsync = util.promisify(selectorCantones.obtenerTiposCantones.bind(selectorCantones)); // Corregido el nombre de la función
+      const obtenerCantonesAsync = util.promisify(selectorCantones.obtenerTiposCantones.bind(selectorCantones));
       const tiposTramites = await obtenerTiposTramitesAsync();
-      const tiposCantones = await obtenerCantonesAsync(); // Corregido el nombre de la variable
-      // Renderizar la página registro-diario y pasar los tipos de trámites y MAX_ITEMS como datos
+      const tiposCantones = await obtenerCantonesAsync();
+
 
       if (tramite) {
-        // Renderizar la vista edicion-tramites y pasar los datos necesarios como contexto
+
         res.render('edicion-tramites', { userData: req.session.user, tramite, tiposTramites, tiposCantones, });
       } else {
-        // Si no se encuentra el trámite, redirigir con un mensaje de error
+
         res.status(404).json({ error: 'Trámite no encontrado' });
       }
     } else {
-      // Si no hay sesión activa, redirigir a la página de inicio de sesión
+
       res.redirect('/');
     }
   } catch (error) {
@@ -228,15 +205,10 @@ app.get('/edicion-tramites', async (req, res) => {
 
 
 app.get('/registrar-pago-placas', (req, res) => {
-  // Verificar si hay un usuario en sesión
   if (req.session.user) {
-    // Obtener los parámetros de consulta (si los hay)
     const { placa, tipo_tramite, id_tramite, id_usuario, nombre_usuario, clase_vehiculo, clase_transporte } = req.query;
-
-    // Renderizar la vista y pasar los datos del usuario y los parámetros de consulta
     res.render('registrar-pago-placas', { userData: req.session.user, placa, id_tramite, tipo_tramite, id_usuario, nombre_usuario, clase_vehiculo, clase_transporte });
   } else {
-    // Si no hay un usuario en sesión, redirigir a la página de inicio de sesión
     res.redirect('/login');
   }
 });
@@ -251,7 +223,6 @@ app.get('/listado-tramites', async (req, res) => {
     const totalRecords = await Tramite.count();
     const totalPages = Math.ceil(totalRecords / PAGE_SIZE);
 
-    // Página actual (obtenida de la consulta o predeterminada a 1)
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const offset = (page - 1) * PAGE_SIZE;
 
@@ -275,16 +246,12 @@ app.get('/listado-tramites', async (req, res) => {
   }
 });
 
-
 const PAGE_SIZE = 10;
-
-
 
 app.get('/report-plate', async (req, res) => {
   try {
-    const currentYear = moment().year(); // Obtener el año actual
+    const currentYear = moment().year();
 
-    // Construir objeto de filtro para tipos de trámite y año actual
     const filter = {
       [Op.and]: [
         {
@@ -314,22 +281,19 @@ app.get('/report-plate', async (req, res) => {
             ]
           }
         },
-        
+
         literal(`YEAR(fecha_ingreso) = ${currentYear}`)
       ]
     };
 
-    
     const totalRecords = await Tramite.count({ where: filter });
 
-    
     const totalPages = Math.ceil(totalRecords / PAGE_SIZE);
 
-    
     const page = req.query.page ? parseInt(req.query.page) : 1;
-    const offset = (page - 1) * PAGE_SIZE; 
+    const offset = (page - 1) * PAGE_SIZE;
 
-    
+
     const tramites = await Tramite.findAll({
       where: filter,
       limit: PAGE_SIZE,
@@ -352,35 +316,26 @@ app.get('/report-plate', async (req, res) => {
 
 app.get('/calcular-valores', async (req, res) => {
   try {
-    // Obtener todos los registros de trámites
     const registros = await RegistroTramites.findAll();
-    // Instanciar el selector de tipos de trámites
     const selectorTramites = new SeleccionarTipoTramites();
-    // Obtener tipos de trámites utilizando promisify para hacerlo compatible con async/await
     const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
     const tiposTramites = await obtenerTiposTramitesAsync();
-    // Renderizar la página calcular-valores y pasar los tipos de trámites como datos
     res.render('calcular-valores', { resultados: null, tiposTramites });
   } catch (error) {
     console.error('Error al obtener los registros:', error);
     res.status(500).send('Error al obtener los registros');
   }
 });
+
 app.post('/calcular-valores', async (req, res) => {
   try {
     const { tramite, placa } = req.body;
-    // Crear una instancia de la clase PayOrder
     const payOrder = new PayOrder(placa);
-    // Calcular valores según el trámite
     payOrder.calcularValores(tramite);
-    // Obtener y renderizar el reporte
     const resultados = payOrder.resultados;
-    // Obtiene los tipos de trámites usando el modelo
     const seleccionarTipoTramites = new SeleccionarTipoTramites();
-    // Obtener tipos de trámites utilizando promisify para hacerlo compatible con async/await
     const obtenerTiposTramitesAsync = util.promisify(seleccionarTipoTramites.obtenerTiposTramites.bind(seleccionarTipoTramites));
     const tiposTramites = await obtenerTiposTramitesAsync();
-    // Renderiza la vista con los datos
     res.render('calcular-valores', { resultados, placa, tiposTramites });
   } catch (error) {
     console.error('Error :', error);
@@ -391,52 +346,75 @@ app.post('/calcular-valores', async (req, res) => {
 
 app.get('/registro-diario', async (req, res) => {
   try {
-    let mostrarModal = false;
+
     if (req.session.user) {
       mostrarModal = true;
 
       const username = req.session.user.username;
 
-      const registros = await RegistroTramites.findAll({ where: { username } });
+      const registrosTabla1 = await RegistroTramites.findAll({
+        where: {
+          username,
+          tipo_tramite: {
+            [Sequelize.Op.notIn]: [
+              'DUPLICADO DEL DOCUMENTO DE LA MATRICULA',
+              'ESPECIE ANULADA',
+              'TRANSFERENCIA DE DOMINIO',
+              'CERTIFICADO UNICO VEHICULAR',
+              'DUPLICADO DE PLACAS',
+              'CERTIFICADO DE POSEER VEHICULO',
+              'BLOQUEO DE VEHÍCULO',
+              'DESBLOQUEO DE VEHÍCULO',
+              'ACTUALIZACIÓN DE DATOS DEL VEHÍCULO'
+            ]
+          }
+        },
+        order: [['id_tramite', 'DESC']],
+        limit: 5
+      });
 
-      // Filtrar los registros según los tipos de trámites deseados
-      const registrosTabla1 = registros.filter(registro =>
-        registro.tipo_tramite !== 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA' &&
-        registro.tipo_tramite !== 'ESPECIE ANULADA' &&
-        registro.tipo_tramite !== 'TRANSFERENCIA DE DOMINIO' &&
-        registro.tipo_tramite !== 'CERTIFICADO UNICO VEHICULAR' &&
-        registro.tipo_tramite !== 'DUPLICADO DE PLACAS' &&
-        registro.tipo_tramite !== 'CERTIFICADO DE POSEER VEHICULO' &&
-        registro.tipo_tramite !== 'BLOQUEO DE VEHÍCULO' &&
-        registro.tipo_tramite !== 'DESBLOQUEO DE VEHÍCULO' &&
-        registro.tipo_tramite !== 'ACTUALIZACIÓN DE DATOS DEL VEHÍCULO'
-      );
+      const registrosTabla2 = await RegistroTramites.findAll({
+        where: {
+          username,
+          tipo_tramite: {
+            [Sequelize.Op.notIn]: [
+              'ADHESIVO ANULADO',
+              'DUPLICADO DEL DOCUMENTO ANUAL DE CIRCULACION',
+              'EMISION DEL DOCUMENTO ANUAL DE CIRCULACION',
+              'CERTIFICADO UNICO VEHICULAR',
+              'DUPLICADO DE PLACAS',
+              'CERTIFICADO DE POSEER VEHICULO',
+              'BLOQUEO DE VEHÍCULO',
+              'DESBLOQUEO DE VEHÍCULO',
+              'ACTUALIZACIÓN DE DATOS DEL VEHÍCULO'
+            ]
+          }
+        },
+        order: [['id_tramite', 'DESC']],
+        limit: 5
+      });
 
-      const registrosTabla2 = registros.filter(registro =>
-        registro.tipo_tramite !== 'ADHESIVO ANULADO' &&
-        registro.tipo_tramite !== 'DUPLICADO DEL DOCUMENTO ANUAL DE CIRCULACION' &&
-        registro.tipo_tramite !== 'EMISION DEL DOCUMENTO ANUAL DE CIRCULACION' &&
-        registro.tipo_tramite !== 'CERTIFICADO UNICO VEHICULAR' &&
-        registro.tipo_tramite !== 'DUPLICADO DE PLACAS' &&
-        registro.tipo_tramite !== 'CERTIFICADO DE POSEER VEHICULO' &&
-        registro.tipo_tramite !== 'BLOQUEO DE VEHÍCULO' &&
-        registro.tipo_tramite !== 'DESBLOQUEO DE VEHÍCULO' &&
-        registro.tipo_tramite !== 'ACTUALIZACIÓN DE DATOS DEL VEHÍCULO'
-      );
+      const registrosTabla3 = await RegistroTramites.findAll({
+        where: {
+          username,
+          tipo_tramite: {
+            [Sequelize.Op.in]: [
+              'CERTIFICADO UNICO VEHICULAR',
+              'DUPLICADO DE PLACAS',
+              'CERTIFICADO DE POSEER VEHICULO',
+              'BLOQUEO DE VEHÍCULO',
+              'DESBLOQUEO DE VEHÍCULO',
+              'ACTUALIZACIÓN DE DATOS DEL VEHÍCULO'
+            ]
+          }
+        },
+        order: [['id_tramite', 'DESC']],
+        limit: 2
+      });
 
-      const registrosTabla3 = registros.filter(registro =>
-        registro.tipo_tramite == 'CERTIFICADO UNICO VEHICULAR' ||
-        registro.tipo_tramite == 'DUPLICADO DE PLACAS' ||
-        registro.tipo_tramite == 'CERTIFICADO DE POSEER VEHICULO' ||
-        registro.tipo_tramite == 'BLOQUEO DE VEHÍCULO' ||
-        registro.tipo_tramite == 'DESBLOQUEO DE VEHÍCULO' ||
-        registro.tipo_tramite == 'ACTUALIZACIÓN DE DATOS DEL VEHÍCULO'
-      );
-
-      // Selector
       const selectorTramites = new SeleccionarTipoTramites();
       const selectorCantones = new SeleccionarCantones();
-      // Obtener tipos de trámites y cantones 
+
       const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
       const obtenerCantonesAsync = util.promisify(selectorCantones.obtenerTiposCantones.bind(selectorCantones));
       const tiposTramites = await obtenerTiposTramitesAsync();
@@ -444,7 +422,7 @@ app.get('/registro-diario', async (req, res) => {
 
       //console.log('REGISTROS DE LA TABLA 1:', registrosTabla1);
 
-      res.render('registro-diario', { registros, tiposTramites, tiposCantones, MAX_ITEMS, mostrarModal, registrosTabla1, registrosTabla2, registrosTabla3 });
+      res.render('registro-diario', { tiposTramites, tiposCantones, registrosTabla1, registrosTabla2, registrosTabla3 });
     } else {
       res.redirect('/login');
     }
@@ -462,7 +440,6 @@ app.post('/guardar-tramite', async (req, res) => {
 
     const { placa, tipo_tramite, id_usuario, nombre_usuario, celular_usuario, email_usuario, canton_usuario, clase_vehiculo, clase_transporte, fecha_ingreso, numero_fojas, numero_adhesivo, numero_matricula } = req.body;
 
-    // Ajustar la fecha de ingreso al huso horario de Ecuador
 
     if (placa.length >= 8) {
       $('#modalPlacaExtensa').modal('show');
@@ -559,15 +536,12 @@ app.post('/reg-pago-placas', async (req, res) => {
       pago_placas_newservicio
     });
 
-    // Verificar los valores recibidos en la solicitud
     console.log('Valores recibidos en la solicitud:', req.body);
 
-    // Buscar el trámite por su ID
     console.log('Buscando el trámite por ID:', id_tramite);
     const tramite = await RegistroTramites.findOne({ where: { id_tramite } });
 
     if (tramite) {
-      // Actualizar los campos del trámite con los nuevos valores
       console.log('Trámite encontrado. Actualizando campos...');
       tramite.id_tramite_axis = id_tramite_axis;
       tramite.pago_placas_entidad_bancaria = pago_placas_entidad_bancaria;
@@ -587,37 +561,31 @@ app.post('/reg-pago-placas', async (req, res) => {
       const nombre_corto_empresa = tramite.nombre_corto_empresa;
 
 
-      // Verificar si el valor de pago_placas_valor está vacío o no es un número válido
+
       if (!pago_placas_valor || isNaN(pago_placas_valor)) {
-        // Si está vacío o no es un número válido, establecer el valor predeterminado a 0
         tramite.pago_placas_valor = 0;
       } else {
-        // Si es un número válido, convertirlo a número decimal y asignarlo
         tramite.pago_placas_valor = parseFloat(pago_placas_valor);
       }
 
 
-      // Verificar si la fecha de pago está presente y es válida
+
       if (pago_placas_fecha && pago_placas_fecha !== 'Invalid date') {
         tramite.pago_placas_fecha = pago_placas_fecha;
       } else {
-        // Si no se proporciona una fecha válida, establecerla como null o cualquier otro valor predeterminado
-        tramite.pago_placas_fecha = null; // O cualquier otro valor predeterminado que desees
+        tramite.pago_placas_fecha = null;
       }
 
       tramite.pago_placas_valor = pago_placas_valor;
 
-      // Guardar los cambios en la base de datos
       console.log('Guardando cambios en la base de datos...');
       await tramite.save();
 
       console.log('Trámite actualizado y guardado en la base de datos');
 
-      // Redirigir a una página de éxito o mostrar un mensaje de éxito
-
       res.redirect(`/tramite-registrado?placa=${placa}&tipo_tramite=${tipo_tramite}&id_tramite=${id_tramite}&id_usuario=${id_usuario}&nombre_usuario=${nombre_usuario}&clase_vehiculo=${clase_vehiculo}&clase_transporte=${clase_transporte}&fecha_ingreso=${fecha_ingreso}&numero_adhesivo=${numero_adhesivo}&numero_matricula=${numero_matricula}&username=${username}&nombre_corto_empresa=${nombre_corto_empresa}`);
     } else {
-      // Si no se encuentra el trámite, redirigir o mostrar un mensaje de error
+
       console.log('Trámite no encontrado');
       res.redirect('/error-tramite-no-encontrado');
     }
@@ -710,21 +678,17 @@ app.post('/eliminar-tramite', async (req, res) => {
 
     console.log('ID del trámite a eliminar:', id_tramite);
 
-    // Buscar y eliminar el trámite por su ID
     console.log('Buscando el trámite por ID:', id_tramite);
     const tramite = await RegistroTramites.findByPk(id_tramite);
 
     if (tramite) {
-      // Eliminar el trámite de la base de datos
       console.log('Trámite encontrado. Eliminando...');
       await tramite.destroy();
 
       console.log('Trámite eliminado');
 
-      // Redirigir a una página de éxito o mostrar un mensaje de éxito
       res.render('home');
     } else {
-      // Si no se encuentra el trámite, redirigir o mostrar un mensaje de error
       console.log('Trámite no encontrado');
       res.redirect('/error-tramite-no-encontrado');
     }
@@ -743,7 +707,6 @@ app.post('/login', async (req, res) => {
     });
 
     if (user) {
-      // Obtener los datos del usuario
       const userData = {
         id_funcionario: user.id_funcionario,
         username: user.username,
@@ -765,7 +728,7 @@ app.post('/login', async (req, res) => {
       req.session.user = userData;
       res.json({ success: true, user: userData });
     } else {
-      // Mostrar notificación de error
+
       toastr.error('Inicio de sesión fallido. Verifica tus credenciales.');
       res.status(401).json({ success: false, message: 'Inicio de sesión fallido. Verifica tus credenciales.' });
     }
@@ -777,14 +740,11 @@ app.post('/login', async (req, res) => {
 
 app.get('/home', (req, res) => {
   if (req.session.user) {
-    // Si el usuario tiene una sesión activa, permite el acceso a home.html
     res.render('home');
   } else {
-    // Si no hay sesión activa, redirige a la página de inicio de sesión
     res.redirect('/');
   }
 });
-
 
 
 
@@ -801,22 +761,20 @@ app.get('/PDFreport-diario', (req, res) => {
 
 app.get('/call-PDF-report-diario', (req, res) => {
   if (req.session.user) {
-    // Llamar a la función generar-reporte-diario antes de renderizar la vista
+
 
     const fecha_ingresoPDF = req.query.fecha_ingreso;
 
 
 
 
-    // Renderizar la vista PDFreport-diario con los datos del usuario
+
     res.render('reporte-diario2', { userData: req.session.user, fecha_ingresoPDF });
   } else {
-    // Redirigir al inicio si no hay usuario en la sesión
+
     res.redirect('/');
   }
 });
-
-
 
 
 // Función para formatear la fecha
@@ -824,7 +782,6 @@ function obtenerFechaFormateada(fecha) {
   return new Date(fecha).toLocaleDateString();
 }
 
-// Ruta específica para servir tabler-icons.js
 app.get('/node_modules/@tabler/icons/dist/cjs/tabler-icons.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'node_modules', '@tabler', 'icons', 'dist', 'cjs', 'tabler-icons.js'));
 });

@@ -33,7 +33,7 @@ $(document).ready(function () {
                         tbody.append(newRow);
                     });
 
-                    // Agregar el evento clic a los botones de editar
+
                     response.tramites.forEach(tramite => {
                        
                         $(`#editar-${tramite.id_tramite}`).click(function () {
@@ -41,7 +41,7 @@ $(document).ready(function () {
                             const idTramite = $(this).data('id-tramite');
                             const username = $(this).data('username');
 
-                            // Verificar si el nombre de usuario de la sesión es igual al nombre de usuario del trámite
+                   
                            
     
 

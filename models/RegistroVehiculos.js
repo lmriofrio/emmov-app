@@ -9,47 +9,47 @@ const RegistroVehiculos = db.define('registro-vehiculos', {
   },
   clase_vehiculo: {
     type: DataTypes.STRING(45),
-    allowNull: true // Permitir valores nulos
+    allowNull: true 
   },
   clase_transporte: {
     type: DataTypes.STRING(45),
-    allowNull: true // Permitir valores nulos
+    allowNull: true 
   },
   id_usuario: {
     type: DataTypes.STRING(13),
-    allowNull: false // Permitir valores nulos
+    allowNull: false 
   },
   nombre_usuario: {
     type: DataTypes.STRING(45),
-    allowNull: false // Permitir valores nulos
+    allowNull: false 
   },
   canton_usuario: {
     type: DataTypes.STRING(100),
-    allowNull: true // Permitir valores nulos
+    allowNull: true 
   },
   celular_usuario: {
     type: DataTypes.STRING(10),
-    allowNull: true // Permitir valores nulos
+    allowNull: true 
   },
   email_usuario: {
     type: DataTypes.STRING(50),
-    allowNull: true // Permitir valores nulos
+    allowNull: true 
   },
   fecha_ultimo_proceso: {
     type: DataTypes.STRING(100),
-    allowNull: true // Permitir valores nulos
+    allowNull: true 
   },
   id_funcionario: {
     type: DataTypes.STRING(10),
-    allowNull: true // Permitir valores nulos
+    allowNull: true 
   },
   id_centro_matriculacion: {
     type: DataTypes.STRING(50),
-    allowNull: true // Permitir valores nulos
+    allowNull: true 
   },
   username: {
     type: DataTypes.STRING(50),
-    allowNull: true // Permitir valores nulos
+    allowNull: true 
   },
 
 

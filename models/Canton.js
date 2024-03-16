@@ -16,7 +16,7 @@ const Canton = sequelize.define('registro-cantones', {
 }, {
  
   tableName: 'registro-cantones',
-  timestamps: false // Desactiva la creación automática de timestamps (createdAt, updatedAt)
+  timestamps: false 
 });
 
 module.exports = Canton;

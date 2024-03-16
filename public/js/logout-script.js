@@ -10,7 +10,6 @@ $(document).ready(function () {
             // Redirige a la página de inicio de sesión después de cerrar sesión
             window.location.href = response.redirect;
           } else {
-            // Manejar caso de error al cerrar sesión
             console.error('Error al cerrar sesión:', response.message);
           }
         },

@@ -5,10 +5,10 @@ const Tramite = require('../models/Tramite');
 router.get('/generar-reporte-diario', async (req, res) => {
     const { fecha_ingreso, username } = req.query;
 
-    console.log('Fecha de ingreso recibida:', fecha_ingreso); // Mensaje de registro para imprimir el valor de fecha_ingreso
+    console.log('Fecha de ingreso recibida:', fecha_ingreso); 
 
     try {
-        const tramites = await Tramite.findAll({ where: { fecha_ingreso, username } }); // Filtrar por fecha_ingreso y username
+        const tramites = await Tramite.findAll({ where: { fecha_ingreso, username } }); 
 
         if (tramites.length > 0) {
             res.json({ success: true, tramites });

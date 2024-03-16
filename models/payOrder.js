@@ -18,7 +18,7 @@ class PayOrder {
       5: { concepto: 'Emisión de matrícula', valor_u: 30 },
     };
 
-    // Aplicar estructuras condicionales para el trámite
+
     if (tramite === 'TRANSFERENCIA DE DOMINIO') {
       this.resultados = [
         { id: 4, ...propiedadesComunes, ...conceptos[4] },
@@ -40,7 +40,7 @@ class PayOrder {
       ];
     }
 
-    // Calcular valor_f después de que todos los valores estén disponibles
+
     this.resultados.forEach(resultado => {
       resultado.valor_f = resultado.cantidad * resultado.valor_u;
     });

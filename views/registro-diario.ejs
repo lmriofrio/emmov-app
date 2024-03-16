@@ -20,10 +20,9 @@
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
-        
         .fixed-column {
             width: 150px;
-            
+
         }
 
         .table-container {
@@ -405,18 +404,16 @@
                                                     </th>
                                                 </tr>
                                             </thead>
+
                                             <tbody>
-                                                <% for (let i=registrosTabla1.length - 1; i>= Math.max(0,
-                                                    registrosTabla1.length - MAX_ITEMS); i--) { %>
+                                                <% for (let i = 0; i < registrosTabla1.length; i++) { %>
                                                     <tr>
-                                                        <td class="text-center"
-                                                            style="white-space: nowrap; overflow: hidden;">
+                                                        <td class="text-center" style="white-space: nowrap; overflow: hidden;">
                                                             <span>
                                                                 <%= registrosTabla1[i].numero_adhesivo %>
                                                             </span>
                                                         </td>
-                                                        <td class=""
-                                                            style="">
+                                                        <td class="" style="">
                                                             <span>
                                                                 <%= registrosTabla1[i].tipo_tramite %>
                                                             </span>
@@ -426,15 +423,17 @@
                                                                 <%= registrosTabla1[i].placa %>
                                                             </span>
                                                         </td>
-                                                        <td class=""
-                                                            style="white-space: nowrap; overflow: hidden;">
+                                                        <td class="" style="white-space: nowrap; overflow: hidden;">
                                                             <span>
                                                                 <%= registrosTabla1[i].fecha_ingreso %>
                                                             </span>
                                                         </td>
                                                     </tr>
-                                                    <% } %>
+                                                <% } %>
                                             </tbody>
+                                            
+
+
                                         </table>
                                 </div>
 
@@ -460,34 +459,32 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% for (let i=registrosTabla2.length - 1; i>= Math.max(0,
-                                                registrosTabla2.length - MAX_ITEMS); i--) { %>
+                                            <% for (let i = 0; i < registrosTabla2.length; i++) { %>
                                                 <tr>
-                                                    <td class="text-center"
-                                                        style="white-space: nowrap; overflow: hidden;">
+                                                    <td class="text-center" style="white-space: nowrap; overflow: hidden;">
                                                         <span>
                                                             <%= registrosTabla2[i].numero_matricula %>
                                                         </span>
                                                     </td>
-                                                    <td>
+                                                    <td class="" style="">
                                                         <span>
                                                             <%= registrosTabla2[i].tipo_tramite %>
                                                         </span>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="">
                                                         <span>
                                                             <%= registrosTabla2[i].placa %>
                                                         </span>
                                                     </td>
-                                                    <td class="text-center"
-                                                        style="white-space: nowrap; overflow: hidden;">
+                                                    <td class="" style="white-space: nowrap; overflow: hidden;">
                                                         <span>
                                                             <%= registrosTabla2[i].fecha_ingreso %>
                                                         </span>
                                                     </td>
                                                 </tr>
-                                                <% } %>
+                                            <% } %>
                                         </tbody>
+                                        
                                     </table>
                                 </div>
 
@@ -511,33 +508,32 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% for (let i=registrosTabla3.length - 1; i>= Math.max(0,
-                                                registrosTabla3.length - MAX_ITEMS); i--) { %>
+                                            <% for (let i = 0; i < registrosTabla3.length; i++) { %>
                                                 <tr>
-                                                    <td class="text-center">
+                                                    <td class="text-center" style="white-space: nowrap; overflow: hidden;">
                                                         <span>
                                                             <%= registrosTabla3[i].numero_certificacion %>
                                                         </span>
                                                     </td>
-                                                    <td>
+                                                    <td class="" style="">
                                                         <span>
                                                             <%= registrosTabla3[i].tipo_tramite %>
                                                         </span>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="">
                                                         <span>
                                                             <%= registrosTabla3[i].placa %>
                                                         </span>
                                                     </td>
-                                                    <td class="text-center"
-                                                        style="white-space: nowrap; overflow: hidden;">
+                                                    <td class="" style="white-space: nowrap; overflow: hidden;">
                                                         <span>
                                                             <%= registrosTabla3[i].fecha_ingreso %>
                                                         </span>
                                                     </td>
                                                 </tr>
-                                                <% } %>
+                                            <% } %>
                                         </tbody>
+                                        
                                     </table>
                                 </div>
 

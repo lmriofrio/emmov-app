@@ -1,4 +1,4 @@
-// En tu archivo de enrutamiento (por ejemplo, vehiculoRoutes.js)
+
 
 const express = require('express');
 const router = express.Router();
