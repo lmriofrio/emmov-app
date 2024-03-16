@@ -454,7 +454,7 @@ app.post('/guardar-tramite', async (req, res) => {
     });
     const id_tramite = nuevoTramite.id_tramite;
 
-    console.log(' Nuevo trámite:', nuevoTramite);
+    // console.log(' Nuevo trámite:', nuevoTramite);
 
     // Verificar si el vehículo ya existe 
     let vehiculo = await RegistroVehiculos.findOne({ where: { placa } });
@@ -777,7 +777,7 @@ app.get('/call-PDF-report-diario', (req, res) => {
 });
 
 
-// Función para formatear la fecha
+
 function obtenerFechaFormateada(fecha) {
   return new Date(fecha).toLocaleDateString();
 }

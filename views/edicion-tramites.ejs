@@ -543,16 +543,12 @@
                                             <script>
                                                 $(document).ready(function () {
                                                     $('#btnEliminarTramite').click(function (event) {
-                                                        // Evitar que el formulario se envíe automáticamente
                                                         event.preventDefault();
 
-                                                        // Obtener el ID del trámite a eliminar
                                                         const idTramite = $('#idTramiteEliminar').val();
 
-                                                        // Asignar el ID del trámite al campo oculto del formulario
                                                         $('#idTramiteEliminar').val(idTramite);
 
-                                                        // Enviar el formulario al servidor
                                                         $('#formEliminarTramite').submit();
                                                     });
                                                 });

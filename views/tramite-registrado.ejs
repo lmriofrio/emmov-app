@@ -145,7 +145,6 @@
                 </nav>
             </header>
             <!--  Fin de encabezado de pagina  -->
-            <!--  Fin de encabezado de pagina  -->
             <div class="container-fluid" style="width: 50%;">
                 <div class="widget-content searchable-container list">
 
@@ -300,7 +299,7 @@
                                                             });
                                                         })
                                                         .catch(function (error) {
-                                                            // Manejo de errores
+                                             
                                                             console.error('Error al copiar contenido al portapapeles: ', error);
                                                             alert('Error al copiar contenido al portapapeles');
                                                         });
@@ -362,18 +361,18 @@
                                 
                                 <script>
                                     document.getElementById('matriculaButton').addEventListener('click', function () {
-                                        // Obtener el contenido del segundo input
+                                       
                                         var inputContent = document.querySelector('.numero_matricula').value;
                                 
-                                        // Copiar el contenido al portapapeles
+                                       
                                         navigator.clipboard.writeText(inputContent)
                                             .then(function () {
-                                                // Acción después de copiar (opcional)
+                                               
                                                 console.log('Contenido copiado al portapapeles: ', inputContent);
                                                 alert('Contenido copiado al portapapeles: ' + inputContent);
                                             })
                                             .catch(function (error) {
-                                                // Manejo de errores
+                                            
                                                 console.error('Error al copiar contenido al portapapeles: ', error);
                                                 alert('Error al copiar contenido al portapapeles');
                                             });
