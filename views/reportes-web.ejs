@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
     <!-- Enlaces a las bibliotecas necesarias -->
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts/dist/locale/es.js"></script>
     <script src="/js/activar-items-navbar.js"></script>
@@ -19,10 +20,11 @@
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
         <aside class="left-sidebar">
             <!-- Logo Institucional-->
             <div>
-                <div class="brand-logo d-flex align-items-center justify-content-between mt-3">
+                <div class="brand-logo d-flex align-items-center justify-content-between mt-2">
                     <a href="home" class="text-nowrap logo-img d-flex justify-content-center align-items-center">
                         <img src="/images/img3.webp" class="dark-logo mx-auto" width="180" alt="" />
                     </a>
@@ -81,7 +83,7 @@
                             </ul>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="calcular-valores" aria-expanded="false">
+                            <a class="sidebar-link" href="home" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-coin"></i>
                                 </span>
@@ -132,15 +134,15 @@
             </div>
         </aside>
         <!--  Fin de barra de navegación -->
-        </aside>
+
 
         <div class="body-wrapper">
-         
+
             <header class="app-header">
                 <nav class="navbar navbar-expand-lg navbar-light">
                 </nav>
             </header>
-          
+
             <div class="container-fluid">
 
 
@@ -148,19 +150,19 @@
                     <div class="card">
                         <div class="card-body">
 
-                            
+
                             <h1>Reportes Web</h1>
 
-                           
+
                             <div id="chart"></div>
 
-                  
+
                             <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-                           
+
                             <script>
                                 document.addEventListener("DOMContentLoaded", function () {
-                                   
+
                                     var options = {
                                         chart: {
                                             type: 'bar'
@@ -174,10 +176,10 @@
                                         }
                                     };
 
-                           
+
                                     var chart = new ApexCharts(document.getElementById('chart'), options);
 
-                                  
+
                                     chart.render();
                                 });
                             </script>
@@ -191,19 +193,19 @@
                     <div class="card">
                         <div class="card-body">
 
-                           
+
                             <h1>Reportes Web</h1>
 
-                           
+
                             <div id="chart"></div>
 
-                            
+
                             <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-                            
+
                             <script>
                                 document.addEventListener("DOMContentLoaded", function () {
-                                  
+
                                     var options = {
                                         chart: {
                                             type: 'bar'
@@ -217,10 +219,10 @@
                                         }
                                     };
 
-                                  
+
                                     var chart = new ApexCharts(document.getElementById('chart'), options);
 
-                                   
+
                                     chart.render();
                                 });
                             </script>
