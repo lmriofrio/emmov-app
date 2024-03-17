@@ -156,6 +156,14 @@ app.get('/configuracion-cuenta', (req, res) => {
   }
 });
 
+app.get('/configuracion-cuenta2', (req, res) => {
+  if (req.session.user) {
+    res.render('configuracion-cuenta2', { userData: req.session.user });
+  } else {
+    res.redirect('/login');
+  }
+});
+
 app.get('/tramite-registrado', (req, res) => {
 
   if (req.session.user) {

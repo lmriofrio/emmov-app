@@ -1,0 +1,118 @@
+<!doctype html>tml
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <title>Configuraciones de la cuenta2</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+  <script src="/js/activar-items-navbar.js"></script>
+</head>
+
+<body>
+  <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Inicio de barra de navegación -->
+
+    <!--  Fin de barra de navegación -->
+    <!--  Contendio principal -->
+    <div class="body-wrapper">
+      <!--  Encabezado de pagina -->
+      <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+        </nav>
+      </header>
+      <!--  Fin de encabezado de pagina  -->
+      <div class="container-fluid">
+        <div class="card">
+          <ul class="nav nav-pills user-profile-tab" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-4 active"
+                id="pills-account-tab" data-bs-toggle="pill" data-bs-target="#pills-account" type="button" role="tab"
+                aria-controls="pills-account" aria-selected="true">
+                <i class="ti ti-user-circle me-2 fs-6"></i>
+                <span class="d-none d-md-block">Cuenta</span>
+              </button>
+            </li>
+          </ul>
+          <div class="card-body">
+            <div class="tab-content" id="pills-tabContent">
+              <div class="tab-pane fade active show" id="pills-account" role="tabpanel"
+                aria-labelledby="pills-account-tab" tabindex="0">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="cardnumbers w-100 position-relative overflow-hidden mb-0">
+                      <div class="card-body p-4">
+                        <h5 class="card-title fw-semibold">Información de la cuenta</h5>
+                        <p class="card-subtitle mb-4">Datos personales del funcionario</p>
+                        <form>
+                          <div class="row">
+                            <div class="col-lg-6">
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-semibold">Nº Identificación</label>
+                                <input type="number" class="form-control" name="id_funcionario" id="id_funcionario"
+                                  value="<%= userData.id_funcionario %>" readonly>
+                              </div>
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-semibold">Rol</label>
+                                <input type="text" class="form-control" name="rol_funcionario" id="rol_funcionario"
+                                  value="<%= userData.rol_funcionario %>" readonly>
+                              </div>
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-semibold">ID empresa</label>
+                                <input type="text" class="form-control" name="id_empresa" id="id_empresa"
+                                  value="<%= userData.id_empresa %>" readonly>
+                              </div>
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-semibold">Estado empresa</label>
+                                <input type="text" class="form-control" name="estado_empresa" id="estado_empresa"
+                                  value="<%= userData.estado_empresa %>" readonly>
+                              </div>
+                            </div>
+                            <div class="col-lg-6">
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-semibold">Nombre</label>
+                                <input type="text" class="form-control" name="nombre_funcionario"
+                                  id="nombre_funcionario" value="<%= userData.nombre_funcionario %>" readonly>
+                              </div>
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-semibold">Puesto de trabajo</label>
+                                <input type="text" class="form-control" name="nombre_puesto_funcionario"
+                                  id="nombre_puesto_funcionario" value="<%= userData.nombre_puesto_funcionario %>"
+                                  readonly>
+                              </div>
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-semibold">Nombre empresa</label>
+                                <input type="text" class="form-control" name="nombre_empresa" id="nombre_empresa"
+                                  value="<%= userData.nombre_empresa %>" readonly>
+                              </div>
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-semibold">Nombre</label>
+                                <input type="text" class="form-control" name="nombre_corto_empresa"
+                                  id="nombre_corto_empresa" value="<%= userData.nombre_corto_empresa %>" readonly>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+
+</html>
