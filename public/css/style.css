@@ -32874,6 +32874,21 @@ fieldset:disabled .btn {
     --bs-btn-disabled-border-color: var(--color-tercero);
 }
 
+.bg-tercero-subtle {
+    --bs-btn-bg: var(--color-secunadario);
+    --bs-btn-hover-color: white;
+    --bs-btn-hover-bg: var(--color-secunadario);
+    --bs-btn-hover-border-color: var(--color-secunadario);
+    --bs-btn-focus-shadow-rgb: 216, 208, 195;
+    --bs-btn-active-color: white;
+    --bs-btn-active-bg: var(--color-secunadario);
+    --bs-btn-active-border-color: var(--color-secunadario);
+    --bs-btn-active-shadow: var(--color-secunadario);
+    --bs-btn-disabled-color: white;
+    --bs-btn-disabled-bg: var(--color-secunadario);
+    --bs-btn-disabled-border-color: var(--color-secunadario);
+}
+
 
 
 
@@ -45483,7 +45498,7 @@ html[dir=rtl] .welcome-bg-img {
 .left-sidebar .scroll-sidebar {
     overflow-y: auto;
     padding: 0 24px;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 210px);
     border-radius: 7px
 }
 
@@ -45506,7 +45521,8 @@ html[dir=rtl] .welcome-bg-img {
 }
 
 .fixed-profile {
-    margin: 0 24px
+    margin: 10px 24px;
+    background: rgba(0,132,127,0.1);
 }
 
 .nav-small-cap {

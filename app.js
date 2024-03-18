@@ -6,10 +6,12 @@ const fecha_actual_ecuador = moment().format();
 const toastr = require('toastr');
 const express = require('express');
 const session = require('express-session');
+const bcryptjs = require('bcryptjs');
+
 const bodyParser = require('body-parser');
 const config = require('./config');
 const path = require('path');
-const db = require('./db');
+const connection = require('./config/db');
 const $ = require('jquery');
 const Funcionario = require('./models/Funcionario');
 const Vehiculo = require('./models/Vehiculo');
@@ -36,7 +38,7 @@ const reportesRoutes = require('./routes/reportesRoutes');
 const placasRoutes = require('./routes/placasRoutes');
 
 const MAX_ITEMS = 8;
-const { Op, literal, Sequelize } = require('sequelize');
+const { Op, literal, Sequelize } = require('./config/db');
 
 
 const formatDate = dateString => {
@@ -46,7 +48,6 @@ const formatDate = dateString => {
 };
 const fechaHoraServidor = new Date();
 console.log(fechaHoraServidor);
-
 
 
 // Configuración de Express
@@ -60,8 +61,8 @@ app.use('/js', express.static(__dirname + '/js'));
 // Middleware para procesar datos en formularios
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 
 // Configuración de Express para las seciones de los usuarios
@@ -72,7 +73,7 @@ app.use(session({
 }));
 
 // Sincronización de la base de datos
-db.sync()
+connection.sync()
   .then(() => {
     console.log('Base de datos sincronizada');
   })
@@ -117,6 +118,52 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
+app.post('/login', async (req, res) => {
+
+  const username = req.body.username;
+  const password = req.body.password;
+
+  let passwordHash = await bcryptjs.hash(password, 8);
+
+  if (username && password) {
+    try {
+      const user = await Funcionario.findOne({ where: { username: username } });
+
+      if (!user || !(await bcryptjs.compare(password, user.password))) {
+        return res.json({ message: 'CREDENCIALES INCORRECTAS' });
+      }
+      if (user) {
+        const userData = {
+          id_funcionario: user.id_funcionario,
+          username: user.username,
+          nombre_funcionario: user.nombre_funcionario,
+          rol_funcionario: user.rol_funcionario,
+          nombre_puesto_funcionario: user.nombre_puesto_funcionario,
+          jefatura_departamento: user.jefatura_departamento,
+          area_laboral: user.area_laboral,
+          id_empresa: user.id_empresa,
+          nombre_empresa: user.nombre_empresa,
+          nombre_corto_empresa: user.nombre_corto_empresa,
+          estado_empresa: user.estado_empresa,
+          provincia_empresa: user.provincia_empresa,
+          canton_empresa: user.canton_empresa,
+          id_centro_matriculacion: user.id_centro_matriculacion,
+          nombre_centro_matriculacion: user.nombre_centro_matriculacion,
+          canton_centro_matriculacion: user.canton_centro_matriculacion,
+        };
+        req.session.user = userData;
+        return res.json({ success: true, user: userData });
+      }
+    } catch (error) {
+      console.error('Error al autenticar el usuario:', error);
+      return res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+  } else {
+    return res.status(400).json({ success: false, message: 'Nombre de usuario y contraseña requeridos' });
+  }
+});
+
+
 app.post('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -140,25 +187,20 @@ app.get('/reporte-diario', (req, res) => {
   }
 });
 
-app.get('/reporte-diario2', (req, res) => {
+app.post('/reporte-diario2', (req, res) => {
   if (req.session.user) {
-    res.render('reporte-diario2', { userData: req.session.user });
+    const fecha_ingreso_PDF = req.body.fecha_ingreso_pdf;
+    res.render('reporte-diario2', { userData: req.session.user, fecha_ingreso_PDF });
   } else {
     res.redirect('/login');
   }
 });
+
+
 
 app.get('/configuracion-cuenta', (req, res) => {
   if (req.session.user) {
     res.render('configuracion-cuenta', { userData: req.session.user });
-  } else {
-    res.redirect('/login');
-  }
-});
-
-app.get('/configuracion-cuenta2', (req, res) => {
-  if (req.session.user) {
-    res.render('configuracion-cuenta2', { userData: req.session.user });
   } else {
     res.redirect('/login');
   }
@@ -239,14 +281,13 @@ app.get('/listado-tramites', async (req, res) => {
       offset: offset
     });
 
-    console.log(' USERNAME EN SECION:  ', usernameSesion);
-
     res.render('listado-tramites', {
       usernameSesion,
       tramites,
       pageNum: page,
       totalPages: totalPages,
-      formatDate
+      formatDate,
+      userData: req.session.user
     });
   } else {
 
@@ -257,66 +298,72 @@ app.get('/listado-tramites', async (req, res) => {
 const PAGE_SIZE = 10;
 
 app.get('/report-plate', async (req, res) => {
-  try {
-    const currentYear = moment().year();
 
-    const filter = {
-      [Op.and]: [
-        {
-          tipo_tramite: {
-            [Op.or]: [
-              "CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR",
-              "CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO",
-              "CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA",
-              "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A COMERCIAL",
-              "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PARTICULAR",
-              "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO",
-              "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A USO DE CUENTA PROPIA",
-              "CAMBIO DE SERVICIO DE PARTICULAR A COMERCIAL",
-              "CAMBIO DE SERVICIO DE PARTICULAR A ESTATAL U OFICIAL",
-              "CAMBIO DE SERVICIO DE PARTICULAR A PUBLICO",
-              "CAMBIO DE SERVICIO DE PARTICULAR A USO DE CUENTA PROPIA",
-              "CAMBIO DE SERVICIO DE PARTICULAR A USO DIPLOMATICO U ORGANISMOS INTERNACIONALES",
-              "CAMBIO DE SERVICIO DE PUBLICO A COMERCIAL",
-              "CAMBIO DE SERVICIO DE PUBLICO A PARTICULAR",
-              "CAMBIO DE SERVICIO DE PUBLICO A USO DE CUENTA PROPIA",
-              "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A COMERCIAL",
-              "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR",
-              "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PUBLICO",
-              "DUPLICADO DE PLACAS",
-              "EMISION DE MATRICULA POR PRIMERA VEZ"
+  if (req.session.user) {
+    try {
+      const currentYear = moment().year();
 
-            ]
-          }
-        },
+      const filter = {
+        [Sequelize.Op.and]: [
+          {
+            tipo_tramite: {
+              [Sequelize.Op.or]: [
+                "CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR",
+                "CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO",
+                "CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA",
+                "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A COMERCIAL",
+                "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PARTICULAR",
+                "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO",
+                "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A USO DE CUENTA PROPIA",
+                "CAMBIO DE SERVICIO DE PARTICULAR A COMERCIAL",
+                "CAMBIO DE SERVICIO DE PARTICULAR A ESTATAL U OFICIAL",
+                "CAMBIO DE SERVICIO DE PARTICULAR A PUBLICO",
+                "CAMBIO DE SERVICIO DE PARTICULAR A USO DE CUENTA PROPIA",
+                "CAMBIO DE SERVICIO DE PARTICULAR A USO DIPLOMATICO U ORGANISMOS INTERNACIONALES",
+                "CAMBIO DE SERVICIO DE PUBLICO A COMERCIAL",
+                "CAMBIO DE SERVICIO DE PUBLICO A PARTICULAR",
+                "CAMBIO DE SERVICIO DE PUBLICO A USO DE CUENTA PROPIA",
+                "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A COMERCIAL",
+                "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR",
+                "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PUBLICO",
+                "DUPLICADO DE PLACAS",
+                "EMISION DE MATRICULA POR PRIMERA VEZ"
 
-        literal(`YEAR(fecha_ingreso) = ${currentYear}`)
-      ]
-    };
+              ]
+            }
+          },
 
-    const totalRecords = await Tramite.count({ where: filter });
+          literal(`YEAR(fecha_ingreso) = ${currentYear}`)
+        ]
+      };
 
-    const totalPages = Math.ceil(totalRecords / PAGE_SIZE);
+      const totalRecords = await Tramite.count({ where: filter });
 
-    const page = req.query.page ? parseInt(req.query.page) : 1;
-    const offset = (page - 1) * PAGE_SIZE;
+      const totalPages = Math.ceil(totalRecords / PAGE_SIZE);
+
+      const page = req.query.page ? parseInt(req.query.page) : 1;
+      const offset = (page - 1) * PAGE_SIZE;
 
 
-    const tramites = await Tramite.findAll({
-      where: filter,
-      limit: PAGE_SIZE,
-      offset: offset
-    });
+      const tramites = await Tramite.findAll({
+        where: filter,
+        limit: PAGE_SIZE,
+        offset: offset
+      });
 
-    res.render('report-plate', {
-      tramites,
-      pageNum: page,
-      totalPages: totalPages,
-      formatDate
-    });
-  } catch (error) {
-    console.error('Error al obtener los datos de los trámites:', error);
-    res.status(500).send('Error al obtener los datos de los trámites');
+      res.render('report-plate', {
+        tramites,
+        pageNum: page,
+        totalPages: totalPages,
+        formatDate,
+        userData: req.session.user
+      });
+    } catch (error) {
+      console.error('Error al obtener los trámites:', error);
+      res.status(500).send('Error al obtener los trámites');
+    }
+  } else {
+    res.redirect('/login');
   }
 });
 
@@ -356,6 +403,7 @@ app.get('/registro-diario', async (req, res) => {
   try {
 
     if (req.session.user) {
+
       mostrarModal = true;
 
       const username = req.session.user.username;
@@ -430,7 +478,7 @@ app.get('/registro-diario', async (req, res) => {
 
       //console.log('REGISTROS DE LA TABLA 1:', registrosTabla1);
 
-      res.render('registro-diario', { tiposTramites, tiposCantones, registrosTabla1, registrosTabla2, registrosTabla3 });
+      res.render('registro-diario', { tiposTramites, tiposCantones, registrosTabla1, registrosTabla2, registrosTabla3, userData: req.session.user });
     } else {
       res.redirect('/login');
     }
@@ -448,11 +496,6 @@ app.post('/guardar-tramite', async (req, res) => {
 
     const { placa, tipo_tramite, id_usuario, nombre_usuario, celular_usuario, email_usuario, canton_usuario, clase_vehiculo, clase_transporte, fecha_ingreso, numero_fojas, numero_adhesivo, numero_matricula } = req.body;
 
-
-    if (placa.length >= 8) {
-      $('#modalPlacaExtensa').modal('show');
-      return;
-    }
 
     // Guardar el nuevo trámite 
     const nuevoTramite = await RegistroTramites.create({
@@ -707,48 +750,10 @@ app.post('/eliminar-tramite', async (req, res) => {
 });
 
 
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const user = await Funcionario.findOne({
-      where: { username, password }
-    });
-
-    if (user) {
-      const userData = {
-        id_funcionario: user.id_funcionario,
-        username: user.username,
-        nombre_funcionario: user.nombre_funcionario,
-        rol_funcionario: user.rol_funcionario,
-        nombre_puesto_funcionario: user.nombre_puesto_funcionario,
-        jefatura_departamento: user.jefatura_departamento,
-        area_laboral: user.area_laboral,
-        id_empresa: user.id_empresa,
-        nombre_empresa: user.nombre_empresa,
-        nombre_corto_empresa: user.nombre_corto_empresa,
-        estado_empresa: user.estado_empresa,
-        provincia_empresa: user.provincia_empresa,
-        canton_empresa: user.canton_empresa,
-        id_centro_matriculacion: user.id_centro_matriculacion,
-        nombre_centro_matriculacion: user.nombre_centro_matriculacion,
-        canton_centro_matriculacion: user.canton_centro_matriculacion,
-      };
-      req.session.user = userData;
-      res.json({ success: true, user: userData });
-    } else {
-
-      toastr.error('Inicio de sesión fallido. Verifica tus credenciales.');
-      res.status(401).json({ success: false, message: 'Inicio de sesión fallido. Verifica tus credenciales.' });
-    }
-  } catch (error) {
-    console.error('Error al autenticar el usuario:', error);
-    res.status(500).json({ success: false, message: 'Error interno del servidor' });
-  }
-});
 
 app.get('/home', (req, res) => {
   if (req.session.user) {
-    res.render('home');
+    res.render('home', { userData: req.session.user });
   } else {
     res.redirect('/');
   }

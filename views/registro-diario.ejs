@@ -11,6 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="/js/buscar-vehiculo.js"></script>
+    <script src="/js/activar-items-navbar.js"></script>
     <script src="/js/buscar-usuario.js"></script>
     <script src="/js/cargar-tipos-tramites.js"></script>
     <script src="/js/cargar-cantones.js"></script>
@@ -41,6 +42,11 @@
         <aside class="left-sidebar">
             <!-- Logo Institucional-->
             <div>
+                <div class="brand-logo d-flex align-items-center justify-content-between mt-2">
+                    <a href="home" class="text-nowrap logo-img d-flex justify-content-center align-items-center">
+                        <img src="/images/img3.png" class="dark-logo mx-auto" width="180" alt="" />
+                    </a>
+                </div>
                 <!-- Barra de navegación-->
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar>
                     <ul id="sidebarnav">
@@ -141,8 +147,23 @@
                             </a>
                         </li>
                     </ul>
+
                 </nav>
                 <!-- Barra de navegación -->
+                <div class="fixed-profile p-3 mx-4 mb-3  rounded mt-3">
+                    <div class="hstack gap-3">
+                        <div class="john-img" style="width: 40px; height: 40px;">
+                            <img src="/images/user.png" class="rounded-circle" width="40" height="40" alt="">
+                        </div>
+                      <div class="john-title">
+                        <h6 class="mb-0 fs-4 fw-semibold"><%= userData.username %></h6>
+                        <span class="fs-2"><%= userData.nombre_funcionario %></span>
+                    </div>
+                    </div>
+                  </div>
+
+
+
             </div>
         </aside>
         <!--  Fin de barra de navegación -->
@@ -300,21 +321,19 @@
                                                         </div>
                                                     </div>
 
+                                                    
+
                                                     <script>
-                                                        
                                                         document.addEventListener('DOMContentLoaded', function () {
-                                                            
-                                                           
-                                                            var fechaActual = new Date();
-                                                    
-                                                       
-                                                            var formattedDate = fechaActual.toISOString().substr(0, 10);
-                                                    
-                                                            
+                                                            var fechaUTC = new Date();
+                                                            var desplazamientoNavegador = fechaUTC.getTimezoneOffset();
+                                                            var desplazamientoEcuador = -300; 
+                                                            var fechaEcuador = new Date(fechaUTC.getTime() + (desplazamientoEcuador - desplazamientoNavegador) * 60000);
+                                                            var formattedDate = fechaEcuador.toISOString().substr(0, 10);
                                                             document.getElementById('fecha_ingreso').value = formattedDate;
                                                         });
                                                     </script>
-                                                    
+
 
 
                                                     <div class="col">

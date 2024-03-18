@@ -7,6 +7,8 @@ $(document).ready(function () {
         const rol_funcionario = $('input[name="rol_funcionario"]').val();
         const nombre_funcionario = $('input[name="nombre_funcionario"]').val();
 
+        $('input[name="fecha_ingreso_pdf"]').val(fecha_ingreso);
+
 
         if (!fecha_ingreso) {
             alert('Por favor ingresa una fecha válida.');

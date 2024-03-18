@@ -7,7 +7,7 @@ $(document).ready(function () {
         url: '/logout',
         success: function (response) {
           if (response.success) {
-            // Redirige a la página de inicio de sesión después de cerrar sesión
+            
             window.location.href = response.redirect;
           } else {
             console.error('Error al cerrar sesión:', response.message);

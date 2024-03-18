@@ -1,7 +1,7 @@
 
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db'); 
+const sequelize = require('../config/db'); 
 
 const Tramite = sequelize.define('registro-tramites', {
 
@@ -216,7 +216,8 @@ const Tramite = sequelize.define('registro-tramites', {
 }, {
  
   tableName: 'registro-tramites',
-  timestamps: false 
+  timestamps: false,
+  indexes: []
 });
 
 module.exports = Tramite;

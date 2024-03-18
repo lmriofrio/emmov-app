@@ -1,4 +1,4 @@
-// login-script.js
+
 
 $(document).ready(function () {
     $('#loginForms').submit(function (event) {
@@ -10,7 +10,6 @@ $(document).ready(function () {
         data: formData,
         success: function (response) {
           if (response.success) {
-            // Redirige a la página de inicio si la autenticación es exitosa
             window.location.href = '/home';
           } else {
             $('#errorMessage').text(response.message);

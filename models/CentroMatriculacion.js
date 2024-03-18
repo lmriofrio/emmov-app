@@ -3,7 +3,7 @@
 ////////////////////////////////////
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db'); 
+const sequelize = require('../config/db');  
 
 const CentroMatriculacion = sequelize.define('registro-centro-matriculacion', {
   id_centro_matriculacion: {
@@ -38,7 +38,8 @@ const CentroMatriculacion = sequelize.define('registro-centro-matriculacion', {
 }, {
  
   tableName: 'registro-centro-matriculacion',
-  timestamps: false 
+  timestamps: false,
+  indexes: []
 });
 
 module.exports = CentroMatriculacion;

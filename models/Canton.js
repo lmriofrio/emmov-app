@@ -1,7 +1,7 @@
 // models/canton.js
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db'); 
+const sequelize = require('../config/db'); 
 
 const Canton = sequelize.define('registro-cantones', {
   id_canton: {
@@ -16,7 +16,8 @@ const Canton = sequelize.define('registro-cantones', {
 }, {
  
   tableName: 'registro-cantones',
-  timestamps: false 
+  timestamps: false,
+  indexes: []
 });
 
 module.exports = Canton;

@@ -4,7 +4,7 @@
 
 
 const { DataTypes } = require('sequelize');
-const db = require('../db'); 
+const db = require('../config/db'); 
 
 const Funcionario = db.define('Funcionario', {
   id_funcionario: {
@@ -85,7 +85,8 @@ const Funcionario = db.define('Funcionario', {
   },
 }, {
   tableName: 'registro-funcionarios',
-  timestamps: false 
+  timestamps: false,
+  indexes: []
 });
 
 module.exports = Funcionario; 

@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const db = require('../db');
+const db = require('../config/db'); 
 
 const RegistroTramites = db.define('registro-tramites', {
   id_tramite: {
@@ -142,6 +142,7 @@ const RegistroTramites = db.define('registro-tramites', {
 }, {
   tableName: 'registro-tramites',
   timestamps: false,
+  indexes: []
 });
 
 module.exports = RegistroTramites;
