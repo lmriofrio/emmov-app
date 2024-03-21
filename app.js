@@ -295,7 +295,7 @@ app.get('/listado-tramites', async (req, res) => {
   }
 });
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 
 app.get('/report-plate', async (req, res) => {
 
@@ -426,7 +426,7 @@ app.get('/registro-diario', async (req, res) => {
           }
         },
         order: [['id_tramite', 'DESC']],
-        limit: 5
+        limit: 3
       });
 
       const registrosTabla2 = await RegistroTramites.findAll({
@@ -447,7 +447,7 @@ app.get('/registro-diario', async (req, res) => {
           }
         },
         order: [['id_tramite', 'DESC']],
-        limit: 5
+        limit: 3
       });
 
       const registrosTabla3 = await RegistroTramites.findAll({
@@ -724,30 +724,36 @@ app.post('/act-tramite', async (req, res) => {
 });
 
 app.post('/eliminar-tramite', async (req, res) => {
-  try {
-    const { id_tramite } = req.body;
 
-    console.log('ID del trámite a eliminar:', id_tramite);
+  if (req.session.user) {
+    try {
+      const { id_tramite } = req.body;
 
-    console.log('Buscando el trámite por ID:', id_tramite);
-    const tramite = await RegistroTramites.findByPk(id_tramite);
+      console.log('ID del trámite a eliminar:', id_tramite);
 
-    if (tramite) {
-      console.log('Trámite encontrado. Eliminando...');
-      await tramite.destroy();
+      console.log('Buscando el trámite por ID:', id_tramite);
+      const tramite = await RegistroTramites.findByPk(id_tramite);
 
-      console.log('Trámite eliminado');
+      if (tramite) {
+        console.log('Trámite encontrado. Eliminando...');
+        await tramite.destroy();
 
-      res.render('home');
-    } else {
-      console.log('Trámite no encontrado');
-      res.redirect('/error-tramite-no-encontrado');
+        console.log('Trámite eliminado');
+
+        res.render('home', { userData: req.session.user });
+      } else {
+        console.log('Trámite no encontrado');
+        res.redirect('/login');
+      }
+    } catch (error) {
+      console.error('Error al eliminar el trámite:', error);
+      res.status(500).send('Error al eliminar el trámite');
     }
-  } catch (error) {
-    console.error('Error al eliminar el trámite:', error);
-    res.status(500).send('Error al eliminar el trámite');
+  } else {
+    res.redirect('/login');
   }
 });
+
 
 
 

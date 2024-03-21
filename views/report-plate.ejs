@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    
+
     <script src="/js/activar-items-navbar.js"></script>
     <script src="/js/spinners.js"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -139,12 +139,16 @@
                         <div class="john-img" style="width: 40px; height: 40px;">
                             <img src="/images/user.png" class="rounded-circle" width="40" height="40" alt="">
                         </div>
-                      <div class="john-title">
-                        <h6 class="mb-0 fs-4 fw-semibold"><%= userData.username %></h6>
-                        <span class="fs-2"><%= userData.nombre_funcionario %></span>
+                        <div class="john-title">
+                            <h6 class="mb-0 fs-4 fw-semibold">
+                                <%= userData.username %>
+                            </h6>
+                            <span class="fs-2">
+                                <%= userData.nombre_funcionario %>
+                            </span>
+                        </div>
                     </div>
-                    </div>
-                  </div>
+                </div>
 
 
 
@@ -208,37 +212,57 @@
                                         <th class="text-center align-middle">TRÁMITE</th>
                                         <th class="text-center align-middle">FECHA</th>
                                         <th class="text-center align-middle">PROCESO</th>
-                                        <th class="text-center align-middle">CENTRO DE ATENCIÓN</th>
-                                        <th class="text-center align-middle">IDENTIFICACIÓN</th>
-                                        <th class="text-center align-middle">PROPIETARIO</th>
                                         <th class="text-center align-middle">PLACA</th>
+                                        <th class="text-center align-middle">FUNCIONARIO</th>
                                         <th class="text-center align-middle">ENTIDAD BANCARIA</th>
                                         <th class="text-center align-middle">COMPROBANTE</th>
                                         <th class="text-center align-middle">FECHA DE PAGO</th>
                                         <th class="text-center align-middle">VALOR</th>
                                         <th class="text-center align-middle">TIPO DE SERVICIO</th>
+                                        <th class="text-center align-middle">TRÁMITE AXIS</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <% tramites.forEach(tramite=> { %>
-                                    <tr>
-                                        <td><%= tramite.id_tramite %></td>
-                                        <td><%= formatDate(tramite.fecha_finalizacion) %></td>
-                                        <td><%= tramite.tipo_tramite %></td>
-                                        <td><%= tramite.nombre_corto_empresa %></td>
-                                        <td><%= tramite.id_usuario %></td>
-                                        <td><%= tramite.nombre_usuario %></td>
-                                        <td><%= tramite.placa %></td>
-                                        <td><%= tramite.pago_placas_entidad_bancaria %></td>
-                                        <td><%= tramite.pago_placas_comprobante %></td>
-                                        <td><%= tramite.pago_placas_fecha %></td>
-                                        <td><%= tramite.pago_placas_valor %></td>
-                                        <td><%= tramite.pago_placas_newservicio %></td>
-                                    </tr>
-                                    <% }); %>
+                                        <tr>
+                                            <td class="text-center">
+                                                <%= tramite.id_tramite %>
+                                            </td>
+                                            <td>
+                                                <%= formatDate(tramite.fecha_finalizacion) %>
+                                            </td>
+                                            <td>
+                                                <%= tramite.tipo_tramite %>
+                                            </td>
+                                            <td class="text-center">
+                                                <%= tramite.placa %>
+                                            </td>
+                                            <td>
+                                                <%= tramite.nombre_funcionario %>
+                                            </td>
+                                            <td>
+                                                <%= tramite.pago_placas_entidad_bancaria %>
+                                            </td>
+                                            <td>
+                                                <%= tramite.pago_placas_comprobante %>
+                                            </td>
+                                            <td>
+                                                <%= tramite.pago_placas_fecha %>
+                                            </td>
+                                            <td>
+                                                <%= tramite.pago_placas_valor %>
+                                            </td>
+                                            <td>
+                                                <%= tramite.pago_placas_newservicio %>
+                                            </td>
+                                            <td>
+                                                <%= tramite.id_tramite_axis %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
                                 </tbody>
                             </table>
-                            
+
 
 
 
@@ -254,23 +278,26 @@
                                             </span>
                                         </a>
                                     </li>
-                                    
-                                    <% for (let i=1; i <=totalPages; i++) { %>
-                                        <li class="page-item">
+                            
+                                    <% for (let i = 1; i <= totalPages; i++) { %>
+                                        <li class="page-item <%= i === pageNum ? 'actives' : '' %>">
                                             <a class="page-link link" href="/report-plate?page=<%= i %>">
                                                 <%= i %>
                                             </a>
                                         </li>
-                                        <% } %>
-                                            <li class="page-item">
-                                                <a class="page-link link" href="#" aria-label="Next">
-                                                    <span aria-hidden="true">
-                                                        <i class="ti ti-chevrons-right fs-4"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
+                                    <% } %>
+                            
+                                    <li class="page-item">
+                                        <a class="page-link link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">
+                                                <i class="ti ti-chevrons-right fs-4"></i>
+                                            </span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </nav>
+                            
+                            
                             <div class="d-flex justify-content-center gap-2">
                                 <div class="text-end">
                                     <button type="submit"
