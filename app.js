@@ -1,13 +1,10 @@
 const moment = require('moment-timezone');
 moment.tz.setDefault('America/Guayaquil');
-
 const fecha_actual_ecuador = moment().format();
-
 const toastr = require('toastr');
 const express = require('express');
 const session = require('express-session');
 const bcryptjs = require('bcryptjs');
-
 const bodyParser = require('body-parser');
 const config = require('./config');
 const path = require('path');
@@ -20,7 +17,6 @@ const Canton = require('./models/Canton');
 const CentroMatriculacion = require('./models/CentroMatriculacion');
 const Tramite = require('./models/Tramite');
 const favicon = require('serve-favicon');
-
 const RegistroTramites = require('./models/RegistroTramites');
 const RegistroVehiculos = require('./models/RegistroVehiculos');
 const RegistroUsuarios = require('./models/RegistroUsuarios');
@@ -35,6 +31,7 @@ const vehiculoRoutes = require('./routes/vehiculoRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const tramiteRoutes = require('./routes/tramiteRoutes');
 const reportesRoutes = require('./routes/reportesRoutes');
+const reportesEspeciesRoutes = require('./routes/reportesEspeciesRoutes');
 const placasRoutes = require('./routes/placasRoutes');
 
 const MAX_ITEMS = 8;
@@ -101,6 +98,7 @@ app.use('/', placasRoutes);
 app.use('/', usuarioRoutes);
 app.use('/', tramiteRoutes);
 app.use('/', reportesRoutes);
+app.use('/', reportesEspeciesRoutes);
 
 
 // 3.- RUTAS                     
@@ -187,16 +185,60 @@ app.get('/reporte-diario', (req, res) => {
   }
 });
 
-app.post('/reporte-diario2', (req, res) => {
+app.post('/reporte-diario-pdf', (req, res) => {
   if (req.session.user) {
     const fecha_ingreso_PDF = req.body.fecha_ingreso_pdf;
-    res.render('reporte-diario2', { userData: req.session.user, fecha_ingreso_PDF });
+    res.render('reporte-diario-pdf', { userData: req.session.user, fecha_ingreso_PDF });
+  } else {
+    res.redirect('/login');
+  }
+});
+
+app.get('/reporte-diario-especies', (req, res) => {
+  if (req.session.user) {
+    res.render('reporte-diario-especies', { userData: req.session.user });
   } else {
     res.redirect('/login');
   }
 });
 
 
+
+app.post('/reporte-diario-especies-pdf', (req, res) => {
+  if (req.session.user) {
+    const fecha_ingreso_PDF = req.body.fecha_ingreso_pdf;
+    res.render('reporte-diario-especies-pdf', { userData: req.session.user, fecha_ingreso_PDF });
+  } else {
+    res.redirect('/login');
+  }
+});
+
+app.get('/ingreso-resoluciones', async (req, res) => {
+  try {
+    if (req.session.user) {
+
+      mostrarModal = true;
+
+      const username = req.session.user.username;
+      const selectorTramites = new SeleccionarTipoTramites();
+      const selectorCantones = new SeleccionarCantones();
+
+      const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
+      const obtenerCantonesAsync = util.promisify(selectorCantones.obtenerTiposCantones.bind(selectorCantones));
+      const tiposTramites = await obtenerTiposTramitesAsync();
+      const tiposCantones = await obtenerCantonesAsync();
+
+      //console.log('REGISTROS DE LA TABLA 1:', registrosTabla1);
+
+      res.render('ingreso-resoluciones', { tiposTramites, tiposCantones, userData: req.session.user });
+    } else {
+      res.redirect('/login');
+    }
+  } catch (error) {
+    console.error('Error al obtener los registros:', error);
+    res.status(500).send('Error al obtener los registros');
+  }
+});
 
 app.get('/configuracion-cuenta', (req, res) => {
   if (req.session.user) {
@@ -217,7 +259,6 @@ app.get('/tramite-registrado', (req, res) => {
     res.redirect('/login');
   }
 });
-
 
 app.get('/edicion-tramites', async (req, res) => {
   try {
@@ -253,7 +294,6 @@ app.get('/edicion-tramites', async (req, res) => {
   }
 });
 
-
 app.get('/registrar-pago-placas', (req, res) => {
   if (req.session.user) {
     const { placa, tipo_tramite, id_tramite, id_usuario, nombre_usuario, clase_vehiculo, clase_transporte } = req.query;
@@ -263,13 +303,12 @@ app.get('/registrar-pago-placas', (req, res) => {
   }
 });
 
-
-
 app.get('/listado-tramites', async (req, res) => {
 
   if (req.session.user) {
 
     const usernameSesion = req.session.user.username;
+    const PAGE_SIZE = 20;
     const totalRecords = await Tramite.count();
     const totalPages = Math.ceil(totalRecords / PAGE_SIZE);
 
@@ -295,13 +334,13 @@ app.get('/listado-tramites', async (req, res) => {
   }
 });
 
-const PAGE_SIZE = 20;
 
 app.get('/report-plate', async (req, res) => {
 
   if (req.session.user) {
     try {
       const currentYear = moment().year();
+      const PAGE_SIZE = 20;
 
       const filter = {
         [Sequelize.Op.and]: [
@@ -337,6 +376,7 @@ app.get('/report-plate', async (req, res) => {
         ]
       };
 
+
       const totalRecords = await Tramite.count({ where: filter });
 
       const totalPages = Math.ceil(totalRecords / PAGE_SIZE);
@@ -367,8 +407,6 @@ app.get('/report-plate', async (req, res) => {
   }
 });
 
-
-
 app.get('/calcular-valores', async (req, res) => {
   try {
     const registros = await RegistroTramites.findAll();
@@ -397,7 +435,6 @@ app.post('/calcular-valores', async (req, res) => {
     res.status(500).send('Error ');
   }
 });
-
 
 app.get('/registro-diario', async (req, res) => {
   try {
@@ -465,7 +502,48 @@ app.get('/registro-diario', async (req, res) => {
           }
         },
         order: [['id_tramite', 'DESC']],
-        limit: 2
+        limit: 3
+      });
+
+      const currentDate = new Date();
+      const currentYear = new Date().getFullYear();
+      const currentMonth = new Date().getMonth() + 1; 
+      const lastDayOfMonth = new Date(currentYear, currentMonth, 0).getDate();
+      const currentDay = currentDate.getDate();
+
+      //console.log('el año actual:', currentsYear);
+
+      const tramitesAnual = await RegistroTramites.count({
+        where: {
+          username,
+          fecha_ingreso: {
+            [Sequelize.Op.between]: [`${currentYear}-01-01`, `${currentYear}-12-31`]
+          }
+        }
+      });
+
+      const tramitesMensuales = await RegistroTramites.count({
+        where: {
+          username,
+          fecha_ingreso: {
+            [Sequelize.Op.and]: [
+              { [Sequelize.Op.gte]: `${currentYear}-${currentMonth}-01` }, 
+              { [Sequelize.Op.lte]: `${currentYear}-${currentMonth}-${lastDayOfMonth}` } 
+            ]
+          }
+        }
+      })
+
+      const tramitesDiarios = await RegistroTramites.count({
+        where: {
+          username,
+          fecha_ingreso: {
+            [Sequelize.Op.and]: [
+              { [Sequelize.Op.gte]: `${currentYear}-${currentMonth}-${currentDay}` }, 
+              { [Sequelize.Op.lte]: `${currentYear}-${currentMonth}-${currentDay} 23:59:59` } 
+            ]
+          }
+        }
       });
 
       const selectorTramites = new SeleccionarTipoTramites();
@@ -478,7 +556,8 @@ app.get('/registro-diario', async (req, res) => {
 
       //console.log('REGISTROS DE LA TABLA 1:', registrosTabla1);
 
-      res.render('registro-diario', { tiposTramites, tiposCantones, registrosTabla1, registrosTabla2, registrosTabla3, userData: req.session.user });
+      res.render('registro-diario', { tiposTramites, tiposCantones, registrosTabla1, registrosTabla2, registrosTabla3, tramitesAnual, tramitesMensuales,  
+        tramitesDiarios, userData: req.session.user });
     } else {
       res.redirect('/login');
     }
@@ -487,7 +566,6 @@ app.get('/registro-diario', async (req, res) => {
     res.status(500).send('Error al obtener los registros');
   }
 });
-
 
 app.post('/guardar-tramite', async (req, res) => {
   try {
@@ -754,9 +832,6 @@ app.post('/eliminar-tramite', async (req, res) => {
   }
 });
 
-
-
-
 app.get('/home', (req, res) => {
   if (req.session.user) {
     res.render('home', { userData: req.session.user });
@@ -765,42 +840,9 @@ app.get('/home', (req, res) => {
   }
 });
 
-
-
-app.get('/PDFreport-diario', (req, res) => {
-  if (req.session.user) {
-
-    res.render('PDFreport-diario', { userData: req.session.user });
-  } else {
-
-    res.redirect('/');
-  }
-});
-
-
-app.get('/call-PDF-report-diario', (req, res) => {
-  if (req.session.user) {
-
-
-    const fecha_ingresoPDF = req.query.fecha_ingreso;
-
-
-
-
-
-    res.render('reporte-diario2', { userData: req.session.user, fecha_ingresoPDF });
-  } else {
-
-    res.redirect('/');
-  }
-});
-
-
-
 function obtenerFechaFormateada(fecha) {
   return new Date(fecha).toLocaleDateString();
 }
-
 app.get('/node_modules/@tabler/icons/dist/cjs/tabler-icons.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'node_modules', '@tabler', 'icons', 'dist', 'cjs', 'tabler-icons.js'));
 });

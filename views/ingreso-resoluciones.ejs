@@ -1,11 +1,11 @@
-<!doctype html>
+<!doctype html>tml
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-    <title>Registro diario</title>
+    <title>Ingreso de resoluciónes</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
@@ -155,16 +155,12 @@
                         <div class="john-img" style="width: 40px; height: 40px;">
                             <img src="/images/user.png" class="rounded-circle" width="40" height="40" alt="">
                         </div>
-                        <div class="john-title">
-                            <h6 class="mb-0 fs-4 fw-semibold">
-                                <%= userData.username %>
-                            </h6>
-                            <span class="fs-2">
-                                <%= userData.nombre_funcionario %>
-                            </span>
-                        </div>
+                      <div class="john-title">
+                        <h6 class="mb-0 fs-4 fw-semibold"><%= userData.username %></h6>
+                        <span class="fs-2"><%= userData.nombre_funcionario %></span>
                     </div>
-                </div>
+                    </div>
+                  </div>
 
 
 
@@ -191,9 +187,8 @@
                                             <div
                                                 class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                                                 <div class="mb-3 mb-sm-0">
-                                                    <h5 class="card-title fw-semibold">Registro de trámites</h5>
-                                                    <p class="card-subtitle mb-0">Datos del vehiculo, propietario y
-                                                        trámite</p>
+                                                    <h5 class="card-title fw-semibold">Ingreso de documentos</h5>
+                                                    <p class="card-subtitle mb-0">Datos de las resoluciones</p>
                                                 </div>
 
                                                 <div class="ms-auto">
@@ -210,7 +205,7 @@
                                             </div>
 
                                             <div class="form-items">
-                                                <label for="" class="form-label fw-semibold">Placa</label>
+                                                <label for="" class="form-label fw-semibold">Proceso</label>
                                                 <div class="input-group2">
                                                     <input type="text" name="placa" class="form-control" placeholder=""
                                                         aria-label="Recipient's username"
@@ -284,9 +279,9 @@
                                                     aria-label="Default select example" autocomplete="off">
                                                     <option selected></option>
                                                     <% tiposCantones.forEach(canton=> { %>
-
+                                                        <!-- Cambiado de tiposCantones -->
                                                         <option value="<%= canton.nombre_canton %>">
-
+                                                            <!-- Cambiado de tipo a canton -->
                                                             <%= canton.nombre_canton %>
                                                         </option>
                                                         <% }); %>
@@ -325,13 +320,13 @@
                                                         </div>
                                                     </div>
 
-
+                                                    
 
                                                     <script>
                                                         document.addEventListener('DOMContentLoaded', function () {
                                                             var fechaUTC = new Date();
                                                             var desplazamientoNavegador = fechaUTC.getTimezoneOffset();
-                                                            var desplazamientoEcuador = -300;
+                                                            var desplazamientoEcuador = -300; 
                                                             var fechaEcuador = new Date(fechaUTC.getTime() + (desplazamientoEcuador - desplazamientoNavegador) * 60000);
                                                             var formattedDate = fechaEcuador.toISOString().substr(0, 10);
                                                             document.getElementById('fecha_ingreso').value = formattedDate;
@@ -344,7 +339,7 @@
                                                         <div class="form-items4">
                                                             <label for="exampleInputname"
                                                                 class="form-label fw-semibold">Nº
-                                                                Fojas</label>
+                                                                FOJAS</label>
                                                             <input type="text" name="numero_fojas" class="form-control"
                                                                 id="numero_fojas" placeholder="" autocomplete="off">
                                                         </div>
@@ -376,7 +371,7 @@
                                             </div>
 
 
-                                            <div class="text-end mt-3 gap-3">
+                                            <div class="text-end mt-4 gap-3">
                                                 <button type="submit"
                                                     class="justify-content-center btn mb-1 btn-rounded btn-primary align-items-center">
                                                     <i class="ti ti-device-floppy fs-4 me-2"></i>
@@ -390,90 +385,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-lg-12 col-md-6 col-sm-12">
-
-                                <div class="card mb-0 p-4">
-                                    <div class="row">
-
-                                        <div class="col-4">
-                                            <div class="card bg-primario-sub shadow-none mb-0">
-                                                <div class="card-body p-2 col-12">
-                                                    <div class="d-flex">
-                                                        <div class="round rounded text-bg-secondary d-flex align-items-center justify-content-center col-2"
-                                                            style="width: 30px; height: 30px;">
-                                                            <i class="ti ti-timeline fs-7"></i>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex align-items-center justify-content-center col-9">
-                                                            <h7 class="mb-0 ">ANUAL</h7>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="d-flex align-items-center justify-content-center">
-                                                        <h3 class="mb-0 fw-bold fs-7"><%= tramitesAnual %></h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-4">
-                                            <div class="card bg-primario-sub shadow-none mb-0">
-                                                <div class="card-body p-2 col-12">
-                                                    <div class="d-flex">
-                                                        <div class="round rounded text-bg-secondary d-flex align-items-center justify-content-center col-2"
-                                                            style="width: 30px; height: 30px;">
-                                                            <i class="ti ti-timeline fs-7"></i>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex align-items-center justify-content-center col-9">
-                                                            <h7 class="mb-0 ">MENSUAL</h7>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="d-flex align-items-center justify-content-center">
-                                                        <h3 class="mb-0 fw-bold fs-7"><%= tramitesMensuales %></h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-4">
-                                            <div class="card bg-primario-sub shadow-none mb-0">
-                                                <div class="card-body p-2 col-12">
-                                                    <div class="d-flex">
-                                                        <div class="round rounded text-bg-secondary d-flex align-items-center justify-content-center col-2"
-                                                            style="width: 30px; height: 30px;">
-                                                            <i class="ti ti-timeline fs-7"></i>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex align-items-center justify-content-center col-9">
-                                                            <h7 class="mb-0 ">DIARIO</h7>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="d-flex align-items-center justify-content-center">
-                                                        <h3 class="mb-0 fw-bold fs-7"><%= tramitesDiarios %></h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-
-                                    </div>
-
-
-
-                                </div>
-
-
-
-
-
-                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6 d-flex align-items-strech">
@@ -482,159 +393,6 @@
 
 
 
-
-                                <div id="tabla-container" class="table-responsive rounded-2 mb-4">
-
-                                    <table class="table table-bordered customize-table mb-0 align-middle">
-                                        <thead class="text-dark fs-3 col-lg-12">
-                                            <tr style="background: #f8fafc;">
-                                                <th class="col-md-2 text-center px-2 py-2">
-                                                    <h6 class="fs-3 fw-semibold mb-0"> ADHESIVO</h6>
-                                                </th>
-                                                <th class="col-md-8 px-2 py-2">
-                                                    <h6 class="fs-3 fw-semibold mb-0">TRÁMITE</h6>
-                                                </th>
-                                                <th class="col-md-1 text-center px-2 py-2">
-                                                    <h6 class="fs-3 fw-semibold mb-0">PLACA</h6>
-                                                </th>
-                                                <th class="col-md-1 text-center px-2 py-2">
-                                                    <h6 class="fs-3 fw-semibold mb-0">FECHA</h6>
-                                                </th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            <% for (let i=0; i < registrosTabla1.length; i++) { %>
-                                                <tr>
-                                                    <td class="text-center"
-                                                        style="white-space: nowrap; overflow: hidden;">
-                                                        <span>
-                                                            <%= registrosTabla1[i].numero_adhesivo %>
-                                                        </span>
-                                                    </td>
-                                                    <td class="" style="">
-                                                        <span>
-                                                            <%= registrosTabla1[i].tipo_tramite %>
-                                                        </span>
-                                                    </td>
-                                                    <td class="">
-                                                        <span>
-                                                            <%= registrosTabla1[i].placa %>
-                                                        </span>
-                                                    </td>
-                                                    <td class="" style="white-space: nowrap; overflow: hidden;">
-                                                        <span>
-                                                            <%= registrosTabla1[i].fecha_ingreso %>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <% } %>
-                                        </tbody>
-
-
-
-                                    </table>
-                                </div>
-
-                                <div id="tabla-container" class="table-responsive rounded-2 mb-4">
-
-                                    <table class="table table-bordered customize-table mb-0 align-middle">
-                                        <thead class="text-dark fs-3 col-lg-12">
-                                            <tr style="background: #f8fafc;">
-                                                <th class="col-md-2 text-center px-2 py-2">
-                                                    <h6 class="fs-3 fw-semibold mb-0">MATRICULA</h6>
-                                                </th>
-                                                <th class="col-md-8 px-2 py-2">
-                                                    <h6 class="fs-3 fw-semibold mb-0">TRÁMITE</h6>
-                                                </th>
-                                                <th class="col-md-1 text-center px-2 py-2">
-                                                    <h6 class="fs-3 fw-semibold mb-0">PLACA</h6>
-                                                </th>
-                                                <th class="col-md-1 text-center px-2 py-2">
-                                                    <h6 class="fs-3 fw-semibold mb-0">FECHA</h6>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% for (let i=0; i < registrosTabla2.length; i++) { %>
-                                                <tr>
-                                                    <td class="text-center"
-                                                        style="white-space: nowrap; overflow: hidden;">
-                                                        <span>
-                                                            <%= registrosTabla2[i].numero_matricula %>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <span>
-                                                            <%= registrosTabla2[i].tipo_tramite %>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <span>
-                                                            <%= registrosTabla2[i].placa %>
-                                                        </span>
-                                                    </td>
-                                                    <td style="white-space: nowrap; overflow: hidden;">
-                                                        <span>
-                                                            <%= registrosTabla2[i].fecha_ingreso %>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <% } %>
-                                        </tbody>
-
-                                    </table>
-                                </div>
-
-                                <div id="tabla-container" class="table-responsive rounded-2 mb-4">
-
-                                    <table class="table table-bordered customize-table mb-0 align-middle">
-                                        <thead class="text-dark fs-3 col-lg-12">
-                                            <tr style="background: #f8fafc;">
-                                                <th class="col-md-2 text-center px-2 py-2">
-                                                    <h6 class="fs-3 fw-semibold mb-0">PROCESOS</h6>
-                                                </th>
-                                                <th class="col-md-8 px-2 py-2">
-                                                    <h6 class="fs-3 fw-semibold mb-0">TRÁMITE</h6>
-                                                </th>
-                                                <th class="col-md-1 text-center px-2 py-2">
-                                                    <h6 class="fs-3 fw-semibold mb-0">PLACA</h6>
-                                                </th>
-                                                <th class="col-md-1 text-center px-2 py-2">
-                                                    <h6 class="fs-3 fw-semibold mb-0">FECHA</h6>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <% for (let i=0; i < registrosTabla3.length; i++) { %>
-                                                <tr>
-                                                    <td class="text-center"
-                                                        style="white-space: nowrap; overflow: hidden;">
-                                                        <span>
-                                                            <%= registrosTabla3[i].numero_certificacion %>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <span>
-                                                            <%= registrosTabla3[i].tipo_tramite %>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <span>
-                                                            <%= registrosTabla3[i].placa %>
-                                                        </span>
-                                                    </td>
-                                                    <td style="white-space: nowrap; overflow: hidden;">
-                                                        <span>
-                                                            <%= registrosTabla3[i].fecha_ingreso %>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <% } %>
-                                        </tbody>
-
-                                    </table>
-                                </div>
 
 
 
@@ -653,82 +411,6 @@
                     <span class="visually-hidden">Loading..</span>
                 </div>
             </div>
-
-            <% if (mostrarModal) { %>
-
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-                </div>
-                <% } %>
-
-
-
-
-                    <div class="modal fade" id="modalPlacaExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Error: campo placa</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>El valor en el campo ¨placa¨ es demasiado extenso. Por favor, asegúrate de que
-                                        tenga menos
-                                        de 7 caracteres.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal fade" id="modalIDExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Error: campo C.I / RUC</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>El valor en el campo ¨C.I / RUC¨ es demasiado extenso. Por favor, asegúrate de
-                                        que tenga menos
-                                        de 14 caracteres.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal fade" id="modalNameExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Error: campo nombre</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>El valor en el campo ¨NOMBRE¨ es demasiado extenso. Por favor, asegúrate de
-                                        que tenga menos de 80 caracteres.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
 
 
