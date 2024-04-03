@@ -22019,7 +22019,7 @@ progress {
 }
 
 .row {
-    --bs-gutter-x: 24px;
+    --bs-gutter-x: 12px;
     --bs-gutter-y: 0;
     display: flex;
     flex-wrap: wrap;
@@ -45815,7 +45815,7 @@ html[dir=rtl] .welcome-bg-img {
 #main-wrapper[data-layout=vertical][data-header-position=fixed] .body-wrapper>.container-sm,
 #main-wrapper[data-layout=vertical][data-header-position=fixed] .body-wrapper>.container-xl,
 #main-wrapper[data-layout=vertical][data-header-position=fixed] .body-wrapper>.container-xxl {
-    padding-top: calc(10px + 20px)
+    padding-top: calc(0px + 20px)
 }
 
 @media (min-width:992px) {
@@ -53633,7 +53633,7 @@ table.footable thead tr.footable-filtering th ul.dropdown-menu li .checkbox labe
 }
 
 .card {
-    margin-bottom: 30px
+    margin-bottom: 15px
 }
 
 .card-hover {
