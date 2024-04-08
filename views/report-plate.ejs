@@ -75,11 +75,35 @@
                                     </a>
                                 </li>
                                 <li class="sidebar-item">
-                                    <a href="reporte-diario" class="sidebar-link">
+                                    <a href="reporte-diario-especies" class="sidebar-link">
                                         <div class="round-16 d-flex align-items-center justify-content-center">
                                             <i class="ti ti-circle"></i>
                                         </div>
                                         <span class="hide-menu">Reporte de especies</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="reporte-tipo-vehiculo" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Rep. - Tipo de vehículo</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="reporte-tramites" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Rep. - Trámites</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="reporte-domicilio" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Rep. - Domicilio</span>
                                     </a>
                                 </li>
                             </ul>
@@ -107,6 +131,48 @@
                                 <span class="hide-menu">Reporte de pagos</span>
                             </a>
                         </li>
+                        <!-- =================== -->
+                        <!-- TITULOS HABILITANTES  -->
+                        <!-- =================== -->
+                        <!--
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">TITULOS HABILITANTES</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <span class="d-flex">
+                                    <i class="ti ti-file-certificate"></i>
+                                </span>
+                                <span class="hide-menu">Gestión documental</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a href="ingreso-resoluciones" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Ingreso de archivos</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="reporte-diario" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Edición de archivos</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="reporte-diario" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Visualización de archivos</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li> -->
                         <!-- =================== -->
                         <!--       Otros         -->
                         <!-- =================== -->
@@ -278,26 +344,26 @@
                                             </span>
                                         </a>
                                     </li>
-                            
-                                    <% for (let i = 1; i <= totalPages; i++) { %>
+
+                                    <% for (let i=1; i <=totalPages; i++) { %>
                                         <li class="page-item <%= i === pageNum ? 'actives' : '' %>">
                                             <a class="page-link link" href="/report-plate?page=<%= i %>">
                                                 <%= i %>
                                             </a>
                                         </li>
-                                    <% } %>
-                            
-                                    <li class="page-item">
-                                        <a class="page-link link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">
-                                                <i class="ti ti-chevrons-right fs-4"></i>
-                                            </span>
-                                        </a>
-                                    </li>
+                                        <% } %>
+
+                                            <li class="page-item">
+                                                <a class="page-link link" href="#" aria-label="Next">
+                                                    <span aria-hidden="true">
+                                                        <i class="ti ti-chevrons-right fs-4"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
                                 </ul>
                             </nav>
-                            
-                            
+
+
                             <div class="d-flex justify-content-center gap-2">
                                 <div class="text-end">
                                     <button type="submit"
