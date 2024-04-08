@@ -5,18 +5,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-    <title>Home</title>
+    <title>Reporte de trámites por domicilio</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="node_modules/simplebar/dist/simplebar.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <script src="/js/logout-script.js"></script>
+    <script src="/js/generar-reporte-domicilio.js"></script>
     <script src="/js/activar-items-navbar.js"></script>
-    <script src="/public/js/logout-script.js"></script>
-    <script src="/js/spinners.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
+
+
 </head>
 
 <body>
+
     <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Inicio de barra de navegación -->
@@ -106,7 +110,7 @@
                             </ul>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="" aria-expanded="false">
+                            <a class="sidebar-link" href="home" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-coin"></i>
                                 </span>
@@ -222,27 +226,216 @@
                 </nav>
             </header>
             <!--  Fin de encabezado de pagina  -->
-
-
-
-            
-
             <div class="container-fluid">
+                <div class="col-lg-12">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                    <div class="mb-3 mb-sm-0">
+                                        <h5 class="card-title fw-semibold">Reporte de trámites de matriculación por domicilio</h5>
+                                        <p class="card-subtitle mb-0">Detalles de los trámites</p>
+                                    </div>
+                                    <div style="width: 20%;">
+                                        <input type="text" name="" class="form-control-disable text-center" id=""
+                                            placeholder="">
+                                    </div>
+                                </div>
+
+
+                                <input type="hidden" class="form-control" name="jefatura_departamento"
+                                    id="jefatura_departamento" value="<%= userData.jefatura_departamento %>" disabled
+                                    readonly>
+
+                                <input type="hidden" class="form-control" name="area_laboral" id="area_laboral"
+                                    value="<%= userData.area_laboral %>" disabled readonly>
+
+                                <input type="hidden" class="form-control" name="rol_funcionario" id="rol_funcionario"
+                                    value="<%= userData.rol_funcionario %>" disabled readonly>
+
+                                <input type="hidden" class="form-control" name="nombre_funcionario"
+                                    id="nombre_funcionario" value="<%= userData.nombre_funcionario %>" disabled
+                                    readonly>
+
+
+                                <div class="col-12 mb-2">
+                                    <div class="form-group row">
+                                        <label for="area" class="col-md-2 form-label fw-semibold  col-form-label">Nombre
+                                            del usuario:</label>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="nombre_funcionario"
+                                                id="nombre_funcionario" value="<%= userData.nombre_funcionario %>"
+                                                disabled readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                    <div class="form-group row">
+                                        <label for="area"
+                                            class="col-md-2 form-label fw-semibold  col-form-label">Usuario:</label>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="username" id="username"
+                                                value="<%= userData.username %>" disabled readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                    <div class="form-group row">
+                                        <label for="area" class="col-md-2 form-label fw-semibold  col-form-label">Fecha
+                                            inicial:</label>
+                                        <div class="col-md-4">
+                                            <input type="date" class="form-control" name="fecha_ingreso"
+                                                id="fecha_ingreso">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                    <div class="form-group row">
+                                        <label for="area" class="col-md-2 form-label fw-semibold  col-form-label">Fecha
+                                            final:</label>
+                                        <div class="col-md-4">
+                                            <input type="date" class="form-control" name="fecha_final" id="fecha_final">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 mb-2">
+                                    <div class="form-group row">
+                                        <label for="area"
+                                            class="col-md-2 form-label fw-semibold  col-form-label"></label>
+                                        <div class="col-md-4 d-flex">
+                                            <button type="submit" class="btn btn-primary me-3"
+                                                id="generarReporteDomicilio">
+                                                <i class="ti ti-search fs-4 me-2"></i>
+                                                <span>Procesar consulta</span>
+                                            </button>
+
+                                            <form id="loginForms" action="reporte-domicilio-pdf" method="post"
+                                                target="_blank" style="display: flex;">
+                                                <input type="hidden" class="form-control" name="fecha_ingreso_pdf"
+                                                    id="fecha_ingreso_pdf">
+
+                                                <input type="hidden" class="form-control" name="fecha_final_pdf"
+                                                    id="fecha_final_pdf">
+                                                <button type="submit" class="btn btn-secondary me-3" id="">
+                                                    <i class="ti ti-file-type-pdf fs-4 me-2"></i>
+                                                    <span>Generar PDF</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+
+
+                                <div class="col-12 mb-2">
+                                    <div class="form-group row ">
+                                        <div class="col-md-2"> </div>
+
+                                        <label for="area"
+                                            class="col-md-4 form-label fw-semibold  col-form-label text-right font-weight-bolder">UNIDAD
+                                            DE MATRICULACIÓN VEHICULAR</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                    <div class="form-group row ">
+                                        <label for="area" class="col-md-6 form-label fw-semibold  col-form-label"> 1.-
+                                            DETALLE DE TRÁMITES POR DOMICILIO</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                    <div class="col-12 mb-2">
+                                        <div class="form-group row ">
+                                            <label for="area"
+                                                class="col-md-2 form-label fw-semibold  col-form-label">Total de trámites:</label>
+                                            <div class="col-md-2">
+                                                <input type="text" class="form-control text-center"
+                                                    name="tramites_total" id="tramites_total">
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <br>
+
+
+
+                                    <div class="col-12 mb-2">
+
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead  class="thead-primary text-white">
+                                                    <tr>
+                                                        <th
+                                                            class="text-center text-white align-middle col-md-6 font-weight-bolder px-2 py-2">
+                                                            <b>DOMICILIO</b>
+                                                        </th>
+                                                        <th class="text-center text-white align-middle col-md-2 px-2 py-2">
+                                                            <b>MOTOCICLETA</b>
+                                                        </th>
+                                                        <th class="text-center text-white align-middle col-md-2 px-2 py-2">
+                                                            <b>VEHICULO</b>
+                                                        </th>
+                                                        <th class="text-center text-white align-middle col-md-2 px-2 py-2">
+                                                            <b>TOTAL</b>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tbody-tramites">
+
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+
+                           
 
 
 
 
 
-                <div id="spinner-wrapper" class="spinner-wrapper">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading..</span>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                        </div>
+
                     </div>
+
                 </div>
+
+
+
             </div>
-        </div>
-    </div>
-    <script src="/js/logout-script.js"></script>
-    <script src="/public/js/logout-script.js"></script>
+
+
+
+
+
+
+
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
+            <script src="script.js"></script>
+
+
+
 
 
 </body>

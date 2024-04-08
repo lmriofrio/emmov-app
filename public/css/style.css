@@ -22014,7 +22014,7 @@ progress {
     --color-tercero: #f6c411;
     --color-four: #e0e6f0;
     --color-four-hover: #d0d7df;
-    --color-fuente: #122840;
+    --color-fuente: #1e1e1e;
     --color-fuente-enc-tablas: #535d7f;
 }
 
@@ -23556,7 +23556,7 @@ progress {
 }
 
 .table {
-    --bs-table-color-type: #2e3770;
+    --bs-table-color-type: #1e1e1e;
     --bs-table-bg-type: initial;
     --bs-table-color-state: initial;
     --bs-table-bg-state: initial;
@@ -23806,7 +23806,7 @@ progress {
     font-size: inherit;
     font-weight: 500;
     line-height: 1.5;
-    color: #2a3547
+    color: var(--color-fuente);
 }
 
 .col-form-label-lg {
@@ -32410,7 +32410,7 @@ fieldset:disabled .btn {
 }
 
 .text-black {
-    --bs-text-opacity: 1;
+    --bs-text-opacity: 0.8;
     color: rgba(var(--bs-black-rgb), var(--bs-text-opacity)) !important
 }
 
@@ -54278,3 +54278,10 @@ input:-internal-autofill-selected {
     height: 60px;
 }
 
+.thead-primary{
+    background: var(--color-primario);
+}
+
+.table>.thead-primary{
+    background: var(--color-primario);
+}

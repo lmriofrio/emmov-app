@@ -5,14 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-    <title>Reporte diario de especies PDF</title>
+    <title>Reporte de trámites por tipo de vehículo</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="node_modules/simplebar/dist/simplebar.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <script src="/js/generar-reporte-diario-especies.js"></script>
-    <script src="/js/generar-pdf-reporte-diario.js"></script>
+    <script src="/js/generar-reporte-tipo-vehiculo.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
 
@@ -21,13 +20,15 @@
         body {
             background-color: #ffffff;
             width: 210mm;
+
             margin: 0 auto;
+
         }
 
         .table>:not(caption)>*>* {
             padding: 3px 3px;
             color: var(--bs-table-color-state, var(--bs-table-color-type, var(--bs-table-color)));
-           
+
             border-bottom-width: var(--bs-border-width);
             box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)))
         }
@@ -41,7 +42,7 @@
     <div class="container-lg mx-0" style="width: 100%; background-color: white;">
         <div class="row align-items-center px-3">
             <div class="" style="width: 13%;">
-                <!-- Logo -->
+
                 <div class="brand-logo d-flex align-items-center justify-content-center mt-2">
                     <a href="home" class="text-nowrap logo-img d-flex justify-content-center align-items-center">
                         <img src="/images/favicon.ico" class="" width="100" alt="100" />
@@ -49,17 +50,17 @@
                 </div>
             </div>
             <div class="text-center justify-content-left align-items-left" style="width: 54%;">
-                <!-- Título del reporte -->
-                <h4 class="text-black fw-bold">REPORTE DE ESPECIES DE MATRÍCULA</h4>
+
+                <h4 class="text-black fw-bold">REPORTE DE TRÁMITES POR TIPO DE VEHICULO </h4>
             </div>
             <div class="" style="width: 33%;">
-                <!-- Espacio para formulario -->
+
                 <div class="row">
-                    <!-- Empresa -->
+
                     <div class="col-12 mt-2">
                         <div class="form-group d-flex">
-                            <label for="empresa" class="col-4 form-label fw-semibold fs-2 col-form-label px-0 py-0"
-                                style="">Empresa:</label>
+                            <label for="empresa"
+                                class="col-4 form-label fw-semibold fs-2 col-form-label px-0 py-0">Empresa:</label>
                             <div class="col-8 ">
                                 <input type="text" class="form-control px-0 py-0 fs-2" name="nombre_empresa"
                                     id="nombre_empresa" style="background: none; border: none;"
@@ -67,11 +68,11 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Usuario -->
+
                     <div class="col-12 mt-1">
                         <div class="form-group d-flex">
-                            <label for="empresa" class="col-4  form-label fw-semibold fs-2 col-form-label px-0 py-0"
-                                style="">Usuario:</label>
+                            <label for="empresa"
+                                class="col-4  form-label fw-semibold fs-2 col-form-label px-0 py-0">Usuario:</label>
                             <div class="col-8 ">
                                 <input type="text" class="form-control px-0 py-0 fs-2" name="nombre_empresa"
                                     id="nombre_empresa" style="background: none; border: none;"
@@ -111,9 +112,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
 
 
@@ -137,45 +135,70 @@
             <div class="col-12">
                 <div class="form-group d-flex">
                     <label for="area" class="col-md-6 form-label fw-semibold fs-3  col-form-label"> 1.-
-                        SECUENCIA DE ESPECIES DE MATRÍCULA</label>
+                        DETALLE DE TRÁMITES Y ESPECIES DE MATRÍCULA</label>
                 </div>
             </div>
 
 
             <div class="col-12 mb-1">
                 <div class="form-group d-flex">
-                    <div class="col-3 form-label fw-semibold fs-3 col-form-label">Desde la fecha:</div>
-                    <div class="col-2">
-                        <input type="text" class="form-control text-center" name=""
-                            id="" value="<%= fecha_ingreso_PDF %>">
+                    <label for="area" class="col-md-3 form-label fw-semibold  col-form-label">Trámites de
+                        motocicletas:</label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control text-center" name="tramites_total_motocicletas"
+                            id="tramites_total_motocicletas">
                     </div>
-                </div>
-            </div>
 
-            <div class="col-12 mb-1">
-                <div class="form-group d-flex">
-                    <div class="col-3 form-label fw-semibold fs-3 col-form-label">Hasta la fecha:</div>
-                    <div class="col-2">
-                        <input type="text" class="form-control text-center" name=""
-                            id="" value="<%= fecha_final_PDF %>">
-                    </div>
-                </div>
-            </div>
+                    <div class="col-md-2"></div>
 
-
-            <div class="col-12 mb-1">
-                <div class="form-group d-flex">
-                    <div class="col-3 form-label fw-semibold fs-3 col-form-label">Especies utilizadas:</div>
-                    <div class="col-2">
+                    <label for="area" class="col-md-3 form-label fw-semibold  col-form-label">Especies
+                        entregadas:</label>
+                    <div class="col-md-2">
                         <input type="text" class="form-control text-center" name="especies_utilizadas"
                             id="especies_utilizadas">
                     </div>
                 </div>
             </div>
 
+            <div class="col-12 mb-1">
+                <div class="form-group d-flex">
+                    <label for="area" class="col-md-3 form-label fw-semibold  col-form-label">Trámites de
+                        vehiculos:</label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control text-center" name="tramites_total_vehiculos"
+                            id="tramites_total_vehiculos">
+                    </div>
 
+                    <div class="col-md-2"></div>
 
+                    <label for="area" class="col-md-3 form-label fw-semibold  col-form-label">Especies
+                        anuladas:</label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control text-center" name="especies_anuladas"
+                            id="especies_anuladas">
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-12 mb-1">
+                <div class="form-group d-flex">
+                    <label for="area" class="col-md-3 form-label fw-semibold  col-form-label">Total de
+                        trámites realizados:</label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control text-center" name="tramites_total"
+                            id="tramites_total">
+                    </div>
+
+                    <div class="col-md-2"></div>
+
+                    <label for="area" class="col-md-3 form-label fw-semibold  col-form-label">Adhesivos
+                        entregados:</label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control text-center" name="ahesivos_entregados"
+                            id="ahesivos_entregados">
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -186,8 +209,13 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            <th colspan="2" class="text-center align-middle font-weight-bolder px-2 py-2">
+                                <b>MOTOCICLETAS</b>
+                            </th>
+                        </tr>
+                        <tr>
                             <th class=" fs-3 text-center align-middle col-md-10 font-weight-bolder px-2 py-2">
-                                <b>DETALLE DE LA EMISIÓN DE ESPECIES DE MATRÍCULA</b>
+                                <b>DETALLE DE LOS TRÁMITES DE MATRICULACIÓN</b>
                             </th>
                             <th class=" fs-3 text-center align-middle col-md-2 px-2 py-2">
                                 <b>TOTAL</b>
@@ -195,6 +223,34 @@
                         </tr>
                     </thead>
                     <tbody class="fs-2" id="tbody-tramites">
+
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+
+        <br>
+
+        <div class="px-3">
+            <div class="table-responsive fs-3" style="color: black;">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="text-center align-middle font-weight-bolder px-2 py-2">
+                                <b>VEHICULOS</b>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class=" fs-3 text-center align-middle col-md-10 font-weight-bolder px-2 py-2">
+                                <b>DETALLE DE LOS TRÁMITES DE MATRICULACIÓN</b>
+                            </th>
+                            <th class=" fs-3 text-center align-middle col-md-2 px-2 py-2">
+                                <b>TOTAL</b>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="fs-2" id="tbody-tramites2">
 
                     </tbody>
                 </table>
@@ -271,7 +327,7 @@
 
         <input type="hidden" class="form-control" name="fecha_final" id="fecha_final" value="<%= fecha_final_PDF %>">
 
-        <button type="submit" id="generarReporteDiarioEspecies" class="d-none">
+        <button type="submit" id="generarReporteTipoVehiculo" class="d-none">
             <font _mstmutation="1" _msttexthash="76830" _msthash="372"> Procesar consulta </font>
         </button>
     </div>
@@ -279,7 +335,7 @@
     <script>
         $(document).ready(function () {
 
-            $('#generarReporteDiarioEspecies').trigger('click');
+            $('#generarReporteTipoVehiculo').trigger('click');
         });
     </script>
 

@@ -18,14 +18,22 @@ $(document).ready(function () {
         $.ajax({
             type: 'GET',
             url: '/generar-reporte-diario',
-            data: { fecha_ingreso, username, jefatura_departamento, area_laboral }, 
+            data: { fecha_ingreso, username, jefatura_departamento, area_laboral },
             success: function (response) {
                 const tbody = $('#tbody-tramites');
                 tbody.empty();
 
                 if (response.success) {
-                    let numeroFila = 1; 
+                    let numeroFila = 1;
                     response.tramites.forEach(tramite => {
+
+
+                        const fechaParts = tramite.fecha_ingreso.split('-');
+                        const dia = fechaParts[2];
+                        const mes = fechaParts[1];
+                        const año = fechaParts[0];
+
+                        const fechaFormateada = `${dia}-${mes}-${año}`;
                         const newRow = `
                             <tr>
                                 <td class="text-center">${numeroFila}</td>
@@ -34,12 +42,12 @@ $(document).ready(function () {
                                 <td class="text-center">${tramite.placa}</td>
                                 <td class="text-center">${tramite.tipo_tramite}</td>
                                 <td class="text-center">${tramite.numero_fojas}</td>
-                                <td class="text-center">${tramite.fecha_ingreso}</td>
+                                <td class="text-center">${fechaFormateada}</td>
                                 <td class="text-center">${rol_funcionario} (${nombre_funcionario})</td>
                                 <td class="text-center">AUTORIZACIÓN DE GERENCIA</td>
                             </tr>`;
                         tbody.append(newRow);
-                        numeroFila++; 
+                        numeroFila++;
                     });
                 } else {
                     alert('TRÁMITES NO ENCONTRADOS');

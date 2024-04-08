@@ -32,6 +32,9 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 const tramiteRoutes = require('./routes/tramiteRoutes');
 const reportesRoutes = require('./routes/reportesRoutes');
 const reportesEspeciesRoutes = require('./routes/reportesEspeciesRoutes');
+const reportesTramitesRoutes = require('./routes/reportesTramitesRoutes');
+const reportesTipoVehiculoRoutes = require('./routes/reportesTipoVehiculoRoutes');
+const reportesDomicilioRoutes = require('./routes/reportesDomicilioRoutes');
 const placasRoutes = require('./routes/placasRoutes');
 
 const MAX_ITEMS = 8;
@@ -99,11 +102,17 @@ app.use('/', usuarioRoutes);
 app.use('/', tramiteRoutes);
 app.use('/', reportesRoutes);
 app.use('/', reportesEspeciesRoutes);
+app.use('/', reportesTramitesRoutes);
+app.use('/', reportesTipoVehiculoRoutes);
+app.use('/', reportesDomicilioRoutes);
 
 
 // 3.- RUTAS                     
 // Página de inicio (login)
 // Se procesa la solicitud GET en la ruta raíz '/'
+
+
+
 app.get('/', (req, res) => {
   if (req.session.user) {
     res.redirect('/home');
@@ -202,12 +211,72 @@ app.get('/reporte-diario-especies', (req, res) => {
   }
 });
 
+app.get('/reporte-tramites', (req, res) => {
+  if (req.session.user) {
+    res.render('reporte-tramites', { userData: req.session.user });
+  } else {
+    res.redirect('/login');
+  }
+});
+
+
+app.post('/reporte-tramites-pdf', (req, res) => {
+  if (req.session.user) {
+    const fecha_ingreso_PDF = req.body.fecha_ingreso_pdf;
+    const fecha_final_PDF = req.body.fecha_final_pdf;
+
+    res.render('reporte-tramites-pdf', { userData: req.session.user, fecha_ingreso_PDF, fecha_final_PDF });
+  } else {
+    res.redirect('/login');
+  }
+});
+
 
 
 app.post('/reporte-diario-especies-pdf', (req, res) => {
   if (req.session.user) {
     const fecha_ingreso_PDF = req.body.fecha_ingreso_pdf;
-    res.render('reporte-diario-especies-pdf', { userData: req.session.user, fecha_ingreso_PDF });
+    const fecha_final_PDF = req.body.fecha_final_pdf;
+
+    res.render('reporte-diario-especies-pdf', { userData: req.session.user, fecha_ingreso_PDF, fecha_final_PDF });
+  } else {
+    res.redirect('/login');
+  }
+});
+
+app.get('/reporte-tipo-vehiculo', (req, res) => {
+  if (req.session.user) {
+    res.render('reporte-tipo-vehiculo', { userData: req.session.user });
+  } else {
+    res.redirect('/login');
+  }
+});
+
+app.post('/reporte-tipo-vehiculo-pdf', (req, res) => {
+  if (req.session.user) {
+    const fecha_ingreso_PDF = req.body.fecha_ingreso_pdf;
+    const fecha_final_PDF = req.body.fecha_final_pdf;
+
+    res.render('reporte-tipo-vehiculo-pdf', { userData: req.session.user, fecha_ingreso_PDF, fecha_final_PDF });
+  } else {
+    res.redirect('/login');
+  }
+});
+
+app.get('/reporte-domicilio', (req, res) => {
+  if (req.session.user) {
+    res.render('reporte-domicilio', { userData: req.session.user });
+  } else {
+    res.redirect('/login');
+  }
+});
+
+app.post('/reporte-domicilio-pdf', (req, res) => {
+  if (req.session.user) {
+    const fecha_ingreso_PDF = req.body.fecha_ingreso_pdf;
+    const fecha_final_PDF = req.body.fecha_final_pdf;
+
+    res.render('reporte-domicilio-pdf', { userData: req.session.user, fecha_ingreso_PDF, fecha_final_PDF });
   } else {
     res.redirect('/login');
   }
