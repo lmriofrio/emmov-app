@@ -542,7 +542,7 @@ app.get('/registro-diario', async (req, res) => {
           }
         },
         order: [['id_tramite', 'DESC']],
-        limit: 6
+        limit: 5
       });
 
       const currentDate = new Date();
