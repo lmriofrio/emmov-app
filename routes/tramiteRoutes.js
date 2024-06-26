@@ -5,8 +5,15 @@ const Tramite = require('../models/Tramite');
 router.get('/buscar-tramite', async (req, res) => {
     const { placa } = req.query;
 
+    console.log('Placa recibida:', placa);  
+
+    
+
     try {
-        const tramites = await Tramite.findAll({ where: { placa } });
+        const tramites = await Tramite.findAll({ 
+            where: { placa },
+            order: [['fecha_ingreso', 'ASC']] 
+        });
 
         if (tramites.length > 0) {
             res.json({ success: true, tramites });

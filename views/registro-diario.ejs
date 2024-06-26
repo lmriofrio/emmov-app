@@ -42,11 +42,21 @@
         <aside class="left-sidebar">
             <!-- Logo Institucional-->
             <div>
-                <div class="brand-logo d-flex align-items-center justify-content-between mt-2">
-                    <a href="home" class="text-nowrap logo-img d-flex justify-content-center align-items-center">
-                        <img src="/images/img3.png" class="dark-logo mx-auto" width="180" alt="" />
+                <div class="brand-logo justify-content-right  " style="overflow: hidden;">
+                    <a href="home" class="d-flex align-items-center gap-2 rounded">
+                        <div class="rounded d-flex justify-content-center align-items-center "
+                            style="background: white; width: 45px;height: 45px;">
+                            <img src="/images/favicon.ico" class="rounded-circle" width="30" height="34">
+                        </div>
+                        <div style="white-space: nowrap; text-overflow: ellipsis; max-width: 170px; overflow: hidden;">
+                            <h2 class="mb-1 fw-semibold text-black">
+                                emmov
+                            </h2>
+                        </div>
                     </a>
                 </div>
+
+
                 <!-- Barra de navegación-->
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar>
                     <ul id="sidebarnav">
@@ -60,7 +70,7 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="registro-diario" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-file-text"></i>
+                                    <i class="ti ti-file-text "></i>
                                 </span>
                                 <span class="hide-menu">Registro diario</span>
                             </a>
@@ -69,7 +79,7 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="listado-tramites" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-file-check"></i>
+                                    <i class="ti ti-file-check "></i>
                                 </span>
                                 <span class="hide-menu">Trámites realizados</span>
                             </a>
@@ -124,14 +134,14 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="home" aria-expanded="false">
+                        <!-- <li class="sidebar-item">
+                            <a class="sidebar-link" href="" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-coin"></i>
                                 </span>
                                 <span class="hide-menu">Valores a pagar</span>
                             </a>
-                        </li>
+                        </li> -->
                         <!-- =================== -->
                         <!-- Gestión de placas   -->
                         <!-- =================== -->
@@ -139,10 +149,56 @@
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">GESTIÓN DE PLACAS</span>
                         </li>
+                        <!--<li class="sidebar-item">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <span class="d-flex">
+                                    <i class="ti ti-report-search "></i>
+                                </span>
+                                <span class="hide-menu">Inventario de placas</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link has-arrow active" href="javascript:void(0)"
+                                        aria-expanded="false">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Ingresar placas</span>
+                                    </a>
+                                    <ul aria-expanded="false" class="collapse two-level in">
+                                        <li class="sidebar-item">
+                                            <a href="/inventario-placas/registro-placas-individual"
+                                                class="sidebar-link">
+                                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                                    <i class="ti ti-circle"></i>
+                                                </div>
+                                                <span class="hide-menu">Individual</span>
+                                            </a>
+                                        </li>
+                                        <li class="sidebar-item">
+                                            <a href="javascript:void(0)" class="sidebar-link">
+                                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                                    <i class="ti ti-circle"></i>
+                                                </div>
+                                                <span class="hide-menu">Por lotes</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="reporte-diario-especies" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Modificar registros</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>-->
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="report-plate" aria-expanded="false">
+                            <a class="sidebar-link" href="reporte-pago-placas" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-checkup-list"></i>
+                                    <i class="ti ti-checkup-list" stroke-width="0.5"></i>
                                 </span>
                                 <span class="hide-menu">Reporte de pagos</span>
                             </a>
@@ -150,6 +206,7 @@
                         <!-- =================== -->
                         <!-- TITULOS HABILITANTES  -->
                         <!-- =================== -->
+
                         <!--
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -216,17 +273,27 @@
 
                 </nav>
                 <!-- Barra de navegación -->
-                <div class="fixed-profile p-3 mx-4 mb-3  rounded mt-3">
-                    <div class="hstack gap-3">
-                        <div class="john-img" style="width: 40px; height: 40px;">
-                            <img src="/images/user.png" class="rounded-circle" width="40" height="40" alt="">
+                <div class="fixed-profile p-2 mx-4  me-3 ms-3 mb-3 mt-3 rounded " style="overflow: hidden;">
+                    <div class="d-flex align-items-center gap-1">
+                        <div class="john-img">
+
+                            <span class="round-8 bg-green rounded-circle d-inline-block ms-2 me-2"></span>
+
+
                         </div>
-                      <div class="john-title">
-                        <h6 class="mb-0 fs-4 fw-semibold"><%= userData.username %></h6>
-                        <span class="fs-2"><%= userData.nombre_funcionario %></span>
+                        <div class="john-title"
+                            style="white-space: nowrap; text-overflow: ellipsis; max-width: 170px; overflow: hidden;">
+                            <h6 class="mb-0 fs-3 fw-semibold">
+                                <%= userData.username %>
+                            </h6>
+                            <span class="fs-2 ">
+                                <%= userData.nombre_funcionario %>
+                            </span>
+                        </div>
                     </div>
-                    </div>
-                  </div>
+                </div>
+
+
 
 
 
@@ -241,32 +308,40 @@
                 </nav>
             </header>
             <!--  Fin de encabezado de pagina  -->
+
+
             <div class="container-fluid">
+
+                <!--
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="d-flex p-4">
+                            <ul class="list-unstyled">
+                                <li class="text-dark fw-semibold">REGISTRO DIARIO DE TRÁMITES DE MATRICULACIÓN</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                 -->
+
+
+
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="row">
                             <div class="col-lg-12 col-md-6 col-sm-12">
                                 <!-- Yearly Breakup -->
                                 <div class="card overflow-hidden">
+
                                     <div class="card-body p-4">
                                         <form action="/guardar-tramite" method="post" id="registroForm">
                                             <div
                                                 class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                                                 <div class="mb-3 mb-sm-0">
-                                                    <h5 class="card-title fw-semibold">Registro de trámites</h5>
+                                                    <h5 class="text-dark fw-semibold">Registro de trámites</h5>
                                                     <p class="card-subtitle mb-0">Datos del vehiculo, propietario y
                                                         trámite</p>
-                                                </div>
-
-                                                <div class="ms-auto">
-                                                    <div class="btn-group">
-                                                        <button type="button"
-                                                            class="btn bg-secondary-subtle text-secondary font-medium"
-                                                            data-bs-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                            <i class="ti ti-clock-hour-4 fs-4 me-2"></i>En
-                                                            proceso</button>
-                                                    </div>
                                                 </div>
 
                                             </div>
@@ -277,14 +352,15 @@
                                                     <input type="text" name="placa" class="form-control" placeholder=""
                                                         aria-label="Recipient's username"
                                                         aria-describedby="basic-addon2" autocomplete="off">
-                                                    <button class="btn btn-search  text-black font-medium px-3"
-                                                        type="button" id="buscarVehiculo">Buscar</button>
+                                                    <button class="btn btn-search  text-white font-medium px-3"
+                                                        type="button" id="buscarVehiculo">
+                                                        <i class="ti ti-search fs-4"></i></button>
                                                 </div>
                                             </div>
 
                                             <div class="form-items">
                                                 <label for="" class="form-label fw-semibold">C. de
-                                                    Vehiculo</label>
+                                                    vehículo</label>
                                                 <select class="form-select" name="clase_vehiculo"
                                                     aria-label="Default select example" id="clase_vehiculo">
                                                     <option selected=""></option>
@@ -297,7 +373,7 @@
 
                                             <div class="form-items">
                                                 <label for="" class="form-label fw-semibold">C. de
-                                                    Transporte</label>
+                                                    transporte</label>
                                                 <select class="form-select" name="clase_transporte"
                                                     aria-label="Default select example" id="clase_transporte">
                                                     <option selected=""></option>
@@ -331,8 +407,9 @@
                                                         placeholder="" aria-label="Recipient's username"
                                                         aria-describedby="basic-addon2" id="id_usuario"
                                                         autocomplete="off">
-                                                    <button class="btn btn-search  text-black font-medium" type="button"
-                                                        id="buscarUsuario">Buscar</button>
+                                                    <button class="btn btn-search  text-white font-medium" type="button"
+                                                        id="buscarUsuario">
+                                                        <i class="ti ti-search fs-4"></i></button>
                                                 </div>
                                             </div>
 
@@ -402,6 +479,23 @@
                                                         });
                                                     </script>
 
+                                                    
+                                                        
+                                                            <input type="hidden" name="date_registraton" class="form-control"
+                                                                id="date_registraton" placeholder="" required>
+                                                        
+
+                                                    <script>
+                                                        document.addEventListener('DOMContentLoaded', function () {
+                                                            var fechaUTC = new Date();
+                                                            var desplazamientoNavegador = fechaUTC.getTimezoneOffset();
+                                                            var desplazamientoEcuador = -300;
+                                                            var fechaEcuador = new Date(fechaUTC.getTime() + (desplazamientoEcuador - desplazamientoNavegador) * 60000);
+                                                            var formattedDate = fechaEcuador.toISOString().substr(0, 10);
+                                                            document.getElementById('date_registraton').value = formattedDate;
+                                                        });
+                                                    </script>
+
 
 
                                                     <div class="col">
@@ -440,14 +534,23 @@
                                             </div>
 
 
+
+
                                             <div class="text-end mt-3 gap-3">
+
+                                                <button onclick="window.location.href='/registro-diario';"
+                                                    class="justify-content-center btn mb-1 me-2 fw-semibold btn-rounded btn-secondary shadow-btn align-items-center">
+                                                    Cancelar
+                                                </button>
+
+
                                                 <button type="submit"
-                                                    class="justify-content-center btn mb-1 btn-rounded btn-primary align-items-center">
-                                                    <i class="ti ti-device-floppy fs-4 me-2"></i>
+                                                    class="justify-content-center btn mb-1 me-2 fw-semibold btn-rounded btn-primary shadow-btn align-items-center ">
                                                     <font _mstmutation="1" _msttexthash="76830" _msthash="372"> Guardar
                                                     </font>
                                                 </button>
                                             </div>
+
 
                                         </form>
 
@@ -455,78 +558,69 @@
                                 </div>
                             </div>
 
+
+
                             <div class="col-lg-12 col-md-6 col-sm-12">
 
-                                <div class="card mb-0 p-3">
-                                    <div class="row">
+                                <div class="row">
 
-                                        <div class="col-4">
-                                            <div class="card bg-primario-sub shadow-none mb-0">
-                                                <div class="card-body p-2 col-12">
-                                                    <div class="d-flex">
-                                                        <div class="round rounded text-bg-secondary d-flex align-items-center justify-content-center col-2"
-                                                            style="width: 25px; height: 25px;">
-                                                            <i class="ti ti-timeline fs-6"></i>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex align-items-center justify-content-center col-9">
-                                                            <h7 class="mb-0 ">ANUAL</h7>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="d-flex align-items-center justify-content-center">
-                                                        <h3 class="mb-0 fw-bold fs-6"><%= tramitesAnual %></h3>
-                                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="card overflow-hidden mb-0">
+                                            <div class="d-flex flex-row">
+                                                <div class="p-2 text-bg-secondary d-flex">
+                                                    <h3
+                                                        class="text-white box mb-0 align-items-center justify-content-center">
+                                                        <i class="ti ti-timeline"></i>
+                                                    </h3>
+                                                </div>
+                                                <div class="p-3">
+                                                    <h3 class="text-warning mb-0 fs-8">
+                                                        <%= tramitesAnual %>
+                                                    </h3>
+                                                    <span>Tramites anuales</span>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
 
-                                        <div class="col-4">
-                                            <div class="card bg-primario-sub shadow-none mb-0">
-                                                <div class="card-body p-2 col-12">
-                                                    <div class="d-flex">
-                                                        <div class="round rounded text-bg-secondary d-flex align-items-center justify-content-center col-2"
-                                                            style="width: 25px; height: 25px;">
-                                                            <i class="ti ti-timeline fs-6"></i>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex align-items-center justify-content-center col-9">
-                                                            <h7 class="mb-0 ">MENSUAL</h7>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="d-flex align-items-center justify-content-center">
-                                                        <h3 class="mb-0 fw-bold fs-6"><%= tramitesMensuales %></h3>
-                                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="card overflow-hidden mb-0">
+                                            <div class="d-flex flex-row">
+                                                <div class="p-2 text-bg-secondary d-flex align-items-center">
+                                                    <h3
+                                                        class="text-white box mb-0 align-items-center justify-content-center">
+                                                        <i class="ti ti-timeline"></i>
+                                                    </h3>
+                                                </div>
+                                                <div class="p-3">
+                                                    <h3 class="text-warning mb-0 fs-8">
+                                                        <%= tramitesMensuales %>
+                                                    </h3>
+                                                    <span>Tramites mensuales</span>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
 
-                                        <div class="col-4">
-                                            <div class="card bg-primario-sub shadow-none mb-0">
-                                                <div class="card-body p-2 col-12">
-                                                    <div class="d-flex">
-                                                        <div class="round rounded text-bg-secondary d-flex align-items-center justify-content-center col-2"
-                                                            style="width: 25px; height: 25px;">
-                                                            <i class="ti ti-timeline fs-6"></i>
-                                                        </div>
-                                                        <div
-                                                            class="d-flex align-items-center justify-content-center col-9">
-                                                            <h7 class="mb-0 ">DIARIO</h7>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="d-flex align-items-center justify-content-center">
-                                                        <h3 class="mb-0 fw-bold fs-6"><%= tramitesDiarios %></h3>
-                                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="card overflow-hidden mb-0">
+                                            <div class="d-flex flex-row">
+                                                <div class="p-2 text-bg-secondary d-flex align-items-center">
+                                                    <h3
+                                                        class="text-white box mb-0 align-items-center justify-content-center">
+                                                        <i class="ti ti-timeline"></i>
+                                                    </h3>
+                                                </div>
+                                                <div class="p-3 align-items-center justify-content-center">
+                                                    <h3 class="text-warning mb-0 fs-8">
+                                                        <%= tramitesDiarios %>
+                                                    </h3>
+                                                    <span>Tramites diarios</span>
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                     </div>
 
 
@@ -543,7 +637,6 @@
                     <div class="col-lg-6 d-flex align-items-strech">
                         <div class="card w-100 mb-0">
                             <div class="card-body p-4">
-
 
 
 
@@ -576,7 +669,8 @@
                                                             <%= registrosTabla1[i].numero_adhesivo %>
                                                         </span>
                                                     </td>
-                                                    <td class="" style="">
+                                                    <td class=""
+                                                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-style: none; max-width: 50px;">
                                                         <span>
                                                             <%= registrosTabla1[i].tipo_tramite %>
                                                         </span>
@@ -628,7 +722,8 @@
                                                             <%= registrosTabla2[i].numero_matricula %>
                                                         </span>
                                                     </td>
-                                                    <td>
+                                                    <td
+                                                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-style: none; max-width: 50px;">
                                                         <span>
                                                             <%= registrosTabla2[i].tipo_tramite %>
                                                         </span>
@@ -650,7 +745,7 @@
                                     </table>
                                 </div>
 
-                                <div id="tabla-container" class="table-responsive rounded-2 mb-4">
+                                <div id="tabla-container" class="table-responsive rounded-2 ">
 
                                     <table class="table table-bordered customize-table mb-0 align-middle">
                                         <thead class="text-dark fs-3 col-lg-12">
@@ -670,27 +765,28 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% for (let i=0; i < registrosTabla3.length; i++) { %>
+                                            <% for (let i=0; i < registrosTabla4.length; i++) { %>
                                                 <tr>
                                                     <td class="text-center"
                                                         style="white-space: nowrap; overflow: hidden;">
                                                         <span>
-                                                            <%= registrosTabla3[i].numero_certificacion %>
+                                                            <%= registrosTabla4[i].numero_certificacion %>
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-style: none; max-width: 50px;">
+                                                        <span>
+                                                            <%= registrosTabla4[i].tipo_tramite %>
                                                         </span>
                                                     </td>
                                                     <td>
                                                         <span>
-                                                            <%= registrosTabla3[i].tipo_tramite %>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <span>
-                                                            <%= registrosTabla3[i].placa %>
+                                                            <%= registrosTabla4[i].placa %>
                                                         </span>
                                                     </td>
                                                     <td style="white-space: nowrap; overflow: hidden;">
                                                         <span>
-                                                            <%= registrosTabla3[i].fecha_ingreso %>
+                                                            <%= registrosTabla4[i].fecha_ingreso %>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -718,82 +814,46 @@
                 </div>
             </div>
 
-            <% if (mostrarModal) { %>
 
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-
+            <div class="modal fade" id="modalPlacaExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Error: campo placa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>El valor en el campo ¨placa¨ es demasiado extenso. Por favor, asegúrate de que
+                                tenga menos
+                                de 7 caracteres.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
                 </div>
-                <% } %>
+            </div>
 
-
-
-
-                    <div class="modal fade" id="modalPlacaExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Error: campo placa</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>El valor en el campo ¨placa¨ es demasiado extenso. Por favor, asegúrate de que
-                                        tenga menos
-                                        de 7 caracteres.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
+            <div class="modal fade" id="modalIDExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Error: campo C.I / RUC</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>El valor en el campo ¨C.I / RUC¨ es demasiado extenso. Por favor, asegúrate de
+                                que tenga menos
+                                de 14 caracteres.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
-
-                    <div class="modal fade" id="modalIDExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Error: campo C.I / RUC</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>El valor en el campo ¨C.I / RUC¨ es demasiado extenso. Por favor, asegúrate de
-                                        que tenga menos
-                                        de 14 caracteres.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal fade" id="modalNameExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Error: campo nombre</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>El valor en el campo ¨NOMBRE¨ es demasiado extenso. Por favor, asegúrate de
-                                        que tenga menos de 80 caracteres.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                </div>
+            </div>
 
 
 

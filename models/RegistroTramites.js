@@ -51,6 +51,10 @@ const RegistroTramites = db.define('registro-tramites', {
     type: DataTypes.STRING(45),
     allowNull: true 
   },
+  date_registraton: {
+    type: DataTypes.STRING (45),
+    allowNull: true
+  },
   numero_fojas: {
     type: DataTypes.STRING(45),
     allowNull: true 
@@ -64,6 +68,10 @@ const RegistroTramites = db.define('registro-tramites', {
     allowNull: true 
   },
   id_funcionario: {
+    type: DataTypes.STRING(45),
+    allowNull: true 
+  },
+  numero_certificacion: {
     type: DataTypes.STRING(45),
     allowNull: true 
   },

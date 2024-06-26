@@ -32,6 +32,10 @@ const Tramite = sequelize.define('registro-tramites', {
     type: DataTypes.STRING (45),
     allowNull: true 
   },
+  numero_certificacion: {
+    type: DataTypes.STRING(45),
+    allowNull: true 
+  },
   numero_fojas: {
     type: DataTypes.STRING (5),
     allowNull: true 
@@ -109,9 +113,13 @@ const Tramite = sequelize.define('registro-tramites', {
   },
   fecha_ingreso: {
     type: DataTypes.STRING (45),
-    allowNull: true
+    allowNull: true   
   },
   fecha_finalizacion: {
+    type: DataTypes.STRING (45),
+    allowNull: true
+  },
+  date_registraton: {
     type: DataTypes.STRING (45),
     allowNull: true
   },

@@ -15,11 +15,13 @@ const Vehiculo = require('./models/Vehiculo');
 const Usuario = require('./models/Usuario');
 const Canton = require('./models/Canton');
 const CentroMatriculacion = require('./models/CentroMatriculacion');
+const InventarioPlacas = require('./models/InventarioPlacas');
 const Tramite = require('./models/Tramite');
 const favicon = require('serve-favicon');
 const RegistroTramites = require('./models/RegistroTramites');
 const RegistroVehiculos = require('./models/RegistroVehiculos');
 const RegistroUsuarios = require('./models/RegistroUsuarios');
+const RegistroPlacasInventario = require('./models/RegistroPlacasInventario');
 const PayOrder = require('./models/payOrder');
 const SeleccionarTipoTramites = require('./models/SeleccionarTipoTramites');
 const SeleccionarCantones = require('./models/SeleccionarCantones');
@@ -35,6 +37,9 @@ const reportesEspeciesRoutes = require('./routes/reportesEspeciesRoutes');
 const reportesTramitesRoutes = require('./routes/reportesTramitesRoutes');
 const reportesTipoVehiculoRoutes = require('./routes/reportesTipoVehiculoRoutes');
 const reportesDomicilioRoutes = require('./routes/reportesDomicilioRoutes');
+const reportesPlacasRoutes = require('./routes/reportesPlacasRoutes');
+const tramiteIdRoutes = require('./routes/tramiteIdRoutes');
+const visualizarTramiteRoutes = require('./routes/visualizarTramiteRoutes');
 const placasRoutes = require('./routes/placasRoutes');
 
 const MAX_ITEMS = 8;
@@ -105,6 +110,9 @@ app.use('/', reportesEspeciesRoutes);
 app.use('/', reportesTramitesRoutes);
 app.use('/', reportesTipoVehiculoRoutes);
 app.use('/', reportesDomicilioRoutes);
+app.use('/', reportesPlacasRoutes);
+app.use('/', tramiteIdRoutes);
+app.use('/', visualizarTramiteRoutes);
 
 
 // 3.- RUTAS                     
@@ -403,68 +411,31 @@ app.get('/listado-tramites', async (req, res) => {
   }
 });
 
+app.get('/reporte-pago-placas', async (req, res) => {
+
+  if (req.session.user) {
+    try {
+      res.render('reporte-pago-placas', {
+        userData: req.session.user
+      });
+    } catch (error) {
+      console.error('Error al obtener los trámites:', error);
+      res.status(500).send('Error al obtener los trámites');
+    }
+  } else {
+    res.redirect('/login');
+  }
+});
+
 
 app.get('/report-plate', async (req, res) => {
 
   if (req.session.user) {
     try {
-      const currentYear = moment().year();
-      const PAGE_SIZE = 20;
 
-      const filter = {
-        [Sequelize.Op.and]: [
-          {
-            tipo_tramite: {
-              [Sequelize.Op.or]: [
-                "CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR",
-                "CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO",
-                "CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA",
-                "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A COMERCIAL",
-                "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PARTICULAR",
-                "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO",
-                "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A USO DE CUENTA PROPIA",
-                "CAMBIO DE SERVICIO DE PARTICULAR A COMERCIAL",
-                "CAMBIO DE SERVICIO DE PARTICULAR A ESTATAL U OFICIAL",
-                "CAMBIO DE SERVICIO DE PARTICULAR A PUBLICO",
-                "CAMBIO DE SERVICIO DE PARTICULAR A USO DE CUENTA PROPIA",
-                "CAMBIO DE SERVICIO DE PARTICULAR A USO DIPLOMATICO U ORGANISMOS INTERNACIONALES",
-                "CAMBIO DE SERVICIO DE PUBLICO A COMERCIAL",
-                "CAMBIO DE SERVICIO DE PUBLICO A PARTICULAR",
-                "CAMBIO DE SERVICIO DE PUBLICO A USO DE CUENTA PROPIA",
-                "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A COMERCIAL",
-                "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR",
-                "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PUBLICO",
-                "DUPLICADO DE PLACAS",
-                "EMISION DE MATRICULA POR PRIMERA VEZ"
-
-              ]
-            }
-          },
-
-          literal(`YEAR(fecha_ingreso) = ${currentYear}`)
-        ]
-      };
-
-
-      const totalRecords = await Tramite.count({ where: filter });
-
-      const totalPages = Math.ceil(totalRecords / PAGE_SIZE);
-
-      const page = req.query.page ? parseInt(req.query.page) : 1;
-      const offset = (page - 1) * PAGE_SIZE;
-
-
-      const tramites = await Tramite.findAll({
-        where: filter,
-        limit: PAGE_SIZE,
-        offset: offset
-      });
 
       res.render('report-plate', {
-        tramites,
-        pageNum: page,
-        totalPages: totalPages,
-        formatDate,
+
         userData: req.session.user
       });
     } catch (error) {
@@ -532,7 +503,7 @@ app.get('/registro-diario', async (req, res) => {
           }
         },
         order: [['id_tramite', 'DESC']],
-        limit: 3
+        limit: 6
       });
 
       const registrosTabla2 = await RegistroTramites.findAll({
@@ -553,10 +524,10 @@ app.get('/registro-diario', async (req, res) => {
           }
         },
         order: [['id_tramite', 'DESC']],
-        limit: 3
+        limit: 6
       });
 
-      const registrosTabla3 = await RegistroTramites.findAll({
+      const registrosTabla4 = await RegistroTramites.findAll({
         where: {
           username,
           tipo_tramite: {
@@ -571,12 +542,12 @@ app.get('/registro-diario', async (req, res) => {
           }
         },
         order: [['id_tramite', 'DESC']],
-        limit: 3
+        limit: 6
       });
 
       const currentDate = new Date();
       const currentYear = new Date().getFullYear();
-      const currentMonth = new Date().getMonth() + 1; 
+      const currentMonth = new Date().getMonth() + 1;
       const lastDayOfMonth = new Date(currentYear, currentMonth, 0).getDate();
       const currentDay = currentDate.getDate();
 
@@ -596,8 +567,8 @@ app.get('/registro-diario', async (req, res) => {
           username,
           fecha_ingreso: {
             [Sequelize.Op.and]: [
-              { [Sequelize.Op.gte]: `${currentYear}-${currentMonth}-01` }, 
-              { [Sequelize.Op.lte]: `${currentYear}-${currentMonth}-${lastDayOfMonth}` } 
+              { [Sequelize.Op.gte]: `${currentYear}-${currentMonth}-01` },
+              { [Sequelize.Op.lte]: `${currentYear}-${currentMonth}-${lastDayOfMonth}` }
             ]
           }
         }
@@ -608,8 +579,8 @@ app.get('/registro-diario', async (req, res) => {
           username,
           fecha_ingreso: {
             [Sequelize.Op.and]: [
-              { [Sequelize.Op.gte]: `${currentYear}-${currentMonth}-${currentDay}` }, 
-              { [Sequelize.Op.lte]: `${currentYear}-${currentMonth}-${currentDay} 23:59:59` } 
+              { [Sequelize.Op.gte]: `${currentYear}-${currentMonth}-${currentDay}` },
+              { [Sequelize.Op.lte]: `${currentYear}-${currentMonth}-${currentDay} 23:59:59` }
             ]
           }
         }
@@ -625,8 +596,10 @@ app.get('/registro-diario', async (req, res) => {
 
       //console.log('REGISTROS DE LA TABLA 1:', registrosTabla1);
 
-      res.render('registro-diario', { tiposTramites, tiposCantones, registrosTabla1, registrosTabla2, registrosTabla3, tramitesAnual, tramitesMensuales,  
-        tramitesDiarios, userData: req.session.user });
+      res.render('registro-diario', {
+        tiposTramites, tiposCantones, registrosTabla1, registrosTabla2, registrosTabla4, tramitesAnual, tramitesMensuales,
+        tramitesDiarios, userData: req.session.user
+      });
     } else {
       res.redirect('/login');
     }
@@ -641,14 +614,14 @@ app.post('/guardar-tramite', async (req, res) => {
 
     const { id_funcionario, username, nombre_funcionario, id_empresa, nombre_empresa, nombre_corto_empresa, estado_empresa, provincia_empresa, canton_empresa, id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion } = req.session.user;
 
-    const { placa, tipo_tramite, id_usuario, nombre_usuario, celular_usuario, email_usuario, canton_usuario, clase_vehiculo, clase_transporte, fecha_ingreso, numero_fojas, numero_adhesivo, numero_matricula } = req.body;
+    const { placa, tipo_tramite, id_usuario, nombre_usuario, celular_usuario, email_usuario, canton_usuario, clase_vehiculo, clase_transporte, fecha_ingreso, numero_fojas, numero_adhesivo, numero_matricula, date_registraton } = req.body;
 
 
     // Guardar el nuevo trámite 
     const nuevoTramite = await RegistroTramites.create({
       placa, tipo_tramite, id_usuario, nombre_usuario, celular_usuario, email_usuario, canton_usuario, clase_vehiculo, clase_transporte, numero_fojas, numero_adhesivo, numero_matricula,
       id_funcionario, username, nombre_funcionario, id_empresa, nombre_empresa, nombre_corto_empresa, estado_empresa, provincia_empresa, canton_empresa, fecha_ingreso,
-      fecha_finalizacion: fecha_ingreso, id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion
+      fecha_finalizacion: fecha_ingreso, id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion, date_registraton
     });
     const id_tramite = nuevoTramite.id_tramite;
 
@@ -906,6 +879,59 @@ app.get('/home', (req, res) => {
     res.render('home', { userData: req.session.user });
   } else {
     res.redirect('/');
+  }
+});
+
+
+
+app.get('/inventario-placas/registro-placas-seleccion', (req, res) => {
+  if (req.session.user) {
+    res.render('inventario-placas/registro-placas-seleccion', { userData: req.session.user });
+  } else {
+    res.redirect('/login');
+  }
+});
+
+
+app.post('/guardar-placa-inventario', async (req, res) => {
+  try {
+
+    const { id_funcionario, username, nombre_funcionario, id_empresa, nombre_empresa, nombre_corto_empresa, estado_empresa, provincia_empresa, canton_empresa, id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion } = req.session.user;
+
+    const { placa, clase_vehiculo, clase_transporte, ubicacion, tipo_tramite, ingreso_fecha, estado } = req.body;
+
+    const ingreso_id_funcionario = id_funcionario;
+    const ingreso_funcionario = nombre_funcionario;
+    const ingreso_nombre_puesto_funcionario = nombre_funcionario;
+    const ingreso_username = username;
+
+    const ingreso_id_empresa = id_empresa;
+    const ingreso_nombre_corto_empresa = nombre_corto_empresa;
+
+    // console.log(' Nuevo registro PLACA:', placa);
+
+    // Guardar el nuevo registro en el inventario
+    const nuevoRegistro = await RegistroPlacasInventario.create({
+      placa, clase_vehiculo, clase_transporte, ubicacion, ingreso_id_funcionario, ingreso_funcionario, ingreso_nombre_puesto_funcionario, 
+      ingreso_username, tipo_tramite, ingreso_fecha, ingreso_id_empresa, ingreso_nombre_corto_empresa, estado
+    });
+    const id_inventario = nuevoRegistro.id_inventario;
+
+    //console.log(' Nuevo registro:', nuevoRegistro);
+
+    // Renderizar la vista con la informacion
+    res.redirect('/home');
+  } catch (error) {
+    console.error('Error al guardar la nueva placa:', error);
+    res.status(500).send('Error al guardar la nueva placa');
+  }
+});
+
+app.get('/inventario-placas/registro-placas-individual', (req, res) => {
+  if (req.session.user) {
+    res.render('inventario-placas/registro-placas-individual', { userData: req.session.user });
+  } else {
+    res.redirect('/login');
   }
 });
 

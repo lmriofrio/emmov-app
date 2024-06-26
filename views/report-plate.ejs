@@ -6,15 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
     <title>Reportes de placas</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="node_modules/simplebar/dist/simplebar.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
+    <script src="/js/generar-reporte-placas.js"></script>
     <script src="/js/activar-items-navbar.js"></script>
     <script src="/js/spinners.js"></script>
+
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <style>
+        .table thead th {
+            background-color: #f3f4f8;
+        }
+    </style>
+
 
 </head>
 
@@ -26,11 +35,21 @@
         <aside class="left-sidebar">
             <!-- Logo Institucional-->
             <div>
-                <div class="brand-logo d-flex align-items-center justify-content-between mt-2">
-                    <a href="home" class="text-nowrap logo-img d-flex justify-content-center align-items-center">
-                        <img src="/images/img3.png" class="dark-logo mx-auto" width="180" alt="" />
+                <div class="brand-logo justify-content-right  rounded " style="overflow: hidden;">
+                    <a href="home" class="d-flex align-items-center gap-2">
+                        <div class="rounded d-flex justify-content-center align-items-center shadow-btn"
+                            style="background: white; width: 45px;height: 45px;">
+                            <img src="/images/favicon.ico" class="rounded-circle" width="30" height="34">
+                        </div>
+                        <div style="white-space: nowrap; text-overflow: ellipsis; max-width: 170px; overflow: hidden;">
+                            <h2 class="mb-1 fw-semibold text-black">
+                                emmov
+                            </h2>
+                        </div>
                     </a>
                 </div>
+
+
                 <!-- Barra de navegación-->
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar>
                     <ul id="sidebarnav">
@@ -108,20 +127,66 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="home" aria-expanded="false">
+                        <!-- <li class="sidebar-item">
+                            <a class="sidebar-link" href="" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-coin"></i>
                                 </span>
                                 <span class="hide-menu">Valores a pagar</span>
                             </a>
-                        </li>
+                        </li> -->
                         <!-- =================== -->
                         <!-- Gestión de placas   -->
                         <!-- =================== -->
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">GESTIÓN DE PLACAS</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                                <span class="d-flex">
+                                    <i class="ti ti-report-search"></i>
+                                </span>
+                                <span class="hide-menu">Inventario de placas</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link has-arrow active" href="javascript:void(0)"
+                                        aria-expanded="false">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Ingresar placas</span>
+                                    </a>
+                                    <ul aria-expanded="false" class="collapse two-level in">
+                                        <li class="sidebar-item">
+                                            <a href="/inventario-placas/registro-placas-individual"
+                                                class="sidebar-link">
+                                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                                    <i class="ti ti-circle"></i>
+                                                </div>
+                                                <span class="hide-menu">Individual</span>
+                                            </a>
+                                        </li>
+                                        <li class="sidebar-item">
+                                            <a href="javascript:void(0)" class="sidebar-link">
+                                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                                    <i class="ti ti-circle"></i>
+                                                </div>
+                                                <span class="hide-menu">Por lotes</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="reporte-diario-especies" class="sidebar-link">
+                                        <div class="round-16 d-flex align-items-center justify-content-center">
+                                            <i class="ti ti-circle"></i>
+                                        </div>
+                                        <span class="hide-menu">Modificar registros</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="report-plate" aria-expanded="false">
@@ -134,6 +199,7 @@
                         <!-- =================== -->
                         <!-- TITULOS HABILITANTES  -->
                         <!-- =================== -->
+
                         <!--
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -200,21 +266,27 @@
 
                 </nav>
                 <!-- Barra de navegación -->
-                <div class="fixed-profile p-3 mx-4 mb-3  rounded mt-3">
-                    <div class="hstack gap-3">
-                        <div class="john-img" style="width: 40px; height: 40px;">
-                            <img src="/images/user.png" class="rounded-circle" width="40" height="40" alt="">
+                <div class="fixed-profile p-2 mx-4  me-3 ms-3 mb-3 mt-3 rounded " style="overflow: hidden;">
+                    <div class="d-flex align-items-center gap-1">
+                        <div class="john-img">
+
+                            <span class="round-8 bg-green rounded-circle d-inline-block ms-2 me-2"></span>
+
+
                         </div>
-                        <div class="john-title">
-                            <h6 class="mb-0 fs-4 fw-semibold">
+                        <div class="john-title"
+                            style="white-space: nowrap; text-overflow: ellipsis; max-width: 170px; overflow: hidden;">
+                            <h6 class="mb-0 fs-3 fw-semibold">
                                 <%= userData.username %>
                             </h6>
-                            <span class="fs-2">
+                            <span class="fs-2 ">
                                 <%= userData.nombre_funcionario %>
                             </span>
                         </div>
                     </div>
                 </div>
+
+
 
 
 
@@ -233,159 +305,212 @@
                 <div class="widget-content searchable-container list">
                     <div class="card card-body">
 
-                        <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
-                            <div class="mb-3 mb-sm-0">
-                                <h5 class="card-title fw-semibold">Reporte de pagos para la elaboración de placas</h5>
-                                <p class="card-subtitle mb-0">Información de la recaudación de pagos de placas</p>
+                        <div class="d-sm-flex d-block  justify-content-center mb-2 col-12 gap-1">
+
+                            <nav class="col-lg-3" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a class="text-decoration-none text-black" href="home">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item text-muted " aria-current="page">Reporte de placas</li>
+                                </ol>
+                            </nav>
+
+                            <div class="d-block mb-3 mb-sm-0 col-lg-6  justify-content-center">
+                                <h5 class="text-dark fw-semibold text-center">Generar el reporte de pagos para la
+                                    elaboración de placas metálicas</h5>
+                                <p class="card-subtitle mb-0 d-flex justify-content-center">Ingrese el número de placa
+                                    del vehiculo</p>
                             </div>
-                            <div style="width: 20%;">
-                                <input type="text" name="" class="form-control-disable text-center" id=""
-                                    placeholder="">
+
+
+                            <div class="dropdown col-lg-3 justify-content-end d-flex">
+                                <a class="text-dark fs-6 nav-icon-hover" href="javascript:void(0)" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="ti ti-dots-vertical"></i>
+                                </a>
+
                             </div>
+
+
+
+
+
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for="exampleInputname" class="form-label fw-semibold">BUSCAR TRÁMITE</label>
-                                <form class="position-relative">
-                                    <input type="text" class="form-control product-search ps-5" id="input-search"
-                                        placeholder="">
-                                    <i
-                                        class="ti ti-search position-absolute top-50 start-0 translate-middle-y fs-6 text-dark ms-3"></i>
-                                </form>
-                            </div>
-
-                            <div class="col">
-                                <div class="form-items2">
-                                    <label for="exampleInputname" class="form-label fw-semibold">FECHA INICIAL</label>
-                                    <input type="date" name="fecha_ingreso" class="form-control" id="fecha_ingreso"
-                                        placeholder="">
+                        <hr>
+                        <div class="row col-12">
+                            <div class="col-2">
+                                <div class="col-12">
+                                    <label for="area" class="col-12 form-label fw-semibold  col-form-label">Fecha
+                                        inicial:</label>
+                                    <div class="col-12">
+                                        <input type="date" class="form-control" name="fecha_ingreso" id="fecha_ingreso">
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col">
-                                <div class="form-items2">
-                                    <label for="exampleInputname" class="form-label fw-semibold">FECHA FINAL</label>
-                                    <input type="date" name="fecha_ingreso" class="form-control" id="fecha_ingreso"
-                                        placeholder="">
+                            <div class="col-2">
+                                <div class="col-12">
+                                    <label for="area" class="col-12 form-label fw-semibold  col-form-label">Fecha
+                                        final:</label>
+                                    <div class="col-12">
+                                        <input type="date" class="form-control" name="fecha_final" id="fecha_final">
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="col-4 d-flex">
+                                <div class="col-5">
+                                    <label for="area"
+                                        class="col-12 form-label fw-semibold  col-form-label">Concultar:</label>
+                                    <div class="col-12">
+
+                                        <button type="submit"
+                                            class="justify-content-center btn px-4 py-2 fw-semibold btn-rounded  btn-secondary  align-items-center "
+                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">
+                                            <font _mstmutation="1" _msttexthash="76830" _msthash="372"
+                                                id="generarReportePlacas"> Procesar consulta
+                                            </font>
+                                        </button>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-6 ms-1">
+                                    <label for="area" class="col-12 form-label fw-semibold  col-form-label">Generar
+                                        Excel:</label>
+                                    <div class="col-12">
+                                        <button type="submit"
+                                            class="justify-content-center btn  btn-rounded btn-warning align-items-center mb-0  py-2 pt-2">
+                                            <i class="ti ti-file-spreadsheet fs-4 me-2"></i>
+                                            <font _mstmutation="" _msttexthash="" _msthash=""> Exportar a excel
+                                            </font>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-2 d-flex">
+
+                            </div>
+
+
+
+
+                        </div>
+
+                        <div class="row col-12">
+                            <div class="col-12 d-flex align-items-right justify-content-end">
+                                <div class="">
+                                    <div class="col-12">
+
+                                        <button type="submit"
+                                            class="justify-content-center btn px-4 py-2 fw-semibold btn-rounded  btn-secondary  align-items-center "
+                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">
+                                            <i class="ti ti-adjustments-horizontal fs-4 me-2"></i>
+                                            <font _mstmutation="1" _msttexthash="76830" _msthash="372"
+                                                id="openModalButton"> Filtrar
+                                            </font>
+                                        </button>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="ms-3">
+                                    <div class="col-12">
+                                        <button type="submit"
+                                            class="justify-content-center btn  btn-rounded btn-warning align-items-center mb-0  py-2 pt-2">
+                                            <i class="ti ti-file-spreadsheet fs-4 me-2"></i>
+                                            <font _mstmutation="" _msttexthash="" _msthash=""> Exportar
+                                            </font>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-2 d-flex">
+
+                            </div>
+
+
+
+
                         </div>
                         <br>
                         <div class="table-responsive">
-                            <table class="table  table-bordered">
-                                <thead class="">
-                                    <tr>
-                                        <th class="text-center align-middle px-2 py-2">TRÁMITE</th>
-                                        <th class="text-center align-middle px-2 py-2">FECHA</th>
-                                        <th class="text-center align-middle px-2 py-2">PROCESO</th>
-                                        <th class="text-center align-middle px-2 py-2">PLACA</th>
-                                        <th class="text-center align-middle px-2 py-2">FUNCIONARIO</th>
-                                        <th class="text-center align-middle px-2 py-2">ENTIDAD BANCARIA</th>
-                                        <th class="text-center align-middle px-2 py-2">COMPROBANTE</th>
-                                        <th class="text-center align-middle px-2 py-2">FECHA DE PAGO</th>
-                                        <th class="text-center align-middle px-2 py-2">VALOR</th>
-                                        <th class="text-center align-middle px-2 py-2">TIPO DE SERVICIO</th>
-                                        <th class="text-center align-middle px-2 py-2">TRÁMITE AXIS</th>
+                            <table class="table table-bordered">
+                                <thead class="rounded-header">
+                                    <tr class="text-dark">
+                                        <th class="text-center align-middle px-2 py-2"
+                                            style="white-space: wrap; overflow: hidden; text-overflow: ellipsis; border-style: none; max-width: 120px;">
+                                            FECHA DEL TRÁMITE</th>
+                                        <th class="text-center align-middle px-2 py-2" style="border-style: none; ;">
+                                            PROCESO</th>
+                                        <th class="text-center align-middle px-2 py-2" style="border-style: none; ;">
+                                            PLACA</th>
+                                        <th class="text-center align-middle px-2 py-2" style="border-style: none; ;">
+                                            ENTIDAD BANCARIA</th>
+                                        <th class="text-center align-middle px-2 py-2" style="border-style: none; ;">
+                                            COMPROBANTE</th>
+                                        <th class="text-center align-middle px-2 py-2" style="border-style: none; ;">
+                                            FECHA DE PAGO</th>
+                                        <th class="text-center align-middle px-2 py-2" style="border-style: none; ;">
+                                            VALOR</th>
+                                        <th class="text-center align-middle px-2 py-2"
+                                            style="white-space: wrap; overflow: hidden; text-overflow: ellipsis; border-style: none; max-width: 108px;">
+                                            TIPO DE SERVICIO</th>
+                                        <th class="text-center align-middle px-2 py-2"
+                                            style="white-space: wrap; overflow: hidden; text-overflow: ellipsis; border-style: none; max-width: 108px;">
+                                            TRÁMITE AXIS</th>
+                                        <th class="text-center align-middle px-2 py-2"
+                                            style="white-space: wrap; overflow: hidden; text-overflow: ellipsis; border-style: none; max-width: 108px;">
+                                            ACCIÓN</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <% tramites.forEach(tramite=> { %>
-                                        <tr>
-                                            <td class="text-center">
-                                                <%= tramite.id_tramite %>
-                                            </td>
-                                            <td>
-                                                <%= formatDate(tramite.fecha_finalizacion) %>
-                                            </td>
-                                            <td>
-                                                <%= tramite.tipo_tramite %>
-                                            </td>
-                                            <td class="text-center">
-                                                <%= tramite.placa %>
-                                            </td>
-                                            <td>
-                                                <%= tramite.nombre_funcionario %>
-                                            </td>
-                                            <td>
-                                                <%= tramite.pago_placas_entidad_bancaria %>
-                                            </td>
-                                            <td>
-                                                <%= tramite.pago_placas_comprobante %>
-                                            </td>
-                                            <td class="text-center">
-                                                <%= tramite.pago_placas_fecha %>
-                                            </td>
-                                            <td class="text-center">
-                                                <%= tramite.pago_placas_valor %>
-                                            </td>
-                                            <td class="text-center">
-                                                <%= tramite.pago_placas_newservicio %>
-                                            </td>
-                                            <td class="text-center">
-                                                <%= tramite.id_tramite_axis %>
-                                            </td>
-                                        </tr>
-                                        <% }); %>
+                                <tbody id="tbody-tramites">
+
                                 </tbody>
                             </table>
 
 
-
-
-
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination mb-0">
-                                    <li class="page-item">
-                                        <a class="page-link link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">
-                                                <i class="ti ti-chevrons-left fs-4"></i>
-                                            </span>
-                                        </a>
-                                    </li>
-
-                                    <% for (let i=1; i <=totalPages; i++) { %>
-                                        <li class="page-item <%= i === pageNum ? 'actives' : '' %>">
-                                            <a class="page-link link" href="/report-plate?page=<%= i %>">
-                                                <%= i %>
-                                            </a>
-                                        </li>
-                                        <% } %>
-
-                                            <li class="page-item">
-                                                <a class="page-link link" href="#" aria-label="Next">
-                                                    <span aria-hidden="true">
-                                                        <i class="ti ti-chevrons-right fs-4"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                </ul>
-                            </nav>
-
-
-                            <div class="d-flex justify-content-center gap-2">
-                                <div class="text-end">
-                                    <button type="submit"
-                                        class="justify-content-center btn  btn-rounded btn-secondary align-items-center mb-0  py-2 pt-2">
-                                        <i class="ti ti-arrow-narrow-right fs-4 me-2"></i>
-                                        <font _mstmutation="1" _msttexthash="76830" _msthash="372"> Procesar consulta
-                                        </font>
-                                    </button>
-                                </div>
-                                <br>
-                                <div class="text-end  ">
-                                    <button type="submit"
-                                        class="justify-content-center btn  btn-rounded btn-primary align-items-center mb-0  py-2 pt-2">
-                                        <i class="ti ti-file-spreadsheet fs-4 me-2"></i>
-                                        <font _mstmutation="1" _msttexthash="76830" _msthash="372"> Exportar a excel
-                                        </font>
-                                    </button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                Abrir Modal
+                            </button>
+                        
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal de Ejemplo</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Contenido del modal...
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                            <button type="button" class="btn btn-primary">Guardar cambios</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
 
+
+
+
                         </div>
+
+
+
+
                     </div>
 
                 </div>
@@ -398,9 +523,302 @@
             </div>
 
 
+            <div class="modal fade" id="permisosModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-body">
+
+                            <form action="" method="POST">
+
+
+                                <div class="px-4">
+                                    <div class="py-1">
+                                        <div class="row align-items-center justify-content-center">
+                                            <div class="col-2">
+                                                <div class="mb-3">
+
+                                                    <div
+                                                        class="brand-logo d-flex align-items-center justify-content-center">
+                                                        <a
+                                                            class="text-nowrap logo-img d-flex justify-content-center align-items-center">
+                                                            <img src="/images/favicon.ico" class="" width="80"
+                                                                alt="80" />
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center justify-content-center d-flex">
+                                            <div class="col-lg-4">
+                                                <div class="align-items-center justify-content-center d-flex">
+                                                    <h5>TRÁMITE #</h5>
+                                                    <h5 id="id_tramite" name="id_tramite"></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center justify-content-center d-flex">
+                                            <div class="col-lg-3">
+                                                <div class="mb-2 align-items-center justify-content-center d-flex">
+                                                    <label for="" class="form-label fw-semibold me-2 mb-0">Estado:
+                                                    </label>
+
+                                                    <span class="badge bg-primary-subtle rounded fw-semibold
+                                                 btn-status-finish mb-0 me-2">Finalizado<i
+                                                            class="ti ti-check fw-semibold ms-1 fs-3"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="mb-2 align-items-center justify-content-center d-flex">
+                                                    <label for="" class="form-label fw-semibold me-2">Fecha:
+                                                    </label>
+                                                    <h7 class="form-label" style="font-weight: 400;" id="fecha_ingreso"
+                                                        name="fecha_ingreso"></h7>
+
+
+
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3 border-bottom">
+                                    <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Información del proceso
+                                        de matriculación:
+                                    </h5>
+                                    <div class="py-3">
+                                        <div class="row">
+                                            <div class="col-lg-2">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold">Placa</label>
+                                                    <input type="text" name="placa" class="form-control" id="placa"
+                                                        readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold">C.I. / RUC</label>
+                                                    <input type="text" class="form-control" id="id_usuario"
+                                                        name="id_usuario" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold">Propietario</label>
+                                                    <input type="text" class="form-control" id="nombre_usuario"
+                                                        nombre="nombre_usuario" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-2">
+                                                    <label for="tipo_tramite" class="form-label fw-semibold">Clase de
+                                                        transporte</label>
+                                                    <input type="text" class="form-control" id="clase_transporte"
+                                                        name="clase_transporte" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold">Clase de
+                                                        vehículo</label>
+                                                    <input type="text" class="form-control" id="clase_vehiculo"
+                                                        name="clase_vehiculo" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-2">
+                                                    <label for="tipo_tramite" class="form-label fw-semibold">Tipo de
+                                                        trámite</label>
+                                                    <input type="text" name="tipo_tramite" class="form-control"
+                                                        id="tipo_tramite" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="mb-2">
+                                                    <label for="tipo_tramite" class="form-label fw-semibold">#
+                                                        Adhesivo</label>
+                                                    <input type="text" name="" class="form-control" id="numero_adhesivo"
+                                                        value="numero_adhesivo" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold"># Matrícula</label>
+                                                    <input type="text" name="numero_matricula" id="numero_matricula"
+                                                        class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold"># Fojas</label>
+                                                    <input type="text" name="" class="form-control" id="numero_fojas"
+                                                        value="numero_fojas" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3 border-bottom">
+                                    <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Domicilio y contacto
+                                    </h5>
+                                    <div class="py-3">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-2">
+                                                    <label for="tipo_tramite"
+                                                        class="form-label fw-semibold">Celular</label>
+                                                    <input type="text" class="form-control" id="celular_usuario"
+                                                        name="celular_usuario" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold">Email</label>
+                                                    <input type="text" class="form-control" id="email_usuario"
+                                                        name="email_usuario" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold">Domicilio</label>
+                                                    <input type="text" class="form-control" id="canton_usuario"
+                                                        name="canton_usuario" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3 border-bottom">
+                                    <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Comprobante de pago</h5>
+                                    <div class="py-3">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-2">
+                                                    <label for="tipo_tramite" class="form-label fw-semibold">Entidad
+                                                        Bancaria</label>
+                                                    <input type="text" class="form-control"
+                                                        id="pago_placas_entidad_bancaria"
+                                                        value="pago_placas_entidad_bancaria" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold">Nº Comprobante</label>
+                                                    <input type="text" class="form-control" id="pago_placas_comprobante"
+                                                        value="pago_placas_comprobante" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold">Valor</label>
+                                                    <input type="text" class="form-control" id="pago_placas_valor"
+                                                        name="pago_placas_valor" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="mb-2">
+                                                    <label for="tipo_tramite" class="form-label fw-semibold">Fecha de
+                                                        pago</label>
+                                                    <input type="text" class="form-control" id="pago_placas_fecha"
+                                                        name="pago_placas_fecha" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold">Nuevo tipo de
+                                                        servicio</label>
+                                                    <input type="text" class="form-control" id="pago_placas_newservicio"
+                                                        name="pago_placas_newservicio" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold">Nº Trámite Axis</label>
+                                                    <input type="text" class="form-control" id="id_tramite_axis"
+                                                        value="id_tramite_axis" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="px-4 py-3 border-bottom">
+                                    <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Funcionario</h5>
+                                    <div class="py-3">
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <div class="mb-2">
+                                                    <label for="tipo_tramite"
+                                                        class="form-label fw-semibold">Usuario</label>
+                                                    <input type="text" class="form-control" id="username"
+                                                        name="username" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <div class="mb-2">
+                                                    <label for="" class="form-label fw-semibold">Nombre del
+                                                        funcionario</label>
+                                                    <input type="text" class="form-control" id="nombre_funcionario"
+                                                        name="nombre_funcionario" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
 
         </div>
     </div>
+
+
+
+
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Obtener referencia al botón y al modal
+            var openModalButton = document.getElementById('openModalButton');
+            var modal = document.getElementById('permisosModal2');
+
+            // Agregar un evento 'click' al botón
+            openModalButton.addEventListener('click', function () {
+                // Mostrar el modal cuando se hace clic en el botón
+                modal.classList.add('show');
+                modal.style.display = 'block';
+            });
+        });
+
+    </script>
 
 </body>
 

@@ -5,6 +5,8 @@ const Vehiculo = require('../models/Vehiculo');
 router.post('/buscar-vehiculo', async (req, res) => {
     const { placa } = req.body;
 
+    console.log('Placa reibida:', placa);  
+
     try {
         const vehiculo = await Vehiculo.findOne({ where: { placa } });
 
