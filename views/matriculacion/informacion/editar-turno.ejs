@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Editar turno</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="/js/activar-items-navbar.js"></script>
+
+    <script src="/js/cargar-tipos-tramites.js"></script>
+    <script src="/js/cargar-cantones.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script src="/js/spinners.js"></script>
+
+
+    <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</head>
+
+<body>
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+                    <div class="container-fluid">
+
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-lg-7">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <div class="border-bottom rounded-top">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <span class="me-2">
+                                                    <i class="ti ti-calendar-clock fs-7 text-black"></i>
+                                                </span>
+                                                <h5 class="modal-title text-black fw-semibold mb-1 fs-5"
+                                                    id="exampleModalXlLabel">
+                                                    Editar turno</h5>
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <div class="d-flex mt-3">
+
+                                            <form action="/guardar-tra-Informacion" method="post"
+                                                id="registroFormAreaInformacion" class="col">
+
+
+
+
+
+                                                <div class="mt-3 mb-1">
+
+
+                                                    <div
+                                                        class="card-body px-3 py-3 form-label bg-four-card rounded border">
+                                                        <div class="row">
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                        class="form-label text-start col-md-4">Placass:</label>
+                                                                    <div class="col-md-8">
+                                                                        <p class="form-control-static text-black">
+                                                                            <%= tramite.placa %>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                        class="form-label text-start col-md-4">C.I./RUC:</label>
+                                                                    <div class="col-md-8">
+                                                                        <p class="form-control-static text-black">
+                                                                            <%= tramite.id_usuario %>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="row">
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                        class="form-label text-start col-md-4">Vehiculo:</label>
+                                                                    <div class="col-md-8">
+                                                                        <p class="form-control-static text-black">
+                                                                            <%= tramite.clase_vehiculo %>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                        class="form-label text-start col-md-4">Propietario:</label>
+                                                                    <div class="col-md-8">
+                                                                        <div
+                                                                            style="white-space: nowrap; overflow: hidden;">
+                                                                            <p class="form-control-static text-black">
+                                                                                <%= tramite.nombre_usuario %>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                        class="form-label text-start col-md-4">Transporte:</label>
+                                                                    <div class="col-md-8">
+                                                                        <p class="form-control-static mb-2 text-black">
+                                                                            <%= tramite.clase_transporte %>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <label class="form-label text-start col-md-4">Tipo
+                                                                        de trámite:</label>
+                                                                    <div class="col-md-8"
+                                                                        style="white-space: nowrap; overflow: hidden;">
+                                                                        <p class="form-control-static mb-2 text-black">
+                                                                            <%= tramite.tipo_tramite %>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                </div>
+
+                                                <nav>
+                                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                        <button class="nav-link active" id="nav-home-tab"
+                                                            data-bs-toggle="tab" data-bs-target="#nav-home"
+                                                            type="button" role="tab" aria-controls="nav-home"
+                                                            aria-selected="true">Información general</button>
+                                                        <button class="nav-link" id="nav-profile-tab"
+                                                            data-bs-toggle="tab" data-bs-target="#nav-profile"
+                                                            type="button" role="tab" aria-controls="nav-profile"
+                                                            aria-selected="false">Asignación</button>
+                                                        <button class="nav-link" id="nav-contact-tab"
+                                                            data-bs-toggle="tab" data-bs-target="#nav-contact"
+                                                            type="button" role="tab" aria-controls="nav-contact"
+                                                            aria-selected="false">Otros servicios</button>
+                                                    </div>
+                                                </nav>
+                                                <div class="tab-content border rounded p-4" id="nav-tabContent">
+                                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                                        aria-labelledby="nav-home-tab">
+
+                                                        <div class="">
+
+
+                                                            <div class="">
+
+                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                    1.- INFORMACIÓN GENERAL</h5>
+
+                                                            </div>
+
+                                                            <div
+                                                                class="col pt-1 mx-auto d-flex flex-column align-items-center">
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Tipo
+                                                                            de trámite:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-select fw-normal"
+                                                                                name="tipo_tramite" id="tipo_tramite"
+                                                                                aria-label="Default select example"
+                                                                                required>
+                                                                                <option selected></option>
+                                                                                <% tiposTramites.forEach(tipo=> { %>
+                                                                                    <option
+                                                                                        value="<%= tipo.tipo_tramite %>"
+                                                                                        <% if
+                                                                                        (tramite.tipo_tramite===tipo.tipo_tramite)
+                                                                                        { %>
+                                                                                        selected
+                                                                                        <% } %>>
+                                                                                            <%= tipo.tipo_tramite %>
+                                                                                    </option>
+                                                                                    <% }); %>
+                                                                            </select>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Placa:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" name="placa"
+                                                                                class="form-control" placeholder=""
+                                                                                aria-label="Recipient's username"
+                                                                                aria-describedby="basic-addon2"
+                                                                                autocomplete="off"
+                                                                                value="<%= tramite.placa %>">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="">
+
+
+                                                            <div class="">
+
+                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                    2.- DATOS DEL VEHÍCULO</h5>
+
+                                                            </div>
+
+                                                            <div
+                                                                class="col pt-1 mx-auto d-flex flex-column align-items-center">
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Clase
+                                                                            de vehículo:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-select"
+                                                                                name="clase_vehiculo"
+                                                                                id="clase_vehiculo">
+                                                                                <option value=""
+                                                                                    <%=tramite.clase_vehiculo===''
+                                                                                    ? 'selected' : '' %>></option>
+                                                                                <option value="AUTOBÚS"
+                                                                                    <%=tramite.clase_vehiculo==='AUTOBÚS'
+                                                                                    ? 'selected' : '' %>>AUTOBÚS
+                                                                                </option>
+                                                                                <option value="AUTOMÓVIL"
+                                                                                    <%=tramite.clase_vehiculo==='AUTOMÓVIL'
+                                                                                    ? 'selected' : '' %>>AUTOMÓVIL
+                                                                                </option>
+                                                                                <option value="CAMIÓN"
+                                                                                    <%=tramite.clase_vehiculo==='CAMIÓN'
+                                                                                    ? 'selected' : '' %>>CAMIÓN</option>
+                                                                                <option value="CAMIONETA"
+                                                                                    <%=tramite.clase_vehiculo==='CAMIONETA'
+                                                                                    ? 'selected' : '' %>>CAMIONETA
+                                                                                </option>
+                                                                                <option value="MOTOCICLETA"
+                                                                                    <%=tramite.clase_vehiculo==='MOTOCICLETA'
+                                                                                    ? 'selected' : '' %>>MOTOCICLETA
+                                                                                </option>
+                                                                                <option
+                                                                                    value="UNIDAD DE CARGA Y REMOLQUE"
+                                                                                    <%=tramite.clase_vehiculo==='UNIDAD DE CARGA Y REMOLQUE'
+                                                                                    ? 'selected' : '' %>>UNIDAD DE CARGA
+                                                                                    Y REMOLQUE</option>
+                                                                                <option value="VEHÍCULO ESPECIAL"
+                                                                                    <%=tramite.clase_vehiculo==='VEHÍCULO ESPECIAL'
+                                                                                    ? 'selected' : '' %>>VEHÍCULO
+                                                                                    ESPECIAL</option>
+                                                                                <option value="VEHÍCULO UTILITARIO"
+                                                                                    <%=tramite.clase_vehiculo==='VEHÍCULO UTILITARIO'
+                                                                                    ? 'selected' : '' %>>VEHÍCULO
+                                                                                    UTILITARIO</option>
+                                                                            </select>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Tipo
+                                                                            de vehículo:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-select"
+                                                                                name="tipo_vehiculo" id="tipo_vehiculo">
+                                                                                <option value="" selected></option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Servicio:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-select"
+                                                                                name="clase_transporte"
+                                                                                id="clase_transporte"
+                                                                                aria-label="Default select example">
+                                                                                <option value="COMERCIAL" <% if
+                                                                                    (tramite.clase_transporte==='COMERCIAL'
+                                                                                    ) { %>
+                                                                                    selected <% } %>
+                                                                                        >COMERCIAL</option>
+                                                                                <option value="PARTICULAR" <% if
+                                                                                    (tramite.clase_transporte==='PARTICULAR'
+                                                                                    ) { %>
+                                                                                    selected <% } %>
+                                                                                        >PARTICULAR</option>
+                                                                                <option value="PUBLICO" <% if
+                                                                                    (tramite.clase_transporte==='PUBLICO'
+                                                                                    ) { %>
+                                                                                    selected <% } %>>PUBLICO</option>
+                                                                                <option value="ESTATAL" <% if
+                                                                                    (tramite.clase_transporte==='ESTATAL'
+                                                                                    ) { %>
+                                                                                    selected <% } %>>ESTATAL</option>
+                                                                                <option value="MUNICIPAL" <% if
+                                                                                    (tramite.clase_transporte==='MUNICIPAL'
+                                                                                    ) { %>
+                                                                                    selected <% } %>
+                                                                                        >MUNICIPAL</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="">
+
+
+                                                            <div class="pt-2">
+
+                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                    3.- DATOS DEL PROPIETARIO</h5>
+
+                                                            </div>
+                                                            <div
+                                                                class="col pt-1 mx-auto d-flex flex-column align-items-center">
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Tipo
+                                                                            de identificación:</label>
+                                                                        <div class="col-md-8">
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input class="form-check-input primary"
+                                                                                    type="radio" id="tipo_cedula"
+                                                                                    name="tipo_id_usuario"
+                                                                                    value="Cedula" checked="">
+                                                                                <label class="form-check-label"
+                                                                                    for="tipo_cedula">Cédula</label>
+                                                                            </div>
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input class="form-check-input primary"
+                                                                                    type="radio" id="tipo_ruc"
+                                                                                    name="tipo_id_usuario" value="Ruc">
+                                                                                <label class="form-check-label"
+                                                                                    for="tipo_ruc">RUC</label>
+                                                                            </div>
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input class="form-check-input primary"
+                                                                                    type="radio" id="tipo_pasaporte"
+                                                                                    name="tipo_id_usuario"
+                                                                                    value="Pasaporte">
+                                                                                <label class="form-check-label"
+                                                                                    for="tipo_pasaporte">Pasaporte</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">No.
+                                                                            Identificación:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" name="id_usuario" class="form-control"
+                                                                            placeholder="" aria-label="Recipient's username"
+                                                                            aria-describedby="basic-addon2" id="id_usuario"
+                                                                            autocomplete="off" value="<%= tramite.id_usuario %>">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Nombre:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                name="nombre_usuario"
+                                                                                id="nombre_usuario"
+                                                                                value="<%= tramite.nombre_usuario %>">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Provincia:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-select"
+                                                                                name="provincia_usuario"
+                                                                                aria-label="Default select example"
+                                                                                id="provincia_usuario">
+                                                                                <option selected=""></option>
+                                                                                <option value="Azuay">Azuay</option>
+                                                                                <option value="Bolívar">Bolívar</option>
+                                                                                <option value="Cañar">Cañar</option>
+                                                                                <option value="Carchi">Carchi</option>
+                                                                                <option value="Chimborazo">Chimborazo
+                                                                                </option>
+                                                                                <option value="Cotopaxi">Cotopaxi
+                                                                                </option>
+                                                                                <option value="El Oro">El Oro</option>
+                                                                                <option value="Esmeraldas">Esmeraldas
+                                                                                </option>
+                                                                                <option value="Galápagos">Galápagos
+                                                                                </option>
+                                                                                <option value="Guayas">Guayas</option>
+                                                                                <option value="Imbabura">Imbabura
+                                                                                </option>
+                                                                                <option value="Loja">Loja</option>
+                                                                                <option value="Los Ríos">Los Ríos
+                                                                                </option>
+                                                                                <option value="Manabí">Manabí</option>
+                                                                                <option value="Morona Santiago">Morona
+                                                                                    Santiago</option>
+                                                                                <option value="Napo">Napo</option>
+                                                                                <option value="Sucumbíos">Sucumbíos
+                                                                                </option>
+                                                                                <option value="Pastaza">Pastaza</option>
+                                                                                <option value="Pichincha">Pichincha
+                                                                                </option>
+                                                                                <option value="Santa Elena">Santa Elena
+                                                                                </option>
+                                                                                <option
+                                                                                    value="Santo Domingo de los Tsáchilas">
+                                                                                    Santo Domingo de los Tsáchilas
+                                                                                </option>
+                                                                                <option value="Francisco de Orellana">
+                                                                                    Francisco de Orellana</option>
+                                                                                <option value="Tungurahua">Tungurahua
+                                                                                </option>
+                                                                                <option value="Zamora Chinchipe">Zamora
+                                                                                    Chinchipe</option>
+                                                                            </select>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Cantón:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-select"
+                                                                                name="canton_usuario"
+                                                                                id="canton_usuario"
+                                                                                aria-label="Default select example"
+                                                                                autocomplete="off">
+                                                                                <option value="" selected></option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Parroquia:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                autocomplete="off"
+                                                                                name="parroquia_usuario"
+                                                                                id="parroquia_usuario" value="<%= tramite.parroquia_usuario %>">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Celular:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                autocomplete="off"
+                                                                                name="celular_usuario"
+                                                                                id="celular_usuario" value="<%= tramite.celular_usuario %>">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Email:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="email" class="form-control"
+                                                                                name="email_usuario" id="email_usuario"
+                                                                                value="luis_michael@hotmail.com" value="<%= tramite.email_usuario %>">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="">
+                                                            <div class="">
+
+                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                    4.- VALOR Y OBSERVACIONES</h5>
+                                                            </div>
+
+                                                            <div
+                                                                class="col pt-1 mx-auto d-flex flex-column align-items-center">
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Valor:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                name="valor_pago_INFORMACION"
+                                                                                id="valor_pago_INFORMACION"
+                                                                                autocomplete="off" value="<%= tramite.valor_pago_INFORMACION %>">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Observaciones:</label>
+                                                                        <div class="col-md-8">
+                                                                            <div class="form-group">
+                                                                                <textarea class="form-control" rows="3"
+                                                                                    name="observaciones_INFORMACION"
+                                                                                    id="observaciones_INFORMACION"
+                                                                                    autocomplete="off" value="<%= tramite.observaciones_INFORMACION %>"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <input type="hidden" name="fecha_ingreso_INFORMACION"
+                                                                    class="form-control" id="fecha_ingreso_INFORMACION"
+                                                                    placeholder="" required>
+
+
+                                                                <script>
+
+                                                                    var fecha = new Date();
+                                                                    // Obtenemos los componentes de la fecha
+                                                                    var year = fecha.getFullYear(); // Año
+                                                                    var month = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Mes (se suma 1 porque los meses en JS son de 0-11)
+                                                                    var day = fecha.getDate().toString().padStart(2, '0'); // Día
+
+                                                                    // Obtenemos los componentes de la hora
+                                                                    var hours = fecha.getHours().toString().padStart(2, '0'); // Hora
+                                                                    var minutes = fecha.getMinutes().toString().padStart(2, '0'); // Minutos
+                                                                    var seconds = fecha.getSeconds().toString().padStart(2, '0'); // Segundos
+
+                                                                    // Formateamos la fecha como 'YYYY-MM-DD HH:MM:SS'
+                                                                    var formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+                                                                    document.getElementById('fecha_ingreso_INFORMACION').value = formattedDate;
+                                                                </script>
+
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                                                        aria-labelledby="nav-profile-tab">
+                                                        <div class="">
+                                                            <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                4.- ASIGNACION DE TRÁMITE</h5>
+                                                        </div>
+
+                                                        <div
+                                                            class="col pt-1 mx-auto d-flex flex-column align-items-center">
+                                                            <div class="col-9 mb-2">
+                                                                <div class="form-group row justify-content-center">
+                                                                    <label
+                                                                        class="form-label col-md-7 fw-normal text-md-end">Tipo
+                                                                        de asignación:</label>
+                                                                    <div class="col-md-5">
+                                                                        <select class="form-select"
+                                                                            name="tipo_asignacion"
+                                                                            aria-label="Seleccionar tipo de asignación"
+                                                                            id="tipo_asignacion">
+                                                                            <option value="AUTOMÁTICA"
+                                                                                <%=userData.tipo_ASIGNACION==='AUTOMÁTICA'
+                                                                                ? 'selected' : '' %>>AUTOMÁTICA</option>
+                                                                            <option value="MANUAL"
+                                                                                <%=userData.tipo_ASIGNACION==='MANUAL'
+                                                                                ? 'selected' : '' %>>MANUAL</option>
+                                                                        </select>
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-9 mb-2">
+                                                                <div class="form-group row justify-content-center">
+                                                                    <label
+                                                                        class="form-label col-md-7 fw-normal text-md-end">Oficina
+                                                                        seleccionada:</label>
+                                                                    <div class="col-md-5">
+                                                                        <select class="form-select"
+                                                                            name="oficina_ASIGNACION"
+                                                                            id="oficina_ASIGNACION">
+                                                                            <option value="TODAS"
+                                                                                <%=userData.oficina_ASIGNACION==='TODAS'
+                                                                                ? 'selected' : '' %>>TODAS</option>
+                                                                            <% centrosMatriculacion.forEach(function(centro)
+                                                                                { %>
+                                                                                <option
+                                                                                    value="<%= centro.id_centro_matriculacion %>"
+                                                                                    <%=userData.oficina_ASIGNACION===centro.id_centro_matriculacion
+                                                                                    ? 'selected' : '' %>>
+                                                                                    <%= centro.nombre_centro_matriculacion
+                                                                                        %>
+                                                                                </option>
+                                                                                <% }); %>
+                                                                        </select>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-9">
+                                                                <div class="form-group row justify-content-center">
+                                                                    <label
+                                                                        class="form-label col-md-7 fw-normal text-md-end">Usuario
+                                                                        asignado:</label>
+                                                                    <div class="col-md-5">
+                                                                        <select class="form-select"
+                                                                            name="usuario_ASIGNACION"
+                                                                            id="usuario_ASIGNACION">
+                                                                            <option value="AUTOMÁTICA"
+                                                                                <%=userData.usuario_ASIGNACION==='AUTOMÁTICA'
+                                                                                ? 'selected' : '' %>>AUTOMÁTICA</option>
+                                                                            <% if (funcionariosActivos &&
+                                                                                funcionariosActivos.length> 0) { %>
+                                                                                <% funcionariosActivos.forEach(function(centro)
+                                                                                    { %>
+                                                                                    <option
+                                                                                        value="<%= centro.id_funcionario %>"
+                                                                                        <%=userData.usuario_ASIGNACION===centro.id_funcionario
+                                                                                        ? 'selected' : '' %>>
+                                                                                        <%= centro.nombre_funcionario %>
+                                                                                    </option>
+                                                                                    <% }); %>
+                                                                                        <% } else { %>
+                                                                                            <option disabled>No hay
+                                                                                                funcionarios activos
+                                                                                                disponibles</option>
+                                                                                            <% } %>
+                                                                        </select>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="nav-contact" role="tabpanel"
+                                                        aria-labelledby="nav-contact-tab">
+                                                        <div class="">
+
+
+                                                            <div class="">
+
+                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                    5.- OTROS SERVICIOS</h5>
+
+                                                            </div>
+
+                                                            <div
+                                                                class="col pt-1 mx-auto d-flex flex-column align-items-center">
+                                                                <div class="col-9 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-7 fw-normal text-md-end">Revisión
+                                                                            Técnica Vehicular (RTV):</label>
+                                                                        <div class="col-md-5">
+                                                                            <select class="form-select"
+                                                                                name="revision_tecnica_vehicular_TURNO"
+                                                                                aria-label="Default select example">
+                                                                                <option value="NO" selected>NO
+                                                                                </option>
+                                                                                <option value="SI">SI</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-9 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-7 fw-normal text-md-end">Verificación
+                                                                            y extracción de improntas:</label>
+                                                                        <div class="col-md-5">
+                                                                            <select class="form-select"
+                                                                                name="verificacion_improntas_TURNO"
+                                                                                aria-label="Default select example">
+                                                                                <option value="NO" selected>NO
+                                                                                </option>
+                                                                                <option value="SI">SI</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-9">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-7 fw-normal text-md-end">Cambio
+                                                                            de servicio:</label>
+                                                                        <div class="col-md-5">
+                                                                            <select class="form-select"
+                                                                                name="cambio_servicio_TURNO"
+                                                                                aria-label="Default select example">
+                                                                                <option value="NO" selected>NO
+                                                                                </option>
+                                                                                <option value="SI">SI</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                                <div class="form-actions">
+                                                    <div class="text-end">
+
+                                                        <button type="button"
+                                                            class="btn btn-secondary me-6 fw-semibold btn-rounded shadow-btn px-4">
+                                                            Cancelar
+                                                        </button>
+
+                                                        <button type="submit"
+                                                            class="btn btn-primary fw-semibold btn-rounded shadow-btn px-4">
+                                                            Guardar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="modal fade" id="modalPlacaExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Error: campo placa</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>El valor en el campo ¨placa¨ es demasiado extenso. Por favor, asegúrate de que
+                                        tenga menos
+                                        de 7 caracteres.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="spinner-wrapper" class="spinner-wrapper">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading..</span>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+    </div>
+
+
+
+</body>
+
+</html>

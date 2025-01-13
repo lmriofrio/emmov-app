@@ -8,6 +8,7 @@ const sequelize = new Sequelize({
   password: 'lmriofrio',
   database: 'mydb',
   //64.23.134.120
+  //localhost
 });
 
 module.exports = sequelize;

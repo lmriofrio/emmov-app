@@ -5,15 +5,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-    crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-    crossorigin="anonymous"></script>
-
-
-
   <title>Login</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+
+  <script src="/public/js/login-script.js"></script>
+
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body>
@@ -26,9 +27,9 @@
           <div class="col-md-8 col-lg-6 col-xxl-3">
             <div class="cardlogin mb-0">
               <div class="card-body">
-                <a href="login" class="d-flex justify-content-center align-items-center text-nowrap logo-img text-center py-3 w-100 overflow-hidden gap-2">
-                  <div class="d-flex justify-content-center align-items-center "
-                    style="width: 45px;height: 45px;">
+                <a href="login"
+                  class="d-flex justify-content-center align-items-center text-nowrap logo-img text-center py-3 w-100 overflow-hidden gap-2">
+                  <div class="d-flex justify-content-center align-items-center " style="width: 45px;height: 45px;">
                     <img src="/images/favicon.ico" class="rounded-circle" width="60" height="60">
                   </div>
                   <div style="white-space: nowrap; text-overflow: ellipsis; max-width: 170px; overflow: hidden;">
@@ -43,11 +44,11 @@
                 </div>
                 <form id="loginForms" action="/login" method="post">
                   <div class="mb-3">
-                    <label for="username" class="form-label">Usuario:</label>
+                    <label for="username" class="form-label fw-normal">Usuario:</label>
                     <input type="text" name="username" id="username" class="form-control" aria-describedby="" required>
                   </div>
                   <div class="form-group mb-4">
-                    <label for="password" class="form-label">Contraseña:</label>
+                    <label for="password" class="form-label fw-normal">Contraseña:</label>
                     <input type="password" name="password" id="password" class="form-control" required>
                   </div>
 
@@ -57,9 +58,12 @@
                       <label class="form-check-label text-dark" for="flexCheckChecked">
                         Recordar credenciales
                       </label>
+
+
                     </div>
+                    <!-- 
                     <a class="text-primary text-end fw-medium" href="">¿Olvidaste tu
-                      contraseña?</a>
+                      contraseña?</a> -->
                   </div>
 
                   <div class="form-group">
@@ -80,11 +84,9 @@
         </div>
       </div>
     </div>
+
+    <div id="alert-container"></div>
   </div>
-
-  <script src="/public/js/login-script.js"></script>
-
-
 
 </body>
 

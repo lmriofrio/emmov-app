@@ -1,0 +1,1302 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Agregar turno</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="/js/activar-items-navbar.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script src="/js/spinners.js"></script>
+
+
+    <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+<body>
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+                    <div class="container-fluid">
+
+
+
+                        <form action="/guardar-tramite-informacion" method="post" id="registroFormAreaInformacion"
+                            class=" needs-validation" novalidate>
+
+                            <div class="col d-flex gap-4 justify-content-center" id="contentAggTurno">
+                                <div class="col-7" id="contentDateEmpresa">
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <div class="border-bottom rounded-top">
+                                                <div class="d-flex align-items-center mb-3">
+                                                    <span class="me-2">
+                                                        <i class="ti ti-calendar-clock fs-7 text-black"></i>
+                                                    </span>
+                                                    <h5 class="modal-title text-black fw-semibold mb-1 fs-5"
+                                                        id="exampleModalXlLabel">
+                                                        Agregar turno</h5>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="row d-flex mt-3">
+
+
+
+                                                <div class="mt-3 mb-1">
+
+                                                    <div
+                                                        class="card-body px-3 py-3 fs-4 form-label bg-four-card rounded border">
+                                                        <div class="form-group row pt-2">
+                                                            <label for="tipoTramite"
+                                                                class="col-sm-2 col-form-label fs-4 fw-semibold">Trámite:</label>
+                                                            <div class="col-sm-10">
+                                                                <select class="form-select fw-normal bg-white"
+                                                                    name="tipo_tramite" id="tipo_tramite"
+                                                                    aria-label="Default select example" required>
+                                                                    <option selected></option>
+                                                                    <% tiposTramites.forEach(tipo=> { %>
+                                                                        <option value="<%= tipo.tipo_tramite %>">
+                                                                            <%= tipo.tipo_tramite %>
+                                                                        </option>
+                                                                        <% }); %>
+                                                                </select>
+                                                                <div class="invalid-feedback">
+                                                                    Por favor, selecciona el tipo de trámite.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row pt-2 d-none" id="campoPlaca">
+                                                            <label for="placaVehiculo"
+                                                                class="col-sm-2 col-form-label fs-4 fw-semibold">Placa:</label>
+                                                            <div class="col-sm-10">
+                                                                <div class="row g-2 align-items-center">
+                                                                    <div class="col-8">
+                                                                        <input type="text" name="placa" id="placa"
+                                                                            class="form-control uppercase fw-normal bg-white"
+                                                                            placeholder=""
+                                                                            aria-label="Recipient's username"
+                                                                            aria-describedby="basic-addon2"
+                                                                            autocomplete="off" required maxlength="7">
+                                                                        <div class="invalid-feedback">
+                                                                            Por favor, ingresa el número de placa del
+                                                                            vehículo.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <button
+                                                                            class="btn btn-search text-black btn-rounded px-4 fw-semibold fs-3 py-2  w-100"
+                                                                            type="button" id="buscarVehiculo">BUSCAR
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group row pt-2 d-none" id="campoRawn">
+
+                                                            <label for="RawnVehiculo"
+                                                                class="col-sm-2 col-form-label fs-4 fw-semibold">Ramw/Cpn:</label>
+                                                            <div class="col-sm-9 d-flex">
+                                                                <div class="col-5">
+                                                                    <input type="text" name="ramw" id="ramw"
+                                                                        class="form-control uppercase fw-normal bg-white"
+                                                                        placeholder="" aria-label="Recipient's username"
+                                                                        aria-describedby="basic-addon2"
+                                                                        autocomplete="off" maxlength="10">
+                                                                    <div class="invalid-feedback">
+                                                                        Por favor, ingresa el número de Rawn del
+                                                                        vehículo.
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-3 justify-content-center align-items-center">
+                                                                    <button
+                                                                        class="btn btn-search text-black btn-rounded px-4 fw-semibold fs-3 py-2 ms-2 me-0 w-100"
+                                                                        type="button" id="buscarVehiculoSRI">CONSULTAR
+                                                                        SRI
+                                                                    </button>
+                                                                </div>
+
+
+                                                            </div>
+
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                </div>
+
+                                                <nav class="d-none" id="nav-tabTittle" name="nav-tabTittle">
+                                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                        <button class="nav-link active position-relative d-flex"
+                                                            id="nav-home-tab" data-bs-toggle="tab"
+                                                            data-bs-target="#nav-home" type="button" role="tab"
+                                                            aria-controls="nav-home" aria-selected="true">
+                                                            Información general
+                                                            <div class="top-0 end-0 d-none" id="nav-alert-infoGeneral"
+                                                                name="nav-alert-infoGeneral">
+                                                                <span
+                                                                    class="justify-content-center align-items-center  ms-2">
+                                                                    <i
+                                                                        class="ti ti-exclamation-circle text-orange text-center fs-7 "></i></span>
+                                                            </div>
+                                                        </button>
+                                                        <button class="nav-link position-relative d-flex"
+                                                            id="nav-profile-tab" data-bs-toggle="tab"
+                                                            data-bs-target="#nav-profile" type="button" role="tab"
+                                                            aria-controls="nav-profile" aria-selected="false">
+                                                            Asignación
+                                                            <div class="top-0 end-0 d-none" id="nav-alert-Asignacion"
+                                                                name="nav-alert-Asignacion">
+                                                                <span
+                                                                    class="justify-content-center align-items-center  ms-2">
+                                                                    <i
+                                                                        class="ti ti-exclamation-circle text-orange text-center fs-7 "></i></span>
+                                                            </div>
+                                                        </button>
+                                                        <button class="nav-link position-relative d-flex"
+                                                            id="nav-contact-tab" data-bs-toggle="tab"
+                                                            data-bs-target="#nav-contact" type="button" role="tab"
+                                                            aria-controls="nav-contact" aria-selected="false">
+                                                            Procesos RTV
+                                                            <div class="top-0 end-0 d-none" id="nav-alert-proRTV"
+                                                                name="nav-alert-proRTV">
+                                                                <span
+                                                                    class="justify-content-center align-items-center  ms-2">
+                                                                    <i
+                                                                        class="ti ti-exclamation-circle text-orange text-center fs-7 "></i></span>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                </nav>
+
+                                                <div class="tab-content border rounded p-4 d-none" id="nav-tabContent">
+                                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                                        aria-labelledby="nav-home-tab">
+                                                        <div class="" id="info-vehiculo">
+
+
+                                                            <div class="">
+
+                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                    INFORMACIÓN DEL VEHÍCULO</h5>
+
+                                                            </div>
+
+                                                            <div
+                                                                class="col pt-1 mx-auto d-flex flex-column align-items-center">
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Clase
+                                                                            de vehículo:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-select"
+                                                                                name="clase_vehiculo"
+                                                                                id="clase_vehiculo" required>
+                                                                                <option value="" selected></option>
+                                                                                <option value="AUTOBÚS">AUTOBÚS
+                                                                                </option>
+                                                                                <option value="AUTOMÓVIL">AUTOMÓVIL
+                                                                                </option>
+                                                                                <option value="CAMIÓN">CAMIÓN
+                                                                                </option>
+                                                                                <option value="CAMIONETA">CAMIONETA
+                                                                                </option>
+                                                                                <option value="MOTOCICLETA">
+                                                                                    MOTOCICLETA
+                                                                                </option>
+                                                                                <option
+                                                                                    value="UNIDAD DE CARGA Y REMOLQUE">
+                                                                                    UNIDAD DE CARGA Y REMOLQUE
+                                                                                </option>
+                                                                                <option value="VEHÍCULO ESPECIAL">
+                                                                                    VEHÍCULO ESPECIAL</option>
+                                                                                <option value="VEHÍCULO UTILITARIO">
+                                                                                    VEHÍCULO UTILITARIO
+                                                                                </option>
+                                                                            </select>
+                                                                            <div class="invalid-feedback">
+                                                                                Por favor, selecciona un valor.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <input type="text" name="clase_vehiculo_tipo"
+                                                                    id="clase_vehiculo_tipo"
+                                                                    class="form-control text-uppercase" hidden>
+
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Tipo
+                                                                            de vehículo:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-select"
+                                                                                name="tipo_vehiculo" id="tipo_vehiculo"
+                                                                                required>
+                                                                                <option value="" selected></option>
+                                                                            </select>
+                                                                            <div class="invalid-feedback">
+                                                                                Por favor, selecciona un valor.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Tipo
+                                                                            de servicio:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-select"
+                                                                                name="clase_transporte"
+                                                                                aria-label="Default select example"
+                                                                                id="clase_transporte" required>
+                                                                                <option selected=""></option>
+                                                                                <option value="COMERCIAL">COMERCIAL
+                                                                                </option>
+                                                                                <option value="PARTICULAR">
+                                                                                    PARTICULAR
+                                                                                </option>
+                                                                                <option value="PUBLICO">PUBLICO
+                                                                                </option>
+                                                                                <option value="ESTATAL">ESTATAL
+                                                                                </option>
+                                                                                <option value="MUNICIPAL">MUNICIPAL
+                                                                                </option>
+                                                                            </select>
+                                                                            <div class="invalid-feedback">
+                                                                                Por favor, selecciona un valor.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Tipo
+                                                                            de peso:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-select" name="tipo_peso"
+                                                                                id="tipo_peso" required>
+                                                                                <option selected=""></option>
+                                                                                <option value="LIVIANO (<= 3,5 T)">
+                                                                                    LIVIANO (<= 3,5 T)</option>
+                                                                                <option value="PESADO (> 3,5 T)">
+                                                                                    PESADO
+                                                                                    (> 3,5 T)</option>
+                                                                            </select>
+                                                                            <div class="invalid-feedback">
+                                                                                Por favor, selecciona un valor.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <h5 class="py-3 fs-4 form-label fw-semibold d-none">
+                                                                INFORMACIÓN DEL VEHÍCULO SRI</h5>
+                                                            <div
+                                                                class="col pt-1 mx-auto d-flex flex-column align-items-center d-none">
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Placa:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                id="result_placa" name="result_placa">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Camv/Cpn:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                id="result_camvCpn"
+                                                                                name="result_camvCpn">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Cilindraje:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                id="result_cilindraje"
+                                                                                name="result_cilindraje">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Marca:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                id="result_marca" name="result_marca">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Modelo:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                id="result_modelo" name="result_modelo">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Año
+                                                                            modelo:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                id="result_anioModelo"
+                                                                                name="result_anioModelo">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Pais
+                                                                            de fabricación:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                id="result_paisFabricacion"
+                                                                                name="result_paisFabricacion">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Clase:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                id="result_clase" name="result_clase">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Servicio:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                id="result_servicio"
+                                                                                name="result_servicio">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="">
+
+
+                                                            <div class="pt-2">
+
+                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                    INFORMACIÓN DEL USUARIO</h5>
+
+                                                            </div>
+                                                            <div
+                                                                class="col pt-1 mx-auto d-flex flex-column align-items-center">
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Tipo
+                                                                            de identificación:</label>
+                                                                        <div class="col-md-8">
+
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input class="form-check-input primary"
+                                                                                    type="radio" id="tipo_cedula"
+                                                                                    name="tipo_id_usuario"
+                                                                                    value="CÉDULA">
+                                                                                <label class="form-check-label"
+                                                                                    for="tipo_cedula">CÉDULA</label>
+                                                                            </div>
+
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input class="form-check-input primary"
+                                                                                    type="radio" id="tipo_ruc"
+                                                                                    name="tipo_id_usuario" value="RUC">
+                                                                                <label class="form-check-label"
+                                                                                    for="tipo_ruc">RUC</label>
+                                                                            </div>
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input class="form-check-input primary"
+                                                                                    type="radio" id="tipo_pasaporte"
+                                                                                    name="tipo_id_usuario"
+                                                                                    value="PASAPORTE">
+                                                                                <label class="form-check-label"
+                                                                                    for="tipo_pasaporte">PASAPORTE</label>
+                                                                            </div>
+
+
+
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                </div>
+
+
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">No.
+                                                                            Identificación:</label>
+                                                                        <div class="col-md-8">
+                                                                            <div class="input-group2"
+                                                                                style="width: 100%">
+                                                                                <input type="text" name="id_usuario"
+                                                                                    id="id_usuario" class="form-control"
+                                                                                    placeholder=""
+                                                                                    aria-describedby="basic-addon2"
+                                                                                    autocomplete="off" required>
+                                                                                <button
+                                                                                    class="btn btn-search  text-white font-medium px-3"
+                                                                                    type="button" id="buscarUsuario">
+                                                                                    <i
+                                                                                        class="ti ti-search fs-4"></i></button>
+                                                                                <div class="invalid-feedback">
+                                                                                    Por favor, selecciona un valor.
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Nombre:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                name="nombre_usuario"
+                                                                                id="nombre_usuario" required>
+                                                                            <div class="invalid-feedback">
+                                                                                Por favor, ingresa un valor.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Provincia:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-select"
+                                                                                name="provincia_usuario"
+                                                                                id="provincia_usuario" required>
+                                                                                <option selected=""></option>
+                                                                                <option value="Azuay">Azuay</option>
+                                                                                <option value="Bolívar">Bolívar
+                                                                                </option>
+                                                                                <option value="Cañar">Cañar</option>
+                                                                                <option value="Carchi">Carchi
+                                                                                </option>
+                                                                                <option value="Chimborazo">
+                                                                                    Chimborazo
+                                                                                </option>
+                                                                                <option value="Cotopaxi">Cotopaxi
+                                                                                </option>
+                                                                                <option value="El Oro">El Oro
+                                                                                </option>
+                                                                                <option value="Esmeraldas">
+                                                                                    Esmeraldas
+                                                                                </option>
+                                                                                <option value="Galápagos">Galápagos
+                                                                                </option>
+                                                                                <option value="Guayas">Guayas
+                                                                                </option>
+                                                                                <option value="Imbabura">Imbabura
+                                                                                </option>
+                                                                                <option value="Loja">Loja</option>
+                                                                                <option value="Los Ríos">Los Ríos
+                                                                                </option>
+                                                                                <option value="Manabí">Manabí
+                                                                                </option>
+                                                                                <option value="Morona Santiago">
+                                                                                    Morona
+                                                                                    Santiago</option>
+                                                                                <option value="Napo">Napo</option>
+                                                                                <option value="Sucumbíos">Sucumbíos
+                                                                                </option>
+                                                                                <option value="Pastaza">Pastaza
+                                                                                </option>
+                                                                                <option value="Pichincha">Pichincha
+                                                                                </option>
+                                                                                <option value="Santa Elena">Santa
+                                                                                    Elena
+                                                                                </option>
+                                                                                <option
+                                                                                    value="Santo Domingo de los Tsáchilas">
+                                                                                    Santo Domingo de los Tsáchilas
+                                                                                </option>
+                                                                                <option value="Francisco de Orellana">
+                                                                                    Francisco de Orellana</option>
+                                                                                <option value="Tungurahua">
+                                                                                    Tungurahua
+                                                                                </option>
+                                                                                <option value="Zamora Chinchipe">
+                                                                                    Zamora
+                                                                                    Chinchipe</option>
+                                                                            </select>
+                                                                            <div class="invalid-feedback">
+                                                                                Por favor, selecciona un valor.
+                                                                            </div>
+
+
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Cantón:</label>
+                                                                        <div class="col-md-8">
+                                                                            <select class="form-select"
+                                                                                name="canton_usuario"
+                                                                                id="canton_usuario" required>
+                                                                                <option value="" selected></option>
+                                                                            </select>
+                                                                            <div class="invalid-feedback">
+                                                                                Por favor, selecciona un valor.
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Parroquia:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                autocomplete="off"
+                                                                                name="parroquia_usuario"
+                                                                                id="parroquia_usuario">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Dirección:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                autocomplete="off"
+                                                                                name="direccion_usuario"
+                                                                                id="direccion_usuario" maxlength="100">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Celular:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control"
+                                                                                autocomplete="off"
+                                                                                name="celular_usuario"
+                                                                                id="celular_usuario" required>
+                                                                            <div class="invalid-feedback">
+                                                                                Por favor, selecciona un valor.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Email:</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="email" class="form-control"
+                                                                                name="email_usuario" id="email_usuario"
+                                                                                value="luis_michael@hotmail.com">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="">
+                                                            <div class="">
+
+                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                    VALOR Y OBSERVACIONES</h5>
+                                                            </div>
+
+                                                            <div
+                                                                class="col pt-1 mx-auto d-flex flex-column align-items-center">
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Valor:</label>
+
+                                                                        <div class="col-md-8">
+                                                                            <input type="number" class="form-control"
+                                                                                name="valor_pago_INFORMACION"
+                                                                                id="valor_pago_INFORMACION" step="0.01"
+                                                                                min="0.00" placeholder="0.00"
+                                                                                autocomplete="off">
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-8 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-4 fw-normal text-md-end">Observaciones:</label>
+                                                                        <div class="col-md-8">
+                                                                            <div class="form-group">
+                                                                                <textarea class="form-control" rows="3"
+                                                                                    name="observaciones_INFORMACION"
+                                                                                    id="observaciones_INFORMACION"
+                                                                                    autocomplete="off"
+                                                                                    maxlength="200"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                                                        aria-labelledby="nav-profile-tab">
+                                                        <div class="">
+                                                            <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                ASIGNACION DE TRÁMITE</h5>
+                                                        </div>
+                                                        <div
+                                                            class="col pt-1 mx-auto d-flex flex-column align-items-center">
+                                                            <div class="col-12 mb-4 d-none"
+                                                                id="mensaje-AsignacionManual"
+                                                                id="mensaje-AsignacionManual">
+
+                                                                <div
+                                                                    class="p-3 rounded text-black border alert-dismissible fade show mb-0">
+                                                                    <div
+                                                                        class="d-flex align-items-center gap-3 font-medium">
+
+                                                                        Verifica si el trámite
+                                                                        necesita una asignación manual hacia un
+                                                                        usuario
+                                                                        de
+                                                                        Analista o Jefe de matriculación
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-9 mb-2">
+                                                                <div class="form-group row justify-content-center">
+                                                                    <label
+                                                                        class="form-label col-md-7 fw-normal text-md-end">Tipo
+                                                                        de asignación:</label>
+                                                                    <div class="col-md-5">
+                                                                        <select class="form-select"
+                                                                            name="tipo_asignacion" id="tipo_asignacion">
+                                                                            <option value="AUTOMÁTICA"
+                                                                                <%=userData.tipo_ASIGNACION==='AUTOMÁTICA'
+                                                                                ? 'selected' : '' %>>AUTOMÁTICA
+                                                                            </option>
+                                                                            <option value="MANUAL"
+                                                                                <%=userData.tipo_ASIGNACION==='MANUAL'
+                                                                                ? 'selected' : '' %>>MANUAL</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-9 mb-2 d-none">
+                                                                <div class="form-group row justify-content-center">
+                                                                    <label
+                                                                        class="form-label col-md-7 fw-normal text-md-end">Oficina
+                                                                        seleccionada:</label>
+                                                                    <div class="col-md-5">
+                                                                        <select class="form-select"
+                                                                            name="oficina_ASIGNACION"
+                                                                            id="oficina_ASIGNACION">
+                                                                            <% centrosMatriculacion.forEach(function(centro)
+                                                                                { %>
+                                                                                <option
+                                                                                    value="<%= centro.id_centro_matriculacion %>"
+                                                                                    <%=userData.oficina_ASIGNACION===centro.id_centro_matriculacion
+                                                                                    ? 'selected' : '' %>>
+                                                                                    <%= centro.nombre_centro_matriculacion
+                                                                                        %>
+                                                                                </option>
+                                                                                <% }); %>
+                                                                        </select>
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-9">
+                                                                <div class="form-group row justify-content-center">
+                                                                    <label
+                                                                        class="form-label col-md-7 fw-normal text-md-end">Usuario
+                                                                        asignado:</label>
+                                                                    <div class="col-md-5">
+                                                                        <select class="form-select"
+                                                                            name="usuario_ASIGNACION"
+                                                                            id="usuario_ASIGNACION">
+                                                                            <option value="AUTOMÁTICA"
+                                                                                <%=userData.usuario_ASIGNACION==='AUTOMÁTICA'
+                                                                                ? 'selected' : '' %>>
+                                                                                AUTOMÁTICA
+                                                                            </option>
+
+                                                                            <% if (funcionariosActivos &&
+                                                                                funcionariosActivos.length> 0) { %>
+                                                                                <% funcionariosActivos.forEach(function(funcionario)
+                                                                                    { %>
+                                                                                    <option
+                                                                                        value="<%= funcionario.id_funcionario %>"
+                                                                                        <%=userData.usuario_ASIGNACION==funcionario.id_funcionario
+                                                                                        ? 'selected' : '' %>>
+                                                                                        <%= funcionario.nombre_funcionario
+                                                                                            %>
+                                                                                    </option>
+                                                                                    <% }); %>
+                                                                                        <% } else { %>
+                                                                                            <option disabled>No hay
+                                                                                                funcionarios activos
+                                                                                                disponibles</option>
+                                                                                            <% } %>
+                                                                        </select>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <script>
+                                                                $(document).ready(function () {
+                                                                    $('#tipo_asignacion').on('change', function () {
+                                                                        var tipoAsignacion = $(this).val();
+
+                                                                        if (tipoAsignacion === 'MANUAL') {
+                                                                            $('#usuario_ASIGNACION').prop('disabled', false);
+                                                                        } else {
+                                                                            $('#usuario_ASIGNACION').prop('disabled', true);
+                                                                        }
+                                                                    });
+                                                                });
+                                                            </script>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="nav-contact" role="tabpanel"
+                                                        aria-labelledby="nav-contact-tab">
+                                                        <div class="">
+
+
+                                                            <div class="">
+
+                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                    PROCESOS RTV</h5>
+
+                                                            </div>
+
+                                                            <div
+                                                                class="col pt-1 mx-auto d-flex flex-column align-items-center">
+                                                                <div class="col-12 mb-4 d-none" id="mensaje-procesosRTV"
+                                                                    id="mensaje-procesosRTV">
+
+                                                                    <div
+                                                                        class="p-3 rounded text-black border alert-dismissible fade show mb-0">
+                                                                        <div
+                                                                            class="d-flex align-items-center gap-3 font-medium">
+
+                                                                            Verifica que los procesos para este tipo
+                                                                            de
+                                                                            trámite se encuentren seleccionados
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                </div>
+
+                                                                <div class="col-9 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-7 fw-normal text-md-end">Revisión
+                                                                            Técnica Vehicular (RTV):</label>
+                                                                        <div class="col-md-5">
+                                                                            <select class="form-select"
+                                                                                name="revision_tecnica_vehicular_TURNO"
+                                                                                aria-label="Default select example">
+                                                                                <option value="NO" selected>NO
+                                                                                </option>
+                                                                                <option value="SI">SI</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-9 mb-2 d-none">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-7 fw-normal text-md-end">Fecha
+                                                                            de turno (RTV):</label>
+                                                                        <div class="col-md-5">
+                                                                            <input type="datetime-local"
+                                                                                name="fecha_turno_RTV"
+                                                                                class="form-control"
+                                                                                id="fecha_turno_RTV" placeholder="">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-9 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-7 fw-normal text-md-end">Verificación
+                                                                            y extracción de improntas:</label>
+                                                                        <div class="col-md-5">
+                                                                            <select class="form-select"
+                                                                                name="verificacion_improntas_TURNO"
+                                                                                aria-label="Default select example">
+                                                                                <option value="NO" selected>NO
+                                                                                </option>
+                                                                                <option value="SI">SI</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-9 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-7 fw-normal text-md-end">Cambio
+                                                                            de servicio:</label>
+                                                                        <div class="col-md-5">
+                                                                            <select class="form-select"
+                                                                                name="cambio_servicio_TURNO"
+                                                                                aria-label="Default select example">
+                                                                                <option value="NO" selected>NO
+                                                                                </option>
+                                                                                <option value="SI">SI</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <br>
+
+                                                                <div class="col-9 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-7 fw-normal text-md-end">Cambio
+                                                                            de color:</label>
+                                                                        <div class="col-md-5">
+                                                                            <select class="form-select"
+                                                                                name="cambio_color_TURNO"
+                                                                                aria-label="Default select example">
+                                                                                <option value="NO" selected>NO
+                                                                                </option>
+                                                                                <option value="SI">SI</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="col-9 mb-2">
+                                                                    <div class="form-group row justify-content-center">
+                                                                        <label
+                                                                            class="form-label col-md-7 fw-normal text-md-end">Cambio
+                                                                            de motor:</label>
+                                                                        <div class="col-md-5">
+                                                                            <select class="form-select"
+                                                                                name="cambio_motor_TURNO"
+                                                                                aria-label="Default select example">
+                                                                                <option value="NO" selected>NO
+                                                                                </option>
+                                                                                <option value="SI">SI</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-actions d-none" id="form-actions-save-turn"
+                                                    name="form-actions-save-turn">
+                                                    <div class="text-end">
+
+                                                        <button type="button"
+                                                            class="btn btn-secondary me-6 fw-semibold btn-rounded shadow-btn px-4">
+                                                            Cancelar
+                                                        </button>
+
+                                                        <button type="submit"
+                                                            class="btn btn-primary fw-semibold btn-rounded shadow-btn px-4">
+                                                            Guardar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <script>
+                                                    document.getElementById('tipo_tramite').addEventListener('change', function () {
+                                                        var tipoTramiteSeleccionado = this.value;
+                                                        var campoPlaca = document.getElementById('campoPlaca');
+                                                        var campoRawn = document.getElementById('campoRawn');
+                                                        var campoNav = document.getElementById('nav-tabTittle');
+                                                        var campoNavContent = document.getElementById('nav-tabContent');
+                                                        var campoInfoVehiculo = document.getElementById('info-vehiculo');
+                                                        var campoFormSave = document.getElementById('form-actions-save-turn');
+
+                                                        if (tipoTramiteSeleccionado === 'CERTIFICADO DE POSEER VEHICULO') {
+                                                            // Ocultar el campo de placa y la información del vehículo, mostrar la navegación y las acciones de guardado
+                                                            campoPlaca.classList.add('d-none');
+                                                            campoInfoVehiculo.classList.add('d-none');
+                                                            campoNav.classList.remove('d-none');
+                                                            campoNavContent.classList.remove('d-none');
+                                                            campoFormSave.classList.remove('d-none');
+                                                            campoRawn.classList.add('d-none'); // Asegura que este campo esté oculto si se muestra por otro trámite
+                                                        } else if (tipoTramiteSeleccionado === 'EMISION DE MATRICULA POR PRIMERA VEZ') {
+                                                            // Ocultar el campo de placa y mostrar el campo RAWN
+                                                            campoPlaca.classList.add('d-none');
+                                                            campoRawn.classList.remove('d-none');
+                                                        } else {
+                                                            // En otros casos, mostrar el campo de placa y ocultar el campo RAWN
+                                                            campoPlaca.classList.remove('d-none');
+                                                            campoRawn.classList.add('d-none');
+                                                        }
+                                                    });
+
+                                                </script>
+
+
+
+
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-4 d-none" id="contentConSRI">
+                                    <div class="card d-none" id="cosultaSRI">
+                                        <div class="card-body">
+
+
+
+
+                                            <div class="d-flex align-items-center">
+                                                <span class="flex-shrink-0">
+                                                    <img src="/images/sri_logo.jpg" class="rounded-circle"
+                                                        style="width: 50px; height: 50px;">
+                                                </span>
+
+                                                <div class="ms-4">
+                                                    <h4 class="card-title text-dark mb-1">SRI</h4>
+                                                    <span class="fs-3 mt-1 ">Consulta valores a pagar</span>
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                            <div class="d-flex mt-3">
+
+                                                <div class="col-12  mt-3">
+
+
+
+                                                    <div class="row">
+                                                        <div class="col-12">
+
+                                                            <div class="col text-center">
+                                                                <div class="col-12 text-start pb-2">
+
+                                                                    <div class="d-flex gap-2 mb-1">
+                                                                        <strong
+                                                                            class="form-label fw-semibold mb-0 col-4">Placa:</strong>
+                                                                        <div class="form-label mb-0 fw-normal fs-3"
+                                                                            id="result_placa2" name="result_placa2">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex gap-2 mb-1">
+                                                                        <strong
+                                                                            class="form-label fw-semibold mb-0 col-4">Camv/Cpn:</strong>
+                                                                        <div class="form-label mb-0 fw-normal fs-3"
+                                                                            id="result_camvCpn2" name="result_camvCpn2">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex gap-2 mb-1">
+                                                                        <strong
+                                                                            class="form-label fw-semibold mb-0 col-4">Cilindraje:</strong>
+                                                                        <div class="form-label mb-0 fw-normal fs-3"
+                                                                            id="result_cilindraje2"
+                                                                            name="result_cilindraje2">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex gap-2 mb-1">
+                                                                        <strong
+                                                                            class="form-label fw-semibold mb-0 col-4">Marca:</strong>
+                                                                        <div class="form-label mb-0 fw-normal fs-3"
+                                                                            id="result_marca2" name="result_marca2">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex gap-2 mb-1">
+                                                                        <strong
+                                                                            class="form-label fw-semibold mb-0 col-4">Modelo:</strong>
+                                                                        <div class="form-label mb-0 fw-normal fs-3 text-nowrap"
+                                                                            id="result_modelo2" name="result_modelo2">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex gap-2 mb-1">
+                                                                        <strong
+                                                                            class="form-label fw-semibold mb-0 col-4">Año
+                                                                            modelo:</strong>
+                                                                        <div class="form-label mb-0 fw-normal fs-3"
+                                                                            id="result_anioModelo2"
+                                                                            name="result_anioModelo2">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex gap-2 mb-1">
+                                                                        <strong
+                                                                            class="form-label fw-semibold mb-0 col-4">Pais
+                                                                            de fabricación:</strong>
+                                                                        <div class="form-label mb-0 fw-normal fs-3"
+                                                                            id="result_paisFabricacion2"
+                                                                            name="result_paisFabricacion2"></div>
+                                                                    </div>
+                                                                    <div class="d-flex gap-2 mb-1">
+                                                                        <strong
+                                                                            class="form-label fw-semibold mb-0 col-4">Clase:</strong>
+                                                                        <div class="form-label mb-0 fw-normal fs-3"
+                                                                            id="result_clase2" name="result_clase2">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex gap-2 mb-1">
+                                                                        <strong
+                                                                            class="form-label fw-semibold mb-0 col-4">Servicio:</strong>
+                                                                        <div class="form-label mb-0 fw-normal fs-3"
+                                                                            id="result_servicio2"
+                                                                            name="result_servicio2">
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-12  justify-content-center d-none pt-2"
+                                                                    id="sinDeudasSRI">
+                                                                    <div class="pt-1 px-4 pb-1">
+                                                                        <img src="/images/ic_tick.png"
+                                                                            class="rounded-circle" width="100"
+                                                                            height="100">
+                                                                    </div>
+
+                                                                    <div class="form-label fw-normal text-center fs-4 pb-2 pt-4"
+                                                                        id="informacion" name="informacion">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-12 justify-content-center d-none pt-2"
+                                                                    id="DeudasSRI">
+                                                                    <div class="row">
+                                                                        <div>
+                                                                            <div class="d-flex">
+                                                                                <span class="text-start fw-normal">Total
+                                                                                    de valores a pagar:</span>
+                                                                            </div>
+                                                                            <table class="table table-bordered mb-2"
+                                                                                role="presentation">
+                                                                                <tbody id="deudasTableBody">
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <div class="col text-end p-1">
+                                                                                <span class="fw-normal fs-3">A
+                                                                                    pagar:
+                                                                                </span>
+                                                                                <strong><span class="text-red fs-4"
+                                                                                        id="total"></span></strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div
+                                                                            class="col-12 d-flex justify-content-center pt-2 pb-2">
+                                                                            <button
+                                                                                class="btn btn-primary w-100 bg-blue-sri-btnRP shadow-btn border-0 fw-semibold rounded-1 py-2"
+                                                                                onclick="window.open('https://srienlinea.sri.gob.ec/sri-en-linea/SriVehiculosWeb/ConsultaValoresPagarVehiculo/Consultas/consultaRubros', '_blank')">Detalle
+                                                                                valores</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="card d-none" id="noDisponibleSRI">
+                                        <a class="stretched-link"></a>
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <span class="flex-shrink-0"><i
+                                                        class="ti ti-x text-danger display-6"></i></span>
+                                                <div class="ms-4">
+                                                    <h4 class="card-title text-dark mb-1">SRI</h4>
+                                                    <span class="fs-3 mt-1 ">Servicio no disponible</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card d-none" id="noExisteVehiculoSRI">
+                                        <a class="stretched-link"></a>
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <span class="flex-shrink-0"><i
+                                                        class="ti ti-bus-off text-red display-6"></i></span>
+                                                <div class="ms-4">
+                                                    <h4 class="card-title text-dark mb-1">SRI</h4>
+                                                    <span class="fs-3 mt-1 ">El vehiculo no existe en el SRI</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </form>
+
+
+
+                    </div>
+
+
+                    <div class="modal fade" id="modalPlacaExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Error: campo placa</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>El valor en el campo ¨placa¨ es demasiado extenso. Por favor, asegúrate de que
+                                        tenga menos
+                                        de 7 caracteres.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="spinner-wrapper" class="spinner-wrapper">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading..</span>
+                        </div>
+                    </div>
+
+
+
+
+            </div>
+
+            <div id="alert-container"></div>
+
+
+    </div>
+
+
+
+</body>
+
+</html>

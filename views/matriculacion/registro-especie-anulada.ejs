@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Registro de especies anuladas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script src="/js/spinners.js"></script>
+
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        .fixed-column {
+            width: 150px;
+
+        }
+
+        .table-container {
+            max-width: 100%;
+            overflow: hidden;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-6 col-sm-12">
+                                        <div class="card overflow-hidden mb-0">
+
+                                            <div class="card-body p-4">
+
+                                                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                                    <div class="mb-3 mb-sm-0">
+                                                        <ol class="breadcrumb">
+                                                            <li class="breadcrumb-item">
+                                                                <a class="text-decoration-none text-black"
+                                                                    href="/">REGISTRO</a>
+                                                            </li>
+                                                            <li class="breadcrumb-item text-muted" aria-current="page">
+                                                                Especies anuladas
+                                                            </li>
+
+                                                        </ol>
+                                                    </div>
+                                                    <div style="width: 20%;">
+                                                        <input type="text" name=""
+                                                            class="form-control-disable text-center" id=""
+                                                            placeholder="">
+                                                    </div>
+                                                </div>
+
+                                                <form action="/guardar-especie-anulada" method="post" id="anulacionEspecieForm"
+                                                    class="col needs-validation" novalidate>
+
+
+                                                    <div class="form-items">
+                                                        <label for="" class="col-form-label">Trámite</label>
+                                                        <select class="form-select col-md-10" name="tipo_tramite"
+                                                            id="tipo_tramite" required>
+                                                            <% tiposTramites.forEach(tipo=> { %>
+                                                                <option value="<%= tipo.tipo_tramite %>"
+                                                                    <%=tipo.tipo_tramite==='ESPECIE ANULADA'
+                                                                    ? 'selected' : '' %>>
+                                                                    <%= tipo.tipo_tramite %>
+                                                                </option>
+                                                                <% }); %>
+                                                        </select>
+
+                                                    </div>
+
+                                                    <div class="form-items">
+                                                        <label for="" class="col-form-label">Motivo</label>
+                                                        <input type="text" name="motivo_especie_anulada"
+                                                            class="form-control text-uppercase" id="motivo_especie_anulada"
+                                                            placeholder="" autocomplete="off" maxlength="45" required
+                                                            value="ERROR DE IMPRESIÓN">
+                                                    </div>
+
+                                                    <div class="form-items">
+                                                        <label for="" class="col-form-label">Fecha</label>
+                                                        <input type="datetime-local" name="fecha_ingreso"
+                                                            class="form-control" id="fecha_ingreso" placeholder=""
+                                                            required>
+                                                    </div>
+
+
+
+
+                                                    <script>
+                                                        var fecha = new Date();
+                                                        var year = fecha.getFullYear();
+                                                        var month = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                                                        var day = fecha.getDate().toString().padStart(2, '0');
+
+                                                        var hours = fecha.getHours().toString().padStart(2, '0');
+                                                        var minutes = fecha.getMinutes().toString().padStart(2, '0');
+                                                        var formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+                                                        document.getElementById('fecha_ingreso').value = formattedDate;
+                                                    </script>
+
+                                                    <input type="hidden" name="date_registraton" class="form-control"
+                                                        id="date_registraton" placeholder="" required>
+
+                                                    <div class="form-items">
+                                                        <label for="" class="col-form-label">N° de especie</label>
+                                                        <input type="text" name="numero_matricula"
+                                                            class="form-control text-uppercase" id="numero_matricula"
+                                                            placeholder="" autocomplete="off" maxlength="100" required>
+                                                    </div>
+
+                                                    <script>
+                                                        document.addEventListener('DOMContentLoaded', function () {
+                                                            var fechaUTC = new Date();
+                                                            var desplazamientoNavegador = fechaUTC.getTimezoneOffset();
+                                                            var desplazamientoEcuador = -300;
+                                                            var fechaEcuador = new Date(fechaUTC.getTime() + (desplazamientoEcuador - desplazamientoNavegador) * 60000);
+                                                            var formattedDate = fechaEcuador.toISOString().substr(0, 10);
+                                                            document.getElementById('date_registraton').value = formattedDate;
+                                                        });
+                                                    </script>
+
+                                                    <br>
+
+                                                    <div class="text-end mt-3 gap-3">
+
+                                                        <button type="submit"
+                                                            class="justify-content-center btn mb-1 me-2 fw-semibold btn-rounded btn-primary px-4 shadow-btn align-items-center ">
+                                                            <font _mstmutation="1" _msttexthash="76830" _msthash="372">
+                                                                Guardar
+                                                            </font>
+                                                        </button>
+                                                    </div>
+
+
+                                                </form>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-lg-6 d-flex align-items-strech">
+
+                                <div class="card w-100 mb-0">
+
+
+                                    <div class="card-body p-4">
+                                        <div id="tabla-container" class="table-responsive rounded-2 ">
+
+                                            <table class="table table-bordered customize-table mb-0 align-middle">
+                                                <thead class="text-dark fs-3 col-lg-12">
+                                                    <tr style="background: #f8fafc;">
+                                                        <th class="col-md-2 text-center px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">MATRICULA</h6>
+                                                        </th>
+                                                        <th class="col-md-8 px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">TRÁMITE</h6>
+                                                        </th>
+                                                        <th class="col-md-1 text-center px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">PLACA</h6>
+                                                        </th>
+                                                        <th class="col-md-1 text-center px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">FECHA</h6>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% for (let i=0; i < registrosTabla4.length; i++) { %>
+                                                        <tr>
+                                                            <td class="text-center"
+                                                                style="white-space: nowrap; overflow: hidden;">
+                                                                <span>
+                                                                    <%= registrosTabla4[i].numero_matricula %>
+                                                                </span>
+                                                            </td>
+                                                            <td
+                                                                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-style: none; max-width: 50px;">
+                                                                <span>
+                                                                    <%= registrosTabla4[i].tipo_tramite %>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span>
+                                                                    <%= registrosTabla4[i].placa %>
+                                                                </span>
+                                                            </td>
+                                                            <td style="white-space: nowrap; overflow: hidden;">
+                                                                <span>
+                                                                    <%= registrosTabla4[i].fecha_ingreso %>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="spinner-wrapper" class="spinner-wrapper">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading..</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+
+            <div id="alert-container"></div>
+    </div>
+
+</body>
+
+</html>

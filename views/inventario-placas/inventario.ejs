@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Inventario de placas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="/js/buscar-placa-inventario.js"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+    <script src="/js/spinners.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <style>
+        .table thead th {
+            background-color: #f3f4f8;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+                    <div class="container-fluid">
+                        <div class="widget-content searchable-container list">
+                            <div class="card card-body">
+
+
+                                <div class="mt-2 row">
+                                    <div class="col-12 col-md-3 flex-wrap align-items-center mb-2">
+                                        <div class="col-12 col-md-12 d-flex">
+                                            <h6 class="fw-normal mb-0 text-start">Ingrese el número de
+                                                placa:
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-0 row">
+
+
+                                    <div class="col-12 col-md-3 flex-wrap align-items-center mb-2">
+
+
+
+                                        <div class="col-12 col-md-12">
+                                            <div class="input-group">
+                                                <input type="text" name="placa" class="form-control text-uppercase"
+                                                    placeholder="" aria-label="Recipient's username"
+                                                    aria-describedby="basic-addon2" autocomplete="off" maxlength="7">
+                                                <button class="btn btn-search text-white font-medium px-3" type="button"
+                                                    id="buscarPlacaInventario">
+                                                    <i class="ti ti-search fs-4"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-md-9 d-flex flex-wrap">
+
+
+                                        <div
+                                            class="col-12 col-md-2 d-flex justify-content-center align-items-center text-dark mb-2">
+                                            <h5 class="text-dark fw-semibold text-center mb-0 uppercase"
+                                                name="ConsultaVehiculo_tipo_id_usuario"
+                                                id="ConsultaVehiculo_tipo_id_usuario"></h5>
+                                        </div>
+
+
+                                        <div
+                                            class="col-12 col-md-2 d-flex justify-content-center align-items-center text-dark mb-2">
+                                            <h5 class="text-dark fw-semibold text-center mb-0 uppercase"
+                                                name="ConsultaVehiculo_id_usuario" id="ConsultaVehiculo_id_usuario">
+                                            </h5>
+                                        </div>
+
+
+                                        <div
+                                            class="col-12 col-md-8 d-flex justify-content-right align-items-center text-dark mb-2">
+                                            <h5 class="text-dark fw-semibold text-start mb-0 uppercase"
+                                                name="ConsultaVehiculo_nombre_usuario"
+                                                id="ConsultaVehiculo_nombre_usuario"></h5>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-none" id="content">
+                                    <br>
+                                    <div class="table-responsive2">
+                                        <table class="table table-bordered">
+                                            <thead id="thead-tramites">
+                                                <tr class="text-dark">
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-1">N°
+                                                    </th>
+
+
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-2">PLACA
+                                                    </th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-2">
+                                                        SERVICIO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                        TIPO DE VEHICULO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                        CANTIDAD</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                        UBICACIÓN</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-2">
+                                                        ESTADO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        FECHA DE ENTREGA
+                                                    </th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-7">
+                                                        ENTREGADO A</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-2">
+                                                        ACCIÓNES</th>
+                                                </tr>
+
+                                            </thead>
+                                            <tbody id="tbody-tramites">
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                <br>
+                                <div class="d-none d-flex col-12 row align-items-center justify-content-center border rounded"
+                                    id="sinResultados">
+                                    <div class="pt-4 pb-4 col-12 d-flex align-items-center justify-content-center">
+                                        <br>
+                                        <h4>Sin registros</h4>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+
+
+                    <div id="spinner-wrapper" class="spinner-wrapper">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading..</span>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="permisosModal" tabindex="-1" aria-labelledby="permisosModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="permisosModalLabel">Permisos insuficientes</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Usted no tiene permisos para editar este trámite.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="permisosModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body">
+
+                                    <form action="" method="POST">
+
+
+                                        <div class="px-4">
+                                            <div class="py-1">
+                                                <div class="row align-items-center justify-content-center">
+                                                    <div class="col-2">
+                                                        <div class="mb-3">
+
+                                                            <div
+                                                                class="d-flex align-items-center justify-content-center">
+                                                                <a
+                                                                    class="text-nowrap logo-img d-flex justify-content-center align-items-center">
+                                                                    <img src="/images/favicon.ico" class="" width="50"
+                                                                        alt="50" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row align-items-center justify-content-center d-flex mb-2">
+                                                    <div class="col-lg-4">
+                                                        <div class="align-items-center justify-content-center d-flex">
+                                                            <h5>TRÁMITE #</h5>
+                                                            <h5 id="id_tramite" name="id_tramite"></h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row align-items-center justify-content-center d-flex">
+                                                    <div class="col-lg-3">
+                                                        <div
+                                                            class="mb-2 align-items-center justify-content-center d-flex">
+                                                            <label for=""
+                                                                class="form-label fw-semibold me-2 mb-0">Estado:
+                                                            </label>
+
+                                                            <span class="badge bg-primary-subtle rounded fw-semibold
+                                                     btn-status-finish mb-0 me-2">Finalizado<i
+                                                                    class="ti ti-check fw-semibold ms-1 fs-3"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div
+                                                            class="mb-2 align-items-center justify-content-center d-flex">
+                                                            <label for=""
+                                                                class="form-label fw-semibold me-2 mb-0">Fecha:
+                                                            </label>
+                                                            <h7 class="form-label mb-0" style="font-weight: 400;"
+                                                                id="fecha_ingreso" name="fecha_ingreso"></h7>
+
+
+
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3 border-bottom">
+                                            <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Información del
+                                                proceso:
+                                            </h5>
+                                            <div class="py-3">
+                                                <div class="row">
+                                                    <div class="col-lg-2">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Placa</label>
+                                                            <input type="text" name="placa" class="form-control"
+                                                                id="placa" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">C.I. /
+                                                                RUC</label>
+                                                            <input type="text" class="form-control" id="id_usuario"
+                                                                name="id_usuario" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <div class="mb-2">
+                                                            <label for=""
+                                                                class="form-label fw-semibold">Propietario</label>
+                                                            <input type="text" class="form-control" id="nombre_usuario"
+                                                                nombre="nombre_usuario" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite"
+                                                                class="form-label fw-semibold">Clase de
+                                                                transporte</label>
+                                                            <input type="text" class="form-control"
+                                                                id="clase_transporte" name="clase_transporte" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Clase de
+                                                                vehículo</label>
+                                                            <input type="text" class="form-control" id="clase_vehiculo"
+                                                                name="clase_vehiculo" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite"
+                                                                class="form-label fw-semibold">Tipo de
+                                                                trámite</label>
+                                                            <input type="text" name="tipo_tramite" class="form-control"
+                                                                id="tipo_tramite" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite" class="form-label fw-semibold">#
+                                                                Adhesivo</label>
+                                                            <input type="text" name="" class="form-control"
+                                                                id="numero_adhesivo" value="numero_adhesivo" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">#
+                                                                Matrícula</label>
+                                                            <input type="text" name="numero_matricula"
+                                                                id="numero_matricula" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold"># Fojas</label>
+                                                            <input type="text" name="" class="form-control"
+                                                                id="numero_fojas" value="numero_fojas" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3 border-bottom">
+                                            <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Domicilio y
+                                                contacto
+                                            </h5>
+                                            <div class="py-3">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite"
+                                                                class="form-label fw-semibold">Celular</label>
+                                                            <input type="text" class="form-control" id="celular_usuario"
+                                                                name="celular_usuario" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Email</label>
+                                                            <input type="text" class="form-control" id="email_usuario"
+                                                                name="email_usuario" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-2">
+                                                            <label for=""
+                                                                class="form-label fw-semibold">Domicilio</label>
+                                                            <input type="text" class="form-control" id="canton_usuario"
+                                                                name="canton_usuario" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3 border-bottom">
+                                            <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Comprobante de
+                                                pago</h5>
+                                            <div class="py-3">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite"
+                                                                class="form-label fw-semibold">Entidad
+                                                                Bancaria</label>
+                                                            <input type="text" class="form-control"
+                                                                id="pago_placas_entidad_bancaria"
+                                                                value="pago_placas_entidad_bancaria" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Nº
+                                                                Comprobante</label>
+                                                            <input type="text" class="form-control"
+                                                                id="pago_placas_comprobante"
+                                                                value="pago_placas_comprobante" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Valor</label>
+                                                            <input type="text" class="form-control"
+                                                                id="pago_placas_valor" name="pago_placas_valor"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite"
+                                                                class="form-label fw-semibold">Fecha de
+                                                                pago</label>
+                                                            <input type="text" class="form-control"
+                                                                id="pago_placas_fecha" name="pago_placas_fecha"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Nuevo tipo de
+                                                                servicio</label>
+                                                            <input type="text" class="form-control"
+                                                                id="pago_placas_newservicio"
+                                                                name="pago_placas_newservicio" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Nº Trámite
+                                                                Axis</label>
+                                                            <input type="text" class="form-control" id="id_tramite_axis"
+                                                                value="id_tramite_axis" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="px-4 py-3 border-bottom">
+                                            <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Funcionario</h5>
+                                            <div class="py-3">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite"
+                                                                class="form-label fw-semibold">Usuario</label>
+                                                            <input type="text" class="form-control" id="username"
+                                                                name="username" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Nombre del
+                                                                funcionario</label>
+                                                            <input type="text" class="form-control"
+                                                                id="nombre_funcionario" name="nombre_funcionario"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="me-auto">
+                                        <label for="" class="form-label fw-normal me-2 mb-0">Registrado el día:</label>
+                                        <h7 class="form-label mb-0" style="font-weight: 400;" id="id_date_registraton"
+                                            name="id_date_registraton"></h7>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="alert-container"></div>
+
+
+
+            </div>
+    </div>
+
+</body>
+
+</html>

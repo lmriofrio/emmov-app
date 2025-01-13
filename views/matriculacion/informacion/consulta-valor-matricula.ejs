@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Consulta del valor de la matrícula por placa</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="/js/activar-items-navbar.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script src="/js/visualizar-turnos.js"></script>
+
+    <script src="/js/spinners.js"></script>
+
+    <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <style>
+        .table thead th {
+            background-color: #f3f4f8;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+                    <div class="container-fluid">
+                        <div class="card card-body">
+                            <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                <div class="mb-3 mb-sm-0">
+                                    <h5 class="text-dark fw-semibold">Consulta de valores</h5>
+                                    <p class="card-subtitle mb-0">Sistema de Rentas Internas SRI</p>
+                                </div>
+                                <div style="width: 20%;">
+                                    <input type="text" name="" class="form-control-disable text-center" id=""
+                                        placeholder="">
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="mt-2 d-flex col-6 mt-2">
+
+                                <div id="usernameSesion" data-username="LRIOFRIO"></div>
+
+
+                                <form action="" class="post"></form>
+
+                                <div class="col-2 d-flex justify-content-right align-items-center mb-2 text-dark">
+                                    <h6 class="text-dark fw-semibold text-center mb-0 ms-3">PLACA:</h6>
+                                </div>
+
+                                <div class="form-items">
+                                    <div class="input-group">
+                                        <input type="text" name="placa" class="form-control text-uppercase"
+                                            placeholder="Ingrese la placa" aria-label="Placa del vehículo"
+                                            autocomplete="off">
+                                        <button class="btn btn-search text-white font-medium px-3" type="button"
+                                            id="consultarValorMatricula">
+                                            <i class="ti ti-search fs-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+
+                            <div class="container py-4 col-8 border bg-white">
+                              
+                                <div class="espaciado-contenido"></div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                    
+                                        <div class="row animated fadeInUp text-center">
+                                            <div class="col-12 text-start">
+                                                <div class="pb-4">
+                                                    <h2>Consulta valores a pagar por placa o chasis</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-12">
+
+                                        <div class="row animated fadeInUp text-center">
+                                            <div class="col-2 text-start">
+                                                <div class="pb-4">
+                                                    <strong class="">Placa</strong>
+                                                    <div class="form-label mb-0 fw-normal fs-6" id="consulta_placa"
+                                                        name="consulta_placa"></div>
+                                                </div>
+                                                <div class="pt-4">
+                                                    <strong>Último año de pago</strong>
+                                                    <div class="form-label mb-0 fw-normal fs-9"
+                                                        id="consulta_anioUltimoPago" name="consulta_anioUltimoPago">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="row padding-top-11">
+                                                    <div class="col-sm-12">
+                                                        <table class="table mb-4 pb-2">
+                                                            <thead class="thead-inverse">
+                                                                <tr>
+                                                                    <th class="align-middle bg-blue-sri text-white border p-1"
+                                                                        width="25%">Marca</th>
+                                                                    <th class="align-middle bg-blue-sri text-white border p-1"
+                                                                        width="25%">Modelo</th>
+                                                                    <th class="align-middle bg-blue-sri text-white border p-1"
+                                                                        width="25%">Año de modelo</th>
+                                                                    <th class="align-middle bg-blue-sri text-white border p-1"
+                                                                        width="25%">País</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr class="fila-blanca">
+                                                                    <td id="consulta_marca" name="consulta_marca"></td>
+                                                                    <td id="consulta_modelo" name="consulta_modelo">
+                                                                    </td>
+                                                                    <td id="consulta_anioModelo"
+                                                                        name="consulta_anioModelo"></td>
+                                                                    <td id="consulta_paisFabricacion"
+                                                                        name="consulta_paisFabricacion"></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mt-4 pt-2">
+                                                    <p align="left">
+                                                        Para consultar el detalle de las características de su vehículo
+                                                        según la matrícula,
+                                                        verifique las consultas públicas previstas por los organismos de
+                                                        tránsito competentes,
+                                                        o ingrese a la consulta de la Agencia Nacional de Tránsito
+                                                        <a
+                                                            href="https://consultaweb.ant.gob.ec/PortalWEB/paginas/clientes/clp_criterio_consulta.jsp">
+                                                            aquí
+                                                        </a>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-4  justify-content-center d-none">
+                                                <div class="pt-1 px-4 pb-4">
+                                                    <img src="/images/ic_tick.png" class="rounded-circle" width="110"
+                                                        height="110">
+                                                </div>
+
+                                                <div class="text-center tamano-ya-pago fs-4" id="informacion"
+                                                    name="informacion">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 d-flex justify-content-center pt-4">
+                                                        <button
+                                                            class="btn btn-primary w-100 bg-blue-sri-btnRP shadow-btn border-0 fw-semibold rounded-1">Reporte
+                                                            pagos</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-4  justify-content-center">
+                                                <div class="row">
+                                                    <div class="row">
+                                                        <div>
+                                                            <div class="d-flex">
+                                                                <span class="text-start fw-normal">Total valores a
+                                                                    pagar</span>
+                                                            </div>
+
+                                                            <table class="table table-bordered mb-2" role="presentation">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td><strong>Matrícula</strong></td>
+                                                                        <td class="text-end">USD $4,017.29</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <div class="text-end">
+                                                                <span class="fw-normal  h5">A pagar: </span>
+                                                                <strong><span class="h5 text-red">USD
+                                                                        $4,017.29</span></strong>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex justify-content-center pt-4 pb-4">
+                                                            <button
+                                                                class="btn btn-primary w-100 bg-blue-sri-btnRP shadow-btn border-0 fw-semibold rounded-1">Detalle
+                                                                valores</button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        
+                                                            <div class="row align-items-center">
+                                                                <div class="col-sm-6 text-center">
+                                                                    <img src="/images/icono-medios-pago.svg"
+                                                                        class="rounded-circle" width="70" height="70">
+                                                                </div>
+                                                                <div class="col-sm-6 text-center">
+                                                                    <p class="fw-semibold text-dark">Medios de pago</p>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row mt-3">
+                                    <div class="col-sm-12 text-start">
+                                        Consulte los valores pendientes de pago del Impuesto ambiental en la opción:
+                                        <a
+                                            href="#/SriVehiculosWeb/ConsultaPlanExcepcionalPagosVehiculo/Consultas/consultaPlanExcepcionalPagos">
+                                            Plan excepcional de pagos Impuesto Ambiental
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12 d-flex justify-content-center mt-3 ">
+                                        <button
+                                            class="btn btn-primary bg-blue-sri border-0 fw-semibold shadow-btn rounded-1">Nueva
+                                            consulta</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+            </div>
+
+            <div id="spinner-wrapper" class="spinner-wrapper">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading..</span>
+                </div>
+            </div>
+
+
+
+</body>
+
+</html>

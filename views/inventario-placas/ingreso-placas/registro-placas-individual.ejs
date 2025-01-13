@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <title>Ingreso de placas</title>
+  <link rel="stylesheet" href="../../../public/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+  <script src="/js/activar-items-navbar.js"></script>
+  <script src="/js/spinners.js"></script>
+
+
+  <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Inicio de barra de navegación -->
+    <%- include('../../body/navbar') %>
+      <!-- Fin de barra de navegación -->
+      <!--  Contendio principal -->
+      <div class="body-wrapper">
+        <!--  Encabezado de pagina -->
+        <%- include('../../body/header') %>
+          <!--  Fin de encabezado de pagina  -->
+          <div class="container-fluid" style="width: 50%;">
+            <div class="widget-content searchable-container list">
+
+              <div class="row">
+                <div class="col-lg-12">
+
+
+                  <form action="/ingresar-placa-individual" method="POST" id="ingresarPlacaInventarioForm">
+                    <div class="card">
+                      <div class="px-4 py-3">
+                        <div class="card-body p-0">
+                          <div class="d-sm-flex d-block  justify-content-center mb-2 col-12 gap-1">
+
+                            <nav class="col-lg-3" aria-label="breadcrumb">
+                              <ol class="breadcrumb">
+                              </ol>
+                            </nav>
+
+                            <div class="d-block mb-3 mb-sm-0 col-lg-12  justify-content-center">
+                              <h5 class="text-dark fw-semibold text-center">Ingreso de placas metálicas</h5>
+                              <p class="card-subtitle mb-0 d-flex justify-content-center">Inventario institucional</p>
+                            </div>
+
+
+                            <div class="dropdown col-lg-3 justify-content-end d-flex">
+
+                            </div>
+                          </div>
+                          <hr>
+                        </div>
+
+
+
+                        <h5 class="fs-4 fw-semibold mt-4 mb-0">INFORMACIÓN DEL REGISTRO (ingreso por unidad):</h5>
+
+                        <div class="py-3">
+                          <div class="row">
+                            <div class="col-lg-6">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-9 form-label fw-normal">Placa:</label>
+                                <input type="text" class="col-lg-12 form-control-flex text-uppercase" name="placa"
+                                  required autocomplete="off" maxlength="7">
+                                <small class="text-muted">Vehículo: 7 caracteres /</small>
+                                <small class="text-muted">Motocicleta: 6 caracteres</small>
+                              </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-10 form-label fw-normal">Fecha de ingreso:</label>
+                                <input type="datetime-local" class="form-control is-valid col-lg-12"
+                                  name="ingreso_fecha" id="ingreso_fecha" placeholder="" required>
+                                <script>
+                                  var fecha = new Date();
+                                  var year = fecha.getFullYear();
+                                  var month = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                                  var day = fecha.getDate().toString().padStart(2, '0');
+
+                                  var hours = fecha.getHours().toString().padStart(2, '0');
+                                  var minutes = fecha.getMinutes().toString().padStart(2, '0');
+
+                                  var formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+                                  document.getElementById('ingreso_fecha').value = formattedDate;
+                                </script>
+                              </div>
+                            </div>
+
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-9 form-label fw-normal">Clase de
+                                  transporte:</label>
+                                <select class="form-select-flex col-lg-12" name="clase_transporte"
+                                  aria-label="Default select example" required>
+                                  <option selected=""></option>
+                                  <option value="COMERCIAL">COMERCIAL</option>
+                                  <option value="PARTICULAR">PARTICULAR</option>
+                                  <option value="PUBLICO">PUBLICO</option>
+                                  <option value="ESTATAL">ESTATAL</option>
+                                  <option value="MUNICIPAL">MUNICIPAL</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-lg-4">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-9 form-label fw-normal">Clase de
+                                  vehículo:</label>
+                                <select class="form-select-flex col-lg-12" name="clase_vehiculo" id="clase_vehiculo"
+                                  aria-label="Default select example" required>
+                                  <option selected=""></option>
+                                  <option value="VEHICULO">VEHICULO</option>
+                                  <option value="MOTOCICLETA">MOTOCICLETA</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-10 form-label fw-normal">Cantidad:</label>
+                                <input type="number" class="col-lg-12 form-control is-valid" name="cantidad"
+                                  id="cantidad" required>
+                              </div>
+
+                              <script>
+                                document.getElementById('clase_vehiculo').addEventListener('change', function () {
+                                  const cantidadInput = document.getElementById('cantidad');
+                                  if (this.value === 'VEHICULO') {
+                                    cantidadInput.value = 2;
+                                  } else if (this.value === 'MOTOCICLETA') {
+                                    cantidadInput.value = 1;
+                                  } else {
+                                    cantidadInput.value = '';
+                                  }
+                                });
+                              </script>
+
+                            </div>
+                          </div>
+
+                          <div class="row">
+
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-12">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-10 form-label fw-normal">Ubicación:</label>
+                                <input type="text" class="col-lg-12 form-control-flex text-uppercase" name="ubicacion"
+                                  id="ubicacion" required placeholder="" autocomplete="off">
+                                <small class="text-muted">Ejemplo: CAJA 1</small>
+
+                              </div>
+                            </div>
+
+
+                          </div>
+
+
+                        </div>
+
+
+                        <div class="mb-3">
+                          <div class="card-body px-0 py-0 d-flex justify-content-end gap-2">
+                            <button type="" onclick="window.location.href='/home'"
+                              class="justify-content-center fw-semibold btn shadow-btn mb-1  btn-rounded btn-secondary align-items-center">Cancelar
+                              ingreso
+                            </button>
+                            <button type="submit"
+                              class="justify-content-center fw-semibold btn shadow-btn mb-1 btn-rounded btn-primary align-items-center">Guardar
+                            </button>
+                          </div>
+                        </div>
+
+
+                      </div>
+
+
+
+
+
+
+                  </form>
+
+
+
+                </div>
+
+
+
+
+
+
+
+              </div>
+
+            </div>
+          </div>
+
+
+
+      </div>
+
+
+  </div>
+
+  <div id="alert-container"></div>
+
+  <div id="spinner-wrapper" class="spinner-wrapper">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading..</span>
+    </div>
+  </div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,882 @@
+[
+    {
+        "id_canton": 1,
+        "nombre_canton": "24 de Mayo"
+    },
+    {
+        "id_canton": 2,
+        "nombre_canton": "Aguarico"
+    },
+    {
+        "id_canton": 3,
+        "nombre_canton": "Alausí"
+    },
+    {
+        "id_canton": 4,
+        "nombre_canton": "Alfredo Baquerizo"
+    },
+    {
+        "id_canton": 5,
+        "nombre_canton": "Ambato"
+    },
+    {
+        "id_canton": 6,
+        "nombre_canton": "Antonio Ante"
+    },
+    {
+        "id_canton": 7,
+        "nombre_canton": "Arajuno"
+    },
+    {
+        "id_canton": 8,
+        "nombre_canton": "Archidona"
+    },
+    {
+        "id_canton": 9,
+        "nombre_canton": "Arenillas"
+    },
+    {
+        "id_canton": 10,
+        "nombre_canton": "Atacames"
+    },
+    {
+        "id_canton": 11,
+        "nombre_canton": "Atahualpa"
+    },
+    {
+        "id_canton": 12,
+        "nombre_canton": "Azogues"
+    },
+    {
+        "id_canton": 13,
+        "nombre_canton": "Baba"
+    },
+    {
+        "id_canton": 14,
+        "nombre_canton": "Babahoyo"
+    },
+    {
+        "id_canton": 15,
+        "nombre_canton": "Balao"
+    },
+    {
+        "id_canton": 16,
+        "nombre_canton": "Balsas"
+    },
+    {
+        "id_canton": 17,
+        "nombre_canton": "Balzar"
+    },
+    {
+        "id_canton": 18,
+        "nombre_canton": "Baños"
+    },
+    {
+        "id_canton": 19,
+        "nombre_canton": "Biblián"
+    },
+    {
+        "id_canton": 20,
+        "nombre_canton": "Bolívar"
+    },
+    {
+        "id_canton": 22,
+        "nombre_canton": "Buena Fe"
+    },
+    {
+        "id_canton": 23,
+        "nombre_canton": "Caluma"
+    },
+    {
+        "id_canton": 24,
+        "nombre_canton": "Calvas"
+    },
+    {
+        "id_canton": 25,
+        "nombre_canton": "Camilo Ponce Enríquez"
+    },
+    {
+        "id_canton": 26,
+        "nombre_canton": "Cañar"
+    },
+    {
+        "id_canton": 27,
+        "nombre_canton": "Carlos Julio Arosemena Tola"
+    },
+    {
+        "id_canton": 28,
+        "nombre_canton": "Cascales"
+    },
+    {
+        "id_canton": 29,
+        "nombre_canton": "Catamayo"
+    },
+    {
+        "id_canton": 30,
+        "nombre_canton": "Cayambe"
+    },
+    {
+        "id_canton": 31,
+        "nombre_canton": "Celica"
+    },
+    {
+        "id_canton": 32,
+        "nombre_canton": "Centinela del Cóndor"
+    },
+    {
+        "id_canton": 33,
+        "nombre_canton": "Cevallos"
+    },
+    {
+        "id_canton": 34,
+        "nombre_canton": "Chaguarpamba"
+    },
+    {
+        "id_canton": 35,
+        "nombre_canton": "Chambo"
+    },
+    {
+        "id_canton": 36,
+        "nombre_canton": "Chilla"
+    },
+    {
+        "id_canton": 37,
+        "nombre_canton": "Chillanes"
+    },
+    {
+        "id_canton": 38,
+        "nombre_canton": "Chimbo"
+    },
+    {
+        "id_canton": 39,
+        "nombre_canton": "Chinchipe"
+    },
+    {
+        "id_canton": 40,
+        "nombre_canton": "Chone"
+    },
+    {
+        "id_canton": 41,
+        "nombre_canton": "Chordeleg"
+    },
+    {
+        "id_canton": 42,
+        "nombre_canton": "Chunchi"
+    },
+    {
+        "id_canton": 43,
+        "nombre_canton": "Colimes"
+    },
+    {
+        "id_canton": 44,
+        "nombre_canton": "Colta"
+    },
+    {
+        "id_canton": 45,
+        "nombre_canton": "Cotacachi"
+    },
+    {
+        "id_canton": 46,
+        "nombre_canton": "Cuenca"
+    },
+    {
+        "id_canton": 47,
+        "nombre_canton": "Cumandá"
+    },
+    {
+        "id_canton": 48,
+        "nombre_canton": "Cuyabeno"
+    },
+    {
+        "id_canton": 49,
+        "nombre_canton": "Daule"
+    },
+    {
+        "id_canton": 50,
+        "nombre_canton": "Déleg"
+    },
+    {
+        "id_canton": 51,
+        "nombre_canton": "Durán"
+    },
+    {
+        "id_canton": 52,
+        "nombre_canton": "Echeandía"
+    },
+    {
+        "id_canton": 53,
+        "nombre_canton": "El Carmen"
+    },
+    {
+        "id_canton": 54,
+        "nombre_canton": "El Chaco"
+    },
+    {
+        "id_canton": 55,
+        "nombre_canton": "El Empalme"
+    },
+    {
+        "id_canton": 56,
+        "nombre_canton": "El Guabo"
+    },
+    {
+        "id_canton": 57,
+        "nombre_canton": "El Pan"
+    },
+    {
+        "id_canton": 58,
+        "nombre_canton": "El Pangui"
+    },
+    {
+        "id_canton": 59,
+        "nombre_canton": "El Tambo"
+    },
+    {
+        "id_canton": 60,
+        "nombre_canton": "El Triunfo"
+    },
+    {
+        "id_canton": 61,
+        "nombre_canton": "Eloy Alfaro"
+    },
+    {
+        "id_canton": 62,
+        "nombre_canton": "Esmeraldas"
+    },
+    {
+        "id_canton": 63,
+        "nombre_canton": "Espejo"
+    },
+    {
+        "id_canton": 64,
+        "nombre_canton": "Espíndola"
+    },
+    {
+        "id_canton": 65,
+        "nombre_canton": "Exterior"
+    },
+    {
+        "id_canton": 66,
+        "nombre_canton": "Flavio Alfaro"
+    },
+    {
+        "id_canton": 67,
+        "nombre_canton": "Francisco de Orellana"
+    },
+    {
+        "id_canton": 68,
+        "nombre_canton": "General Antonio Elizale"
+    },
+    {
+        "id_canton": 69,
+        "nombre_canton": "Girón"
+    },
+    {
+        "id_canton": 70,
+        "nombre_canton": "Gonzalo Pizarro"
+    },
+    {
+        "id_canton": 71,
+        "nombre_canton": "Gonzanamá"
+    },
+    {
+        "id_canton": 72,
+        "nombre_canton": "Guachapala"
+    },
+    {
+        "id_canton": 73,
+        "nombre_canton": "Gualaceo"
+    },
+    {
+        "id_canton": 74,
+        "nombre_canton": "Gualaquiza"
+    },
+    {
+        "id_canton": 75,
+        "nombre_canton": "Guamote"
+    },
+    {
+        "id_canton": 76,
+        "nombre_canton": "Guano"
+    },
+    {
+        "id_canton": 77,
+        "nombre_canton": "Guaranda"
+    },
+    {
+        "id_canton": 78,
+        "nombre_canton": "Guayaquil"
+    },
+    {
+        "id_canton": 79,
+        "nombre_canton": "Huaca"
+    },
+    {
+        "id_canton": 80,
+        "nombre_canton": "Huamboya"
+    },
+    {
+        "id_canton": 81,
+        "nombre_canton": "Huaquillas"
+    },
+    {
+        "id_canton": 82,
+        "nombre_canton": "Ibarra"
+    },
+    {
+        "id_canton": 83,
+        "nombre_canton": "Isabela"
+    },
+    {
+        "id_canton": 84,
+        "nombre_canton": "Isidro Ayora"
+    },
+    {
+        "id_canton": 85,
+        "nombre_canton": "Jama"
+    },
+    {
+        "id_canton": 86,
+        "nombre_canton": "Jaramijó"
+    },
+    {
+        "id_canton": 87,
+        "nombre_canton": "Jipijapa"
+    },
+    {
+        "id_canton": 88,
+        "nombre_canton": "Junín"
+    },
+    {
+        "id_canton": 89,
+        "nombre_canton": "La Concordia"
+    },
+    {
+        "id_canton": 90,
+        "nombre_canton": "La Joya de los Sachas"
+    },
+    {
+        "id_canton": 91,
+        "nombre_canton": "La Libertad"
+    },
+    {
+        "id_canton": 92,
+        "nombre_canton": "La Maná"
+    },
+    {
+        "id_canton": 93,
+        "nombre_canton": "La Troncal"
+    },
+    {
+        "id_canton": 94,
+        "nombre_canton": "Lago Agrio"
+    },
+    {
+        "id_canton": 95,
+        "nombre_canton": "Las Lajas"
+    },
+    {
+        "id_canton": 96,
+        "nombre_canton": "Las Naves"
+    },
+    {
+        "id_canton": 97,
+        "nombre_canton": "Latacunga"
+    },
+    {
+        "id_canton": 98,
+        "nombre_canton": "Limón Indanza"
+    },
+    {
+        "id_canton": 99,
+        "nombre_canton": "Logroño"
+    },
+    {
+        "id_canton": 100,
+        "nombre_canton": "Loja"
+    },
+    {
+        "id_canton": 101,
+        "nombre_canton": "Lomas de Sargentillo"
+    },
+    {
+        "id_canton": 102,
+        "nombre_canton": "Loreto"
+    },
+    {
+        "id_canton": 103,
+        "nombre_canton": "Macará"
+    },
+    {
+        "id_canton": 104,
+        "nombre_canton": "Machala"
+    },
+    {
+        "id_canton": 105,
+        "nombre_canton": "Manta"
+    },
+    {
+        "id_canton": 106,
+        "nombre_canton": "Marcabelí"
+    },
+    {
+        "id_canton": 107,
+        "nombre_canton": "Marcelino Maridueña"
+    },
+    {
+        "id_canton": 108,
+        "nombre_canton": "Mejía"
+    },
+    {
+        "id_canton": 109,
+        "nombre_canton": "Mera"
+    },
+    {
+        "id_canton": 110,
+        "nombre_canton": "Milagro"
+    },
+    {
+        "id_canton": 111,
+        "nombre_canton": "Mira"
+    },
+    {
+        "id_canton": 112,
+        "nombre_canton": "Mocache"
+    },
+    {
+        "id_canton": 113,
+        "nombre_canton": "Mocha"
+    },
+    {
+        "id_canton": 114,
+        "nombre_canton": "Montalvo"
+    },
+    {
+        "id_canton": 115,
+        "nombre_canton": "Montecristi"
+    },
+    {
+        "id_canton": 116,
+        "nombre_canton": "Montúfar"
+    },
+    {
+        "id_canton": 117,
+        "nombre_canton": "Morona"
+    },
+    {
+        "id_canton": 118,
+        "nombre_canton": "Muisne"
+    },
+    {
+        "id_canton": 119,
+        "nombre_canton": "Nabón"
+    },
+    {
+        "id_canton": 120,
+        "nombre_canton": "Nangaritza"
+    },
+    {
+        "id_canton": 121,
+        "nombre_canton": "Naranjal"
+    },
+    {
+        "id_canton": 122,
+        "nombre_canton": "Naranjito"
+    },
+    {
+        "id_canton": 123,
+        "nombre_canton": "Nobol"
+    },
+    {
+        "id_canton": 124,
+        "nombre_canton": "Olmedo"
+    },
+    {
+        "id_canton": 126,
+        "nombre_canton": "Oña"
+    },
+    {
+        "id_canton": 127,
+        "nombre_canton": "Otavalo"
+    },
+    {
+        "id_canton": 128,
+        "nombre_canton": "Pablo Sexto"
+    },
+    {
+        "id_canton": 129,
+        "nombre_canton": "Paján"
+    },
+    {
+        "id_canton": 130,
+        "nombre_canton": "Palanda"
+    },
+    {
+        "id_canton": 131,
+        "nombre_canton": "Palenque"
+    },
+    {
+        "id_canton": 132,
+        "nombre_canton": "Palestina"
+    },
+    {
+        "id_canton": 133,
+        "nombre_canton": "Pallatanga"
+    },
+    {
+        "id_canton": 134,
+        "nombre_canton": "Palora"
+    },
+    {
+        "id_canton": 135,
+        "nombre_canton": "Paltas"
+    },
+    {
+        "id_canton": 136,
+        "nombre_canton": "Pangua"
+    },
+    {
+        "id_canton": 137,
+        "nombre_canton": "Paquisha"
+    },
+    {
+        "id_canton": 138,
+        "nombre_canton": "Pasaje"
+    },
+    {
+        "id_canton": 139,
+        "nombre_canton": "Pastaza"
+    },
+    {
+        "id_canton": 140,
+        "nombre_canton": "Patate"
+    },
+    {
+        "id_canton": 141,
+        "nombre_canton": "Paute"
+    },
+    {
+        "id_canton": 142,
+        "nombre_canton": "Pedernales"
+    },
+    {
+        "id_canton": 143,
+        "nombre_canton": "Pedro Carbo"
+    },
+    {
+        "id_canton": 144,
+        "nombre_canton": "Pedro Moncayo"
+    },
+    {
+        "id_canton": 145,
+        "nombre_canton": "Pedro Vicente Maldonado"
+    },
+    {
+        "id_canton": 146,
+        "nombre_canton": "Penipe"
+    },
+    {
+        "id_canton": 147,
+        "nombre_canton": "Pichincha"
+    },
+    {
+        "id_canton": 148,
+        "nombre_canton": "Pimampiro"
+    },
+    {
+        "id_canton": 149,
+        "nombre_canton": "Piñas"
+    },
+    {
+        "id_canton": 150,
+        "nombre_canton": "Pindal"
+    },
+    {
+        "id_canton": 151,
+        "nombre_canton": "Playas"
+    },
+    {
+        "id_canton": 152,
+        "nombre_canton": "Portovelo"
+    },
+    {
+        "id_canton": 153,
+        "nombre_canton": "Portoviejo"
+    },
+    {
+        "id_canton": 154,
+        "nombre_canton": "Pucará"
+    },
+    {
+        "id_canton": 155,
+        "nombre_canton": "Puebloviejo"
+    },
+    {
+        "id_canton": 156,
+        "nombre_canton": "Puerto López"
+    },
+    {
+        "id_canton": 157,
+        "nombre_canton": "Puerto Quito"
+    },
+    {
+        "id_canton": 158,
+        "nombre_canton": "Pujilí"
+    },
+    {
+        "id_canton": 159,
+        "nombre_canton": "Putumayo"
+    },
+    {
+        "id_canton": 160,
+        "nombre_canton": "Puyango"
+    },
+    {
+        "id_canton": 161,
+        "nombre_canton": "Quero"
+    },
+    {
+        "id_canton": 162,
+        "nombre_canton": "Quevedo"
+    },
+    {
+        "id_canton": 163,
+        "nombre_canton": "Quijos"
+    },
+    {
+        "id_canton": 164,
+        "nombre_canton": "Quilanga"
+    },
+    {
+        "id_canton": 165,
+        "nombre_canton": "Quinindé"
+    },
+    {
+        "id_canton": 166,
+        "nombre_canton": "Quinsaloma"
+    },
+    {
+        "id_canton": 167,
+        "nombre_canton": "Quito"
+    },
+    {
+        "id_canton": 168,
+        "nombre_canton": "Riobamba"
+    },
+    {
+        "id_canton": 169,
+        "nombre_canton": "Rioverde"
+    },
+    {
+        "id_canton": 170,
+        "nombre_canton": "Rocafuerte"
+    },
+    {
+        "id_canton": 171,
+        "nombre_canton": "Rumiñahui"
+    },
+    {
+        "id_canton": 172,
+        "nombre_canton": "Salcedo"
+    },
+    {
+        "id_canton": 173,
+        "nombre_canton": "Salinas"
+    },
+    {
+        "id_canton": 174,
+        "nombre_canton": "Salitre"
+    },
+    {
+        "id_canton": 175,
+        "nombre_canton": "Samborondón"
+    },
+    {
+        "id_canton": 176,
+        "nombre_canton": "San Cristóbal"
+    },
+    {
+        "id_canton": 177,
+        "nombre_canton": "San Fernando"
+    },
+    {
+        "id_canton": 178,
+        "nombre_canton": "San Juan Bosco"
+    },
+    {
+        "id_canton": 179,
+        "nombre_canton": "San Lorenzo"
+    },
+    {
+        "id_canton": 180,
+        "nombre_canton": "San Miguel"
+    },
+    {
+        "id_canton": 181,
+        "nombre_canton": "San Miguel de los Bancos"
+    },
+    {
+        "id_canton": 182,
+        "nombre_canton": "San Miguel de Urcuquí"
+    },
+    {
+        "id_canton": 183,
+        "nombre_canton": "San Pedro de Pelileo"
+    },
+    {
+        "id_canton": 184,
+        "nombre_canton": "San Vicente"
+    },
+    {
+        "id_canton": 185,
+        "nombre_canton": "Santa Ana"
+    },
+    {
+        "id_canton": 186,
+        "nombre_canton": "Santa Clara"
+    },
+    {
+        "id_canton": 187,
+        "nombre_canton": "Santa Cruz"
+    },
+    {
+        "id_canton": 188,
+        "nombre_canton": "Santa Elena"
+    },
+    {
+        "id_canton": 189,
+        "nombre_canton": "Santa Isabel"
+    },
+    {
+        "id_canton": 190,
+        "nombre_canton": "Santa Lucía"
+    },
+    {
+        "id_canton": 191,
+        "nombre_canton": "Santa Rosa"
+    },
+    {
+        "id_canton": 192,
+        "nombre_canton": "Santiago de Méndez"
+    },
+    {
+        "id_canton": 193,
+        "nombre_canton": "Santiago de Píllaro"
+    },
+    {
+        "id_canton": 194,
+        "nombre_canton": "Santo Domingo"
+    },
+    {
+        "id_canton": 195,
+        "nombre_canton": "Saquisilí"
+    },
+    {
+        "id_canton": 196,
+        "nombre_canton": "Saraguro"
+    },
+    {
+        "id_canton": 197,
+        "nombre_canton": "Sevilla de Oro"
+    },
+    {
+        "id_canton": 198,
+        "nombre_canton": "Shushufindi"
+    },
+    {
+        "id_canton": 199,
+        "nombre_canton": "Sigchos"
+    },
+    {
+        "id_canton": 200,
+        "nombre_canton": "Sígsig"
+    },
+    {
+        "id_canton": 201,
+        "nombre_canton": "Simón Bolívar"
+    },
+    {
+        "id_canton": 202,
+        "nombre_canton": "Sozoranga"
+    },
+    {
+        "id_canton": 203,
+        "nombre_canton": "Sucre"
+    },
+    {
+        "id_canton": 204,
+        "nombre_canton": "Sucúa"
+    },
+    {
+        "id_canton": 205,
+        "nombre_canton": "Sucumbíos"
+    },
+    {
+        "id_canton": 206,
+        "nombre_canton": "Suscal"
+    },
+    {
+        "id_canton": 207,
+        "nombre_canton": "Taisha"
+    },
+    {
+        "id_canton": 208,
+        "nombre_canton": "Tena"
+    },
+    {
+        "id_canton": 209,
+        "nombre_canton": "Tisaleo"
+    },
+    {
+        "id_canton": 210,
+        "nombre_canton": "Tiwintza"
+    },
+    {
+        "id_canton": 211,
+        "nombre_canton": "Tosagua"
+    },
+    {
+        "id_canton": 212,
+        "nombre_canton": "Tulcán"
+    },
+    {
+        "id_canton": 213,
+        "nombre_canton": "Urdaneta"
+    },
+    {
+        "id_canton": 214,
+        "nombre_canton": "Valencia"
+    },
+    {
+        "id_canton": 215,
+        "nombre_canton": "Ventanas"
+    },
+    {
+        "id_canton": 216,
+        "nombre_canton": "Vinces"
+    },
+    {
+        "id_canton": 217,
+        "nombre_canton": "Yacuambi"
+    },
+    {
+        "id_canton": 218,
+        "nombre_canton": "Yaguachi"
+    },
+    {
+        "id_canton": 219,
+        "nombre_canton": "Yantzaza"
+    },
+    {
+        "id_canton": 220,
+        "nombre_canton": "Zamora"
+    },
+    {
+        "id_canton": 221,
+        "nombre_canton": "Zapotillo"
+    },
+    {
+        "id_canton": 222,
+        "nombre_canton": "Zaruma"
+    }
+]

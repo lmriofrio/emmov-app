@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Placa entregada</title>
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="node_modules/simplebar/dist/simplebar.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+    <script src="/js/spinners.js"></script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+                    <div class="container-fluid" style="width: 50%;">
+                        <div class="widget-content searchable-container list">
+
+                            <div class="card">
+                                <div class="px-4 py-3 border-bottom">
+                                    <div class="d-flex no-block align-items-center">
+                                        <h5 class="fw-semibold mb-0 ">Placa entregada con éxito</h5>
+                                        <div class="ms-auto">
+                                            <span class="badge text-black rounded-pill">
+                                                <span
+                                                    class="round-8 bg-info rounded-circle d-inline-block me-2"></span>Registrado</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3 border-bottom">
+                                    <div class="card-body p-4">
+
+
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Retira:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2">
+                                                        <%= usuario.nombre_usuario %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">C.I./RUC/PAS: :</label>
+                                                <div class="col-md-7" style="white-space: nowrap; overflow: hidden;">
+                                                    <p class="form-control-static mb-2" id="solicitante_id">
+                                                        <%= solicitante_id %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Fecha:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2" id="salida_fecha">
+                                                        <%= salida_fecha %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Tipo de entrega:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2" id="salida_tipo_entrega">
+                                                        <%= salida_tipo_entrega %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Id funcionario:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2" id="salida_id_funcionario">
+                                                        <%= salida_id_funcionario %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Puesto:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2 text-nowrap"
+                                                        id="salida_nombre_puesto_funcionario">
+                                                        <%= salida_nombre_puesto_funcionario %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Acta:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2" id="salida_acta">
+                                                        <%= salida_acta %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+
+                                    </div>
+
+                                </div>
+
+                                <div
+                                    class="pb-7 pt-7 py-3 px-3 d-flex align-items-center justify-content-center d-flex">
+
+
+
+                                    <button type="button" id="imprimirSolicitud"
+                                        class="btn btn-rounded btn-print px-4 py-2">
+                                        <i class="ti ti-printer fs-4 me-2"></i>Imprimir acta de entrega
+                                    </button>
+
+                                    <script>
+                                        document.getElementById('imprimirSolicitud').addEventListener('click', function () {
+                                            const salida_id_funcionario = document.getElementById('salida_id_funcionario').textContent.trim();
+                                            const salida_fecha = document.getElementById('salida_fecha').textContent.trim();
+                                            const salida_tipo_entrega = document.getElementById('salida_tipo_entrega').textContent.trim();
+                                            const solicitante_id = document.getElementById('solicitante_id').textContent.trim();
+                                            const salida_acta = document.getElementById('salida_acta').textContent.trim();
+                                            const salida_nombre_puesto_funcionario = document.getElementById('salida_nombre_puesto_funcionario').textContent.trim();
+
+                                            if (salida_id_funcionario) {
+                                                const url = `acta-entrega-pdf?salida_id_funcionario=${encodeURIComponent(salida_id_funcionario)}&salida_fecha=${encodeURIComponent(salida_fecha)}&salida_tipo_entrega=${encodeURIComponent(salida_tipo_entrega)}&solicitante_id=${encodeURIComponent(solicitante_id)}&salida_nombre_puesto_funcionario=${encodeURIComponent(salida_nombre_puesto_funcionario)}&salida_acta=${encodeURIComponent(salida_acta)}`;
+
+                                                var ventanaImpresion = window.open(url);
+
+                                                ventanaImpresion.onload = function () {
+                                                    ventanaImpresion.print();
+                                                    ventanaImpresion.onafterprint = function () {
+                                                        ventanaImpresion.close();
+                                                    };
+                                                };
+                                            } else {
+                                                alert('ID del funcionario no encontrado.');
+                                            }
+
+                                        });
+
+                                    </script>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="spinner-wrapper" class="spinner-wrapper">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading..</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+
+</body>
+
+</html>

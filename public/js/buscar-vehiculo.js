@@ -19,7 +19,7 @@ $(document).ready(function () {
       success: function (response) {
         if (response.success) {
 
-          $('#clase_vehiculo').val(response.vehiculo.clase_vehiculo);
+          $('#clase_vehiculo').val(response.vehiculo.clase_vehiculo_tipo);
           $('#clase_transporte').val(response.vehiculo.clase_transporte);
           $('#id_usuario').val(response.vehiculo.id_usuario);
           $('#nombre_usuario').val(response.vehiculo.nombre_usuario);
@@ -32,7 +32,7 @@ $(document).ready(function () {
         }
       },
       error: function (error) {
-        console.error('Error al buscar vehículo:', error);
+        console.error('Error al buscar vehículo en la antigua js:', error);
         alert('Error al buscar vehículo. Por favor, inténtelo de nuevo.');
       }
     });

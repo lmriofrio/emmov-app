@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <title>Registro del pago de placas</title>
+  <link rel="stylesheet" href="../../../public/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+  <script src="/js/activar-items-navbar.js"></script>
+  <script src="/js/spinners.js"></script>
+
+
+  <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Inicio de barra de navegación -->
+    <%- include('../../body/navbar') %>
+      <!-- Fin de barra de navegación -->
+      <!--  Contendio principal -->
+      <div class="body-wrapper">
+        <!--  Encabezado de pagina -->
+        <%- include('../../body/header') %>
+          <!--  Fin de encabezado de pagina  -->
+          <div class="container-fluid" style="width: 60%;">
+            <div class="widget-content searchable-container list">
+
+              <div class="row">
+                <div class="col-lg-12">
+
+
+                  <form action="/registar-pago-placas" method="POST">
+                    <input type="hidden" name="id_tramite" value="<%= tramite.id_tramite %>">
+                    <div class="card">
+                      <div class="px-4 py-3">
+                        <div class="card-body p-0">
+                          <div class="d-sm-flex d-block  justify-content-center mb-2 col-12 gap-1">
+
+                            <nav class="col-lg-3" aria-label="breadcrumb">
+                              <ol class="breadcrumb">
+                              </ol>
+                            </nav>
+
+                            <div class="d-block mb-3 mb-sm-0 col-lg-6  justify-content-center">
+                              <h5 class="text-dark fw-semibold text-center">Registro de pagos de placas</h5>
+                              <p class="card-subtitle mb-0 d-flex justify-content-center">Ingreso de la información del
+                                comprobante de pago</p>
+                            </div>
+
+
+                            <div class="dropdown col-lg-3 justify-content-end d-flex">
+
+                            </div>
+
+
+
+
+
+                          </div>
+                          <hr>
+                        </div>
+
+                        <div class="px-4 py-3 bg-four-card rounded border">
+                          <div class="row">
+
+                            <div class="col-md-6">
+                              <div class="form-group row">
+                                <label class="form-label text-start col-md-4">PLACA:</label>
+                                <div class="col-md-8">
+                                  <p class="form-control-static text-black mb-2">
+                                    <%= tramite.placa %>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="form-group row">
+                                <label class="form-label text-start col-md-4">C.I/RUC/PAS:</label>
+                                <div class="col-md-8">
+                                  <p class="form-control-static text-black mb-2">
+                                    <%= tramite.id_usuario %>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <div class="row">
+
+                            <div class="col-md-6">
+                              <div class="form-group row">
+                                <label class="form-label text-start col-md-4">VEHÍCULO:</label>
+                                <div class="col-md-8">
+                                  <p class="form-control-static text-black mb-2">
+                                    <%= tramite.clase_vehiculo %>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="form-group row">
+                                <label class="form-label text-start col-md-4">PROPIETARIO:</label>
+                                <div class="col-md-8">
+                                  <div style="white-space: nowrap; overflow: hidden;">
+                                    <p class="form-control-static text-black mb-2">
+                                      <%= tramite.nombre_usuario %>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+
+                            <div class="col-md-6">
+                              <div class="form-group row">
+                                <label class="form-label text-start col-md-4 mb-0">TRANSPORTE:</label>
+                                <div class="col-md-8">
+                                  <p class="form-control-static mb-0 text-black">
+                                    <%= tramite.clase_transporte %>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="form-group row">
+                                <label class="form-label text-start col-md-4 mb-0">TRÁMITE:</label>
+                                <div class="col-md-8" style="white-space: nowrap; overflow: hidden;">
+                                  <p class="form-control-static mb-0 text-black">
+                                    <%= tramite.tipo_tramite %>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                        <h5 class="fs-4 fw-semibold mt-4">COMPROBANTE DE PAGO:</h5>
+
+                        <div class="py-3">
+
+
+                          <div class="row">
+                            <div class="col-lg-6">
+
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-normal">Entidad bancaria</label>
+                                <input type="text" name="pago_placas_entidad_bancaria"
+                                  class="form-control fw-normal text-uppercase" id="pago_placas_entidad_bancaria"
+                                  placeholder="Nombre del banco o cooperativa" autocomplete="off" required maxlength="30">
+                              </div>
+
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-normal">Fecha de pago</label>
+                                <input type="date" name="pago_placas_fecha" class="form-control fw-normal"
+                                  id="pago_placas_fecha" placeholder="Fecha de pago" autocomplete="off" required>
+                              </div>
+
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-normal">Número de trámite (Sistema AXIS)</label>
+                                <input type="number" name="id_tramite_axis" class="form-control fw-normal"
+                                  id="id_tramite_axis" placeholder="Número de tramite en el sistema Axis"
+                                  autocomplete="off" required max="999999999999" min="1">
+                              </div>
+                            </div>
+
+                            <div class="col-lg-6">
+
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-normal">Número de comprobante</label>
+                                <input type="number" name="pago_placas_comprobante" class="form-control fw-normal"
+                                  id="pago_placas_comprobante" placeholder="Número del comprobante" autocomplete="off"
+                                  required>
+                              </div>
+
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-normal">Valor del pago</label>
+
+                                <select class="form-select fw-normal form-control is-valid" name="pago_placas_valor" id="pago_placas_valor"
+                                  required>
+                                  <option value="23.00" <%=valor==='23.00' ? 'selected' : '' %>>23.00</option>
+                                  <option value="13.00" <%=valor==='13.00' ? 'selected' : '' %>>13.00</option>
+                                </select>
+
+
+
+                              </div>
+                              <div class="mb-4">
+                                <label for="" class="form-label fw-normal">Nuevo tipo de servicio</label>
+                                <input type="text" name="pago_placas_newservicio" class="form-control fw-normal is-valid"
+                                  id="pago_placas_newservicio" placeholder="" autocomplete="off"
+                                  value="<%= pago_placas_newservicio %>" required>
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+
+
+                        <div class="mb-3">
+                          <div class="card-body px-0 py-0 d-flex justify-content-end">
+                            <button type="submit"
+                              class="justify-content-center fw-semibold btn shadow-btn mb-1 btn-rounded btn-primary align-items-center">Guardar
+                            </button>
+                          </div>
+                        </div>
+
+
+                      </div>
+
+
+
+
+
+
+                  </form>
+
+
+
+                </div>
+
+
+
+
+
+
+
+              </div>
+
+            </div>
+          </div>
+
+
+
+      </div>
+
+
+  </div>
+
+  </div>
+  </div>
+
+  <div id="spinner-wrapper" class="spinner-wrapper">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading..</span>
+    </div>
+  </div>
+
+
+  </div>
+  </div>
+
+
+
+</body>
+
+</html>

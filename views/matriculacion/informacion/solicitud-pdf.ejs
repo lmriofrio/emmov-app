@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Solicitud pdf</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+
+    <script src="/js/main.js"></script>
+    <style>
+        @page {
+            size: A4;
+            margin: 5mm;
+        }
+
+        body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0;
+            display: flex;
+            align-items: start;
+            justify-content: center;
+            background: white;
+        }
+    </style>
+
+
+
+
+</head>
+
+<body>
+
+
+    <div class="container-fluid bg-white ">
+        <div class="">
+            <div class="card-body d-flex p-1">
+                <div class="col d-flex justify-content-end align-items-center">
+                    <div class="col-12">
+                        <div class="mb-0 border-bottom">
+                            <div class="card-body p-1">
+                                <div class="rounded d-flex">
+
+                                    <input type="hidden" value=" <%= tramite.id_tramite %>" id="id_tramite">
+                                    <div class="col-3 align-items-center justify-content-center">
+                                        <h5 class="m-1 fw-normal text-center text-black fs-3">TURNO NÚMERO</h5>
+                                        <div
+                                            class="p-1 d-flex align-items-center justify-content-center bg-four-card rounded">
+                                            <p
+                                                class="fw-semibold m-0 text-turner d-flex align-items-center justify-content-center fs-13">
+                                                <%= tramite.numero_turno_INFORMACION %>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-5 align-items-center justify-content-center fs-1">
+                                        <div class="p-1 col-12">
+                                            <div class="form-group row align-items-center">
+                                                <label
+                                                    class="col-sm-4 form-label  fw-semibold mb-0 text-end">Placa:</label>
+                                                <div class="col-sm-8">
+                                                    <span class="form-control-plaintext fw-semibold py-0">
+                                                        <%= tramite.placa %>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group row aWlign-items-center">
+                                                <label
+                                                    class="col-sm-4 form-label  fw-normal mb-0 text-end">Propietario:</label>
+                                                <div class="col-sm-8">
+                                                    <span class="form-control-plaintext fw-normal py-0 text-nowrap">
+                                                        <%= tramite.id_usuario %> <span>&nbsp;</span>
+                                                            <%= tramite.nombre_usuario %>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group row align-items-center">
+                                                <label
+                                                    class="col-sm-4 form-label fw-normal mb-0 text-end">Fecha:</label>
+
+                                                <div class="col-sm-8">
+                                                    <span class="form-control-plaintext fw-normal py-0"
+                                                        id="fecha_ingreso_tramite2">
+                                                        >
+                                                    </span>
+                                                </div>
+
+
+                                                <br>
+
+                                                <div class="col-sm-4">
+                                                    <input type="hidden"
+                                                        class="form-control-plaintext fw-normal py-0 text-end"
+                                                        id="fecha_ingreso_INFORMACION"
+                                                        value="<%= tramite.fecha_ingreso_INFORMACION %>">
+                                                </div>
+
+
+
+
+                                                <script>
+                                                    document.addEventListener('DOMContentLoaded', function () {
+                                                        var fechaStr = "<%= tramite.fecha_ingreso_INFORMACION %>";
+
+                                                        var fecha = new Date(fechaStr);
+
+                                                        fecha.setHours(fecha.getHours() + 5);
+
+                                                        var year = fecha.getFullYear();
+                                                        var month = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                                                        var day = fecha.getDate().toString().padStart(2, '0');
+                                                        var hours = fecha.getHours().toString().padStart(2, '0');
+                                                        var minutes = fecha.getMinutes().toString().padStart(2, '0');
+                                                        var seconds = fecha.getSeconds().toString().padStart(2, '0');
+
+                                                        var formattedDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+
+                                                        document.getElementById('fecha_ingreso_tramite2').textContent = formattedDate;
+                                                    });
+                                                </script>
+
+
+
+                                            </div>
+                                            <div class="form-group row align-items-center">
+                                                <label for="proyect"
+                                                    class="col-sm-4 form-label fw-normal mb-0 text-end">Tramite:</label>
+                                                <div class="col-sm-8">
+                                                    <span id="proyect"
+                                                        class="form-control-plaintext fw-normal py-0 text-nowrap">
+                                                        <%= tramite.tipo_tramite %>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row align-items-center">
+                                                <label for="proyect"
+                                                    class="col-sm-4 form-label fw-normal mb-0 text-end">Ingresa:</label>
+                                                <div class="col-sm-8">
+                                                    <span id="proyect"
+                                                        class="form-control-plaintext fw-normal py-0 text-nowrap">
+                                                        <%= tramite.nombre_funcionario_INFORMACION %>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row align-items-center">
+                                                <label for="proyect"
+                                                    class="col-sm-4 form-label fw-normal mb-0 text-end">Asignado
+                                                    a:</label>
+                                                <div class="col-sm-8">
+                                                    <span id="proyect"
+                                                        class="form-control-plaintext fw-normal py-0 text-nowrap">
+                                                        <%= tramite.nombre_funcionario_asignado_INFORMACION %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-4 align-items-center justify-content-center fs-1">
+                                        <div class="p-1 col-12">
+                                            <div class="form-group align-items-center">
+                                                <div class="col-12">
+                                                    <span
+                                                        class="form-control-plaintext fw-semibold py-0 hidden text-start">Procesos
+                                                        RTV:</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group align-items-center">
+
+                                                <div
+                                                    class="form-group col-12  align-items-center justify-content-center">
+
+                                                    <input type="text" id="orden_RTV"
+                                                        class="form-control-plaintext fw-normal py-0" value=""
+                                                        readonly>
+
+
+                                                    <input type="text" id="orden_improntas"
+                                                        class="form-control-plaintext fw-normal py-0" value=""
+                                                        readonly>
+
+
+                                                    <input type="text" id="orden_cambio-de-servicio"
+                                                        class="form-control-plaintext fw-normal py-0" value=""
+                                                        readonly>
+
+
+                                                    <input type="text" id="orden_color"
+                                                        class="form-control-plaintext fw-normal py-0" value=""
+                                                        readonly>
+
+
+                                                    <input type="text" id="orden_motor"
+                                                        class="form-control-plaintext fw-normal py-0" value=""
+                                                        readonly>
+
+                                                </div>
+                                                <input type="hidden" id="revision_tecnica_vehicular_TURNO"
+                                                    name="revision_tecnica_vehicular_TURNO"
+                                                    value="<%= tramite.revision_tecnica_vehicular_TURNO %>">
+                                                <input type="hidden" id="verificacion_improntas_TURNO"
+                                                    name="verificacion_improntas_TURNO"
+                                                    value="<%= tramite.verificacion_improntas_TURNO %>">
+                                                <input type="hidden" id="cambio_servicio_TURNO"
+                                                    name="cambio_servicio_TURNO"
+                                                    value="<%= tramite.cambio_servicio_TURNO %>">
+                                                <input type="hidden" id="cambio_color_TURNO" name="cambio_color_TURNO"
+                                                    value="<%= tramite.cambio_color_TURNO %>">
+                                                <input type="hidden" id="cambio_motor_TURNO" name="cambio_motor_TURNO"
+                                                    value="<%= tramite.cambio_motor_TURNO %>">
+
+                                            </div>
+
+                                            <script>
+                                                document.addEventListener('DOMContentLoaded', function () {
+                                                    // Obtener los elementos de los inputs hidden
+                                                    const revisionTecnicaInput = document.getElementById('revision_tecnica_vehicular_TURNO');
+                                                    const verificacionImprontasInput = document.getElementById('verificacion_improntas_TURNO');
+                                                    const cambioServicioInput = document.getElementById('cambio_servicio_TURNO');
+                                                    const cambioColorInput = document.getElementById('cambio_color_TURNO');
+                                                    const cambioMotorInput = document.getElementById('cambio_motor_TURNO');
+
+                                                    // Obtener los campos de entrada donde se colocarán los nombres
+                                                    const inputRTV = document.getElementById('orden_RTV');
+                                                    const inputImprontas = document.getElementById('orden_improntas');
+                                                    const inputCambioServicio = document.getElementById('orden_cambio-de-servicio');
+                                                    const inputCambioColor = document.getElementById('orden_color');
+                                                    const inputCambioMotor = document.getElementById('orden_motor');
+
+                                                    // Evaluar el valor del input y asignar el texto al input correspondiente
+                                                    function evaluarYAsignarValores() {
+                                                        // Verificar y asignar para RTV
+                                                        if (revisionTecnicaInput.value.trim() === 'SI') {
+                                                            inputRTV.value = '- REVISIÓN TECNICA VEHICULAR';
+                                                        } else {
+                                                            inputRTV.value = '';
+                                                        }
+
+                                                        // Verificar y asignar para Improntas
+                                                        if (verificacionImprontasInput.value.trim() === 'SI') {
+                                                            inputImprontas.value = '- VERIFICACIÓN Y EXTRACCIÓN DE IMPRONTAS';
+                                                        } else {
+                                                            inputImprontas.value = ''; 
+                                                        }
+
+                                                        // Verificar y asignar para Cambio de Servicio
+                                                        if (cambioServicioInput.value.trim() === 'SI') {
+                                                            inputCambioServicio.value = '- CAMBIO DE SERVICIO';
+                                                        } else {
+                                                            inputCambioServicio.value = ''; 
+                                                        }
+                                                        // Verificar y asignar para Cambio de Servicio
+                                                        if (cambioColorInput.value.trim() === 'SI') {
+                                                            inputCambioColor.value = '- CAMBIO DE COLOR';
+                                                        } else {
+                                                            inputCambioColor.value = ''; 
+                                                        }
+
+                                                        // Verificar y asignar para Cambio de Servicio
+                                                        if (cambioMotorInput.value.trim() === 'SI') {
+                                                            inputCambioMotor.value = '- CAMBIO DE MOTOR';
+                                                        } else {
+                                                            inputCambioMotor.value = ''; 
+                                                        }
+                                                    }
+                                                    evaluarYAsignarValores();
+                                                });
+
+                                            </script>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+            <div class="card-body d-flex p-1">
+
+
+                <div class="mb-0 col-12">
+                    <div class="card-body p-1">
+
+                        <h1 class="fw-semibold mb-4 mt-4 text-start text-center text-black">SOLICITUD DEL SERVICIO</h1>
+
+                        <h6 class="fw-normal mb-3 mt-1 text-start text-end text-black">15 de julio de 2024</h6>
+
+                        <h6 class="fw-normal mb-1 mt-1 text-start text-black"><%= empresa.nombre_representante_empresa %></h6>
+                        <h6 class="fw-semibold mb-1 mt-1 text-start text-black"><%= empresa.cargo_representante_empresa %>
+                        </h6>
+                        <h6 class="fw-normal mb-1 mt-1 text-start text-black">De mi considreación</h6>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="card-body d-flex p-1">
+
+
+                <div class="mb-0 col-12">
+                    <div class="card-body p-1">
+                        <h6 class="fw-normal mb-3 mt-0 text-start text-black">- DATOS DEL SOLICITANTE:</h6>
+                        <ul class="list-group list-group-flush border-light fs-2">
+
+                            <div class="d-flex  border-bottom">
+                                <li
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0">
+                                                Nombre:
+                                            </p>
+                                        </div>
+                                </li>
+
+                                <li class="list-group-item col-4 border-light-end p-2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 fw-semibold p-0 text-nowrap">
+                                                <%= tramite.nombre_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0">
+                                                C.I/RUC/PAS::
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item col-4 p-2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 fw-semibold p-0 text-nowrap">
+                                                <%= tramite.id_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                         
+                            <div class="d-flex  border-bottom">
+                                <li
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-nowrap">
+                                                Provincia:
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item col-4 border-light-end p-2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-nowrap">
+                                                <%= tramite.provincia_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-nowrap">
+                                                Dirección:
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item col-4 p-2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-nowrap">
+                                                <%= tramite.direccion_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                            <div class="d-flex border-bottom">
+                                <li
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-nowrap">
+                                                Cantón:
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item col-4 border-light-end p-2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-nowrap">
+                                                <%= tramite.canton_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0">
+                                                Celular:
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item col-4 p-2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-nowrap">
+                                                <%= tramite.celular_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                            <div class="d-flex">
+                                <li
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0">
+                                                Parroquia:
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item col-4 border-light-end p-2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-nowrap">
+                                                <%= tramite.parroquia_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0">
+                                                Teléfono:
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item col-4 p-2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-nowrap">
+                                                <%= tramite.telefono_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                        </ul>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="card-body d-flex p-1">
+
+
+                <div class="mb-0 col-12">
+                    <div class="card-body p-1">
+
+                        <h6 class="fw-normal mb-3 mt-0 text-start text-black">Por el presente solicito realizar el
+                            siguiente trámite que corresponde a:</h6>
+
+                        <ul class="list-group list-group-flush border-light fs-2">
+
+                            <div class="d-flex">
+                                <li
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0">
+                                                Trámite:
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item col-10 p-2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 fw-semibold p-0 text-nowrap">
+                                                <%= tramite.tipo_tramite %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                        </ul>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="card-body d-flex p-1 ">
+
+
+                <div class="mb-0 col-12">
+                    <div class="card-body p-1">
+
+                        <h6 class="fw-normal mb-3 mt-3 text-black">- DATOS DEL VEHICULO:</h6>
+                        <ul class="list-group list-group-flush border-light fs-2">
+
+                            <div class="d-flex">
+                                <li
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0">
+                                                Placa:
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item col-4 border-light-end p-2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 fw-semibold p-0 text-nowrap">
+                                                <%= tramite.placa %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0">
+                                                Servicio:
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item col-4 p-2">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 fw-normal p-0">
+                                                <%= tramite.clase_transporte %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                        </ul>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="card-body d-flex p-1 ">
+
+
+                <div class="mb-0 col-12">
+                    <div class="card-body p-1">
+
+                        <h6 class="fw-normal mb-1 mt-1 text-start text-black">Por la atención al presente, le expreso
+                            mis mas sinceros agradecimientos</h6>
+
+
+                        <h6 class="fw-normal mb-4 mt-3 text-start text-black pb-4">Atentamente.</h6>
+
+                        <ul class="list-group list-group-flush  fs-2 mt-4 pt-4">
+
+                            <div class="d-flex">
+                                <li
+                                    class="list-group-item col-6  px-2 py-0 d-flex justify-content-start align-items-center">
+                                    <div class="row w-100 text-center">
+                                        <div class="col"><strong>----------------------------------</strong></div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="list-group-item col-6  px-2 py-0 d-flex justify-content-start align-items-center">
+                                    <div class="row w-100 text-center">
+                                        <div class="col"><strong>----------------------------------</strong></div>
+                                    </div>
+                                </li>
+                            </div>
+
+                            
+                            <div class="d-flex ">
+                                <li class="list-group-item col-6  px-2 py-0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-center">
+                                                <%= tramite.nombre_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item col-6 px-2 py-0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext p-0 text-center text-uppercase">
+                                                <%= tramite.nombre_funcionario_INFORMACION %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                            <div class="d-flex ">
+                                <li class="list-group-item col-6  px-2 py-0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-center">
+                                                SOLICITANTE
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item col-6 px-2 py-0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext p-0 text-center">
+                                                FUNCIONARIO
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+                        </ul>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+</body>
+
+</html>

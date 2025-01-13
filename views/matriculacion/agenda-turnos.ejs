@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Agenda de turnos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="/js/activar-items-navbar.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script src="/js/visualizar-turnos-agenda.js"></script>
+
+    <script src="/js/spinners.js"></script>
+
+    <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <style>
+        .table thead th {
+            background-color: #f3f4f8;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+                    <div class="container-fluid">
+                        <div class="card card-body">
+                            <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                <div class="mb-3 mb-sm-0">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a class="text-decoration-none text-black" href="/">Agenda</a>
+                                        </li>
+                                        <li class="breadcrumb-item text-muted" aria-current="page">
+                                            <%= currentDaySimple %>
+                                        </li>
+                                    </ol>
+                                </div>
+                                <div style="width: 20%;">
+                                    <input type="text" name="" class="form-control-disable text-center" id=""
+                                        placeholder="">
+                                </div>
+                            </div>
+
+
+                            <nav>
+                                <div class="nav nav-tabs align-items-center justify-content-center" id="nav-tab" role="tablist">
+                                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                                        aria-selected="true">Hoy</button>
+                                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-profile" type="button" role="tab"
+                                        aria-controls="nav-profile" aria-selected="false">Pendientes</button>
+                                    <button class="nav-link" id="nav-empresa-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-empresa" type="button" role="tab"
+                                        aria-controls="nav-empresa" aria-selected="false">Pendientes (Empresa)</button>
+                                </div>
+                            </nav>
+                            
+                            <div class="tab-content border-top py-4 px-0" id="nav-tabContent">
+
+                                <div class="tab-pane fade animated fadeInUp show active" id="nav-home" role="tabpanel"
+                                    aria-labelledby="nav-home-tab">
+                                    <div class="table-responsive2">
+                                        <table class="table table-bordered">
+                                            <thead id="thead-tramites-hoy">
+                                                <tr class="text-dark">
+                                                    <th class="text-center align-middle px-2 py-2">N°</th>
+                                                    <th class="text-center align-middle px-2 py-2">TRÁMITE</th>
+                                                    <th class="text-center align-middle px-2 py-2">PLACA</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-13">TIPO DE TRAMITE</th>
+                                                    <th class="text-center align-middle px-2 py-2">FECHA DE INGRESO</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">TIEMPO EN ESPERA</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">TURNO</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4">ESTADO</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">USUARIO EN VENTANILLA</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">USUARIO ASIGNADO</th>
+                                                    <th class="text-center align-middle px-2 py-2">ACCIÓN</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody-tramites"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            
+                               
+                                <div class="tab-pane fade animated fadeInUp" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                    <div class="table-responsive2">
+                                        <table class="table table-bordered">
+                                            <thead id="thead-tramites-pendientes">
+                                                <tr class="text-dark">
+                                                    <th class="text-center align-middle px-2 py-2">N°</th>
+                                                    <th class="text-center align-middle px-2 py-2">TRÁMITE</th>
+                                                    <th class="text-center align-middle px-2 py-2">PLACA</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-13">TIPO DE TRAMITE</th>
+                                                    <th class="text-center align-middle px-2 py-2">FECHA DE INGRESO</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">TIEMPO EN ESPERA</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">TURNO</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4">ESTADO</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">USUARIO EN VENTANILLA</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">USUARIO ASIGNADO</th>
+                                                    <th class="text-center align-middle px-2 py-2">ACCIÓN</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody-tramitesGeneral"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            
+                                
+                                <div class="tab-pane fade animated fadeInUp" id="nav-empresa" role="tabpanel" aria-labelledby="nav-empresa-tab">
+                                    <div class="table-responsive2">
+                                        <table class="table table-bordered">
+                                            <thead id="thead-tramites-empresa">
+                                                <tr class="text-dark">
+                                                    <th class="text-center align-middle px-2 py-2">N°</th>
+                                                    <th class="text-center align-middle px-2 py-2">TRÁMITE</th>
+                                                    <th class="text-center align-middle px-2 py-2">PLACA</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-13">TIPO DE TRAMITE</th>
+                                                    <th class="text-center align-middle px-2 py-2">FECHA DE INGRESO</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">TIEMPO EN ESPERA</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">TURNO</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4">ESTADO</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">USUARIO EN VENTANILLA</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">USUARIO ASIGNADO</th>
+                                                    <th class="text-center align-middle px-2 py-2">ACCIÓN</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody-tramitesEmpresa"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+            </div>
+
+            <div id="spinner-wrapper" class="spinner-wrapper">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading..</span>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modalReasignarTramite" aria-hidden="true"
+                aria-labelledby="modalReasignarTramiteLabel" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+
+                            <form action="/reasignar-tramite" method="post" id="reasignarForm" class="needs-validation">
+                                <div class="border-bottom">
+                                    <div
+                                        class="modal-title d-flex justify-content-between text-black align-items-center mt-2 mb-3">
+                                        <div class="d-flex">
+                                            <h5 class="mb-0">Reasignar trámite</h5>
+                                        </div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3">
+                                    <div class="py-1">
+                                        <div class="row d-flex">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="placa"
+                                                        class="col-lg-6 form-label fw-normal">Placa</label>
+                                                    <input type="text" name="placa" id="placa" class="form-control"
+                                                        readonly>
+                                                    <input type="hidden" name="reasignar_id_tramite"
+                                                        id="reasignar_id_tramite" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="nombre_usuario"
+                                                        class="col-4 form-label fw-normal">Propietario</label>
+                                                    <input type="text" name="nombre_usuario" id="nombre_usuario"
+                                                        class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label for="tipo_tramite" class="col-4 form-label fw-normal">Tipo
+                                                        de
+                                                        trámite</label>
+                                                    <input type="text" name="tipo_tramite" id="tipo_tramite"
+                                                        class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label for="nombre_funcionario_asignado_INFORMACION"
+                                                        class="col-4 form-label fw-semibold">Asignar a:</label>
+                                                    <select class="form-select"
+                                                        name="nombre_funcionario_asignado_INFORMACION"
+                                                        id="nombre_funcionario_asignado_INFORMACION" required>
+                                                        <% if (funcionariosActivos && funcionariosActivos.length> 0) {
+                                                            %>
+                                                            <% funcionariosActivos.forEach(function(funcionario) { %>
+                                                                <option value="<%= funcionario.id_funcionario %>"
+                                                                    <%=userData.nombre_funcionario_asignado_INFORMACION===funcionario.id_funcionario
+                                                                    ? 'selected' : '' %>>
+                                                                    <%= funcionario.nombre_funcionario %>
+                                                                </option>
+                                                                <% }); %>
+                                                                    <% } else { %>
+                                                                        <option disabled>No hay funcionarios
+                                                                            activos disponibles</option>
+                                                                        <% } %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3 mb-2">
+                                    <div class="col-lg-12">
+                                        <button type="submit"
+                                            class="col-12 d-flex justify-content-center btn p-3 fw-semibold btn-rounded btn-primary shadow-btn align-items-center"><i
+                                                class="ti ti-switch-3 fs-6 me-2 center text-center"></i>
+                                            REASIGNAR TRÁMITE
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modalEliminarTramite" aria-hidden="true"
+                aria-labelledby="modalEliminarTramiteLabel" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+
+                            <form action="/estado-eliminar-tramite" method="post" id="eliminarForm" class="">
+                                <div class="border-bottom">
+                                    <div
+                                        class="modal-title d-flex justify-content-between text-black align-items-center mt-2 mb-3">
+                                        <div class="d-flex">
+                                            <h5 class="mb-0">Eliminar trámite</h5>
+                                        </div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3">
+                                    <div class="py-1">
+                                        <div class="row d-flex">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="eliminar_placa"
+                                                        class="col-lg-6 form-label fw-normal">Placa:</label>
+                                                    <input type="text" name="eliminar_placa" id="eliminar_placa"
+                                                        class="form-control" readonly>
+                                                    <input type="hidden" name="eliminar_id_tramite"
+                                                        id="eliminar_id_tramite" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="eliminar_nombre_usuario"
+                                                        class="col-lg-6 form-label fw-normal">Propietario:</label>
+                                                    <input type="text" name="eliminar_nombre_usuario"
+                                                        id="eliminar_nombre_usuario" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label for="tipo_tramite" class="col-4 form-label fw-normal">Tipo
+                                                        de
+                                                        trámite:</label>
+                                                    <input type="text" name="eliminar_tipo_tramite"
+                                                        id="eliminar_tipo_tramite" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label for="tipo_tramite" class="col-4 form-label fw-semibold">
+                                                        <span class="text-red">*</span> Observación:
+                                                    </label>
+
+                                                    <textarea class="form-control" rows="3"
+                                                        name="observaciones_ELIMINACION" id="observaciones_ELIMINACION"
+                                                        autocomplete="off" maxlength="200" required></textarea>
+                                                    <div class="invalid-feedback">
+                                                        Debe ingresar una observacion de anulacion.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3 mb-2">
+                                    <div class="col-12 d-flex gap-2">
+
+                                        <button type="button"
+                                            class="col-9 justify-content-center btn p-2 fw-semibold btn-rounded btn-secondary align-items-center"
+                                            data-bs-dismiss="modal" aria-label="Close">
+                                            CANCELAR
+                                        </button>
+
+                                        <button type="submit"
+                                            class="col-3 d-flex justify-content-center btn p-2 fw-normal btn-rounded btn-danger align-items-center"><i
+                                                class="ti ti-trash fs-4 me-2"></i>
+                                            ELIMINAR
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+</body>
+
+</html>

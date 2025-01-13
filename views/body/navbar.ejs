@@ -1,0 +1,284 @@
+<script src="../../public/js/main.js" defer></script>
+
+<aside class="left-sidebar">
+
+    <div>
+        <div class="brand-logo d-flex align-items-center justify-content-between">
+            <a href="/" class="d-flex align-items-center gap-2 rounded logo-img">
+                <div class="rounded d-flex justify-content-center align-items-center"
+                    style="background: white; width: 45px; height: 45px;">
+                    <img src="/images/favicon.ico" class="rounded-circle" width="30" height="34">
+                </div>
+                <div style="white-space: nowrap; text-overflow: ellipsis; max-width: 170px; overflow: hidden;">
+                    <h2 class="mb-1 fw-semibold text-black">
+                        <%= userData.nombre_empresa_logo %>
+                    </h2>
+                </div>
+
+            </a>
+
+            <div class="close-btn d-lg-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                <i class="ti ti-x fs-8 text-muted text-primary"></i>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById('sidebarCollapse').addEventListener('click', function () {
+                var sidebar = document.getElementById('leftSidebar');
+
+                var mainWrapper = document.getElementById('main-wrapper');
+                mainWrapper.classList.toggle('show-sidebar');
+
+                if (mainWrapper.getAttribute('data-sidebartype') === 'full') {
+                    mainWrapper.setAttribute('data-sidebartype', 'mini-sidebar');
+                } else {
+                    mainWrapper.setAttribute('data-sidebartype', 'full');
+                }
+            });
+        </script>
+
+        <!-- Barra de navegación-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar>
+            <ul id="sidebarnav">
+
+                <!-- Modulo de Información -->
+                <% if (permisos.some(p => p.id_modulo === 1 && p.acceso)) { %>
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">INFORMACIÓN</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/matriculacion/informacion/agregar-turno" aria-expanded="false">
+                        <span><i class="ti ti-calendar-plus"></i></span>
+                        <span class="hide-menu">Agregar turno</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/matriculacion/informacion/vista-turnos" aria-expanded="false">
+                        <span><i class="ti ti-clipboard-list"></i></span>
+                        <span class="hide-menu">Vista de turnos</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/matriculacion/informacion/reportes/reporte-informacion"
+                        aria-expanded="false">
+                        <span><i class="ti ti-report-search"></i></span>
+                        <span class="hide-menu">Reporte de tramites</span>
+                    </a>
+                </li>
+                <% } %>
+                <!-- Fin -->
+                <!-- Modulo de Matriculación -->
+                <% if (permisos.some(p => p.id_modulo === 2 && p.acceso)) { %>
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">MATRICULACIÓN</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                        <span class="d-flex"><i class="ti ti-file-text"></i></span>
+                        <span class="hide-menu">Registro diario</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a href="/matriculacion/agenda-turnos" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Registro por turno</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/matriculacion/registro-diario" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Registro directo</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/matriculacion/registro-especie-anulada" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Especie anulada</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                        <span class="d-flex"><i class="ti ti-report-search"></i></span>
+                        <span class="hide-menu">Reportes</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a href="/matriculacion/reportes/reporte-diario" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Reporte diario</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a href="/matriculacion/reportes/reporte-especies" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Reporte de especies</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/matriculacion/reportes/reporte-tipo-vehiculo" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Rep. - Tipo de vehículo</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/matriculacion/reportes/reporte-tramites" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Rep. - Trámites</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/matriculacion/reportes/reporte-domicilio" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Rep. - Domicilio</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <% } %>
+                <!-- Fin -->
+                <!-- Modulo de Reportes Generales -->
+                <% if (permisos.some(p => p.id_modulo === 3 && p.acceso)) { %>
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">REPORTES GENERALES</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/matriculacion/reportes-generales/reporte-pago-placas"
+                        aria-expanded="false">
+                        <span><i class="ti ti-checkup-list" stroke-width="0.5"></i></span>
+                        <span class="hide-menu">Pagos de placas</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/matriculacion/reportes-generales/reporte-general-tramites"
+                        aria-expanded="false">
+                        <span><i class="ti ti-checkup-list" stroke-width="0.5"></i></span>
+                        <span class="hide-menu">Trámites</span>
+                    </a>
+                </li>
+                <% } %>
+                <!-- Fin -->            
+                <!-- Modulo de Reportes Generales -->
+                <% if (permisos.some(p => p.id_modulo === 4 && p.acceso)) { %>
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">INVENTARIO DE PLACAS</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/inventario-placas/inventario"
+                        aria-expanded="false">
+                        <span><i class="ti ti-checkup-list" stroke-width="0.5"></i></span>
+                        <span class="hide-menu">Gestíon de inventario</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                        <span class="d-flex"><i class="ti ti-file-text"></i></span>
+                        <span class="hide-menu">Ingreso de placas</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a href="/inventario-placas/ingreso-placas/registro-placas-individual" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Ingreso por unidad</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/inventario-placas/ingreso-placas/seleccion" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Ingreso por lotes</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
+                        <span class="d-flex"><i class="ti ti-file-text"></i></span>
+                        <span class="hide-menu">Entrega de placas</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a href="/inventario-placas/entrega-placas/seleccion-individual" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Entrega individual</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/inventario-placas/entrega-placas/entregar-placa-grupal" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Entrega grupal</span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                </li>
+                <% } %>
+                <!-- Fin --> 
+
+                 <!--
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">GESTIÓN DE TITULOS HAB.</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link has-arrow"  aria-expanded="false">
+                        <span class="d-flex"><i class="ti ti-file-certificate"></i></span>
+                        <span class="hide-menu">Ingreso de títulos</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a href="/agenda/ingreso-constitucion-juridica" class="sidebar-link" id="loadFormConstitucionJuridica">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Constitución jurídica</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="ingreso-resoluciones" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center"><i
+                                        class="ti ti-circle"></i></div>
+                                <span class="hide-menu">Permiso de operación</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                -->
+            </ul>
+        </nav>
+        <!-- Barra de navegación 
+        <div class="fixed-profile p-2 mx-4 me-3 ms-3 mb-3 mt-3 rounded" style="overflow: hidden;">
+            <div class="d-flex align-items-center gap-1">
+                <div class="john-img">
+                    <span class="round-8 bg-green rounded-circle d-inline-block ms-2 me-2"></span>
+                </div>
+                <div class="john-title"
+                    style="white-space: nowrap; text-overflow: ellipsis; max-width: 170px; overflow: hidden;">
+                    <h6 class="mb-0 fs-3 fw-semibold">
+                        <%= userData.username %>
+                    </h6>
+                    <span class="fs-2">
+                        <%= userData.nombre_funcionario %>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+        -->
+    </div>
+</aside>

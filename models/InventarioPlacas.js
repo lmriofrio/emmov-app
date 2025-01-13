@@ -69,47 +69,15 @@ const InventarioPlacas = sequelize.define('registro-inventario-placas', {
     type: DataTypes.STRING (45),
     allowNull: true
   },
-  id_usuario: {
-    type: DataTypes.STRING (45),
-    allowNull: true
-  },
-  tipo_id_usuario: {
-    type: DataTypes.STRING (45),
-    allowNull: true
-  },
-  nombre_usuario: {
-    type: DataTypes.STRING (45),
-    allowNull: true
-  },
-  id_gestor: {
-    type: DataTypes.STRING (45),
-    allowNull: true
-  },
-  tipo_id_gestor: {
-    type: DataTypes.STRING (45),
-    allowNull: true
-  },
-  nombre_gestor: {
-    type: DataTypes.STRING (45),
-    allowNull: true
-  },
   nombre_casa_comercial: {
     type: DataTypes.STRING (45),
     allowNull: true
   },
-  id_tercera_persona: {
-    type: DataTypes.STRING (45),
-    allowNull: true
-  },
-  tipo_id_tercera_persona: {
-    type: DataTypes.STRING (45),
-    allowNull: true
-  },
-  nombre_tercer_persona: {
-    type: DataTypes.STRING (45),
-    allowNull: true
-  },
   salida_fecha: {
+    type: DataTypes.STRING (45),
+    allowNull: true
+  },
+  salida_id_funcionario: {
     type: DataTypes.STRING (45),
     allowNull: true
   },
@@ -118,10 +86,36 @@ const InventarioPlacas = sequelize.define('registro-inventario-placas', {
     allowNull: true
   },
   salida_nombre_puesto_funcionario: {
+    type: DataTypes.STRING (90),
+    allowNull: true
+  },
+  salida_username_funcionario: {
     type: DataTypes.STRING (45),
     allowNull: true
   },
-  salida_username: {
+
+
+  solicitante_tipo: {
+    type: DataTypes.STRING (45),
+    allowNull: true
+  },
+  solicitante_id: {
+    type: DataTypes.STRING (45),
+    allowNull: true
+  },
+  solicitante_nombre: {
+    type: DataTypes.STRING (45),
+    allowNull: true
+  },
+  salida_observacion: {
+    type: DataTypes.STRING (45),
+    allowNull: true
+  }, 
+  salida_acta: {
+    type: DataTypes.STRING (45),
+    allowNull: true
+  },
+  salida_tipo_entrega: {
     type: DataTypes.STRING (45),
     allowNull: true
   },

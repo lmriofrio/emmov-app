@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Registro diario por turno</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script src="/js/spinners.js"></script>
+
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        .fixed-column {
+            width: 150px;
+
+        }
+
+        .table-container {
+            max-width: 100%;
+            overflow: hidden;
+        }
+    </style>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const selectTipoTramite = document.getElementById("tipo_tramite");
+            const inputPlaca = document.getElementById("placa");
+
+            function verificarYActualizarPlaca() {
+                if (selectTipoTramite.value === "EMISION DE MATRICULA POR PRIMERA VEZ") {
+                    inputPlaca.value = "";
+                }
+            }
+            verificarYActualizarPlaca();
+            selectTipoTramite.addEventListener("change", verificarYActualizarPlaca);
+        });
+
+    </script>
+
+
+</head>
+
+<body>
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-6 col-sm-12">
+                                        <!-- Yearly Breakup -->
+                                        <div class="card overflow-hidden">
+
+                                            <div class="card-body p-4">
+
+                                                <form action="/guardar-tramite-turno" method="post"
+                                                    id="registroFormTurn" class="col needs-validation" novalidate>
+
+                                                    <input type="hidden" name="id_tramite"
+                                                        value="<%= tramite.id_tramite %>">
+
+                                                    <div class="form-items mt-3">
+                                                        <label for="" class="col-form-label">Placa</label>
+                                                        <div class="input-group2">
+                                                            <input type="text" name="placa" id="placa"
+                                                                class="form-control text-uppercase" placeholder=""
+                                                                autocomplete="off" maxlength="7" required
+                                                                value="<%= tramite.placa %>">
+                                                            <button class="btn btn-search  text-white font-medium px-3"
+                                                                type="button" id="buscarVehiculoRD">
+                                                                <i class="ti ti-search fs-4"></i></button>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <div class="form-items">
+                                                        <label for="clase_vehiculo_tipo" class="col-form-label">C. de
+                                                            vehículo</label>
+                                                        <select class="form-select" name="clase_vehiculo_tipo"
+                                                            aria-label="Default select example" id="clase_vehiculo_tipo"
+                                                            required>
+                                                            <option value="" <% if (!tramite.clase_vehiculo_tipo) { %>
+                                                                selected <% } %>></option>
+                                                            <option value="VEHICULO" <% if
+                                                                (tramite.clase_vehiculo_tipo==='VEHICULO' ) { %>
+                                                                selected <% } %>>VEHICULO</option>
+                                                            <option value="MOTOCICLETA" <% if
+                                                                (tramite.clase_vehiculo_tipo==='MOTOCICLETA' ) { %>
+                                                                selected <% } %>>MOTOCICLETA</option>
+                                                        </select>
+                                                    </div>
+
+
+
+
+                                                    <div class="form-items">
+                                                        <label for="" class="col-form-label">C. de
+                                                            transporte</label>
+                                                        <select class="form-select" name="clase_transporte"
+                                                            aria-label="Default select example" id="clase_transporte"
+                                                            required value="<%= tramite.clase_transporte %>">
+                                                            <option value="" <% if (!tramite.clase_transporte) { %>
+                                                                selected <% } %>></option>
+                                                            <option value="COMERCIAL" <% if
+                                                                (tramite.clase_transporte==='COMERCIAL' ) { %> selected
+                                                                <% } %>>COMERCIAL
+                                                            </option>
+                                                            <option value="PARTICULAR" <% if
+                                                                (tramite.clase_transporte==='PARTICULAR' ) { %> selected
+                                                                <% } %>>PARTICULAR
+                                                            </option>
+                                                            <option value="PUBLICO" <% if
+                                                                (tramite.clase_transporte==='PUBLICO' ) { %> selected <%
+                                                                    } %>>PUBLICO</option>
+                                                            <option value="ESTATAL" <% if
+                                                                (tramite.clase_transporte==='ESTATAL' ) { %> selected <%
+                                                                    } %>>ESTATAL</option>
+                                                            <option value="MUNICIPAL" <% if
+                                                                (tramite.clase_transporte==='MUNICIPAL' ) { %> selected
+                                                                <% } %>>MUNICIPAL
+                                                            </option>
+                                                        </select>
+                                                    </div>
+
+
+
+                                                    <div class="form-items">
+                                                        <label for="tipo_tramite" class="col-form-label">Trámite</label>
+                                                        <select class="form-select col-md-10" name="tipo_tramite"
+                                                            id="tipo_tramite" required>
+                                                            <option value="" <% if (!tramite.tipo_tramite) { %> selected
+                                                                <% } %>>
+                                                            </option>
+                                                            <% tiposTramites.forEach(tipo=> { %>
+                                                                <option value="<%= tipo.tipo_tramite %>" <% if
+                                                                    (tipo.tipo_tramite===tramite.tipo_tramite) { %>
+                                                                    selected <% } %>>
+                                                                        <%= tipo.tipo_tramite %>
+                                                                </option>
+                                                                <% }); %>
+                                                        </select>
+                                                    </div>
+
+
+                                                    <div class="form-items">
+                                                        <label for="" class="col-form-label">C.I./RUC</label>
+                                                        <div class="input-group2">
+                                                            <input type="text" name="id_usuario" class="form-control"
+                                                                placeholder="" aria-label="Recipient's username"
+                                                                aria-describedby="basic-addon2" id="id_usuario"
+                                                                autocomplete="off" maxlength="15" required
+                                                                value="<%= tramite.id_usuario %>">
+                                                            <button class="btn btn-search  text-white font-medium"
+                                                                type="button" id="buscarUsuario">
+                                                                <i class="ti ti-search fs-4"></i></button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-items">
+                                                        <label for="" class="col-form-label">Nombre</label>
+                                                        <input type="text" name="nombre_usuario" class="form-control"
+                                                            id="nombre_usuario" placeholder="" autocomplete="off"
+                                                            maxlength="100" required
+                                                            value="<%= tramite.nombre_usuario %>">
+                                                    </div>
+
+                                                    <div class="form-items1">
+                                                        <label for="" class="col-form-label">Dirección</label>
+                                                        <select class="form-select col-md-12" name="canton_usuario"
+                                                            id="canton_usuario" autocomplete="off" required>
+                                                            <option value=""></option>
+                                                            <% cantones.forEach(canton=> { %>
+                                                                <option value="<%= canton.nombre_canton %>"
+                                                                    <%=canton.nombre_canton===tramite.canton_usuario
+                                                                    ? 'selected' : '' %>>
+                                                                    <%= canton.nombre_canton %>
+                                                                </option>
+                                                                <% }); %>
+                                                        </select>
+
+                                                    </div>
+
+
+                                                    <div>
+                                                        <div class="row justify-content-center align-items-center g-2">
+                                                            <div class="col">
+                                                                <div class="form-items4">
+                                                                    <label for="" class="col-form-label">Celular</label>
+                                                                    <input type="number" name="celular_usuario"
+                                                                        class="form-control" id="celular_usuario"
+                                                                        placeholder="" autocomplete="off" required=""
+                                                                        maxlength="10" required
+                                                                        value="<%= tramite.celular_usuario %>">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="form-items4">
+                                                                    <label for="" class="col-form-label">Email</label>
+                                                                    <input type="text" name="email_usuario"
+                                                                        class="form-control" id="email_usuario"
+                                                                        placeholder=""
+                                                                        value="<%= tramite.email_usuario %>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        <div class="row justify-content-center align-items-center g-2">
+                                                            <div class="col">
+                                                                <div class="form-items4">
+                                                                    <label for="exampleInputname"
+                                                                        class="col-form-label">Fecha</label>
+                                                                    <input type="datetime-local" name="fecha_ingreso"
+                                                                        class="form-control" id="fecha_ingreso"
+                                                                        placeholder="" required>
+                                                                </div>
+                                                            </div>
+
+                                                            <script>
+
+                                                                var fecha = new Date();
+
+                                                                var year = fecha.getFullYear();
+                                                                var month = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                                                                var day = fecha.getDate().toString().padStart(2, '0');
+
+                                                                var hours = fecha.getHours().toString().padStart(2, '0');
+                                                                var minutes = fecha.getMinutes().toString().padStart(2, '0');
+
+                                                                var formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+                                                                document.getElementById('fecha_ingreso').value = formattedDate;
+                                                            </script>
+
+                                                            <input type="hidden" name="date_registraton"
+                                                                class="form-control" id="date_registraton"
+                                                                placeholder="" required>
+
+                                                            <script>
+                                                                document.addEventListener('DOMContentLoaded', function () {
+                                                                    var fechaUTC = new Date();
+                                                                    var desplazamientoNavegador = fechaUTC.getTimezoneOffset();
+                                                                    var desplazamientoEcuador = -300;
+                                                                    var fechaEcuador = new Date(fechaUTC.getTime() + (desplazamientoEcuador - desplazamientoNavegador) * 60000);
+                                                                    var formattedDate = fechaEcuador.toISOString().substr(0, 10);
+                                                                    document.getElementById('date_registraton').value = formattedDate;
+                                                                });
+                                                            </script>
+
+                                                            <div class="col">
+                                                                <div class="form-items4">
+                                                                    <label for="exampleInputname"
+                                                                        class="col-form-label">Nº
+                                                                        Fojas</label>
+                                                                    <input type="text" name="numero_fojas"
+                                                                        class="form-control" id="numero_fojas"
+                                                                        placeholder="" autocomplete="off" maxlength="3">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        <div class="row justify-content-center align-items-center g-2">
+                                                            <div class="col">
+                                                                <div class="form-items4">
+                                                                    <label for="exampleInputname"
+                                                                        class="col-form-label">ADHESIVO</label>
+                                                                    <input type="number" name="numero_adhesivo"
+                                                                        class="form-control" id="numero_adhesivo"
+                                                                        placeholder="" autocomplete="off">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="form-items4">
+                                                                    <label for="exampleInputname"
+                                                                        class="col-form-label">MATRICULA</label>
+                                                                    <input type="number" name="numero_matricula"
+                                                                        class="form-control" id="numero_matricula"
+                                                                        autocomplete="off">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="text-end mt-3 gap-3">
+
+                                                        <button onclick="window.location.href='/registro-diario';"
+                                                            class="justify-content-center btn mb-1 me-2 fw-semibold btn-rounded btn-secondary shadow-btn align-items-center">
+                                                            Cancelar
+                                                        </button>
+
+
+                                                        <button type="submit"
+                                                            class="justify-content-center btn mb-1 me-2 fw-semibold btn-rounded btn-primary px-4 shadow-btn align-items-center ">
+                                                            <font _mstmutation="1" _msttexthash="76830" _msthash="372">
+                                                                Guardar
+                                                            </font>
+                                                        </button>
+                                                    </div>
+
+
+                                                </form>
+
+
+
+                                                <script>
+                                                    (() => {
+                                                        'use strict'
+
+                                                        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                                                        const forms = document.querySelectorAll('.needs-validation')
+
+                                                        // Loop over them and prevent submission
+                                                        Array.from(forms).forEach(form => {
+                                                            form.addEventListener('submit', event => {
+                                                                const celularUsuario = form.querySelector('#celular_usuario');
+                                                                let isValid = true;
+
+
+                                                                // Validar que el número de teléfono no tenga más de 10 dígitos
+                                                                if (celularUsuario.value.length > 10) {
+                                                                    celularUsuario.setCustomValidity('El número de teléfono no puede tener más de 10 dígitos.');
+                                                                    isValid = false;
+                                                                } else {
+                                                                    celularUsuario.setCustomValidity('');
+                                                                }
+
+                                                                if (!form.checkValidity() || !isValid) {
+                                                                    event.preventDefault()
+                                                                    event.stopPropagation()
+                                                                }
+
+                                                                form.classList.add('was-validated')
+                                                            }, false)
+                                                        })
+                                                    })()
+                                                </script>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-12 col-md-6 col-sm-12">
+
+                                        <div class="row">
+
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="card overflow-hidden mb-0">
+                                                    <div class="d-flex flex-row">
+                                                        <div
+                                                            class="p-2 text-bg-secondary d-flex align-items-center justify-content-center">
+                                                            <h3
+                                                                class="text-white box mb-0 align-items-center justify-content-center">
+                                                                <i class="ti ti-timeline"></i>
+                                                            </h3>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <h3 class="text-warning mb-0 fs-6">
+                                                                <%= tramitesAnual %>
+                                                            </h3>
+                                                            <span class="w-100 fs-2">Tramites anuales</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="card overflow-hidden mb-0">
+                                                    <div class="d-flex flex-row">
+                                                        <div class="p-2 text-bg-secondary d-flex align-items-center">
+                                                            <h3
+                                                                class="text-white box mb-0 align-items-center justify-content-center">
+                                                                <i class="ti ti-timeline"></i>
+                                                            </h3>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <h3 class="text-warning mb-0 fs-6">
+                                                                <%= tramitesMensuales %>
+                                                            </h3>
+                                                            <span class="w-100 fs-2">Tramites mensuales</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="card overflow-hidden mb-0">
+                                                    <div class="d-flex flex-row">
+                                                        <div class="p-2 text-bg-secondary d-flex align-items-center">
+                                                            <h3
+                                                                class="text-white box mb-0 align-items-center justify-content-center">
+                                                                <i class="ti ti-timeline"></i>
+                                                            </h3>
+                                                        </div>
+                                                        <div class="p-2 align-items-center justify-content-center">
+                                                            <h3 class="text-warning mb-0 fs-6">
+                                                                <%= tramitesDiarios %>
+                                                            </h3>
+                                                            <span class="w-100 fs-2">Tramites diarios</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-lg-6 d-flex align-items-strech">
+
+                                <div class="card w-100 mb-0">
+
+
+                                    <div class="card-body p-4">
+                                        <div id="tabla-container" class="table-responsive rounded-2 mb-4">
+
+                                            <table class="table table-bordered customize-table mb-0 align-middle">
+                                                <thead class="text-dark fs-3 col-lg-12">
+                                                    <tr style="background: #f8fafc;">
+                                                        <th class="col-md-2 text-center px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0"> ADHESIVO</h6>
+                                                        </th>
+                                                        <th class="col-md-8 px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">TRÁMITE</h6>
+                                                        </th>
+                                                        <th class="col-md-1 text-center px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">PLACA</h6>
+                                                        </th>
+                                                        <th class="col-md-1 text-center px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">FECHA</h6>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <% for (let i=0; i < registrosTabla1.length; i++) { %>
+                                                        <tr>
+                                                            <td class="text-center"
+                                                                style="white-space: nowrap; overflow: hidden;">
+                                                                <span>
+                                                                    <%= registrosTabla1[i].numero_adhesivo %>
+                                                                </span>
+                                                            </td>
+                                                            <td class=""
+                                                                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-style: none; max-width: 50px;">
+                                                                <span>
+                                                                    <%= registrosTabla1[i].tipo_tramite %>
+                                                                </span>
+                                                            </td>
+                                                            <td class="">
+                                                                <span>
+                                                                    <%= registrosTabla1[i].placa %>
+                                                                </span>
+                                                            </td>
+                                                            <td class="" style="white-space: nowrap; overflow: hidden;">
+                                                                <span>
+                                                                    <%= registrosTabla1[i].fecha_ingreso %>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                                </tbody>
+
+
+
+                                            </table>
+                                        </div>
+
+                                        <div id="tabla-container" class="table-responsive rounded-2 mb-4">
+
+                                            <table class="table table-bordered customize-table mb-0 align-middle">
+                                                <thead class="text-dark fs-3 col-lg-12">
+                                                    <tr style="background: #f8fafc;">
+                                                        <th class="col-md-2 text-center px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">MATRICULA</h6>
+                                                        </th>
+                                                        <th class="col-md-8 px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">TRÁMITE</h6>
+                                                        </th>
+                                                        <th class="col-md-1 text-center px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">PLACA</h6>
+                                                        </th>
+                                                        <th class="col-md-1 text-center px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">FECHA</h6>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% for (let i=0; i < registrosTabla2.length; i++) { %>
+                                                        <tr>
+                                                            <td class="text-center"
+                                                                style="white-space: nowrap; overflow: hidden;">
+                                                                <span>
+                                                                    <%= registrosTabla2[i].numero_matricula %>
+                                                                </span>
+                                                            </td>
+                                                            <td
+                                                                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-style: none; max-width: 50px;">
+                                                                <span>
+                                                                    <%= registrosTabla2[i].tipo_tramite %>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span>
+                                                                    <%= registrosTabla2[i].placa %>
+                                                                </span>
+                                                            </td>
+                                                            <td style="white-space: nowrap; overflow: hidden;">
+                                                                <span>
+                                                                    <%= registrosTabla2[i].fecha_ingreso %>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+                                        <div id="tabla-container" class="table-responsive rounded-2 ">
+
+                                            <table class="table table-bordered customize-table mb-0 align-middle">
+                                                <thead class="text-dark fs-3 col-lg-12">
+                                                    <tr style="background: #f8fafc;">
+                                                        <th class="col-md-2 text-center px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">PROCESOS</h6>
+                                                        </th>
+                                                        <th class="col-md-8 px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">TRÁMITE</h6>
+                                                        </th>
+                                                        <th class="col-md-1 text-center px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">PLACA</h6>
+                                                        </th>
+                                                        <th class="col-md-1 text-center px-2 py-2">
+                                                            <h6 class="fs-3 fw-semibold mb-0">FECHA</h6>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% for (let i=0; i < registrosTabla4.length; i++) { %>
+                                                        <tr>
+                                                            <td class="text-center"
+                                                                style="white-space: nowrap; overflow: hidden;">
+                                                                <span>
+                                                                    <%= registrosTabla4[i].numero_certificacion %>
+                                                                </span>
+                                                            </td>
+                                                            <td
+                                                                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-style: none; max-width: 50px;">
+                                                                <span>
+                                                                    <%= registrosTabla4[i].tipo_tramite %>
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span>
+                                                                    <%= registrosTabla4[i].placa %>
+                                                                </span>
+                                                            </td>
+                                                            <td style="white-space: nowrap; overflow: hidden;">
+                                                                <span>
+                                                                    <%= registrosTabla4[i].fecha_ingreso %>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="spinner-wrapper" class="spinner-wrapper">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading..</span>
+                        </div>
+                    </div>
+
+
+                    <div class="modal fade" id="modalPlacaExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Error: campo placa</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>El valor en el campo ¨placa¨ es demasiado extenso. Por favor, asegúrate de que
+                                        tenga menos
+                                        de 7 caracteres.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalIDExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Error: campo C.I / RUC</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>El valor en el campo ¨C.I / RUC¨ es demasiado extenso. Por favor, asegúrate de
+                                        que tenga menos
+                                        de 14 caracteres.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+            </div>
+
+            <div id="alert-container"></div>
+    </div>
+
+</body>
+
+</html>

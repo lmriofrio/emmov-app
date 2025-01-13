@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Turno pdf</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+
+    <script src="/js/main.js"></script>
+    <style>
+        @page {
+            size: A4;
+            margin: 5mm;
+        }
+
+        body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+        }
+    </style>
+
+
+
+
+</head>
+
+<body>
+    <div class="container-fluid d-flex justify-content-end align-items-center">
+        <div class="ms-auto">
+            <div class="card-body d-flex p-1 border col-8">
+
+                <form action="" method="post" id="" class="">
+                    <input type="hidden" value=" <%= tramite.id_tramite %>" id="id_tramite">
+
+                    <h5 class="m-1 fw-normal text-center text-black">TURNO NÚMERO</h5>
+
+
+                    <div class="p-1 m-1 d-flex align-items-center justify-content-center">
+                        <p class="fw-semibold m-0 text-turner d-flex align-items-center justify-content-center fs-14">
+                            <%= tramite.numero_turno_INFORMACION %>
+                        </p>
+                    </div>
+
+                    <div class="px-1 pt-1 col-md-12">
+                        <div class="row align-items-center">
+                            <label class="col-3 form-label  fw-normal mb-0 text-end">Placa:</label>
+                            <div class="col-9">
+                                <span class="form-control-plaintext fw-normal py-0">
+                                    <%= tramite.placa %>
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3 form-label  fw-normal mb-0 text-end">C.I./
+                                RUC:</label>
+                            <div class="col-9">
+                                <span class="form-control-plaintext fw-normal py-0">
+                                    <%= tramite.id_usuario %>
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3 form-label fw-normal mb-0 text-end">Propietario:</label>
+                            <div class="col-9">
+                                <span class="form-control-plaintext fw-normal py-0 text-nowrap">
+                                    <%= tramite.nombre_usuario %>
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row align-items-center">
+                            <label class="col-3 form-label fw-normal mb-0 text-end">Fecha:</label>
+
+                            <div class="col-9">
+                                <span class="form-control-plaintext fw-normal py-0" id="fecha_ingreso_tramite2">
+                                    >
+                                </span>
+                            </div>
+
+
+                            <br>
+
+                            <div class="col-4">
+                                <input type="hidden" class="form-control-plaintext fw-normal py-0 text-end"
+                                    id="fecha_ingreso_INFORMACION" value="<%= tramite.fecha_ingreso_INFORMACION %>">
+                            </div>
+
+
+
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var fechaStr = "<%= tramite.fecha_ingreso_INFORMACION %>";
+
+                                    var fecha = new Date(fechaStr);
+
+                                    fecha.setHours(fecha.getHours() + 5);
+
+                                    var year = fecha.getFullYear();
+                                    var month = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                                    var day = fecha.getDate().toString().padStart(2, '0');
+                                    var hours = fecha.getHours().toString().padStart(2, '0');
+                                    var minutes = fecha.getMinutes().toString().padStart(2, '0');
+                                    var seconds = fecha.getSeconds().toString().padStart(2, '0');
+
+                                    var formattedDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+
+                                    document.getElementById('fecha_ingreso_tramite2').textContent = formattedDate;
+                                });
+                            </script>
+
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="px-1 col-md-12">
+                        <div class="form-group row align-items-center">
+                            <label for="proyect" class="col-3 form-label fw-normal mb-0 text-end">Tramite:</label>
+                            <div class="col-9">
+                                <span id="proyect" class="form-control-plaintext fw-normal py-0">
+                                    <%= tramite.tipo_tramite %>
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row align-items-center">
+                            <label for="proyect" class="col-3 form-label fw-normal mb-0 text-end">Ingresa:</label>
+                            <div class="col-9">
+                                <span id="proyect" class="form-control-plaintext fw-normal py-0">
+                                    <%= tramite.nombre_funcionario_INFORMACION %>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row align-items-center">
+                            <label for="proyect" class="col-3 form-label fw-normal mb-0 text-end">Asignado a:</label>
+                            <div class="col-9">
+                                <span id="proyect" class="form-control-plaintext fw-normal py-0">
+                                    <%= tramite.nombre_funcionario_asignado_INFORMACION %>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+
+                    <div class="px-1 pb-1">
+                        <div class="form-group row align-items-center">
+                            <div class="col-3">
+                                <span class="form-control-plaintext fw-normal py-0 hidden text-start">Procesos
+                                    RTV:</span>
+                            </div>
+                            <div class="form-group col-9 row align-items-center justify-content-center">
+                                <div class="">
+                                    <input type="text" id="orden_RTV" class="form-control-plaintext fw-semibold py-0"
+                                        value="" readonly>
+                                </div>
+                                <div class="">
+                                    <input type="text" id="orden_improntas"
+                                        class="form-control-plaintext fw-semibold py-0" value="" readonly>
+                                </div>
+                                <div class="">
+                                    <input type="text" id="orden_cambio-de-servicio"
+                                        class="form-control-plaintext fw-semibold py-0" value="" readonly>
+                                </div>
+                                <div class="">
+                                    <input type="text" id="orden_color"
+                                        class="form-control-plaintext fw-semibold py-0" value="" readonly>
+                                </div>
+                                <div class="">
+                                    <input type="text" id="orden_motor"
+                                        class="form-control-plaintext fw-semibold py-0" value="" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row align-items-center justify-content-center">
+
+                        </div>
+                        <div class="form-group row align-items-center justify-content-center">
+
+                        </div>
+
+                        <div class="form-group row align-items-center">
+                            <div class="col-9">
+                                <input type="hidden" id="revision_tecnica_vehicular_TURNO"
+                                    name="revision_tecnica_vehicular_TURNO"
+                                    value="<%= tramite.revision_tecnica_vehicular_TURNO %>">
+                                <input type="hidden" id="verificacion_improntas_TURNO"
+                                    name="verificacion_improntas_TURNO"
+                                    value="<%= tramite.verificacion_improntas_TURNO %>">
+                                <input type="hidden" id="cambio_servicio_TURNO" name="cambio_servicio_TURNO"
+                                    value="<%= tramite.cambio_servicio_TURNO %>">
+                                    <input type="hidden" id="cambio_color_TURNO"
+                                    name="cambio_color_TURNO"
+                                    value="<%= tramite.cambio_color_TURNO %>">
+                                <input type="hidden" id="cambio_motor_TURNO"
+                                    name="cambio_motor_TURNO"
+                                    value="<%= tramite.cambio_motor_TURNO %>">
+                            </div>
+                        </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                              
+                                const revisionTecnicaInput = document.getElementById('revision_tecnica_vehicular_TURNO');
+                                const verificacionImprontasInput = document.getElementById('verificacion_improntas_TURNO');
+                                const cambioServicioInput = document.getElementById('cambio_servicio_TURNO');
+                                const cambioColorInput = document.getElementById('cambio_color_TURNO');
+                                const cambioMotorInput = document.getElementById('cambio_motor_TURNO');
+
+                                
+                                const inputRTV = document.getElementById('orden_RTV');
+                                const inputImprontas = document.getElementById('orden_improntas');
+                                const inputCambioServicio = document.getElementById('orden_cambio-de-servicio');
+                                const inputCambioColor = document.getElementById('orden_color');
+                                const inputCambioMotor = document.getElementById('orden_motor');
+
+                               
+                                function evaluarYAsignarValores() {
+                                    
+                                    if (revisionTecnicaInput.value.trim() === 'SI') {
+                                        inputRTV.value = '- REVISIÓN TECNICA VEHICULAR';
+                                    } else {
+                                        inputRTV.value = ''; 
+                                    }
+
+
+                                    if (verificacionImprontasInput.value.trim() === 'SI') {
+                                        inputImprontas.value = '- VERIFICACIÓN Y EXTRACCIÓN DE IMPRONTAS';
+                                    } else {
+                                        inputImprontas.value = '';
+                                    }
+
+
+                                    if (cambioServicioInput.value.trim() === 'SI') {
+                                        inputCambioServicio.value = '- CAMBIO DE SERVICIO';
+                                    } else {
+                                        inputCambioServicio.value = ''; 
+                                    }
+                                    if (cambioColorInput.value.trim() === 'SI') {
+                                        inputCambioColor.value = '- CAMBIO DE COLOR';
+                                    } else {
+                                        inputCambioColor.value = ''; 
+                                    }
+
+                                    if (cambioMotorInput.value.trim() === 'SI') {
+                                        inputCambioMotor.value = '- CAMBIO DE MOTOR';
+                                    } else {
+                                        inputCambioMotor.value = '';
+                                    }
+                                }
+
+                                evaluarYAsignarValores();
+                            });
+
+                        </script>
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>

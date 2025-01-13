@@ -8,7 +8,7 @@ const sequelize = require('../config/db');
 const Usuario = sequelize.define('registro-usuarios', {
 
   id_usuario: {
-    type: DataTypes.STRING(13),
+    type: DataTypes.STRING(17),
     primaryKey: true,
     autoIncrement: false,
   },
@@ -20,8 +20,20 @@ const Usuario = sequelize.define('registro-usuarios', {
     type: DataTypes.STRING(100),
     allowNull: true
   },
+  provincia_usuario: {
+    type: DataTypes.STRING (100),
+    allowNull: true
+  },
   canton_usuario: {
     type: DataTypes.STRING(100),
+    allowNull: true
+  },
+  parroquia_usuario: {
+    type: DataTypes.STRING (100),
+    allowNull: true
+  },
+  direccion_usuario: {
+    type: DataTypes.STRING (100),
     allowNull: true
   },
   celular_usuario: {
@@ -54,3 +66,8 @@ const Usuario = sequelize.define('registro-usuarios', {
 });
 
 module.exports = Usuario;
+
+
+
+
+

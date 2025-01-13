@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Tramite registrado</title>
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="node_modules/simplebar/dist/simplebar.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+    <script src="/js/spinners.js"></script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+                    <div class="container-fluid" style="width: 50%;">
+                        <div class="widget-content searchable-container list">
+
+                            <div class="card">
+                                <div class="px-4 py-3 border-bottom">
+                                    <div class="d-flex no-block align-items-center">
+                                        <h5 class="fw-semibold mb-0 ">Trámite registrado con éxito</h5>
+                                        <div class="ms-auto">
+                                            <span class="badge text-black rounded-pill">
+                                                <span
+                                                    class="round-8 bg-info rounded-circle d-inline-block me-2"></span>Finalizado</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-4">
+                                    <div class="card-body p-4 border-bottom">
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Placa:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2">
+                                                        <%= tramite.placa %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Clase de vehiculo:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2">
+                                                        <%= tramite.clase_vehiculo_tipo %>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Clase de transporte:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2">
+                                                        <%= tramite.clase_transporte %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Trámite:</label>
+                                                <div class="col-md-7" style="white-space: nowrap; overflow: hidden;">
+                                                    <p class="form-control-static mb-2">
+                                                        <%= tramite.tipo_tramite %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">C.I. / RUC:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2">
+                                                        <%= tramite.id_usuario %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Propietario:</label>
+                                                <div class="col-md-7" style="white-space: nowrap; overflow: hidden;">
+                                                    <p class="form-control-static mb-2">
+                                                        <%= tramite.nombre_usuario %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Centro de matriculación:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2">
+                                                        <%= tramite.nombre_corto_empresa %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Usuario:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2">
+                                                        <%= tramite.username %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Fecha:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2">
+                                                        <%= fecha_ingresoETC %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br>
+
+                                        <div class="col-8">
+                                            <div class="form-group row">
+                                                <div class="input-group mb-3">
+                                                    <button
+                                                        class="btn btn-search text-black font-medium rounded-start d-flex align-items-center col-6"
+                                                        type="button" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                        data-bs-original-title="Tooltip on right">
+                                                        <strong>ADHESIVO</strong>
+                                                    </button>
+
+                                                    <input type="text" class="form-control  text-center" placeholder=""
+                                                        aria-label="" aria-describedby="basic-addon1"
+                                                        name="numero_adhesivo" id="numero_adhesivo"
+                                                        value="<%= tramite.numero_adhesivo %>">
+
+                                                    <button
+                                                        class="btn btn-search text-black font-medium rounded-end d-flex align-items-center "
+                                                        type="button" id="myButton1">
+                                                        <i class="ti ti-copy fs-4 me-1"></i>
+                                                    </button>
+
+                                                    <script>
+                                                        document.getElementById('myButton1').addEventListener('click', function () {
+
+                                                            var inputContent = document.querySelector('#numero_adhesivo').value;
+
+                                                            navigator.clipboard.writeText(inputContent)
+                                                                .then(function () {
+
+                                                                    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                                                                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                                                                        return new bootstrap.Tooltip(tooltipTriggerEl);
+                                                                    });
+
+                                                                    var myButton = document.getElementById('myButton1');
+                                                                    var tooltip = new bootstrap.Tooltip(myButton, {
+                                                                        title: 'COPIADO',
+                                                                        placement: 'right'
+                                                                    });
+                                                                })
+                                                                .catch(function (error) {
+
+                                                                    console.error('Error al copiar contenido al portapapeles: ', error);
+                                                                    alert('Error al copiar contenido al portapapeles');
+                                                                });
+                                                        });
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-8">
+                                            <div class="form-group row">
+                                                <div class="input-group mb-3">
+                                                    <button
+                                                        class="btn btn-search text-black font-medium rounded-start d-flex align-items-center col-6"
+                                                        type="button">
+                                                        <strong>MATRICULA</strong>
+                                                    </button>
+
+                                                    <input type="text" class="form-control text-center" placeholder=""
+                                                        aria-label="" aria-describedby="basic-addon1"
+                                                        value="<%= tramite.numero_matricula %>" name="numero_matricula"
+                                                        id="numero_matricula">
+
+                                                    <button
+                                                        class="btn btn-search text-black font-medium rounded-end d-flex align-items-center "
+                                                        type="button" id="matriculaButton">
+                                                        <i class="ti ti-copy fs-4 me-1"></i>
+                                                    </button>
+
+                                                    <script>
+                                                        document.getElementById('matriculaButton').addEventListener('click', function () {
+
+                                                            var inputContent = document.querySelector('#numero_matricula').value;
+
+
+                                                            navigator.clipboard.writeText(inputContent)
+                                                                .then(function () {
+
+                                                                    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                                                                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                                                                        return new bootstrap.Tooltip(tooltipTriggerEl);
+                                                                    });
+
+                                                                    var myButton = document.getElementById('matriculaButton');
+                                                                    var tooltip = new bootstrap.Tooltip(myButton, {
+                                                                        title: 'COPIADO',
+                                                                        placement: 'right'
+                                                                    });
+                                                                })
+                                                                .catch(function (error) {
+
+                                                                    console.error('Error al copiar contenido al portapapeles: ', error);
+                                                                    alert('Error al copiar contenido al portapapeles');
+                                                                });
+                                                        });
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            document.getElementById('matriculaButton').addEventListener('click', function () {
+
+                                                var inputContent = document.querySelector('.numero_matricula').value;
+
+
+                                                navigator.clipboard.writeText(inputContent)
+                                                    .then(function () {
+
+                                                        console.log('Contenido copiado al portapapeles: ', inputContent);
+                                                        alert('Contenido copiado al portapapeles: ' + inputContent);
+                                                    })
+                                                    .catch(function (error) {
+
+                                                        console.error('Error al copiar contenido al portapapeles: ', error);
+                                                        alert('Error al copiar contenido al portapapeles');
+                                                    });
+                                            });
+                                        </script>
+
+
+
+
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="spinner-wrapper" class="spinner-wrapper">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading..</span>
+                        </div>
+                    </div>
+
+
+
+            </div>
+    </div>
+
+</body>
+
+</html>

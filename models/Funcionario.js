@@ -4,7 +4,7 @@
 
 
 const { DataTypes } = require('sequelize');
-const db = require('../config/db'); 
+const db = require('../config/db');
 
 const Funcionario = db.define('Funcionario', {
   id_funcionario: {
@@ -13,6 +13,10 @@ const Funcionario = db.define('Funcionario', {
     autoIncrement: false
   },
   nombre_funcionario: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+  nombre_funcionario_corto: {
     type: DataTypes.STRING(45),
     allowNull: true
   },
@@ -28,7 +32,7 @@ const Funcionario = db.define('Funcionario', {
     type: DataTypes.STRING(45),
     allowNull: true
   },
-  
+
   jefatura_departamento: {
     type: DataTypes.STRING(45),
     allowNull: true
@@ -59,6 +63,10 @@ const Funcionario = db.define('Funcionario', {
     type: DataTypes.STRING(45),
     allowNull: false
   },
+  nombre_empresa_logo: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
   estado_empresa: {
     type: DataTypes.STRING(45),
     allowNull: false
@@ -83,6 +91,37 @@ const Funcionario = db.define('Funcionario', {
     type: DataTypes.STRING(45),
     allowNull: false
   },
+  recepcion_tramites: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+
+  ///// ==    ASIGNACION DE TRAMITES ==      ////
+  
+  tipo_ASIGNACION: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+  oficina_ASIGNACION: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+  usuario_ASIGNACION: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+  indice_asignacion: {
+    type: DataTypes.INTEGER(11),
+    allowNull: true
+  },
+
+
+  numero_acta: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+
+
 }, {
   tableName: 'registro-funcionarios',
   timestamps: false,

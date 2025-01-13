@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Solicitud pdf</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+
+    <script src="/js/main.js"></script>
+    <style>
+        @page {
+            size: A4;
+            margin: 5mm;
+        }
+
+        body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0;
+            display: flex;
+            align-items: start;
+            justify-content: center;
+            background: white;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+
+    <div class="container-fluid bg-white ">
+        <div class="">
+            <div class="card-body d-flex p-1">
+                <div class="col d-flex justify-content-end align-items-center">
+                    <div class="col-12">
+                        <div class="mb-0">
+                            <div class="card-body p-1">
+                                <div class="rounded d-flex">
+
+                                    <input type="hidden" value=" <%=  %>" id="id_tramite">
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+            <div class="card-body d-flex p-1">
+
+
+                <div class="mb-0 col-12">
+                    <div class="card-body p-1">
+                        <h5 class="text-center fw-semibold">
+                            <span class="fw-semibold mb-4 mt-4 text-start text-center text-black">ACTA DE ENTREGA –
+                                RECEPCIÓN
+                                No.</span>
+                            <span class="fw-semibold mb-4 mt-4 text-start text-center text-black">
+                                <%= salida_acta %>
+                            </span>
+                            <span class="fw-semibold mb-4 mt-4 text-start text-center text-black"></span>
+                        </h5>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="card-body d-flex p-1 d-flex justify-content-center align-items-center">
+
+
+                <div class="mb-0 col-8">
+                    <div class="card-body p-1">
+                        <ul class="list-group list-group-flush border-dark fs-2">
+
+                            <div class="d-flex border-dark-bottom">
+                                <li
+                                    class="list-group-item col-4 border-dark-end p-1 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 fw-semibold">
+                                                RETIRA:
+                                            </p>
+                                        </div>
+                                </li>
+                                <li class="list-group-item col-8 p-1">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 fw-normal p-0 text-nowrap">
+                                                <%= usuario.nombre_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                            <div class="d-flex border-dark-bottom">
+                                <li
+                                    class="list-group-item col-4 border-dark-end p-1 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 fw-semibold p-0">
+                                                C.I./RUC/PAS:
+                                            </p>
+                                        </div>
+                                </li>
+                                <li class="list-group-item col-8 p-1">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 fw-normal p-0 text-nowrap">
+                                                <%= solicitante_id %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                            <div class="d-flex border-dark-bottom">
+                                <li
+                                    class="list-group-item col-4 border-dark-end p-1 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 fw-semibold">
+                                                ENTREGA:
+                                            </p>
+                                        </div>
+                                </li>
+                                <li class="list-group-item col-8 p-1">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p
+                                                class="form-control-plaintext mb-0 fw-normal p-0 text-nowrap text-uppercase">
+                                                <%= funcionario.nombre_funcionario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                            <div class="d-flex border-dark-bottom">
+                                <li
+                                    class="list-group-item col-4 border-dark-end p-1 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 fw-semibold">
+                                                FECHA:
+                                            </p>
+                                        </div>
+                                </li>
+                                <li class="list-group-item col-8 p-1">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 fw-normal p-0 text-nowrap"
+                                                id="format_fecha">
+                                                <%= salida_fecha %>
+                                                    <!-- Este es el valor de salida_fecha que viene desde el backend -->
+                                            </p>
+
+                                            <script>
+                                                const salidaFechaElement = document.getElementById('format_fecha');
+                                                let salidaFecha = salidaFechaElement.textContent.trim();
+
+                                                const fecha = new Date(salidaFecha);
+
+                                                if (!isNaN(fecha)) {
+
+                                                    const dia = fecha.getDate().toString().padStart(2, '0');
+                                                    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                                                    const año = fecha.getFullYear();
+                                                    const hora = fecha.getHours().toString().padStart(2, '0');
+                                                    const minutos = fecha.getMinutes().toString().padStart(2, '0');
+
+                                                    const fechaFormateada = `${dia}-${mes}-${año} ${hora}:${minutos}`;
+
+                                                    salidaFechaElement.textContent = fechaFormateada;
+                                                } else {
+                                                    console.error("Fecha no válida");
+                                                }
+                                            </script>
+
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                            <div class="d-flex border-dark-bottom">
+                                <li
+                                    class="list-group-item col-4 border-dark-end p-1 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 fw-semibold">
+                                                ASUNTO:
+                                            </p>
+                                        </div>
+                                </li>
+                                <li class="list-group-item col-8 p-1">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 fw-normal p-0 text-nowrap">
+                                                ENTREGA DE PLACAS
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                            <div class="d-flex border-dark-bottom">
+                                <li
+                                    class="list-group-item col-4 border-dark-end p-1 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 fw-semibold">
+                                                INSUMOS:
+                                            </p>
+                                        </div>
+                                </li>
+                                <li class="list-group-item col-8 p-1">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 fw-normal p-0 text-nowrap">
+                                                PLACAS DE IDENTIFICACIÓN VEHICULAR
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                            <div class="d-flex">
+                                <li
+                                    class="list-group-item col-4 border-dark-end p-1 d-flex justify-content-start align-items-center bg-four-card">
+                                    <div class="row w-100 text-start">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 fw-semibold">
+                                                TIPO DE ENTREGA:
+                                            </p>
+                                        </div>
+                                </li>
+                                <li class="list-group-item col-8 p-1">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 fw-normal p-0 text-nowrap">
+                                                <%= salida_tipo_entrega %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                        </ul>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="card-body d-flex align-items-center justify-content-center p-1">
+
+
+                <div class="mb-0 col-10">
+                    <div class="card-body p-1">
+
+                        <h6>
+                            <span class="fw-normal">
+                                <%= funcionario.nombre_funcionario %>,
+                            </span>
+                            <span class="fw-normal">en calidad de</span>
+                            <span class="fw-normal">
+                                <%= salida_nombre_puesto_funcionario %>
+                            </span>
+                            <span class="fw-normal">por medio del presente documento procede a la entrega
+                                de las PLACAS DE IDENTIFICACIÓN VEHICULAR al propietario del vehículo o persona
+                                autorizada.</span>
+                        </h6>
+
+                        <h6 class="fw-normal mb-3 mt-0 text-start text-black">
+                            <span class="fw-semibold">NOTA:</span>
+                            <span class="fw-normal">Las placas entregadas a un RESPONSABLE DE OFICINA al firmar aceptará
+                                que fueron revisadas,
+                                quedando bajo su custodia y responsabilidad para su posterior entrega al usuario.</span>
+                        </h6>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="card-body d-flex p-1 mb-0 align-items-center justify-content-center">
+
+                <ul class="list-group list-group-flush border-light fs-2 col-5 d-flex">
+
+                    <div class="d-flex">
+                        <li
+                            class="list-group-item col-6 border-light-end bg-four-card p-2 d-flex justify-content-center align-items-center ">
+                            <div class="row w-100 text-start">
+                                <div class="col">
+                                    <p class="form-control-plaintext mb-0 p-0 fw-semibold text-center">
+                                        SERIE ENTREGADA
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item col-6 p-2 bg-four-card">
+                            <div class="row">
+                                <div class="col">
+                                    <p class="form-control-plaintext mb-0 fw-semibold p-0 text-nowrap text-center">
+                                        CANTIDAD
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </div>
+
+                    <% placaInventario.forEach(function(placa) { %>
+                        <div class="d-flex">
+                            <li
+                                class="list-group-item col-6 border-light-end p-0 d-flex justify-content-center align-items-center">
+                                <div class="row w-100 text-start">
+                                    <div class="col">
+                                        <p class="form-control-plaintext mb-0 p-0 fw-normal text-center">
+                                            <%= placa.placa %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item col-6 p-0 d-flex justify-content-center align-items-center">
+                                <div class="row w-100 text-start">
+                                    <div class="col">
+                                        <p class="form-control-plaintext mb-0 fw-normal p-0 text-nowrap text-center">
+                                            <%= placa.cantidad %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                        <% }) %>
+
+
+
+                </ul>
+
+
+
+
+
+
+
+            </div>
+
+            <div class="card-body d-flex p-1 pt-4">
+
+
+                <div class="mb-0 col-12">
+                    <div class="card-body p-1">
+
+
+
+
+                        <ul class="list-group list-group-flush  fs-2 mt-4 pt-4">
+
+                            <div class="d-flex">
+                                <li
+                                    class="list-group-item col-6  px-2 py-0 d-flex justify-content-start align-items-center">
+                                    <div class="row w-100 text-center">
+                                        <div class="col"><strong>----------------------------------</strong></div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="list-group-item col-6  px-2 py-0 d-flex justify-content-start align-items-center">
+                                    <div class="row w-100 text-center">
+                                        <div class="col"><strong>----------------------------------</strong></div>
+                                    </div>
+                                </li>
+                            </div>
+
+
+                            <div class="d-flex ">
+                                <li class="list-group-item col-6  px-2 py-0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext text-uppercase mb-0 p-0 text-center">
+                                                <%= funcionario.nombre_funcionario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item col-6 px-2 py-0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext text-capitalize p-0 text-center">
+                                                <%= usuario.nombre_usuario %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+
+                            <div class="d-flex ">
+                                <li class="list-group-item col-6  px-2 py-0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-center fw-semibold">
+                                                FUNCIONARIO
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item col-6 px-2 py-0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext p-0 text-center fw-semibold">
+                                                SOLICITANTE
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+                        </ul>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+</body>
+
+</html>

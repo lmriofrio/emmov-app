@@ -31,8 +31,20 @@ const CentroMatriculacion = sequelize.define('registro-centro-matriculacion', {
     type: DataTypes.STRING(45),
     allowNull: true
   },
+  nombre_empresa_logo: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
   provincia_empresa: {
     type: DataTypes.STRING(45),
+    allowNull: true
+  },
+  indice_asignacion: {
+    type: DataTypes.INTEGER(11),
+    allowNull: true
+  },
+  indice_ultima_actualizacion: {
+    type: DataTypes.DATE,
     allowNull: true
   }
 }, {

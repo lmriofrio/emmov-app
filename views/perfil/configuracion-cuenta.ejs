@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Configuraciones de la cuenta</title>
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="/js/activar-items-navbar.js"></script>
+    <script src="/js/main.js"></script>
+
+
+    <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+                    <div class="container-fluid" style="width: 70%;">
+                        <div class="card">
+
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="cardnumbers w-100 position-relative overflow-hidden mb-0">
+                                            <div class="card-body p-4">
+
+                                                <div class="d-flex align-items-center mb-3">
+                                                    <span class="me-2">
+                                                        <i class="ti ti-settings fs-8"></i>
+                                                    </span>
+                                                    <div>
+                                                        <h5 class="card-title fw-semibold mb-0 text-black">Ajustes
+                                                            de la
+                                                            cuenta</h5>
+                                                        <p class="card-subtitle mb-0">Datos personales del funcionario
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <br>
+
+
+
+                                                <div class="d-flex align-items-start">
+                                                    <div class="col-md-3 nav flex-column nav-pills rounded border"
+                                                        id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                                        <button class="nav-link active text-start rounded-0"
+                                                            id="v-pills-home-tab" data-bs-toggle="pill"
+                                                            data-bs-target="#v-pills-home" type="button" role="tab"
+                                                            aria-controls="v-pills-home" aria-selected="true">
+                                                            Información general
+                                                        </button>
+
+                                                        <button class="nav-link text-start rounded-0"
+                                                            id="#v-pills-nombre-corto-tab" data-bs-toggle="pill"
+                                                            data-bs-target="#v-pills-nombre-corto" type="button"
+                                                            role="tab" aria-controls="v-pills-nombre-corto"
+                                                            aria-selected="false">
+                                                            Nombre abreviado
+                                                        </button>
+
+                                                        <button class="nav-link text-start rounded-0"
+                                                            id="v-pills-cambiar-password-tab" data-bs-toggle="pill"
+                                                            data-bs-target="#v-pills-cambiar-password" type="button"
+                                                            role="tab" aria-controls="v-pills-cambiar-password"
+                                                            aria-selected="false">
+                                                            Cambiar contraseña
+                                                        </button>
+
+                                                        <button class="nav-link text-start rounded-0"
+                                                            id="v-pills-configuracion-usuario-tab" data-bs-toggle="pill"
+                                                            data-bs-target="#v-pills-configuracion-usuario"
+                                                            type="button" role="tab"
+                                                            aria-controls="v-pills-configuracion-usuario"
+                                                            aria-selected="false">
+                                                            Asignación de trámites
+                                                        </button>
+
+
+                                                        <button class="nav-link text-start rounded-0"
+                                                            id="v-pills-recepcion-tramites-tab" data-bs-toggle="pill"
+                                                            data-bs-target="#v-pills-recepcion-tramites" type="button"
+                                                            role="tab" aria-controls="v-pills-recepcion-tramites"
+                                                            aria-selected="false">
+                                                            Recepción de trámites
+                                                        </button>
+
+                                                        <button class="nav-link text-start rounded-0"
+                                                            id="#v-pills-numero-acta-tab" data-bs-toggle="pill"
+                                                            data-bs-target="#v-pills-numero-acta" type="button"
+                                                            role="tab" aria-controls="v-pills-numero-acta"
+                                                            aria-selected="false">
+                                                            Número de acta
+                                                        </button>
+
+                                                    </div>
+
+                                                    <div class="col-md-9 tab-content px-4" id="v-pills-tabContent">
+                                                        <div class="tab-pane fade show active p-4 border rounded"
+                                                            id="v-pills-home" role="tabpanel"
+                                                            aria-labelledby="v-pills-home-tab" tabindex="0">
+                                                            <form>
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="mb-4">
+                                                                            <label for="id_funcionario"
+                                                                                class="form-label fw-normal">Nro.
+                                                                                Identificación</label>
+                                                                            <input type="number" class="form-control"
+                                                                                name="id_funcionario"
+                                                                                id="id_funcionario"
+                                                                                value="<%= userData.id_funcionario %>"
+                                                                                readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="mb-4">
+                                                                            <label for="rol_funcionario"
+                                                                                class="form-label fw-normal">Rol</label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="rol_funcionario"
+                                                                                id="rol_funcionario"
+                                                                                value="<%= userData.rol_funcionario %>"
+                                                                                readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="mb-4">
+                                                                            <label for="id_empresa"
+                                                                                class="form-label fw-normal">ID
+                                                                                empresa</label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="id_empresa" id="id_empresa"
+                                                                                value="<%= userData.id_empresa %>"
+                                                                                readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="mb-4">
+                                                                            <label for="nombre_funcionario"
+                                                                                class="form-label fw-normal">Nombre</label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="nombre_funcionario"
+                                                                                id="nombre_funcionario"
+                                                                                value="<%= userData.nombre_funcionario %>"
+                                                                                readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="mb-4">
+                                                                            <label for="nombre_puesto_funcionario"
+                                                                                class="form-label fw-normal">Puesto de
+                                                                                trabajo</label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="nombre_puesto_funcionario"
+                                                                                id="nombre_puesto_funcionario"
+                                                                                value="<%= userData.nombre_puesto_funcionario %>"
+                                                                                readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="mb-4">
+                                                                            <label for="nombre_empresa"
+                                                                                class="form-label fw-normal">Nombre
+                                                                                empresa</label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="nombre_empresa"
+                                                                                id="nombre_empresa"
+                                                                                value="<%= userData.nombre_empresa %>"
+                                                                                readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                        <div class="tab-pane fade p-4 border rounded"
+                                                            id="v-pills-nombre-corto" role="tabpanel"
+                                                            aria-labelledby="#v-pills-nombre-corto-tab" tabindex="0">
+                                                            <form method="post" id="" class="col">
+                                                                <div class="row">
+
+                                                                    <div class="col-12">
+                                                                        <div class="mb-4">
+                                                                            <label class="form-label fw-normal">Nombre abreviado del usuario:</label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="nombre-corto" id="nombre_funcionario_corto"
+                                                                                value="<%= funcionario.nombre_funcionario_corto %>" maxlength="20">
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class=" col-12">
+                                                                            <div class="mt-4">
+                                                                                <div>
+                                                                                    <div class="text-end">
+                                                                                        <button type="button"
+                                                                                            id="conf-nombre_funcionario_corto"
+                                                                                            name="conf-nombre_funcionario_corto"
+                                                                                            class="btn btn-primary fw-semibold btn-rounded shadow-btn px-4">
+                                                                                            Guardar
+                                                                                        </button>
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </div>
+
+                                                            </form>
+                                                        </div>
+
+                                                        <div class="tab-pane fade p-4 border rounded"
+                                                            id="v-pills-cambiar-password" role="tabpanel"
+                                                            aria-labelledby="v-pills-cambiar-password-tab" tabindex="0">
+                                                            Password
+                                                        </div>
+
+                                                        <div class="tab-pane fade p-4 border rounded"
+                                                            id="v-pills-configuracion-usuario" role="tabpanel"
+                                                            aria-labelledby="v-pills-configuracion-usuario-tab"
+                                                            tabindex="0">
+
+                                                            <div class="row">
+
+
+                                                                <div class="col-12">
+
+                                                                    <div class="mb-4">
+                                                                        <label class="form-label fw-normal">Oficina
+                                                                            seleccionada:</label>
+                                                                        <div class="col-12">
+                                                                            <select class="form-select"
+                                                                                name="oficina_ASIGNACION"
+                                                                                id="oficina_ASIGNACION">
+                                                                                <% centrosMatriculacion.forEach(function(centro)
+                                                                                    { %>
+                                                                                    <option
+                                                                                        value="<%= centro.id_centro_matriculacion %>"
+                                                                                        <%=userData.oficina_ASIGNACION===centro.id_centro_matriculacion
+                                                                                        ? 'selected' : '' %>>
+                                                                                        <%= centro.nombre_centro_matriculacion
+                                                                                            %>
+                                                                                    </option>
+                                                                                    <% }); %>
+                                                                            </select>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-12">
+                                                                    <div class="mb-4">
+                                                                        <label class="form-label fw-normal">Tipo
+                                                                            de asignación:</label>
+                                                                        <div class="col-12">
+                                                                            <select class="form-select"
+                                                                                name="tipo_ASIGNACION"
+                                                                                id="tipo_ASIGNACION">
+                                                                                <option value="AUTOMÁTICA"
+                                                                                    <%=funcionario.tipo_ASIGNACION==='AUTOMÁTICA'
+                                                                                    ? 'selected' : '' %>>AUTOMÁTICA
+                                                                                </option>
+                                                                                <option value="MANUAL"
+                                                                                    <%=funcionario.tipo_ASIGNACION==='MANUAL'
+                                                                                    ? 'selected' : '' %>>MANUAL
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-12">
+                                                                    <div class="mb-4">
+                                                                        <label class="form-label fw-normal">Usuario
+                                                                            asignado:</label>
+                                                                        <div class="col-12">
+                                                                            <select class="form-select"
+                                                                                name="usuario_ASIGNACION"
+                                                                                id="usuario_ASIGNACION">
+                                                                                <!-- Mostrar opción AUTOMÁTICA solo si fue seleccionada -->
+                                                                                <% if
+                                                                                    (funcionario.usuario_ASIGNACION==='AUTOMÁTICA'
+                                                                                    ) { %>
+                                                                                    <option value="AUTOMÁTICA">
+                                                                                        AUTOMÁTICA</option>
+                                                                                    <% } else { %>
+                                                                                        <option value="AUTOMÁTICA">
+                                                                                            AUTOMÁTICA</option>
+                                                                                        <% } %>
+
+                                                                                            <% if (funcionariosActivos
+                                                                                                &&
+                                                                                                funcionariosActivos.length>
+                                                                                                0) { %>
+                                                                                                <% funcionariosActivos.forEach(function(centro)
+                                                                                                    { %>
+                                                                                                    <option
+                                                                                                        value="<%= centro.id_funcionario %>"
+                                                                                                        <%=funcionario.usuario_ASIGNACION===centro.id_funcionario
+                                                                                                        ? 'selected'
+                                                                                                        : '' %>>
+                                                                                                        <%= centro.nombre_funcionario
+                                                                                                            %>
+                                                                                                    </option>
+                                                                                                    <% }); %>
+                                                                                                        <% } else { %>
+                                                                                                            <option
+                                                                                                                disabled>
+                                                                                                                No hay
+                                                                                                                funcionarios
+                                                                                                                activos
+                                                                                                                disponibles
+                                                                                                            </option>
+                                                                                                            <% } %>
+                                                                            </select>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-12">
+                                                                    <div class="mt-4">
+                                                                        <div id="" name="">
+                                                                            <div class="text-end">
+                                                                                <button type="button"
+                                                                                    id="conf-asignacionTramites"
+                                                                                    name="conf-asignacionTramites"
+                                                                                    class="btn btn-primary fw-semibold btn-rounded shadow-btn px-4">
+                                                                                    Guardar
+                                                                                </button>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+
+
+                                                        </div>
+
+                                                        <div class="tab-pane fade p-4 border rounded"
+                                                            id="v-pills-recepcion-tramites" role="tabpanel"
+                                                            aria-labelledby="v-pills-recepcion-tramites-tab"
+                                                            tabindex="0">
+                                                            <form method="post" id="" class="col">
+                                                                <div class="row">
+
+                                                                    <div class="col-12">
+                                                                        <div class="mb-4">
+                                                                            <label
+                                                                                class="form-label fw-normal">Recepción
+                                                                                de trámites:</label>
+                                                                            <div class="col-12">
+                                                                                <select class="form-select"
+                                                                                    name="recepcion_tramitesFuncionario"
+                                                                                    id="recepcion_tramitesFuncionario">
+                                                                                    <option value="HABILITADO"
+                                                                                        <%=funcionario.recepcion_tramites==='HABILITADO'
+                                                                                        ? 'selected' : '' %>>HABILITADO
+                                                                                    </option>
+                                                                                    <option value="DESHABILITADO"
+                                                                                        <%=funcionario.recepcion_tramites==='DESHABILITADO'
+                                                                                        ? 'selected' : '' %>
+                                                                                        >DESHABILITADO
+                                                                                    </option>
+                                                                                </select>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-12">
+                                                                        <div class="mt-4">
+                                                                            <div>
+                                                                                <div class="text-end">
+                                                                                    <button type="button"
+                                                                                        id="conf-recepcionTramites"
+                                                                                        name="conf-recepcionTramites"
+                                                                                        class="btn btn-primary fw-semibold btn-rounded shadow-btn px-4">
+                                                                                        Guardar
+                                                                                    </button>
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                </div>
+
+                                                            </form>
+                                                        </div>
+
+                                                        <div class="tab-pane fade p-4 border rounded"
+                                                            id="v-pills-numero-acta" role="tabpanel"
+                                                            aria-labelledby="#v-pills-numero-acta-tab" tabindex="0">
+                                                            <form method="post" id="" class="col">
+                                                                <div class="row">
+
+                                                                    <div class="col-12">
+                                                                        <div class="mb-4">
+                                                                            <label class="form-label fw-normal">Número
+                                                                                de acta para el inventario de
+                                                                                placas:</label>
+                                                                            <input type="number" class="form-control"
+                                                                                name="numero_acta" id="numero_acta"
+                                                                                value="<%= funcionario.numero_acta %>""
+                                                                               >
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class=" col-12">
+                                                                            <div class="mt-4">
+                                                                                <div>
+                                                                                    <div class="text-end">
+                                                                                        <button type="button"
+                                                                                            id="conf-numero_acta"
+                                                                                            name="conf-numero_acta"
+                                                                                            class="btn btn-primary fw-semibold btn-rounded shadow-btn px-4">
+                                                                                            Guardar
+                                                                                        </button>
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </div>
+
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+            </div>
+
+            <div id="alert-container"></div>
+
+
+
+</body>
+
+</html>

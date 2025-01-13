@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <title>Entrega de placas metálicas</title>
+  <link rel="stylesheet" href="../../../public/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+  <script src="/js/activar-items-navbar.js"></script>
+  <script src="/js/spinners.js"></script>
+
+  <script src="/js/buscar-placa-inventario.js"></script>
+
+
+  <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    .table thead th {
+      background-color: #f3f4f8;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Inicio de barra de navegación -->
+    <%- include('../../body/navbar') %>
+      <!-- Fin de barra de navegación -->
+      <!--  Contendio principal -->
+      <div class="body-wrapper">
+        <!--  Encabezado de pagina -->
+        <%- include('../../body/header') %>
+          <!--  Fin de encabezado de pagina  -->
+          <div class="container-fluid justify-content-center align-items-center d-flex" style="width: 95%;">
+
+            <form action="/entregar-placa-grupal" method="POST"
+              class="col-lg-12 justify-content-center align-items-center d-flex">
+              <div class="col-lg-12 d-flex gap-2">
+                <div class="col-lg-7">
+                  <div class="card">
+                    <div class="px-4 py-3">
+                      <div class="card-body p-0">
+                        <div class="d-sm-flex d-block  justify-content-center mb-2 col-12 gap-1">
+
+                          <nav class="col-lg-3" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                            </ol>
+                          </nav>
+
+                          <div class="d-block mb-3 mb-sm-0 col-lg-12  justify-content-center">
+                            <h5 class="text-dark fw-semibold text-center">Entrega de placas metálicas</h5>
+                            <p class="card-subtitle mb-0 d-flex justify-content-center">Inventario institucional</p>
+                          </div>
+
+
+                          <div class="dropdown col-lg-3 justify-content-end d-flex">
+
+                          </div>
+
+
+
+
+
+                        </div>
+                        <hr>
+                      </div>
+
+                      <h5 class="fs-4 fw-semibold mt-4 mb-0">INFORMACIÓN DE LA ENTREGA:</h5>
+
+                      <div class="py-3">
+                        <div class="row">
+
+
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-9 form-label fw-normal">Solicitante:</label>
+                                <select class="form-select-flex col-lg-12" name="solicitante_tipo" id="solicitante_tipo"
+                                  aria-label="Default select example" required>
+                                  <option selected=""></option>
+                                  <option value="GESTOR">GESTOR</option>
+                                  <option value="PROPIETARIO">PROPIETARIO</option>
+                                  <option value="FAMILIAR">FAMILIAR</option>
+                                  <option value="OTROS">OTROS</option>
+                                  <option value="REPRESENTANTE LEGAL">REPRESENTANTE LEGAL</option>
+                                  <option value="OTROS">COORDINADOR DE LAS OFICINAS TÉCNICAS</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-lg-4">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-10 form-label fw-normal">C.I./RUC/PAS:</label>
+                                <div class="input-group">
+                                  <input type="text" name="id_usuario" class="col-lg-12 form-control text-uppercase"
+                                    placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2"
+                                    required autocomplete="off" maxlength="14">
+                                  <button class="btn btn-search text-white font-medium px-3" type="button"
+                                    id="buscarUsuario">
+                                    <i class="ti ti-search fs-4"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-10 form-label fw-normal">Fecha de entrega:</label>
+                                <input type="datetime-local" class="form-control is-valid col-lg-12" name="salida_fecha"
+                                  id="salida_fecha" placeholder="" required>
+                                <script>
+                                  var fecha = new Date();
+                                  var year = fecha.getFullYear();
+                                  var month = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                                  var day = fecha.getDate().toString().padStart(2, '0');
+
+                                  var hours = fecha.getHours().toString().padStart(2, '0');
+                                  var minutes = fecha.getMinutes().toString().padStart(2, '0');
+
+                                  var formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+                                  document.getElementById('salida_fecha').value = formattedDate;
+                                </script>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-lg-8">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-10 form-label fw-normal">Nombre:</label>
+                                <input type="text" class="col-lg-12 form-control-flex text-uppercase"
+                                  name="nombre_usuario" id="nombre_usuario" required autocomplete="off" maxlength="40">
+                              </div>
+                            </div>
+                            <div class="col-lg-4">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-10 form-label fw-normal">Acta N°:</label>
+                                <input type="text" class="col-lg-12 form-control is-valid text-uppercase"
+                                  name="salida_acta" required autocomplete="off" value="<%= numeroActa  %>">
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+
+                            <div class="col-lg-12">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-6 form-label fw-normal">Observación:</label>
+
+                                <textarea class="form-control text-uppercase" rows="1" name="salida_observacion"
+                                  id="salida_observacion" autocomplete="off" maxlength="100"
+                                  autocomplete="off"></textarea>
+
+
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+
+                  <div class="card">
+                    <div class="px-4 py-3">
+                      <h5 class="text-black fw-semibold text-start">Seleccionar placas</h5>
+
+                      <hr>
+                      <div class="py-0">
+                        <div class="row">
+
+
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <div class="mb-2">
+                                <label for="" class="col-lg-10 form-label fw-normal">Ingrese el número de
+                                  placa:</label>
+                                <div class="input-group">
+                                  <input type="text" name="placa" class="col-lg-12 form-control text-uppercase"
+                                    placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2"
+                                    required autocomplete="off" maxlength="14">
+                                  <button class="btn btn-search text-white font-medium px-3" type="button"
+                                    id="buscarPlacaInventarioEntregaGrupal">
+                                    <i class="ti ti-search fs-4"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
+                          <div class="row d-none" id="content">
+                            <br>
+                            <div class="table-responsive2">
+                              <table class="table table-bordered fs-2">
+                                <thead id="thead-tramites" class="text-dark">
+                                  <tr class="text-dark" class="text-dark">
+                                    <th class="text-center align-middle px-1 py-1 text-overflow-1">N°
+                                    </th>
+
+
+                                    <th class="text-center align-middle  px-1 py-1 text-overflow-2">PLACA
+                                    </th>
+                                    <th class="text-center align-middle px-1 py-1 text-overflow-2">
+                                      SERVICIO</th>
+                                    <th class="text-center align-middle px-1 py-1 text-overflow-2 text-wrap">
+                                      TIPO DE VEHICULO</th>
+                                    <th class="text-center align-middle px-1 py-1 text-overflow-2 text-wrap">
+                                      CANTIDAD</th>
+                                    <th class="text-center align-middle px-1 py-1 text-overflow-2 text-wrap">
+                                      ESTADO</th>
+                                    <th class="text-center align-middle px-1 py-1 text-overflow-2">
+                                      ACCIÓNES</th>
+                                  </tr>
+
+                                </thead>
+                                <tbody id="tbody-tramites">
+                              </table>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="col-lg-5">
+                  <div class="card">
+                    <div class="px-4 py-3">
+                      <h5 class="text-black fw-semibold text-start">Detalle de la entrega</h5>
+                      <hr>
+
+                      <div class="py-0">
+                        <div class="row">
+
+
+                          <div class="row">
+                            <div class="col-lg-6">
+                              <div class="mb-2">
+                                <div class="col d-flex p-1">
+                                  <p class="col-2 m-0"><strong class="text-black">N°</strong></p>
+                                  <p class="col-6 m-0"><strong class="text-black">ID Inventario</strong> </p>
+                                  <p class="col-4 m-0"><strong class="text-black">Placa</strong></p>
+
+                                </div>
+                                <div id="contenedorPlacaInventario">
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+
+                          <br>
+
+
+
+
+
+                        </div>
+                      </div>
+
+                      <div class="row mt-3">
+                        <div class="mb-1">
+                          <div class="card-body px-0 py-0 d-flex justify-content-end gap-2">
+                            <button type="" onclick="window.location.href='/home'"
+                              class="col-lg-5 justify-content-center fw-semibold btn shadow-btn mb-1  btn-rounded btn-secondary align-items-center">Cancelar
+                              la entrega
+                            </button>
+                            <button type="submit"
+                              class="col-lg-5 justify-content-center fw-semibold btn shadow-btn  mb-1 btn-rounded btn-primary align-items-center">Confirmar
+                              la entrega
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                    </div>
+                  </div>
+
+                </div>
+            </form>
+
+
+
+
+          </div>
+
+
+      </div>
+
+      <div id="alert-container"></div>
+
+      <div id="spinner-wrapper" class="spinner-wrapper">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading..</span>
+        </div>
+      </div>
+
+
+
+</body>
+
+</html>

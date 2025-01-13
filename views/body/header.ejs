@@ -1,0 +1,253 @@
+<header class="app-header">
+    <nav class="navbar navbar-expand-lg navbar-light rounded-bottom-1">
+        <ul class="navbar-nav d-flex">
+            <li class="nav-item">
+                <a class="nav-link sidebartoggler nav-icon-hover " id="headerCollapse">
+                    <i class="ti ti-menu-2"></i>
+                </a>
+            </li>
+            <li class="nav-item border-start border-end">
+                <a class="nav-link fs-4 btn-agenda d-flex align-items-center gap-1" href="/matriculacion/agenda-turnos"
+                    aria-expanded="false" title="Ver agenda de turnos">
+                    <i class="ti ti-address-book fs-9 d-none icon-nav"></i> <span class="nav-text fs-3">Agenda</span>
+                </a>
+            </li>
+
+
+            <li class="nav-item border-end">
+                <a class="nav-link fs-4 btn-agenda d-flex align-items-center gap-1 dropdown-toggle"
+                    href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="ti ti-search fs-9 d-none icon-nav"></i> <span class="nav-text fs-3">Consultar</span>
+                </a>
+                <div class="position-relative">
+                    <ul class="dropdown-menu dropdown-menu-start mt-3" aria-labelledby="drop2">
+                        <li class="">
+                            <a class="dropdown-item sidebar-link d-flex align-items-center text-black" href="/consultar/consulta-vehiculo">
+                                
+                                <span class="hide-menu fw-normal">Buscar vehículo</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="dropdown-item sidebar-link d-flex align-items-center text-black" href="/consultar/consulta-persona">
+                                
+                                <span class="hide-menu fw-normal">Buscar personas</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="dropdown-item sidebar-link d-flex align-items-center text-black" href="/consultar/consulta-tramite">
+                                
+                                <span class="hide-menu fw-normal">Buscar trámite</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+            </li>
+
+            <li class="nav-item border-end d-none">
+                <a class="nav-link fs-4 btn-agenda d-flex align-items-center gap-1" href="/matriculacion/informacion/consulta-valor-matricula">
+                    <i class="ti ti-search fs-9 d-none icon-nav"></i> <span class="nav-text fs-3">Consultar SRI</span>
+                </a>
+
+            </li>
+        </ul>
+
+
+
+        <div class="navbar-nav ms-auto d-flex align-items-center justify-content-between">
+
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
+
+
+                <!-- 
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="ti ti-bell-ringing"></i>
+                        <div class="notification bg-primary rounded-circle"></div>
+                    </a>
+                    <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up"
+                        aria-labelledby="drop2">
+                        <div class="d-flex align-items-center justify-content-between py-3 px-7">
+                            <h5 class="mb-0 fs-5 fw-semibold">Notifications</h5>
+                            <span class="badge bg-primary rounded-4 px-3 py-1 lh-sm">5 new</span>
+                        </div>
+                    </div>
+                </li>
+                 -------------------------------- -->
+                <!-- PERFIL DE  DROPDOWN             -->
+                <!-- ------------------------------- -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link border-start py-1 px-2 align-items-center d-flex gap-1" href="#" id="navbarDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="ti ti-user-circle"></i> <span class="fw-normal fs-3" id="header-nameShort"
+                            name="header-nameShort">
+                            <%= userData.nombre_funcionario_corto %>
+                        </span>
+                        <!-- <div class="notification bg-primary rounded-circle"></div>-->
+                    </a>
+                    <!-- se utiliza el js dropdown de bootstrap           -->
+                    <ul class="dropdown-menu dropdown-menu-end mt-3" aria-labelledby="navbarDropdown">
+                        <div class="fixed-profile p-2 mx-3 mb-3 rounded" style="overflow: hidden;">
+                            <div class="d-flex align-items-center gap-1">
+                                <div class="john-img">
+                                    <span class="round-8 bg-green rounded-circle d-inline-block ms-2 me-2"></span>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 fs-3 fw-semibold text-black">
+                                        <%= userData.username %>
+                                    </h6>
+                                    <span class="text-black text-nowrap">
+                                        <%= userData.nombre_funcionario %>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-3 py-0">
+                            <div class="py-1 d-flex">
+                                <div class="col-md-3">
+                                    <strong class="text-black py-1">Nro ID:</strong>
+                                </div>
+                                <div class="col-md-9">
+                                    <span class="text-black ms-2">
+                                        <%= userData.id_funcionario %>
+                                    </span>
+                                </div>
+
+
+                            </div>
+                            <div class="py-1 d-flex">
+
+                                <div class="col-md-3">
+                                    <strong class="text-black py-1">Usuario:</strong>
+                                </div>
+
+                                <div class="col-md-9">
+                                    <span class="text-black ms-2">
+                                        <%= userData.username %>
+                                    </span>
+                                </div>
+
+
+                            </div>
+                            <div class="py-1 d-flex">
+                                <div class="col-md-3">
+                                    <strong class="text-black py-1">Nombre:</strong>
+                                </div>
+                                <div class="col-md-9 text-overflow-7">
+                                    <span class="text-black ms-2">
+                                        <%= userData.nombre_funcionario %>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="py-1 d-flex">
+                                <div class="col-md-3">
+                                    <strong class="text-black py-1">Rol:</strong>
+                                </div>
+                                <div class="col-md-9">
+                                    <span class="text-black ms-2">
+                                        <%= userData.rol_funcionario %>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="py-1 d-flex">
+                                <div class="col-md-3">
+                                    <strong class="text-black py-1">Empresa:</strong>
+                                </div>
+                                <div class="col-md-9">
+                                    <span class="text-black ms-2">
+                                        <%= userData.nombre_corto_empresa %>
+                                    </span>
+                                </div>
+
+
+                            </div>
+                            <div class="py-1 d-flex">
+                                <div class="col-md-3">
+                                    <strong class="text-black py-1">Oficina:</strong>
+                                </div>
+                                <div class="col-md-9">
+                                    <span class="text-black ms-2">
+                                        <%= userData.canton_centro_matriculacion %>
+                                    </span>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="dropdown-item">
+                            <div class="sidebar-link d-flex align-items-center text-black">
+                                <div class="form-check form-switch">
+
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                        id="recepcion_tramites" data-status="<%= userData.recepcion_tramites %>"
+                                        <%=userData.recepcion_tramites==='HABILITADO' ? 'checked' : '' %>>
+                                    <label class="form-check-label ms-2" for="recepcion_tramites">Habilitar la
+                                        recepción</label>
+                                </div>
+                            </div>
+                        </li>
+
+
+                        <!--
+                        <li class="dropdown-item">
+                            <a class="sidebar-link d-flex align-items-center text-black"
+                                href="/perfil/configuracion-cuenta">
+                                <i class="ti ti-tools me-2 fs-6"></i>
+                                <span class="hide-menu fw-semibold">Otra opción</span>
+                            </a>
+                        </li>-->
+                        <li class="dropdown-item">
+                            <a class="sidebar-link d-flex align-items-center text-black"
+                                href="/perfil/configuracion-cuenta">
+                                <i class="ti ti-settings me-2 fs-6"></i>
+                                <span class="hide-menu fw-semibold">Ajustes</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="dropdown-item text-center">
+                            <a href="/login"
+                                class="btn w-100 fw-semibold btn-rounded btn-primary d-flex align-items-center justify-content-center py-2">
+                                <i class="ti ti-login fs-6 me-2"></i>
+                                <span>Cerrar sesión</span>
+                            </a>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+
+        <script>
+            document.getElementById('headerCollapse').addEventListener('click', function () {
+                var sidebar = document.getElementById('leftSidebar');
+
+
+                var mainWrapper = document.getElementById('main-wrapper');
+                mainWrapper.classList.toggle('show-sidebar');
+
+                if (mainWrapper.getAttribute('data-sidebartype') === 'full') {
+                    mainWrapper.setAttribute('data-sidebartype', 'mini-sidebar');
+                } else {
+                    mainWrapper.setAttribute('data-sidebartype', 'full');
+                }
+            });
+        </script>
+
+    </nav>
+
+
+
+
+
+
+
+
+</header>
