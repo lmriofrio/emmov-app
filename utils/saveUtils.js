@@ -118,7 +118,7 @@ async function updateVehiculo({
     const tipo_id_usuarioUpper = (tipo_id_usuario || vehiculo.tipo_id_usuario || 'CÉDULA').toUpperCase();
     const id_usuarioUpper = id_usuario.toUpperCase();
     const nombre_usuarioUpper = nombre_usuario.toUpperCase();
-    const RamwMayus = (ramw || '').toUpperCase();
+    const RamwMayus = (ramw || vehiculo.ramw || '').toUpperCase();
 
     if (vehiculo) {
         console.log('------   Vehículo encontrado, actualizando desde SaveUtils -------');

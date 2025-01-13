@@ -95,7 +95,7 @@ const Tramite = sequelize.define('registro-tramites', {
   ////////////////////////////////////
 
   placa: {
-    type: DataTypes.STRING(12),
+    type: DataTypes.STRING(20),
     allowNull: true
   },
   ramw: {

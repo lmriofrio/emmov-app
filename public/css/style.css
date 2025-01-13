@@ -33206,13 +33206,27 @@ fieldset:disabled .btn {
     background-color: var(--color-bg) !important
 }
 
+.bg-five-card {
+    background-color: #b7b7b7
+}
+
+@media print {
+    .bg-five-card {
+        background-color:   #b7b7b7;
+        -webkit-print-color-adjust: exact;
+       
+        print-color-adjust: exact;
+       
+    }
+}
+
 @media print {
     .bg-four-card {
         background-color: var(--color-bg) !important;
         -webkit-print-color-adjust: exact;
-        /* Para navegadores basados en WebKit como Chrome */
+       
         print-color-adjust: exact;
-        /* Otros navegadores */
+       
     }
 }
 
@@ -45232,7 +45246,7 @@ html[dir=rtl] .form-check .form-check-input {
 }
 
 html[dir=rtl] .form-check-inline {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
     margin-right: 0
 }
 

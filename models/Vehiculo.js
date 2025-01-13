@@ -8,7 +8,7 @@ const sequelize = require('../config/db');
 
   const Vehiculo = sequelize.define('registro-vehiculos', {
     placa: {
-      type: DataTypes.STRING(12),
+      type: DataTypes.STRING(20),
       allowNull: false,
       primaryKey: true,
       unique: true,

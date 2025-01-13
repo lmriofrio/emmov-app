@@ -51,7 +51,7 @@
                                     <div class="col-3 align-items-center justify-content-center">
                                         <h5 class="m-1 fw-normal text-center text-black fs-3">TURNO NÚMERO</h5>
                                         <div
-                                            class="p-1 d-flex align-items-center justify-content-center bg-four-card rounded">
+                                            class="p-1 d-flex align-items-center justify-content-center bg-five-card rounded">
                                             <p
                                                 class="fw-semibold m-0 text-turner d-flex align-items-center justify-content-center fs-13">
                                                 <%= tramite.numero_turno_INFORMACION %>
@@ -184,28 +184,23 @@
                                                     class="form-group col-12  align-items-center justify-content-center">
 
                                                     <input type="text" id="orden_RTV"
-                                                        class="form-control-plaintext fw-normal py-0" value=""
-                                                        readonly>
+                                                        class="form-control-plaintext fw-normal py-0" value="" readonly>
 
 
                                                     <input type="text" id="orden_improntas"
-                                                        class="form-control-plaintext fw-normal py-0" value=""
-                                                        readonly>
+                                                        class="form-control-plaintext fw-normal py-0" value="" readonly>
 
 
                                                     <input type="text" id="orden_cambio-de-servicio"
-                                                        class="form-control-plaintext fw-normal py-0" value=""
-                                                        readonly>
+                                                        class="form-control-plaintext fw-normal py-0" value="" readonly>
 
 
                                                     <input type="text" id="orden_color"
-                                                        class="form-control-plaintext fw-normal py-0" value=""
-                                                        readonly>
+                                                        class="form-control-plaintext fw-normal py-0" value="" readonly>
 
 
                                                     <input type="text" id="orden_motor"
-                                                        class="form-control-plaintext fw-normal py-0" value=""
-                                                        readonly>
+                                                        class="form-control-plaintext fw-normal py-0" value="" readonly>
 
                                                 </div>
                                                 <input type="hidden" id="revision_tecnica_vehicular_TURNO"
@@ -253,27 +248,27 @@
                                                         if (verificacionImprontasInput.value.trim() === 'SI') {
                                                             inputImprontas.value = '- VERIFICACIÓN Y EXTRACCIÓN DE IMPRONTAS';
                                                         } else {
-                                                            inputImprontas.value = ''; 
+                                                            inputImprontas.value = '';
                                                         }
 
                                                         // Verificar y asignar para Cambio de Servicio
                                                         if (cambioServicioInput.value.trim() === 'SI') {
                                                             inputCambioServicio.value = '- CAMBIO DE SERVICIO';
                                                         } else {
-                                                            inputCambioServicio.value = ''; 
+                                                            inputCambioServicio.value = '';
                                                         }
                                                         // Verificar y asignar para Cambio de Servicio
                                                         if (cambioColorInput.value.trim() === 'SI') {
                                                             inputCambioColor.value = '- CAMBIO DE COLOR';
                                                         } else {
-                                                            inputCambioColor.value = ''; 
+                                                            inputCambioColor.value = '';
                                                         }
 
                                                         // Verificar y asignar para Cambio de Servicio
                                                         if (cambioMotorInput.value.trim() === 'SI') {
                                                             inputCambioMotor.value = '- CAMBIO DE MOTOR';
                                                         } else {
-                                                            inputCambioMotor.value = ''; 
+                                                            inputCambioMotor.value = '';
                                                         }
                                                     }
                                                     evaluarYAsignarValores();
@@ -307,10 +302,31 @@
 
                         <h1 class="fw-semibold mb-4 mt-4 text-start text-center text-black">SOLICITUD DEL SERVICIO</h1>
 
-                        <h6 class="fw-normal mb-3 mt-1 text-start text-end text-black">15 de julio de 2024</h6>
+                        <h6 id="fecha-actual" class="fw-normal mb-3 mt-1 text-start text-end text-black"></h6>
 
-                        <h6 class="fw-normal mb-1 mt-1 text-start text-black"><%= empresa.nombre_representante_empresa %></h6>
-                        <h6 class="fw-semibold mb-1 mt-1 text-start text-black"><%= empresa.cargo_representante_empresa %>
+                        <script>
+
+                            function obtenerFechaActual() {
+                                const meses = [
+                                    "enero", "febrero", "marzo", "abril", "mayo", "junio",
+                                    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+                                ];
+                                const hoy = new Date();
+                                const dia = hoy.getDate();
+                                const mes = meses[hoy.getMonth()];
+                                const anio = hoy.getFullYear();
+
+                                return `${dia} de ${mes} del ${anio}`;
+                            }
+
+                            document.getElementById('fecha-actual').textContent = obtenerFechaActual();
+                        </script>
+
+                        <h6 class="fw-normal mb-1 mt-1 text-start text-black">
+                            <%= empresa.nombre_representante_empresa %>
+                        </h6>
+                        <h6 class="fw-semibold mb-1 mt-1 text-start text-black">
+                            <%= empresa.cargo_representante_empresa %>
                         </h6>
                         <h6 class="fw-normal mb-1 mt-1 text-start text-black">De mi considreación</h6>
 
@@ -332,7 +348,7 @@
 
                             <div class="d-flex  border-bottom">
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0">
@@ -351,7 +367,7 @@
                                     </div>
                                 </li>
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0">
@@ -371,10 +387,10 @@
                                 </li>
                             </div>
 
-                         
+
                             <div class="d-flex  border-bottom">
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0 text-nowrap">
@@ -394,7 +410,7 @@
                                     </div>
                                 </li>
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0 text-nowrap">
@@ -416,7 +432,7 @@
 
                             <div class="d-flex border-bottom">
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0 text-nowrap">
@@ -436,7 +452,7 @@
                                     </div>
                                 </li>
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0">
@@ -458,7 +474,7 @@
 
                             <div class="d-flex">
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0">
@@ -478,7 +494,7 @@
                                     </div>
                                 </li>
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0">
@@ -521,7 +537,7 @@
 
                             <div class="d-flex">
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0">
@@ -563,7 +579,7 @@
 
                             <div class="d-flex">
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0">
@@ -583,7 +599,7 @@
                                     </div>
                                 </li>
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-four-card">
+                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0">
@@ -642,7 +658,7 @@
                                 </li>
                             </div>
 
-                            
+
                             <div class="d-flex ">
                                 <li class="list-group-item col-6  px-2 py-0">
                                     <div class="row">

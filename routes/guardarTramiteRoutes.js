@@ -167,33 +167,36 @@ router.post('/guardar-tramite-turno', async (req, res) => {
 
       if (tipo_tramite === 'EMISION DE MATRICULA POR PRIMERA VEZ') {
         let ramw = tramite.ramw;
-
+      
         if (!ramw) {
           console.error("El campo 'ramw' no está definido en el objeto 'tramite'.");
         } else {
           try {
             // Buscar el vehículo por RAMW
             const vehiculo2 = await Vehiculo.findOne({ where: { ramw } });
-
+      
             if (vehiculo2) {
-              console.log(`Vehículo encontrado - RAMW: ${vehiculo2.ramw}, Placa actual: ${vehiculo2.placa}`);
-              console.log(`Nueva placa a asignar: ${placaMayus}`);
-
+              console.error("--------EMISION DE MATRICULA POR PRIMERA VEZ--------.");
+              //console.log(`-----vehiculo2:`, vehiculo2);
+              console.log(`-----Vehículo encontrado - RAMW: ${vehiculo2.ramw}, Placa actual: ${vehiculo2.placa}`);
+              console.log(`-----Nueva placa a asignar: ${placaMayus}`);
+      
               // Verificar si la nueva placa ya existe
               const existePlaca = await Vehiculo.findOne({ where: { placa: placaMayus } });
               if (existePlaca) {
                 throw new Error(`La placa "${placaMayus}" ya está en uso.`);
               }
+      
+              // Actualizar directamente la placa
+              await Vehiculo.update(
+                { placa: placaMayus },
+                { where: { placa: vehiculo2.placa } }
+              );
 
-              // Eliminar el registro antiguo y crear uno nuevo
-              await Vehiculo.destroy({ where: { placa: vehiculo2.placa } });
-              await Vehiculo.create({
-                placa: placaMayus,
-                ramw: vehiculo2.ramw,
-                // Añade aquí los demás campos si es necesario
-              });
-
-              console.log(`Placa actualizada correctamente a: ${placaMayus}`);
+              //console.log(`-----vehiculo2:`, vehiculo2);
+      
+              console.log(`------Placa actualizada correctamente a: ${placaMayus}`);
+              console.log(`-----vehiculo2`, vehiculo2.ramw);
             } else {
               console.warn(`No se encontró un vehículo asociado al RAMW: ${ramw}`);
             }
@@ -202,22 +205,25 @@ router.post('/guardar-tramite-turno', async (req, res) => {
           }
         }
       }
-
-
-
-
+      
+      
 
       console.log('Verificando si el vehículo ya existe');
       let vehiculo = await Vehiculo.findOne({ where: { placa } });
       if (vehiculo) {
+        //console.log(`-----vehiculo 1: despues de verificar si exiet`, vehiculo);
         await updateVehiculo({
           id_usuario, nombre_usuario, canton_usuario, celular_usuario, email_usuario,
           placa, clase_vehiculo_tipo, clase_vehiculo, clase_transporte, fecha_ultimo_proceso,
           id_funcionario, username, id_centro_matriculacion, id_empresa, nombre_corto_empresa
         });
+        //let vehiculo4 = await Vehiculo.findOne({ where: { placa } });
+
+        //console.log(`-----vehiculo 2: despues de verificar si exiet`, vehiculo4);
         await updateTramite_placa({
           id_tramite, placa
         });
+
       } else {
         await createVehiculo({
           id_usuario, nombre_usuario, canton_usuario, celular_usuario, email_usuario,

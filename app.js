@@ -321,7 +321,7 @@ app.get('/matriculacion/registro-por-turno', async (req, res) => {
           }
         },
         order: [['id_tramite', 'DESC']],
-        limit: 6
+        limit: 5
       });
 
       registrosTabla1.forEach(tramite => {
@@ -354,7 +354,7 @@ app.get('/matriculacion/registro-por-turno', async (req, res) => {
           }
         },
         order: [['id_tramite', 'DESC']],
-        limit: 6
+        limit: 5
       });
 
       registrosTabla2.forEach(tramite => {
@@ -483,7 +483,7 @@ app.get('/matriculacion/registro-diario', async (req, res) => {
           }
         },
         order: [['id_tramite', 'DESC']],
-        limit: 6
+        limit: 5
       });
 
       registrosTabla1.forEach(tramite => {
@@ -517,7 +517,7 @@ app.get('/matriculacion/registro-diario', async (req, res) => {
           }
         },
         order: [['id_tramite', 'DESC']],
-        limit: 6
+        limit: 5
       });
 
       registrosTabla2.forEach(tramite => {
