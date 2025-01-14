@@ -1101,7 +1101,7 @@ app.post('/matriculacion/informacion/reportes/reporte-informacion-pdf', async (r
     res.status(500).send('Error al obtener los registros');
   }
 });
-app.post('/matriculacion/informacion/reportes/reporte-informacion-detallado-pdf', async (req, res) => {
+app.post('/matriculacion/informacion/reportes/reporte-informacion-detalle', async (req, res) => {
   try {
 
     if (req.session.user) {
@@ -1109,7 +1109,7 @@ app.post('/matriculacion/informacion/reportes/reporte-informacion-detallado-pdf'
       const fecha_ingreso_PDF = req.body.fecha_ingreso_pdf;
       const fecha_final_PDF = req.body.fecha_final_pdf;
 
-      res.render('matriculacion/informacion/reportes/reporte-informacion-detallado-pdf', {
+      res.render('matriculacion/informacion/reportes/reporte-informacion-detalle', {
         userData: req.session.user, fecha_final_PDF, fecha_ingreso_PDF, permisos: req.session.permisos
       });
 
