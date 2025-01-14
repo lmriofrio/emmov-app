@@ -37,7 +37,7 @@ router.post('/ingresar-placa-individual', async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'Placa ingresada con éxito',
-      redirectUrl: `/inventario-placas/placa-ingresada-unidad?id_inventario=${nuevaPlaca.id_inventario}`
+      redirectUrl: `/inventario-placas/ingreso-placas/placa-ingresada-unidad?id_inventario=${nuevaPlaca.id_inventario}`
     });
 
 
@@ -110,7 +110,7 @@ router.post('/ingresar-placa-lotes', async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'Placas ingresadas con éxito',
-      redirectUrl: `/inventario-placas/placa-ingresada-lotes?clase_vehiculo=${clase_vehiculo}&clase_transporte=${clase_transporte}&ubicacion=${ubicacion}&nombre_corto_empresa=${nombre_corto_empresa}&ingreso_username=${ingreso_username}&ingreso_fecha=${ingreso_fecha}&cantidad=${cantidad}&cantidadGenerar=${cantidadGenerar}&placasGeneradas=${placasGeneradas}`,
+      redirectUrl: `/inventario-placas/ingreso-placas/placa-ingresada-lotes?clase_vehiculo=${clase_vehiculo}&clase_transporte=${clase_transporte}&ubicacion=${ubicacion}&nombre_corto_empresa=${nombre_corto_empresa}&ingreso_username=${ingreso_username}&ingreso_fecha=${ingreso_fecha}&cantidad=${cantidad}&cantidadGenerar=${cantidadGenerar}&placasGeneradas=${placasGeneradas}`,
     });
 
 
@@ -129,18 +129,26 @@ router.post('/buscar-placa-inventario', async (req, res) => {
 
   console.log('Placa recibida:', placa);
 
+
+  const validarPlaca = (placa) => {
+    const patronPlaca = /^[A-Z0-9]{1,7}$/;
+    if (!placa || placa.length > 7 || !patronPlaca.test(placa)) {
+      throw new Error('La placa ingresada no es válida.');
+    }
+  };
+
   try {
+    validarPlaca(placa); // Aplicar validación
     const placaInventario = await InventarioPlacas.findAll({ where: { placa } });
 
     if (placaInventario && placaInventario.length > 0) {
       res.json({ success: true, placaInventario });
-
     } else {
       res.json({ success: false, message: 'Placa no encontrada' });
     }
   } catch (error) {
-    console.error('Error al consultar en la ruta:', error);
-    res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    console.error('Error al consultar en la ruta:', error.message);
+    res.status(400).json({ success: false, message: error.message });
   }
 });
 

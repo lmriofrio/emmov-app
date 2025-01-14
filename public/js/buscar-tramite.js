@@ -253,7 +253,7 @@ $(document).ready(function () {
     $('#consultarVehiculo').click(function () {
         const placa = $('input[name="placa"]').val();
 
-
+        $('#overlay').addClass('active');
         $.ajax({
             type: 'GET',
             url: '/buscar-tramite-filtro',
@@ -488,12 +488,13 @@ $(document).ready(function () {
                     $('#tipo_vehiculo').text(response.vehiculo.tipo_vehiculo);
 
                   
-
+                    $('#overlay').removeClass('active');
                 } else {
 
 
                     $('#sinResultados').removeClass('d-none');
                     $('#content').addClass('d-none');
+                    $('#overlay').removeClass('active');
                     mostrarAlerta('Vehículo no encontrado', 'danger');
                 }
             },
@@ -919,6 +920,8 @@ $(document).ready(function () {
       }
 
       let id_usuario = identificación;
+
+      $('#overlay').addClass('active');
   
       $.ajax({
         type: 'POST',
@@ -936,6 +939,7 @@ $(document).ready(function () {
   
           if (response.success) {
 
+            $('#sinResultados').addClass('d-none');
             $('#content').removeClass('d-none');
 
             $('#ConsultaPersona_tipo_id_usuario').text(response.usuario.tipo_id_usuario);
@@ -954,10 +958,14 @@ $(document).ready(function () {
             $('#celular_usuario').val(response.usuario.celular_usuario);
             $('#email_usuario').val(response.usuario.email_usuario);
             $('#provincia_usuario').trigger('change');
-  
-            
+
+            $('#overlay').removeClass('active');
   
           } else {
+
+            $('#sinResultados').removeClass('d-none');
+            $('#content').addClass('d-none');
+            $('#overlay').removeClass('active');
             mostrarAlerta('Usuario no encontrado.', 'warning');
           }
         },
