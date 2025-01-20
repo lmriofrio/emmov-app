@@ -1676,7 +1676,7 @@ document.addEventListener('DOMContentLoaded', function () {
     previewCard.innerHTML = `
               <div class="card">
                 <div class="px-4 py-3">
-                  <h5 class="text-black fw-semibold text-start">Visualización de ingreso</h5>
+                  <h5 class="text-black fw-semibold text-start">2.- Visualización de ingreso</h5>
                   <hr>
                   <div class="py-0">
                     <div class="row">

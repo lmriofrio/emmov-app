@@ -13,11 +13,15 @@ router.post('/ingresar-placa-individual', async (req, res) => {
     const { clase_vehiculo, clase_transporte, cantidad } = req.body;
     let { placa, ubicacion, ingreso_fecha } = req.body;
 
+    console.log('POR ENTREGAR',ingreso_fecha );
+
     placa = placa.toUpperCase();
     ubicacion = ubicacion.toUpperCase();
 
     let { ChangeDay } = getChangeDay(ingreso_fecha);
     ingreso_fecha = ChangeDay;
+
+    console.log('POR ENTREGAR', ingreso_fecha );
 
     const ingreso_id_funcionario = id_funcionario;
     const ingreso_funcionario = nombre_funcionario;
@@ -125,7 +129,8 @@ router.post('/ingresar-placa-lotes', async (req, res) => {
 
 
 router.post('/buscar-placa-inventario', async (req, res) => {
-  const { placa } = req.body;
+  let { placa } = req.body;
+  placa = placa.toUpperCase();
 
   console.log('Placa recibida:', placa);
 
@@ -138,9 +143,10 @@ router.post('/buscar-placa-inventario', async (req, res) => {
   };
 
   try {
-    validarPlaca(placa); // Aplicar validación
+    validarPlaca(placa);
     const placaInventario = await InventarioPlacas.findAll({ where: { placa } });
-
+    //console.log('Placa  encontrada', placaInventario );
+ 
     if (placaInventario && placaInventario.length > 0) {
       res.json({ success: true, placaInventario });
     } else {
@@ -151,6 +157,28 @@ router.post('/buscar-placa-inventario', async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 });
+
+
+router.get('/buscar-placa-id-inventario', async (req, res) => {
+  let { id_inventario } = req.query;
+  
+  console.log('ID Inventario recibido:', id_inventario);
+
+  try {
+    const placaInventario = await InventarioPlacas.findOne({ where: { id_inventario } });
+
+    if (placaInventario) {
+      res.json({ success: true, placaInventario });
+    } else {
+      res.json({ success: false, message: 'Placa no encontrada' });
+    }
+  } catch (error) {
+    console.error('Error al consultar la placa con id:', id_inventario, error.message);
+    res.status(400).json({ success: false, message: error.message });
+  }
+});
+
+
 
 
 

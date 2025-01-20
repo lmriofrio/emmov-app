@@ -120,7 +120,7 @@ $(document).ready(function () {
                             <td class="text-center">${numeroFila}</td>
                             <td class="text-center">${tramite.id_tramite}</td>
                             <td class="text-center">${tramite.placa}</td>
-                            <td class="text-overflow-13">${tramite.tipo_tramite}</td>
+                            <td class="text-overflow-12">${tramite.tipo_tramite}</td>
                             <td class="text-center">${fechaIngresoFormateada}</td>
                             <td class="text-center text-overflow-4 ${estadoFont}">${tiempoEspera}</td>
                             <td class="text-center text-overflow-1">${tramite.numero_turno_INFORMACION}</td>
@@ -397,7 +397,7 @@ $(document).ready(function () {
                             <td class="text-center">${numeroFilaG}</td>
                             <td class="text-center">${tramite.id_tramite}</td>
                             <td class="text-center">${tramite.placa}</td>
-                            <td class="text-overflow-13">${tramite.tipo_tramite}</td>
+                            <td class="text-overflow-12">${tramite.tipo_tramite}</td>
                             <td class="text-center">${fechaIngresoFormateada}</td>
                             <td class="text-center text-overflow-4 ${estadoFont}">${tiempoEspera}</td>
                             <td class="text-center text-overflow-1">${tramite.numero_turno_INFORMACION}</td>

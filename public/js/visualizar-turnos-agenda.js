@@ -14,12 +14,12 @@ $(document).ready(function () {
 
                 let numeroFila = 1;
                 response.tramitesHoy.forEach(tramite => {
-                    
+
                     const fechaIngresoOriginal = tramite.fecha_ingreso_INFORMACION;
                     const fechaIngreso = new Date(fechaIngresoOriginal);
                     fechaIngreso.setHours(fechaIngreso.getHours() + 5);
 
-                    
+
                     const diaIngreso = fechaIngreso.getDate().toString().padStart(2, '0');
                     const mesIngreso = (fechaIngreso.getMonth() + 1).toString().padStart(2, '0');
                     const añoIngreso = fechaIngreso.getFullYear();
@@ -45,7 +45,7 @@ $(document).ready(function () {
                         tiempoEspera = `${diferenciaHorass} horas ${diferenciaMinutoss} min.`;
 
                     } else {
-                        
+
                         const fechaActual = new Date();
                         const diferenciaMs = fechaActual - fechaIngreso;
                         const diferenciaHoras = Math.floor(diferenciaMs / (1000 * 60 * 60));
@@ -56,6 +56,7 @@ $(document).ready(function () {
 
                     let estadoClass = '';
                     let estadoFont = '';
+                    let estadoText = '';
                     let opcionesHabilitadas = [];
 
                     opcionesHabilitadas.push(`
@@ -71,10 +72,12 @@ $(document).ready(function () {
                     if (tramite.estado_tramite === 'Finalizado') {
                         estadoClass = 'bg-info';
                         estadoFont = 'fw-normal';
+                        estadoText = 'text-dark';
 
                     } else if (tramite.estado_tramite === 'En proceso') {
                         estadoClass = 'bg-wait';
                         estadoFont = 'fw-semibold';
+                        estadoText = 'text-blue';
 
                         opcionesHabilitadas.push(`
                             <li>
@@ -130,14 +133,14 @@ $(document).ready(function () {
                         <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
                             <td class="text-center">${numeroFila}</td>
                             <td class="text-center">${tramite.id_tramite}</td>
-                            <td class="text-center fw-semibold text-blue">
-                                <a href="#" class="text-blue atenderTramite"
+                            <td class="text-center fw-semibold ${estadoText}">
+                                <a href="#" class="atenderTramite"
                                     id="editar-${tramite.id_tramite}"
                                     data-id-tramite="${tramite.id_tramite}">
                                     ${tramite.placa}
                                 </a>
                             </td>
-                            <td class="text-overflow-13">${tramite.tipo_tramite}</td>
+                            <td class="text-overflow-12">${tramite.tipo_tramite}</td>
                             <td class="text-center">${fechaIngresoFormateada}</td>
                             <td class="text-center text-overflow-4 ${estadoFont}">${tiempoEspera}</td>
                             <td class="text-center text-overflow-1">${tramite.numero_turno_INFORMACION}</td>
@@ -211,28 +214,28 @@ $(document).ready(function () {
                             }
                         });
                     });
-                     /*
-                    $('#tbody-tramites').on('click', '.editarTramite', function () {
-                        const idTramite = $(this).data('id-tramite');
-                        $.ajax({
-                            type: 'GET',
-                            url: `/buscar-tramite-id`,
-                            data: { idTramite },
-                            success: function (response) {
-                                if (response.success) {
-                                    window.location.href = `/matriculacion/informacion/editar-turno?id_tramite=${idTramite}`;
-                                } else {
-                                    alert('Error: no se pudo obtener la información del trámite.');
-                                }
-                            },
-                            error: function (error) {
-                                console.error('Error al obtener detalles del trámite:', error);
-                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
-                            }
-                        });
-                    });
-                
-                      */
+                    /*
+                   $('#tbody-tramites').on('click', '.editarTramite', function () {
+                       const idTramite = $(this).data('id-tramite');
+                       $.ajax({
+                           type: 'GET',
+                           url: `/buscar-tramite-id`,
+                           data: { idTramite },
+                           success: function (response) {
+                               if (response.success) {
+                                   window.location.href = `/matriculacion/informacion/editar-turno?id_tramite=${idTramite}`;
+                               } else {
+                                   alert('Error: no se pudo obtener la información del trámite.');
+                               }
+                           },
+                           error: function (error) {
+                               console.error('Error al obtener detalles del trámite:', error);
+                               alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
+                           }
+                       });
+                   });
+               
+                     */
 
                     $('#tbody-tramites').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
@@ -333,12 +336,12 @@ $(document).ready(function () {
 
                 let numeroFilaG = 1;
                 response.tramitesPendientes.forEach(tramite => {
-                    
+
                     const fechaIngresoOriginal = tramite.fecha_ingreso_INFORMACION;
                     const fechaIngreso = new Date(fechaIngresoOriginal);
                     fechaIngreso.setHours(fechaIngreso.getHours() + 5);
 
-                    
+
                     const diaIngreso = fechaIngreso.getDate().toString().padStart(2, '0');
                     const mesIngreso = (fechaIngreso.getMonth() + 1).toString().padStart(2, '0');
                     const añoIngreso = fechaIngreso.getFullYear();
@@ -364,7 +367,7 @@ $(document).ready(function () {
                         tiempoEspera = `${diferenciaHorass} horas ${diferenciaMinutoss} min.`;
 
                     } else {
-                        
+
                         const fechaActual = new Date();
                         const diferenciaMs = fechaActual - fechaIngreso;
                         const diferenciaHoras = Math.floor(diferenciaMs / (1000 * 60 * 60));
@@ -457,7 +460,7 @@ $(document).ready(function () {
                                     ${tramite.placa}
                                 </a>
                             </td>
-                            <td class="text-overflow-13">${tramite.tipo_tramite}</td>
+                            <td class="text-overflow-12">${tramite.tipo_tramite}</td>
                             <td class="text-center">${fechaIngresoFormateada}</td>
                             <td class="text-center text-overflow-4 ${estadoFont}">${tiempoEspera}</td>
                             <td class="text-center text-overflow-1">${tramite.numero_turno_INFORMACION}</td>
@@ -648,12 +651,12 @@ $(document).ready(function () {
 
                 let numeroFilaE = 1;
                 response.tramitesPendientesEmpresa.forEach(tramite => {
-                    
+
                     const fechaIngresoOriginal = tramite.fecha_ingreso_INFORMACION;
                     const fechaIngreso = new Date(fechaIngresoOriginal);
                     fechaIngreso.setHours(fechaIngreso.getHours() + 5);
 
-                    
+
                     const diaIngreso = fechaIngreso.getDate().toString().padStart(2, '0');
                     const mesIngreso = (fechaIngreso.getMonth() + 1).toString().padStart(2, '0');
                     const añoIngreso = fechaIngreso.getFullYear();
@@ -663,7 +666,7 @@ $(document).ready(function () {
 
                     let tiempoEspera = '';
                     if (tramite.fecha_finalizacion) {
-                        
+
                         const fechaFinalizacionOriginal = tramite.fecha_finalizacion;
                         const fechaFinalizacion = new Date(fechaFinalizacionOriginal);
                         fechaFinalizacion.setHours(fechaFinalizacion.getHours() + 5);
@@ -676,7 +679,7 @@ $(document).ready(function () {
 
                         tiempoEspera = `Finalizado el ${diaFinalizacion}-${mesFinalizacion}-${añoFinalizacion} ${horaFinalizacion}:${minutosFinalizacion}`;
                     } else {
-                        
+
                         const fechaActual = new Date();
                         const diferenciaMs = fechaActual - fechaIngreso;
                         const diferenciaHoras = Math.floor(diferenciaMs / (1000 * 60 * 60));
@@ -738,7 +741,7 @@ $(document).ready(function () {
                             <td class="text-center">${numeroFilaE}</td>
                             <td class="text-center">${tramite.id_tramite}</td>
                             <td class="text-center">${tramite.placa}</td>
-                            <td class="text-overflow-13">${tramite.tipo_tramite}</td>
+                            <td class="text-overflow-12">${tramite.tipo_tramite}</td>
                             <td class="text-center">${fechaIngresoFormateada}</td>
                             <td class="text-center text-overflow-4 fw-semibold">${tiempoEspera}</td>
                             <td class="text-center text-overflow-1">${tramite.numero_turno_INFORMACION}</td>

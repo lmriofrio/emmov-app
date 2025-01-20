@@ -29,32 +29,41 @@ $(document).ready(function () {
           let numeroFila = 1;
           response.placaInventario.forEach(placaInventario => {
 
-            const fechaIngresoOriginal = placaInventario.salida_fecha;
-            const fechaIngreso = new Date(fechaIngresoOriginal);
-            fechaIngreso.setHours(fechaIngreso.getHours() + 5);
+            let fechaSalidaFormateada;
+            let fechaSalidaFormateada2;
+            if (placaInventario.salida_fecha != null) {
+              fechaIngresoOriginal = placaInventario.salida_fecha;
+              const fechaIngreso = new Date(fechaIngresoOriginal);
+              fechaIngreso.setHours(fechaIngreso.getHours() + 5);
 
-            const diaIngreso = fechaIngreso.getDate().toString().padStart(2, '0');
-            const mesIngreso = (fechaIngreso.getMonth() + 1).toString().padStart(2, '0');
-            const añoIngreso = fechaIngreso.getFullYear();
-            const horaIngreso = fechaIngreso.getHours().toString().padStart(2, '0');
-            const minutosIngreso = fechaIngreso.getMinutes().toString().padStart(2, '0');
-            const fechaSalidaFormateada = `${diaIngreso}-${mesIngreso}-${añoIngreso} ${horaIngreso}:${minutosIngreso}`;
+              const diaIngreso = fechaIngreso.getDate().toString().padStart(2, '0');
+              const mesIngreso = (fechaIngreso.getMonth() + 1).toString().padStart(2, '0');
+              const añoIngreso = fechaIngreso.getFullYear();
+              const horaIngreso = fechaIngreso.getHours().toString().padStart(2, '0');
+              const minutosIngreso = fechaIngreso.getMinutes().toString().padStart(2, '0');
+              const segundosIngreso = fechaIngreso.getSeconds().toString().padStart(2, '0');
+              fechaSalidaFormateada = `${diaIngreso}-${mesIngreso}-${añoIngreso} ${horaIngreso}:${minutosIngreso}`;
+              fechaSalidaFormateada2 = `${añoIngreso}-${mesIngreso}-${diaIngreso} ${horaIngreso}:${minutosIngreso}:${segundosIngreso}`;
+            }
+
 
             let opcionesHabilitadas = [];
+            let estadoText = '';
+            let estadoFont = '';
 
             opcionesHabilitadas.push(`
               <li>
                   <a class="dropdown-item visualizarTramite text-black" href="#" 
                      id="${placaInventario.id_inventario}" 
-                     data-id-inventario="${placaInventario.id_inventario}"
+                     data-id_inventario="${placaInventario.id_inventario}"
                      data-username="">
                      Visualizar
                   </a>
               </li>
               <li>
-                  <a class="dropdown-item visualizarTramite text-black" href="#" 
+                  <a class="dropdown-item ModificarTramite text-black" href="#" 
                      id="${placaInventario.id_inventario}" 
-                     data-id-inventario="${placaInventario.id_inventario}"
+                     data-id_inventario="${placaInventario.id_inventario}"
                      data-username="">
                      Modificar registro
                   </a>
@@ -63,30 +72,31 @@ $(document).ready(function () {
             `);
 
             if (placaInventario.estado === 'ENTREGADO') {
+              estadoFont = 'fw-normal';
 
               opcionesHabilitadas.push(`
                 <li>
-                                            <a class="dropdown-item imprimirActa text-black" href="#"
-                                                data-salida-id-funcionario="1105205775"
-                                                data-salida-fecha="2025-01-11T21:38:00.000Z"
-                                                data-salida-tipo-entrega="ENTREGA GRUPAL"
-                                                data-solicitante-id="1950131811" data-salida-acta="3"
-                                                data-salida-nombre-puesto-funcionario="ASISTENTE DE INFORMACIÓN Y ACTUALIZACIÓN DE DATOS">
-                                                Imprimir acta
-                                            </a>
-
+                <a class="dropdown-item imprimirActa text-black" href="#"
+                data-salida-id-funcionario="${placaInventario.salida_id_funcionario}"
+                data-salida-fecha="${fechaSalidaFormateada2}"
+                data-salida-tipo-entrega="${placaInventario.salida_tipo_entrega}"
+                data-solicitante-id="${placaInventario.solicitante_id}"
+                data-salida-acta="${placaInventario.salida_acta}"
+                data-salida-nombre-puesto-funcionario="${placaInventario.salida_nombre_puesto_funcionario}">
+                Imprimir acta
+                </a>
                 </li>
                 `);
             } else if (placaInventario.estado === 'POR ENTREGAR') {
+              estadoText = 'text-blue';
+              estadoFont = 'fw-semibold';
             }
-
             const opcionesMenu = opcionesHabilitadas.join('');
 
             const newRow = `
                     <tr  style="border-style: none; border-bottom: 1px solid #dddee4;">
                         <td class="text-center text-overflow-1">${numeroFila}</td>
-                        
-                        <td class="text-center text-blue fw-semibold text-overflow-2">${placaInventario.placa}</td>
+                        <td class="text-center ${estadoFont} ${estadoText} text-overflow-2">${placaInventario.placa}</td>
                         <td class="text-center text-overflow-2 text-nowrap" >${placaInventario.clase_transporte}</td>
                         <td class="text-center text-overflow-2">${placaInventario.clase_vehiculo}</td>
                         <td class="text-center text-overflow-2">${placaInventario.cantidad}</td>
@@ -124,6 +134,32 @@ $(document).ready(function () {
 
             window.location.href = url;
           });
+
+          $('#tbody-tramites').on('click', '.visualizarTramite', function () {
+            const id_inventario = $(this).data('id_inventario');
+            console.info('id-inventario', id_inventario);
+
+            $.ajax({
+              type: 'GET',
+              url: `/buscar-placa-id-inventario`,
+              data: { id_inventario },
+              success: function (response) {
+                if (response.success) {
+                  $('#visualizar_id_tramite').val(response.tramite.id_tramite);
+                  $('#placaVisualizar').val(response.tramite.placa);
+                  $('#tipo_tramiteVisualizar').val(response.tramite.tipo_tramite);
+                  $('#permisosModal2').modal('show');
+                } else {
+                  alert('Error: no se pudo obtener la información del trámite.');
+                }
+              },
+              error: function (error) {
+                console.error('Error al obtener detalles del trámite:', error);
+                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
+              }
+            });
+          });
+
 
 
         } else {

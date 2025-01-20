@@ -81,6 +81,7 @@ router.post('/act-tramite', async (req, res) => {
     if (tramite) {
 
       console.log('Trámite encontrado. Actualizando campos...');
+      console.log('Trámite encontrado. Actualizando campos...', pago_placas_valor);
       tramite.tipo_tramite = tipo_tramite;
       tramite.numero_adhesivo = numero_adhesivo;
       tramite.numero_matricula = numero_matricula;
@@ -99,7 +100,6 @@ router.post('/act-tramite', async (req, res) => {
       tramite.id_tramite_axis = id_tramite_axis;
       tramite.pago_placas_comprobante = pago_placas_comprobante;
       tramite.pago_placas_newservicio = pago_placas_newservicio;
-      tramite.pago_placas_valor = pago_placas_valor;
       tramite.pago_placas_fecha = pago_placas_fecha;
       tramite.fecha_final_PRESENTACION = fecha_ingreso;
 
@@ -113,13 +113,13 @@ router.post('/act-tramite', async (req, res) => {
       } else {
         tramite.pago_placas_valor = parseFloat(pago_placas_valor);
       }
+      
       if (pago_placas_fecha && pago_placas_fecha !== 'Invalid date') {
         tramite.pago_placas_fecha = pago_placas_fecha;
       } else {
         tramite.pago_placas_fecha = null;
       }
-
-      tramite.pago_placas_valor = pago_placas_valor;
+      
 
       await tramite.save();
 

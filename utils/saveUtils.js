@@ -342,7 +342,6 @@ async function createTramite({
     const motivo_especie_anuladaUpper = (motivo_especie_anulada || '').toUpperCase();
 
     console.log('------  Creando el nuevo trámite desde saveUtils  -------');
-    console.log('------  Creando el nuevo trámite desde saveUtils  -------',revision_tecnica_vehicular_TURNO, );
 
     const nuevoTramite = await Tramite.create({
         id_tramite_axis,

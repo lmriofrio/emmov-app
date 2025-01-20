@@ -71,11 +71,11 @@ function getChangeDate( fecha_inicial, fecha_final) {
 
 /// Cambia una fecha
 function getChangeDay(fecha_inicial) {
-    console.log('Ingresa', fecha_inicial);
+    console.log('Ingresaaa', fecha_inicial);
 
     const DateStart = new Date(fecha_inicial);
 
-    DateStart.setHours(DateStart.getHours() + 5);
+    DateStart.setHours(DateStart.getHours());
 
     const year = DateStart.getFullYear();
     const month = String(DateStart.getMonth() + 1).padStart(2, '0');
@@ -85,17 +85,35 @@ function getChangeDay(fecha_inicial) {
 
     let ChangeDay = `${year}-${month}-${day} ${hours}:${minutes}`;
 
-    console.log('Salida', ChangeDay);
+    console.log('Salidaaa', ChangeDay);
+
+    return { ChangeDay };
+}
+
+/// Cambia una fecha (+5)
+function getChangeDay5(fecha_inicial) {
+    console.log('Ingresaaa', fecha_inicial);
+
+    const DateStart = new Date(fecha_inicial);
+
+    DateStart.setHours(DateStart.getHours()+5);
+
+    const year = DateStart.getFullYear();
+    const month = String(DateStart.getMonth() + 1).padStart(2, '0');
+    const day = String(DateStart.getDate()).padStart(2, '0');
+    const hours = String(DateStart.getHours()).padStart(2, '0');
+    const minutes = String(DateStart.getMinutes()).padStart(2, '0');
+
+    let ChangeDay = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+    console.log('Salidaaa', ChangeDay);
 
     return { ChangeDay };
 }
 
 
 
-
-
-
-module.exports = { getRangeCurrentDay, getCurrentDay, getCurrentDaySimple, getChangeDate, getChangeDay };
+module.exports = { getRangeCurrentDay, getCurrentDay, getCurrentDaySimple, getChangeDate, getChangeDay, getChangeDay5 };
 
 
 

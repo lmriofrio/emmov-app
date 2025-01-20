@@ -23,7 +23,7 @@ const SeleccionarTipoTramites = require('./models/SeleccionarTipoTramites');
 const util = require('util');
 
 // Declarar funciones para poder utilizarlas
-const { getRangeCurrentDay, getCurrentDay, getCurrentDaySimple, getChangeDate, getChangeDay } = require('./utils/dateUtils');
+const { getRangeCurrentDay, getCurrentDay, getCurrentDaySimple, getChangeDate, getChangeDay, getChangeDay5 } = require('./utils/dateUtils');
 const { updateVehiculo, createVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI } = require('./utils/saveUtils');
 const { obtenerPermisosUsuario } = require('./utils/userUtils');
 
@@ -748,11 +748,11 @@ app.get('/matriculacion/gestion-tramite/edicion-tramite', async (req, res) => {
       let fecha_finalizacion = tramite.fecha_finalizacion;
 
       let fecha_inicial = fecha_ingreso;
-      let { ChangeDay: fecha_ingreso_actualizada } = getChangeDay(fecha_inicial);
+      let { ChangeDay: fecha_ingreso_actualizada } = getChangeDay5(fecha_inicial);
       fecha_ingreso = fecha_ingreso_actualizada;
       
       fecha_inicial = fecha_finalizacion;
-      let { ChangeDay: fecha_final_actualizada } = getChangeDay(fecha_inicial);
+      let { ChangeDay: fecha_final_actualizada } = getChangeDay5(fecha_inicial);
       fecha_finalizacion = fecha_final_actualizada;
       
       //console.log('Trámite no encontrado', ChangeDay);
@@ -1364,9 +1364,6 @@ app.get('/inventario-placas/entrega-placas/entregar-placa-individual', async (re
 
       numeroActa = Number(numeroActa) + 1;
 
-      console.log(numeroActa);
-
-
       if (!id_inventario) {
 
         return res.status(400).send('El parámetro id_inventario es obligatorio');
@@ -1376,11 +1373,9 @@ app.get('/inventario-placas/entrega-placas/entregar-placa-individual', async (re
 
       let fecha_inicial = placaInventario.ingreso_fecha;
 
-      let { ChangeDay } = getChangeDay(fecha_inicial);
+      let { ChangeDay } = getChangeDay5(fecha_inicial);
 
       let fecha_formateada = ChangeDay;
-
-      console.log('fecha', fecha_formateada);
 
       if (!placaInventario) {
 
@@ -1571,6 +1566,10 @@ app.get('/inventario-placas/entrega-placas/placa-entregada', async (req, res) =>
       const { salida_id_funcionario, salida_fecha, salida_tipo_entrega, solicitante_id, salida_acta, salida_nombre_puesto_funcionario } = req.query;
 
       const funcionario = await Funcionario.findOne({ where: { id_funcionario: salida_id_funcionario } });
+
+      console.log('salida_acta', salida_acta);
+      console.log('salida_fecha', salida_fecha);
+      console.log('solicitante_id', solicitante_id);
 
       const usuario = await Usuario.findOne({ where: { id_usuario: solicitante_id } });
 

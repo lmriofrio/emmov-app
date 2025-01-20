@@ -170,7 +170,7 @@
                                             <p class="form-control-plaintext mb-0 fw-normal p-0 text-nowrap"
                                                 id="format_fecha">
                                                 <%= salida_fecha %>
-                                                    <!-- Este es el valor de salida_fecha que viene desde el backend -->
+                                                    
                                             </p>
 
                                             <script>
@@ -397,15 +397,6 @@
 
 
                             <div class="d-flex ">
-                                <li class="list-group-item col-6  px-2 py-0">
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="form-control-plaintext text-uppercase mb-0 p-0 text-center">
-                                                <%= funcionario.nombre_funcionario %>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
                                 <li class="list-group-item col-6 px-2 py-0">
                                     <div class="row">
                                         <div class="col">
@@ -415,23 +406,33 @@
                                         </div>
                                     </div>
                                 </li>
-                            </div>
-
-                            <div class="d-flex ">
                                 <li class="list-group-item col-6  px-2 py-0">
                                     <div class="row">
                                         <div class="col">
-                                            <p class="form-control-plaintext mb-0 p-0 text-center fw-semibold">
-                                                FUNCIONARIO
+                                            <p class="form-control-plaintext text-uppercase mb-0 p-0 text-center">
+                                                <%= funcionario.nombre_funcionario %>
                                             </p>
                                         </div>
                                     </div>
                                 </li>
+
+                            </div>
+
+                            <div class="d-flex ">
                                 <li class="list-group-item col-6 px-2 py-0">
                                     <div class="row">
                                         <div class="col">
                                             <p class="form-control-plaintext p-0 text-center fw-semibold">
                                                 SOLICITANTE
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item col-6  px-2 py-0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-center fw-semibold">
+                                                FUNCIONARIO
                                             </p>
                                         </div>
                                     </div>

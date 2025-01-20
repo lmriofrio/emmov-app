@@ -54915,20 +54915,6 @@ input.uppercase {
     cursor: pointer;
 }
 
-#navbarDropdown {
-    background-color: none;
-    color: dark;
-    cursor: pointer;
-    border-left: 3px solid red;
-}
-
-
-#navbarDropdown:hover {
-    background-color: var(--color-primario-hover);
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-}
 
 
 
