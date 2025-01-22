@@ -103,35 +103,10 @@
                                                                 ingreso</label>
                                                             <input type="datetime-local" name="fecha_ingreso"
                                                                 class="form-control" id="fecha_ingreso"
-                                                                value="">
+                                                                value="<%= fecha_ingreso %>">
                                                         </div>
 
-                                                        <script>
-                                                            // Supongamos que recibimos la fecha de inicio desde el servidor en formato 'yyyy-mm-ddThh:mm:ss'
-                                                            const fechaInicioOriginal = fecha_ingreso;  // La variable 'fecha_inicio' que viene del servidor
-
-                                                            // Convertimos la fecha a un objeto Date
-                                                            const fechaInicio = new Date(fechaInicioOriginal);
-
-                                                            // Ajustamos la hora en caso de ser necesario (en este caso, agregamos 5 horas, pero ajusta según sea necesario)
-                                                            fechaInicio.setHours(fechaInicio.getHours() + 5);
-
-                                                            // Extraemos los componentes de la fecha ajustada
-                                                            const diaInicio = fechaInicio.getDate().toString().padStart(2, '0');
-                                                            const mesInicio = (fechaInicio.getMonth() + 1).toString().padStart(2, '0'); // Los meses inician en 0, así que sumamos 1
-                                                            const añoInicio = fechaInicio.getFullYear();
-                                                            const horaInicio = fechaInicio.getHours().toString().padStart(2, '0');
-                                                            const minutosInicio = fechaInicio.getMinutes().toString().padStart(2, '0');
-
-                                                            // Ahora armamos el formato para el input
-                                                            const fechaFormateada = `${añoInicio}-${mesInicio}-${diaInicio}T${horaInicio}:${minutosInicio}`;
-
-                                                            // Asignamos el valor formateado al input correspondiente
-                                                            document.addEventListener('DOMContentLoaded', function () {
-                                                                document.getElementById('fecha_ingreso').value = fechaFormateada;  // Asumiendo que tu input tiene el id 'inputFechaInicio'
-                                                            });
-                                                        </script>
-
+                                                        
 
                                                         <div class="mb-2">
                                                             <label for="" class="form-label fw-normal">Adhesivo</label>
@@ -141,7 +116,7 @@
                                                                 value="<%= tramite.numero_adhesivo %>">
                                                         </div>
 
-
+                                                        
                                                         <div class="mb-2">
                                                             <label for="" class="form-label fw-normal">Nº
                                                                 Fojas</label>

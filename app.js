@@ -46,6 +46,7 @@ const formatDate = dateString => {
   const options = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Guayaquil' };
   return date.toLocaleDateString('es-EC', options);
 };
+
 // Reorganizar por la funcionalidad dateUtils
 const fechaHoraServidor = new Date();
 console.log(fechaHoraServidor);
@@ -747,13 +748,16 @@ app.get('/matriculacion/gestion-tramite/edicion-tramite', async (req, res) => {
       const tramite = await Tramite.findByPk(idTramite);
       let fecha_ingreso = tramite.fecha_ingreso;
       let fecha_finalizacion = tramite.fecha_finalizacion;
+
+      let fecha_inicial = fecha_ingreso;
+      let { ChangeDay: fecha_ingreso_actualizada } = getChangeDay5(fecha_inicial);
+      fecha_ingreso = fecha_ingreso_actualizada;
       
       fecha_inicial = fecha_finalizacion;
-      let { ChangeDay} = getChangeDay(fecha_inicial);
-      fecha_finalizacion = ChangeDay;
+      let { ChangeDay: fecha_final_actualizada } = getChangeDay5(fecha_inicial);
+      fecha_finalizacion = fecha_final_actualizada;
       
-      console.log('Trámite no encontrado', fecha_ingreso);
-      console.log('Trámite no encontrado', fecha_finalizacion);
+      //console.log('Trámite no encontrado', ChangeDay);
 
       const selectorTramites = new SeleccionarTipoTramites();
       const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
