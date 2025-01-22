@@ -399,6 +399,52 @@ router.get('/exportar-datos', async (req, res) => {
     }
 });
 
+router.get('/exportar-datos-informacion', async (req, res) => {
+
+    const { fecha_inicial, fecha_final} = req.query;
+
+    const id_funcionario = req.session.user.id_funcionario;
+
+    console.log('Entro a la ruta de exportar');
+    console.log('Fecha de ingreso recibida:', fecha_inicial);
+    console.log('Fecha final recibida:', fecha_final);
+    console.log('id_funcionario recibida:', id_funcionario);
+
+    if (!fecha_inicial || !fecha_final) {
+        return res.status(400).json({ success: false, message: 'Por favor ingresa fechas válidas.' });
+    }
+
+    const { startOfDay, endOfDay } = getChangeDate(fecha_inicial, fecha_final);
+
+    try {
+        const whereClause = {
+            fecha_ingreso_INFORMACION: { [Op.between]: [startOfDay, endOfDay] },
+            id_funcionario_INFORMACION: id_funcionario,
+        };
+
+        const tramites = await Tramite.findAll({
+            attributes: [ 'fecha_ingreso_INFORMACION', 'placa', 'tipo_tramite', 'id_usuario', 'nombre_usuario',  'clase_vehiculo_tipo', 'clase_transporte', 'id_funcionario_INFORMACION', 'nombre_funcionario_INFORMACION', 'nombre_funcionario_asignado_INFORMACION', 'valor_pago_INFORMACION', 'observaciones_INFORMACION' ],
+            where: whereClause
+        });
+
+        const tramiteData = tramites.map(tramite => tramite.toJSON());
+
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils.json_to_sheet(tramiteData);
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Tramites');
+
+        const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+        res.setHeader('Content-Disposition', 'attachment; filename="Tramites-informacion.xlsx"');
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.send(buffer);
+
+    } catch (error) {
+        console.error('Error al buscar trámites:', error.message, error.stack);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
+
+
 
 module.exports = router;
 

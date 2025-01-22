@@ -1151,3 +1151,44 @@ $(document).ready(function () {
 });
 
 
+
+$(document).ready(function () {
+    $('#generarReporteInformacionEXCEL').click(function () {
+        const fecha_inicial = $('input[name="fecha_ingreso_pdf"]').val();
+        const fecha_final = $('input[name="fecha_final_pdf"]').val();
+        $('#overlay').addClass('active');
+
+        console.info(fecha_inicial, fecha_final);
+
+        $.ajax({
+            type: 'GET',
+            url: '/exportar-datos-informacion',
+            data: { fecha_inicial, fecha_final },
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (response) {
+                const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const url = window.URL.createObjectURL(blob);
+
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Tramites-informacion.xlsx';
+                document.body.appendChild(a);
+                a.click();
+
+
+                a.remove();
+                window.URL.revokeObjectURL(url);
+                $('#overlay').removeClass('active');
+            },
+            error: function (error) {
+                console.error('Error al buscar Trámite:', error);
+                alert('Error al buscar Trámite. Por favor, inténtelo de nuevo.');
+                $('#overlay').removeClass('active');
+            }
+        });
+    });
+});
+

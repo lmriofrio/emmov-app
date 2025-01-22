@@ -214,16 +214,27 @@ $(document).ready(function () {
             const diaIngreso = fechaIngreso.getDate().toString().padStart(2, '0');
             const mesIngreso = (fechaIngreso.getMonth() + 1).toString().padStart(2, '0');
             const añoIngreso = fechaIngreso.getFullYear();
-            const horaIngreso = fechaIngreso.getHours().toString().padStart(2, '0');
-            const minutosIngreso = fechaIngreso.getMinutes().toString().padStart(2, '0');
-            const fechaIngresoFormateada = `${diaIngreso}-${mesIngreso}-${añoIngreso} ${horaIngreso}:${minutosIngreso}`;
+            const fechaIngresoFormateada = `${diaIngreso}-${mesIngreso}-${añoIngreso}`;
+
+            let estadoClass = '';
+            let estadoFont = '';
+
+                                
+            if (placaInventario.estado === 'ENTREGADO') {
+              estadoClass = '';
+              estadoFont = 'fw-normal';
+
+          } else if (placaInventario.estado === 'POR ENTREGAR') {
+              estadoClass = 'text-blue';
+              estadoFont = 'fw-semibold';
+          }
 
             const newRow = `
                     <tr  style="border-style: none; border-bottom: 1px solid #dddee4;">
 
                         <td class="text-center text-overflow-3">${numeroFila}</td>
                         <td class="text-center text-overflow-3">${fechaIngresoFormateada}</td>
-                        <td class="text-center text-blue fw-semibold text-overflow-3">${placaInventario.placa}</td>
+                        <td class="text-center ${estadoClass} ${estadoFont} text-overflow-3">${placaInventario.placa}</td>
                         <td class="text-center text-overflow-3 text-nowrap" >${placaInventario.clase_transporte}</td>
                         <td class="text-center text-overflow-3">${placaInventario.clase_vehiculo}</td>
                         <td class="text-center text-overflow-2">${placaInventario.cantidad}</td>

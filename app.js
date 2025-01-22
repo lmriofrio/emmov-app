@@ -755,7 +755,8 @@ app.get('/matriculacion/gestion-tramite/edicion-tramite', async (req, res) => {
       let { ChangeDay: fecha_final_actualizada } = getChangeDay5(fecha_inicial);
       fecha_finalizacion = fecha_final_actualizada;
       
-      //console.log('Trámite no encontrado', ChangeDay);
+      console.log('Trámite no encontrado', fecha_ingreso);
+      console.log('Trámite no encontrado', fecha_finalizacion);
 
       const selectorTramites = new SeleccionarTipoTramites();
       const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
