@@ -71,7 +71,7 @@ function getChangeDate( fecha_inicial, fecha_final) {
 
 /// Cambia una fecha
 function getChangeDay(fecha_inicial) {
-    console.log('Ingresaaa', fecha_inicial);
+    console.log('Ingresa normal', fecha_inicial);
 
     const DateStart = new Date(fecha_inicial);
 
@@ -85,14 +85,14 @@ function getChangeDay(fecha_inicial) {
 
     let ChangeDay = `${year}-${month}-${day} ${hours}:${minutes}`;
 
-    console.log('Salidaaa', ChangeDay);
+    console.log('Salida normal', ChangeDay);
 
     return { ChangeDay };
 }
 
 /// Cambia una fecha (+5)
 function getChangeDay5(fecha_inicial) {
-    console.log('Ingresaaa', fecha_inicial);
+    console.log('Ingresa', fecha_inicial);
 
     const DateStart = new Date(fecha_inicial);
 
@@ -106,7 +106,7 @@ function getChangeDay5(fecha_inicial) {
 
     let ChangeDay = `${year}-${month}-${day} ${hours}:${minutes}`;
 
-    console.log('Salidaaa', ChangeDay);
+    console.log('Salida', ChangeDay);
 
     return { ChangeDay };
 }

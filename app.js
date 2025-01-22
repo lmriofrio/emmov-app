@@ -119,6 +119,7 @@ const cantones = JSON.parse(cantonesData);
 app.get('/', (req, res) => {
   if (req.session.user) {
     res.redirect('/home');
+    console.log(fechaHoraServidor);
   } else {
     res.redirect('/login');
   }
@@ -746,14 +747,10 @@ app.get('/matriculacion/gestion-tramite/edicion-tramite', async (req, res) => {
       const tramite = await Tramite.findByPk(idTramite);
       let fecha_ingreso = tramite.fecha_ingreso;
       let fecha_finalizacion = tramite.fecha_finalizacion;
-
-      let fecha_inicial = fecha_ingreso;
-      let { ChangeDay: fecha_ingreso_actualizada } = getChangeDay5(fecha_inicial);
-      fecha_ingreso = fecha_ingreso_actualizada;
       
       fecha_inicial = fecha_finalizacion;
-      let { ChangeDay: fecha_final_actualizada } = getChangeDay5(fecha_inicial);
-      fecha_finalizacion = fecha_final_actualizada;
+      let { ChangeDay} = getChangeDay(fecha_inicial);
+      fecha_finalizacion = ChangeDay;
       
       console.log('Trámite no encontrado', fecha_ingreso);
       console.log('Trámite no encontrado', fecha_finalizacion);
