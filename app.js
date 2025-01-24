@@ -322,7 +322,7 @@ app.get('/matriculacion/registro-por-turno', async (req, res) => {
             ]
           }
         },
-        order: [['id_tramite', 'DESC']],
+        order: [['fecha_ingreso', 'DESC']],
         limit: 5
       });
 
@@ -355,7 +355,7 @@ app.get('/matriculacion/registro-por-turno', async (req, res) => {
             ]
           }
         },
-        order: [['id_tramite', 'DESC']],
+        order: [['fecha_ingreso', 'DESC']],
         limit: 5
       });
 
@@ -384,7 +384,7 @@ app.get('/matriculacion/registro-por-turno', async (req, res) => {
             ]
           }
         },
-        order: [['id_tramite', 'DESC']],
+        order: [['fecha_ingreso', 'DESC']],
         limit: 5
       });
 
@@ -484,7 +484,7 @@ app.get('/matriculacion/registro-diario', async (req, res) => {
             ]
           }
         },
-        order: [['id_tramite', 'DESC']],
+        order: [['fecha_ingreso', 'DESC']],
         limit: 5
       });
 
@@ -518,7 +518,7 @@ app.get('/matriculacion/registro-diario', async (req, res) => {
             ]
           }
         },
-        order: [['id_tramite', 'DESC']],
+        order: [['fecha_ingreso', 'DESC']],
         limit: 5
       });
 
@@ -547,7 +547,7 @@ app.get('/matriculacion/registro-diario', async (req, res) => {
             ]
           }
         },
-        order: [['id_tramite', 'DESC']],
+        order: [['fecha_ingreso', 'DESC']],
         limit: 5
       });
 
