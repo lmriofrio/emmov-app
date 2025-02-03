@@ -162,7 +162,7 @@ $(document).ready(function () {
                     $('#tbody-tramites').off('click', '.atenderTramite').on('click', '.atenderTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         console.info(idTramite);
-                    
+
                         $.ajax({
                             type: 'GET',
                             url: `/buscar-tramite-id`,
@@ -180,7 +180,7 @@ $(document).ready(function () {
                             }
                         });
                     });
-                    
+
 
                     $('#tbody-tramites').on('click', '.reasignarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
@@ -487,6 +487,28 @@ $(document).ready(function () {
                             success: function (response) {
                                 if (response.success) {
 
+                                    window.location.href = `/matriculacion/registro-por-turno?id_tramite=${idTramite}`;
+                                } else {
+                                    alert('Error: no se pudo obtener la información del trámite.');
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error al obtener detalles del trámite:', error);
+                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
+                            }
+                        });
+                    });
+
+                    $('#tbody-tramitesGeneral').off('click', '.atenderTramite').on('click', '.atenderTramite', function () {
+                        const idTramite = $(this).data('id-tramite');
+                        console.info(idTramite);
+
+                        $.ajax({
+                            type: 'GET',
+                            url: `/buscar-tramite-id`,
+                            data: { idTramite },
+                            success: function (response) {
+                                if (response.success) {
                                     window.location.href = `/matriculacion/registro-por-turno?id_tramite=${idTramite}`;
                                 } else {
                                     alert('Error: no se pudo obtener la información del trámite.');
