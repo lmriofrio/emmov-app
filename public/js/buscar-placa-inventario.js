@@ -207,19 +207,9 @@ $(document).ready(function () {
           let numeroFila = 1;
           response.placaInventario.forEach(placaInventario => {
 
-            const fechaIngresoOriginal = placaInventario.ingreso_fecha;
-            const fechaIngreso = new Date(fechaIngresoOriginal);
-            fechaIngreso.setHours(fechaIngreso.getHours() + 5);
-
-            const diaIngreso = fechaIngreso.getDate().toString().padStart(2, '0');
-            const mesIngreso = (fechaIngreso.getMonth() + 1).toString().padStart(2, '0');
-            const añoIngreso = fechaIngreso.getFullYear();
-            const fechaIngresoFormateada = `${diaIngreso}-${mesIngreso}-${añoIngreso}`;
-
             let estadoClass = '';
             let estadoFont = '';
-
-                                
+             
             if (placaInventario.estado === 'ENTREGADO') {
               estadoClass = '';
               estadoFont = 'fw-normal';
@@ -233,7 +223,6 @@ $(document).ready(function () {
                     <tr  style="border-style: none; border-bottom: 1px solid #dddee4;">
 
                         <td class="text-center text-overflow-3">${numeroFila}</td>
-                        <td class="text-center text-overflow-3">${fechaIngresoFormateada}</td>
                         <td class="text-center ${estadoClass} ${estadoFont} text-overflow-3">${placaInventario.placa}</td>
                         <td class="text-center text-overflow-3 text-nowrap" >${placaInventario.clase_transporte}</td>
                         <td class="text-center text-overflow-3">${placaInventario.clase_vehiculo}</td>

@@ -38,3 +38,47 @@ $(document).ready(function () {
     });
   });
 });
+
+
+//buscar vehiculo para el web services
+$(document).ready(function () {
+
+
+  $('#buscarVehiculo_ServiciosWeb').click(function () {
+
+    const placa = $('input[name="placa"]').val();
+
+    if (placa.length >= 8) {
+
+      $('#modalPlacaExtensa').modal('show');
+      return;
+    }
+
+
+    $.ajax({
+      type: 'POST',
+      url: '/buscar-vehiculo',
+      data: { placa },
+      success: function (response) {
+        if (response.success) {
+
+          $('#clase_vehiculo_tipo').val(response.vehiculo.clase_vehiculo_tipo);
+          $('#clase_transporte').val(response.vehiculo.clase_transporte);
+          $('#tipo_peso').val(response.vehiculo.tipo_peso);
+
+
+        } else {
+          alert('Vehículo no encontrado');
+        }
+      },
+      error: function (error) {
+        console.error('Error al buscar vehículo en la antigua js:', error);
+        alert('Error al buscar vehículo. Por favor, inténtelo de nuevo.');
+      }
+    });
+
+
+  });
+
+
+});

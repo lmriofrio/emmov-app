@@ -46,7 +46,7 @@
                                                         <a class="text-decoration-none text-black" href="/">REPORTES</a>
                                                     </li>
                                                     <li class="breadcrumb-item text-muted" aria-current="page">
-                                                        Reporte de trámites por usuario
+                                                        Reporte de trámites en la empresa
                                                     </li>
 
                                                 </ol>
@@ -167,21 +167,21 @@
 
                                                     <div class="d-none">
                                                         <form id="" action="reporte-general-tramites-pdf" method="post"
-                                                        target="_blank" style="display: flex;">
-                                                        <input type="hidden" class="form-control"
-                                                            name="funcionarioSeleccionado_pdf"
-                                                            id="funcionarioSeleccionado_pdf">
-                                                        <input type="hidden" class="form-control"
-                                                            name="tipo_tramite_pdf" id="tipo_tramite_pdf">
-                                                        <input type="hidden" class="form-control"
-                                                            name="fecha_ingreso_pdf" id="fecha_ingreso_pdf">
-                                                        <input type="hidden" class="form-control" name="fecha_final_pdf"
-                                                            id="fecha_final_pdf">
-                                                        <button type="submit" class="btn btn-secondary me-3" id="">
-                                                            <i class="ti ti-file-type-pdf fs-4 me-2"></i>
-                                                            <span>Generar PDF</span>
-                                                        </button>
-                                                    </form>
+                                                            target="_blank" style="display: flex;">
+                                                            <input type="hidden" class="form-control"
+                                                                name="funcionarioSeleccionado_pdf"
+                                                                id="funcionarioSeleccionado_pdf">
+                                                            <input type="hidden" class="form-control"
+                                                                name="tipo_tramite_pdf" id="tipo_tramite_pdf">
+                                                            <input type="hidden" class="form-control"
+                                                                name="fecha_ingreso_pdf" id="fecha_ingreso_pdf">
+                                                            <input type="hidden" class="form-control"
+                                                                name="fecha_final_pdf" id="fecha_final_pdf">
+                                                            <button type="submit" class="btn btn-secondary me-3" id="">
+                                                                <i class="ti ti-file-type-pdf fs-4 me-2"></i>
+                                                                <span>Generar PDF</span>
+                                                            </button>
+                                                        </form>
                                                     </div>
 
 
@@ -337,6 +337,16 @@
 
 
             </div>
+
+    </div>
+
+
+
+    <div id="overlay" class="overlay d-flex justify-content-center align-items-center">
+        <div class="loader text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
 
 </body>
 

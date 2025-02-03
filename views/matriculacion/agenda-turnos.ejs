@@ -43,6 +43,10 @@
                 <%- include('../body/header') %>
                     <!--  Fin de encabezado de pagina  -->
                     <div class="container-fluid">
+
+
+
+
                         <div class="card card-body">
                             <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                                 <div class="mb-3 mb-sm-0">
@@ -63,19 +67,26 @@
 
 
                             <nav>
-                                <div class="nav nav-tabs align-items-center justify-content-center" id="nav-tab" role="tablist">
+                                <div class="nav nav-tabs align-items-center justify-content-center" id="nav-tab"
+                                    role="tablist">
                                     <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                                        aria-selected="true">Hoy</button>
+                                        aria-selected="true">Hoy
+                                        <span id="TraPersonalHoy" class="ms-1"></span>
+                                    </button>
                                     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-profile" type="button" role="tab"
-                                        aria-controls="nav-profile" aria-selected="false">Pendientes</button>
+                                        aria-controls="nav-profile" aria-selected="false">Pendientes
+                                        <span id="TraPersonalPendientes" class="ms-1"></span>
+                                    </button>
                                     <button class="nav-link" id="nav-empresa-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-empresa" type="button" role="tab"
-                                        aria-controls="nav-empresa" aria-selected="false">Pendientes (Empresa)</button>
+                                        aria-controls="nav-empresa" aria-selected="false">Pendientes (Empresa)
+                                        <span id="TraGeneral" class="ms-1"></span>
+                                    </button>
                                 </div>
                             </nav>
-                            
+
                             <div class="tab-content border-top py-4 px-0" id="nav-tabContent">
 
                                 <div class="tab-pane fade animated fadeInUp show active" id="nav-home" role="tabpanel"
@@ -87,13 +98,23 @@
                                                     <th class="text-center align-middle px-2 py-2">N°</th>
                                                     <th class="text-center align-middle px-2 py-2">TRÁMITE</th>
                                                     <th class="text-center align-middle px-2 py-2">PLACA</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-12">TIPO DE TRAMITE</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-12">TIPO
+                                                        DE TRAMITE</th>
                                                     <th class="text-center align-middle px-2 py-2">FECHA DE INGRESO</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">TIEMPO EN ESPERA</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">TURNO</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4">ESTADO</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">USUARIO EN VENTANILLA</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">USUARIO ASIGNADO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
+                                                        TIEMPO EN ESPERA</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        TURNO</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4">
+                                                        ESTADO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        USUARIO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        USUARIO ASIGNADO</th>
                                                     <th class="text-center align-middle px-2 py-2">ACCIÓN</th>
                                                 </tr>
                                             </thead>
@@ -101,9 +122,10 @@
                                         </table>
                                     </div>
                                 </div>
-                            
-                               
-                                <div class="tab-pane fade animated fadeInUp" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+
+                                <div class="tab-pane fade animated fadeInUp" id="nav-profile" role="tabpanel"
+                                    aria-labelledby="nav-profile-tab">
                                     <div class="table-responsive2">
                                         <table class="table table-bordered">
                                             <thead id="thead-tramites-pendientes">
@@ -111,13 +133,23 @@
                                                     <th class="text-center align-middle px-2 py-2">N°</th>
                                                     <th class="text-center align-middle px-2 py-2">TRÁMITE</th>
                                                     <th class="text-center align-middle px-2 py-2">PLACA</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-13">TIPO DE TRAMITE</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-13">TIPO
+                                                        DE TRAMITE</th>
                                                     <th class="text-center align-middle px-2 py-2">FECHA DE INGRESO</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">TIEMPO EN ESPERA</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">TURNO</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4">ESTADO</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">USUARIO EN VENTANILLA</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">USUARIO ASIGNADO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
+                                                        TIEMPO EN ESPERA</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        TURNO</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4">
+                                                        ESTADO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        USUARIO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        USUARIO ASIGNADO</th>
                                                     <th class="text-center align-middle px-2 py-2">ACCIÓN</th>
                                                 </tr>
                                             </thead>
@@ -125,9 +157,10 @@
                                         </table>
                                     </div>
                                 </div>
-                            
-                                
-                                <div class="tab-pane fade animated fadeInUp" id="nav-empresa" role="tabpanel" aria-labelledby="nav-empresa-tab">
+
+
+                                <div class="tab-pane fade animated fadeInUp" id="nav-empresa" role="tabpanel"
+                                    aria-labelledby="nav-empresa-tab">
                                     <div class="table-responsive2">
                                         <table class="table table-bordered">
                                             <thead id="thead-tramites-empresa">
@@ -135,13 +168,23 @@
                                                     <th class="text-center align-middle px-2 py-2">N°</th>
                                                     <th class="text-center align-middle px-2 py-2">TRÁMITE</th>
                                                     <th class="text-center align-middle px-2 py-2">PLACA</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-12">TIPO DE TRAMITE</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-12">TIPO
+                                                        DE TRAMITE</th>
                                                     <th class="text-center align-middle px-2 py-2">FECHA DE INGRESO</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">TIEMPO EN ESPERA</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">TURNO</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4">ESTADO</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">USUARIO EN VENTANILLA</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">USUARIO ASIGNADO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
+                                                        TIEMPO EN ESPERA</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        TURNO</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4">
+                                                        ESTADO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        USUARIO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        USUARIO ASIGNADO</th>
                                                     <th class="text-center align-middle px-2 py-2">ACCIÓN</th>
                                                 </tr>
                                             </thead>
@@ -150,7 +193,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
 

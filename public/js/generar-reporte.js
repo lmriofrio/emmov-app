@@ -735,6 +735,8 @@ $(document).ready(function () {
         const fecha_inicial = $('input[name="fecha_inicial"]').val();
         const fecha_final = $('input[name="fecha_final"]').val();
 
+        $('#overlay').addClass('active');
+
         if (!funcionarioSeleccionado) {
             alert('Por favor selecciona a un usuario.');
             return;
@@ -932,6 +934,8 @@ $(document).ready(function () {
                     $('input[name="especies_utilizadas"]').val(EspeciesUtilizadas.length);
                     $('input[name="especies_anuladas"]').val(EspeciesAnuladas.length);
                     $('input[name="ahesivos_entregados"]').val(AdhesivosEntregados.length);
+
+                    $('#overlay').removeClass('active');
                 } else {
                     alert('TRÁMITES NO ENCONTRADOS');
                 }

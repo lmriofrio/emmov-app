@@ -72,15 +72,15 @@ $(document).ready(function () {
                     } else if (tramite.estado_tramite === 'En proceso') {
                         estadoClass = 'bg-wait';
                         estadoFont = 'fw-semibold';
-                    
                         opcionesHabilitadas.push(`
-
-
-
-
-
-
-                            
+                            <li>
+                                <a class="dropdown-item EditarTramite text-black px-4" href="#" 
+                                   id="editar-${tramite.id_tramite}" 
+                                   data-id-tramite="${tramite.id_tramite}" 
+                                   data-username="${tramite.username}">
+                                   Editar
+                                </a>
+                            </li>
                             <li>
                                 <a class="dropdown-item reasignarTramite text-black px-4" href="#" 
                                    data-bs-toggle="modal" data-bs-target="#modalReasignarTramite" 
@@ -565,6 +565,9 @@ $(document).ready(function () {
 
 
                 });
+
+                $('#TraPersonal').text(`${response.tramitesUsuario.length}`);
+                $('#TraGeneral').text(`${response.tramitesGeneral.length}`);
 
 
             } else {

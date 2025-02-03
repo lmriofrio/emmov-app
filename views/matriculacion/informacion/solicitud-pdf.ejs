@@ -51,7 +51,7 @@
                                     <div class="col-3 align-items-center justify-content-center">
                                         <h5 class="m-1 fw-normal text-center text-black fs-3">TURNO NÚMERO</h5>
                                         <div
-                                            class="p-1 d-flex align-items-center justify-content-center bg-five-card rounded">
+                                            class="py-3 px-1 d-flex align-items-center justify-content-center bg-five-card rounded">
                                             <p
                                                 class="fw-semibold m-0 text-turner d-flex align-items-center justify-content-center fs-13">
                                                 <%= tramite.numero_turno_INFORMACION %>
@@ -163,6 +163,16 @@
                                                         <%= tramite.nombre_funcionario_asignado_INFORMACION %>
                                                     </span>
                                                 </div>
+                                            </div>
+                                            <div class="form-group row align-items-center">
+                                                <label
+                                                    class="col-sm-4 form-label  fw-normal mb-0 text-end"># Trámite:</label>
+                                                <div class="col-sm-8">
+                                                    <span class="form-control-plaintext fw-normal py-0">
+                                                        <%= tramite.id_tramite %>
+                                                    </span>
+                                                </div>
+
                                             </div>
                                         </div>
 

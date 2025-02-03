@@ -19,7 +19,6 @@ $(document).ready(function () {
                     const fechaIngreso = new Date(fechaIngresoOriginal);
                     fechaIngreso.setHours(fechaIngreso.getHours() + 5);
 
-
                     const diaIngreso = fechaIngreso.getDate().toString().padStart(2, '0');
                     const mesIngreso = (fechaIngreso.getMonth() + 1).toString().padStart(2, '0');
                     const añoIngreso = fechaIngreso.getFullYear();
@@ -54,6 +53,7 @@ $(document).ready(function () {
                         tiempoEspera = `${diferenciaHoras} horas ${diferenciaMinutos} min.`;
                     }
 
+                    let placaCellContent = '';
                     let estadoClass = '';
                     let estadoFont = '';
                     let estadoText = '';
@@ -73,11 +73,13 @@ $(document).ready(function () {
                         estadoClass = 'bg-info';
                         estadoFont = 'fw-normal';
                         estadoText = 'text-dark';
+                        placaCellContent = tramite.placa;
 
                     } else if (tramite.estado_tramite === 'En proceso') {
                         estadoClass = 'bg-wait';
                         estadoFont = 'fw-semibold';
                         estadoText = 'text-blue';
+                        placaCellContent = `<a href="#" class="atenderTramite" id="editar-${tramite.id_tramite}" data-id-tramite="${tramite.id_tramite}">${tramite.placa}</a>`;
 
                         opcionesHabilitadas.push(`
                             <li>
@@ -87,11 +89,6 @@ $(document).ready(function () {
                                    Atender
                                </a>
                             </li>
-
-
-
-
-
 
 
                             <li>
@@ -133,12 +130,8 @@ $(document).ready(function () {
                         <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
                             <td class="text-center">${numeroFila}</td>
                             <td class="text-center">${tramite.id_tramite}</td>
-                            <td class="text-center fw-semibold ${estadoText}">
-                                <a href="#" class="atenderTramite"
-                                    id="editar-${tramite.id_tramite}"
-                                    data-id-tramite="${tramite.id_tramite}">
-                                    ${tramite.placa}
-                                </a>
+                            <td class="text-center ${estadoFont} ${estadoText}">
+                                ${placaCellContent}
                             </td>
                             <td class="text-overflow-12">${tramite.tipo_tramite}</td>
                             <td class="text-center">${fechaIngresoFormateada}</td>
@@ -166,17 +159,16 @@ $(document).ready(function () {
                     numeroFila++;
 
 
-                    $('#tbody-tramites').on('click', '.atenderTramite', function () {
+                    $('#tbody-tramites').off('click', '.atenderTramite').on('click', '.atenderTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         console.info(idTramite);
-
+                    
                         $.ajax({
                             type: 'GET',
                             url: `/buscar-tramite-id`,
                             data: { idTramite },
                             success: function (response) {
                                 if (response.success) {
-
                                     window.location.href = `/matriculacion/registro-por-turno?id_tramite=${idTramite}`;
                                 } else {
                                     alert('Error: no se pudo obtener la información del trámite.');
@@ -188,6 +180,7 @@ $(document).ready(function () {
                             }
                         });
                     });
+                    
 
                     $('#tbody-tramites').on('click', '.reasignarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
@@ -332,7 +325,6 @@ $(document).ready(function () {
 
 
                 });
-
 
                 let numeroFilaG = 1;
                 response.tramitesPendientes.forEach(tramite => {
@@ -909,6 +901,10 @@ $(document).ready(function () {
                     });
 
                 });
+
+                $('#TraPersonalHoy').text(`${response.tramitesHoy.length}`);
+                $('#TraPersonalPendientes').text(`${response.tramitesPendientes.length}`);
+                $('#TraGeneral').text(`${response.tramitesPendientesEmpresa.length}`);
 
 
             } else {

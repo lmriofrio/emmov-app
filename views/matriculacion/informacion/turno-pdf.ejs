@@ -37,7 +37,7 @@
 <body>
     <div class="container-fluid d-flex justify-content-end align-items-center">
         <div class="ms-auto">
-            <div class="card-body d-flex p-1 border col-8">
+            <div class="card-body d-flex p-1 border col-6">
 
                 <form action="" method="post" id="" class="">
                     <input type="hidden" value=" <%= tramite.id_tramite %>" id="id_tramite">
@@ -45,7 +45,7 @@
                     <h5 class="m-1 fw-normal text-center text-black">TURNO NÚMERO</h5>
 
 
-                    <div class="p-1 m-1 d-flex align-items-center justify-content-center">
+                    <div class="p-1 m-1 d-flex align-items-center justify-content-center bg-five-card rounded">
                         <p class="fw-semibold m-0 text-turner d-flex align-items-center justify-content-center fs-14">
                             <%= tramite.numero_turno_INFORMACION %>
                         </p>
@@ -172,21 +172,21 @@
                                     <input type="text" id="orden_RTV" class="form-control-plaintext fw-semibold py-0"
                                         value="" readonly>
                                 </div>
-                                <div class="">
-                                    <input type="text" id="orden_improntas"
-                                        class="form-control-plaintext fw-semibold py-0" value="" readonly>
+                                <div class="row">
+                                    <span id="orden_improntas" class="form-control-plaintext fw-semibold py-0">
+                                    </span>
                                 </div>
                                 <div class="">
                                     <input type="text" id="orden_cambio-de-servicio"
                                         class="form-control-plaintext fw-semibold py-0" value="" readonly>
                                 </div>
                                 <div class="">
-                                    <input type="text" id="orden_color"
-                                        class="form-control-plaintext fw-semibold py-0" value="" readonly>
+                                    <input type="text" id="orden_color" class="form-control-plaintext fw-semibold py-0"
+                                        value="" readonly>
                                 </div>
                                 <div class="">
-                                    <input type="text" id="orden_motor"
-                                        class="form-control-plaintext fw-semibold py-0" value="" readonly>
+                                    <input type="text" id="orden_motor" class="form-control-plaintext fw-semibold py-0"
+                                        value="" readonly>
                                 </div>
                             </div>
                         </div>
@@ -208,57 +208,54 @@
                                     value="<%= tramite.verificacion_improntas_TURNO %>">
                                 <input type="hidden" id="cambio_servicio_TURNO" name="cambio_servicio_TURNO"
                                     value="<%= tramite.cambio_servicio_TURNO %>">
-                                    <input type="hidden" id="cambio_color_TURNO"
-                                    name="cambio_color_TURNO"
+                                <input type="hidden" id="cambio_color_TURNO" name="cambio_color_TURNO"
                                     value="<%= tramite.cambio_color_TURNO %>">
-                                <input type="hidden" id="cambio_motor_TURNO"
-                                    name="cambio_motor_TURNO"
+                                <input type="hidden" id="cambio_motor_TURNO" name="cambio_motor_TURNO"
                                     value="<%= tramite.cambio_motor_TURNO %>">
                             </div>
                         </div>
 
                         <script>
                             document.addEventListener('DOMContentLoaded', function () {
-                              
+
                                 const revisionTecnicaInput = document.getElementById('revision_tecnica_vehicular_TURNO');
                                 const verificacionImprontasInput = document.getElementById('verificacion_improntas_TURNO');
                                 const cambioServicioInput = document.getElementById('cambio_servicio_TURNO');
                                 const cambioColorInput = document.getElementById('cambio_color_TURNO');
                                 const cambioMotorInput = document.getElementById('cambio_motor_TURNO');
 
-                                
                                 const inputRTV = document.getElementById('orden_RTV');
                                 const inputImprontas = document.getElementById('orden_improntas');
                                 const inputCambioServicio = document.getElementById('orden_cambio-de-servicio');
                                 const inputCambioColor = document.getElementById('orden_color');
                                 const inputCambioMotor = document.getElementById('orden_motor');
 
-                               
+
                                 function evaluarYAsignarValores() {
-                                    
+
                                     if (revisionTecnicaInput.value.trim() === 'SI') {
                                         inputRTV.value = '- REVISIÓN TECNICA VEHICULAR';
                                     } else {
-                                        inputRTV.value = ''; 
+                                        inputRTV.value = '';
                                     }
 
 
                                     if (verificacionImprontasInput.value.trim() === 'SI') {
-                                        inputImprontas.value = '- VERIFICACIÓN Y EXTRACCIÓN DE IMPRONTAS';
+                                        inputImprontas.innerText  = '- VERIFICACIÓN Y EXTRACCIÓN DE IMPRONTAS';
                                     } else {
-                                        inputImprontas.value = '';
+                                        inputImprontas.innerText  = '';
                                     }
 
 
                                     if (cambioServicioInput.value.trim() === 'SI') {
                                         inputCambioServicio.value = '- CAMBIO DE SERVICIO';
                                     } else {
-                                        inputCambioServicio.value = ''; 
+                                        inputCambioServicio.value = '';
                                     }
                                     if (cambioColorInput.value.trim() === 'SI') {
                                         inputCambioColor.value = '- CAMBIO DE COLOR';
                                     } else {
-                                        inputCambioColor.value = ''; 
+                                        inputCambioColor.value = '';
                                     }
 
                                     if (cambioMotorInput.value.trim() === 'SI') {

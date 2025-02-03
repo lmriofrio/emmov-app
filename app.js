@@ -139,43 +139,50 @@ app.post('/login', async (req, res) => {
     try {
       const user = await Funcionario.findOne({ where: { username: username } });
 
-      if (!user || !(await bcryptjs.compare(password, user.password))) {
-
-        return res.json({ message: 'CREDENCIALES INCORRECTAS' });
+      if (!user) {
+        return res.json({ success: false, message: 'CREDENCIALES INCORRECTAS' });
       }
-      if (user) {
-        const userData = {
-          id_funcionario: user.id_funcionario,
-          username: user.username,
-          nombre_funcionario: user.nombre_funcionario,
-          nombre_funcionario_corto: user.nombre_funcionario_corto,
-          rol_funcionario: user.rol_funcionario,
-          nombre_puesto_funcionario: user.nombre_puesto_funcionario,
-          jefatura_departamento: user.jefatura_departamento,
-          area_laboral: user.area_laboral,
-          id_empresa: user.id_empresa,
-          nombre_empresa: user.nombre_empresa,
-          nombre_corto_empresa: user.nombre_corto_empresa,
-          nombre_empresa_logo: user.nombre_empresa_logo,
-          provincia_empresa: user.provincia_empresa,
-          canton_empresa: user.canton_empresa,
-          estado_empresa: user.estado_empresa,
-          id_centro_matriculacion: user.id_centro_matriculacion,
-          nombre_centro_matriculacion: user.nombre_centro_matriculacion,
-          canton_centro_matriculacion: user.canton_centro_matriculacion,
-          recepcion_tramites: user.recepcion_tramites,
-          tipo_ASIGNACION: user.tipo_ASIGNACION,
-          oficina_ASIGNACION: user.oficina_ASIGNACION,
-          usuario_ASIGNACION: user.usuario_ASIGNACION,
-        };
-        req.session.user = userData;
 
-        const result = await obtenerPermisosUsuario(user.id_funcionario);
-
-        req.session.permisos = result.permisos;
-
-        return res.json({ success: true });
+      if (user.estado_funcionario !== 'ACTIVO') {
+        return res.json({ success: false, message: 'USUARIO INACTIVO' });
       }
+
+      if (!(await bcryptjs.compare(password, user.password))) {
+        return res.json({ success: false, message: 'CREDENCIALES INCORRECTAS' });
+      }
+
+      const userData = {
+        id_funcionario: user.id_funcionario,
+        username: user.username,
+        nombre_funcionario: user.nombre_funcionario,
+        nombre_funcionario_corto: user.nombre_funcionario_corto,
+        rol_funcionario: user.rol_funcionario,
+        nombre_puesto_funcionario: user.nombre_puesto_funcionario,
+        jefatura_departamento: user.jefatura_departamento,
+        area_laboral: user.area_laboral,
+        id_empresa: user.id_empresa,
+        nombre_empresa: user.nombre_empresa,
+        nombre_corto_empresa: user.nombre_corto_empresa,
+        nombre_empresa_logo: user.nombre_empresa_logo,
+        provincia_empresa: user.provincia_empresa,
+        canton_empresa: user.canton_empresa,
+        estado_empresa: user.estado_empresa,
+        id_centro_matriculacion: user.id_centro_matriculacion,
+        nombre_centro_matriculacion: user.nombre_centro_matriculacion,
+        canton_centro_matriculacion: user.canton_centro_matriculacion,
+        recepcion_tramites: user.recepcion_tramites,
+        tipo_ASIGNACION: user.tipo_ASIGNACION,
+        oficina_ASIGNACION: user.oficina_ASIGNACION,
+        usuario_ASIGNACION: user.usuario_ASIGNACION,
+      };
+      req.session.user = userData;
+
+      const result = await obtenerPermisosUsuario(user.id_funcionario);
+
+      req.session.permisos = result.permisos;
+
+      return res.json({ success: true });
+
     } catch (error) {
       console.error('Error al autenticar el usuario:', error);
       return res.status(500).json({ success: false, message: 'Error interno del servidor' });
@@ -184,6 +191,7 @@ app.post('/login', async (req, res) => {
     return res.status(400).json({ success: false, message: 'Nombre de usuario y contraseña requeridos' });
   }
 });
+
 
 app.post('/logout', (req, res) => {
   req.session.destroy((err) => {
@@ -299,7 +307,7 @@ app.get('/matriculacion/registro-por-turno', async (req, res) => {
       mostrarModal = true;
 
       const idTramite = req.query.id_tramite;
-
+      //console.log('entro a buscar:', idTramite);
       // Busca el trámite por su ID
       const tramite = await Tramite.findByPk(idTramite);
 
@@ -752,11 +760,11 @@ app.get('/matriculacion/gestion-tramite/edicion-tramite', async (req, res) => {
       let fecha_inicial = fecha_ingreso;
       let { ChangeDay: fecha_ingreso_actualizada } = getChangeDay5(fecha_inicial);
       fecha_ingreso = fecha_ingreso_actualizada;
-      
+
       fecha_inicial = fecha_finalizacion;
       let { ChangeDay: fecha_final_actualizada } = getChangeDay5(fecha_inicial);
       fecha_finalizacion = fecha_final_actualizada;
-      
+
       //console.log('Trámite no encontrado', ChangeDay);
 
       const selectorTramites = new SeleccionarTipoTramites();
@@ -1241,6 +1249,34 @@ app.get('/perfil/configuracion-cuenta', async (req, res) => {
   }
 });
 
+app.get('/home', async (req, res) => {
+  if (req.session.user, req.session.permisos) {
+
+
+    res.render('home', { userData: req.session.user, permisos: req.session.permisos });
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/calcular-valores', async (req, res) => {
+  if (req.session.user, req.session.permisos) {
+
+    const selectorTramites = new SeleccionarTipoTramites();
+
+    let resultados;
+
+    const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
+    let tiposTramites = await obtenerTiposTramitesAsync();
+    const tiposExcluir = ['ADHESIVO ANULADO', 'ESPECIE ANULADA', 'ESPECIE Y ADHESIVO ANULADO'];
+    tiposTramites = tiposTramites.filter(tipo => !tiposExcluir.includes(tipo.tipo_tramite));
+    res.render('calcular-valores', { 
+      userData: req.session.user, permisos: req.session.permisos, tiposTramites, resultados  });
+  } else {
+    res.redirect('/');
+  }
+});
+
 
 
 ////////////////////////////////////////////////
@@ -1295,15 +1331,6 @@ app.get('/consultar/consulta-tramite', async (req, res) => {
 });
 
 
-app.get('/home', async (req, res) => {
-  if (req.session.user, req.session.permisos) {
-
-
-    res.render('home', { userData: req.session.user, permisos: req.session.permisos });
-  } else {
-    res.redirect('/');
-  }
-});
 
 
 
@@ -1675,6 +1702,29 @@ app.get('/servicios/consulta-placas-inventario', async (req, res) => {
 
 
   res.render('servicios/consulta-placas-inventario', {});
+
+});
+
+app.get('/servicios/generacion-turnos-web', async (req, res) => {
+
+  const selectorTramites = new SeleccionarTipoTramites();
+
+  const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
+  let tiposTramites = await obtenerTiposTramitesAsync();
+  const tiposExcluir = ['ADHESIVO ANULADO', 'ESPECIE ANULADA', 'ESPECIE Y ADHESIVO ANULADO', 'CAMBIO DE CARACTERÍSTICAS', 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A COMERCIAL'
+    , 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PARTICULAR', 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO', 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO', 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A USO DE CUENTA PROPIA', 
+    'CAMBIO DE SERVICIO DE PARTICULAR A ESTATAL U OFICIAL', 'CAMBIO DE SERVICIO DE PARTICULAR A USO DE CUENTA PROPIA', 'CAMBIO DE SERVICIO DE PARTICULAR A USO DIPLOMATICO U ORGANISMOS INTERNACIONALES', 'CAMBIO DE SERVICIO DE PUBLICO A USO DE CUENTA PROPIA', 
+    'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A COMERCIAL', 'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR', 'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PUBLICO', 'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR',
+    'ACTUALIZACIÓN DE DATOS DEL VEHÍCULO', 'CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR', 'CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO', 'CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA',
+    'CAMBIO DE SERVICIO DE PARTICULAR A COMERCIAL', 'CAMBIO DE SERVICIO DE PUBLICO A COMERCIAL', 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION', 'CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA',
+    'BLOQUEO DE VEHÍCULO', 'CERTIFICADO DE POSEER VEHICULO', 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION', 'CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA',
+  ];
+  tiposTramites = tiposTramites.filter(tipo => !tiposExcluir.includes(tipo.tipo_tramite));
+
+  res.render('servicios/generacion-turnos-web', {
+    tiposTramites
+  });
+
 
 });
 

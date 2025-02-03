@@ -46,7 +46,13 @@ $(document).ready(function () {
         if (response.success) {
           window.location.href = '/home';
         } else {
-          mostrarAlerta('Usuario o contraseña incorrectos.', 'danger');
+          if (response.message === 'CREDENCIALES INCORRECTAS') {
+            mostrarAlerta('Usuario o contraseña incorrectos.', 'danger');
+          } else if (response.message === 'USUARIO INACTIVO') {
+            mostrarAlerta('El usuario se encuentra inactivo.', 'danger');
+          } else {
+            mostrarAlerta('Error en el inicio de sesión.', 'danger');
+          }
         }
       },
       error: function (error) {
