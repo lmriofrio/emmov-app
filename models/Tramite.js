@@ -119,7 +119,7 @@ const Tramite = sequelize.define('registro-tramites', {
     allowNull: true
   },
   modelo: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING (70),
     allowNull: true
   },
   año_modelo: {

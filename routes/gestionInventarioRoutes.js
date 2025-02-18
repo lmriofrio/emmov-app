@@ -134,7 +134,6 @@ router.post('/buscar-placa-inventario', async (req, res) => {
 
   console.log('Placa recibida:', placa);
 
-
   const validarPlaca = (placa) => {
     const patronPlaca = /^[A-Z0-9]{1,7}$/;
     if (!placa || placa.length > 7 || !patronPlaca.test(placa)) {
@@ -177,9 +176,6 @@ router.get('/buscar-placa-id-inventario', async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 });
-
-
-
 
 
 router.post('/entregar-placa-inventario', async (req, res) => {
@@ -237,7 +233,7 @@ router.post('/entregar-placa-inventario', async (req, res) => {
 
     salida_fecha = `${salida_fecha}:00`;;
 
-    res.redirect(`/inventario-placas/entrega-placas/placa-entregada?salida_id_funcionario=${salida_id_funcionario}&salida_fecha=${salida_fecha}&salida_tipo_entrega=${salida_tipo_entrega}&solicitante_id=${solicitante_id}&salida_nombre_puesto_funcionario=${salida_nombre_puesto_funcionario}&salida_acta=${salida_acta}`);
+    res.redirect(`/inventario-placas/entrega-placas/placa-entregada?salida_id_funcionario=${salida_id_funcionario}&salida_fecha=${salida_fecha}&salida_tipo_entrega=${salida_tipo_entrega}&solicitante_id=${solicitante_id}&salida_nombre_puesto_funcionario=${salida_nombre_puesto_funcionario}&salida_acta=${salida_acta}&salida_observacion=${salida_observacion}`);
 
   } catch (error) {
     console.error('Error al buscar vehículo en la ruta:', error);
@@ -301,7 +297,7 @@ router.post('/entregar-placa-grupal', async (req, res) => {
 
     salida_fecha = `${salida_fecha}:00`;;
 
-    res.redirect(`/inventario-placas/entrega-placas/placa-entregada?salida_id_funcionario=${salida_id_funcionario}&salida_fecha=${salida_fecha}&salida_tipo_entrega=${salida_tipo_entrega}&solicitante_id=${solicitante_id}&salida_nombre_puesto_funcionario=${salida_nombre_puesto_funcionario}&salida_acta=${salida_acta}`);
+    res.redirect(`/inventario-placas/entrega-placas/placa-entregada?salida_id_funcionario=${salida_id_funcionario}&salida_fecha=${salida_fecha}&salida_tipo_entrega=${salida_tipo_entrega}&solicitante_id=${solicitante_id}&salida_nombre_puesto_funcionario=${salida_nombre_puesto_funcionario}&salida_acta=${salida_acta}&salida_observacion=${salida_observacion}`);
 
    
   } catch (error) {

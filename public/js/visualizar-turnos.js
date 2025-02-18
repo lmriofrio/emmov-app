@@ -149,7 +149,7 @@ $(document).ready(function () {
 
 
 
-                    $('#tbody-tramites').on('click', '.reasignarTramite', function () {
+                    $('#tbody-tramites').off('click', '.reasignarTramite').on('click', '.reasignarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -175,7 +175,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramites').on('click', '.editarTramite', function () {
+                    $('#tbody-tramites').off('click', '.editarTramite').on('click', '.editarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         // Realizar llamada Ajax para obtener los detalles del trámite
                         $.ajax({
@@ -196,7 +196,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramites').on('click', '.visualizarTramite', function () {
+                    $('#tbody-tramites').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
 
                         $.ajax({
@@ -245,7 +245,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramites').on('click', '.eliminarTramite', function () {
+                    $('#tbody-tramites').off('click', '.eliminarTramite').on('click', '.eliminarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -269,7 +269,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramites').on('click', '.imprimirTramite', function () {
+                    $('#tbody-tramites').off('click', '.imprimirTramite').on('click', '.imprimirTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -311,11 +311,11 @@ $(document).ready(function () {
                     if (tramite.fecha_finalizacion) {
                         const fechaFinalizacionOriginal = tramite.fecha_finalizacion;
                         const fechaFinalizacion = new Date(fechaFinalizacionOriginal);
-                        fechaFinalizacion.setHours(fechaFinalizacion.getHours() + 5); // zona horaria paa ecuador
+                        fechaFinalizacion.setHours(fechaFinalizacion.getHours() + 5);
 
                         const fechaIngresoOriginal = tramite.fecha_ingreso_INFORMACION;
                         const fechaIngreso = new Date(fechaIngresoOriginal);
-                        fechaIngreso.setHours(fechaIngreso.getHours() + 5); // zona horaria paa ecuador
+                        fechaIngreso.setHours(fechaIngreso.getHours() + 5);
 
                         const diffMs = fechaFinalizacion - fechaIngreso;
 
@@ -423,7 +423,7 @@ $(document).ready(function () {
                     tbodyG.append(newRow2);
                     numeroFilaG++;
 
-                    $('#tbody-tramitesGeneral').on('click', '.reasignarTramite', function () {
+                    $('#tbody-tramitesGeneral').off('click', '.reasignarTramite').on('click', '.reasignarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -470,7 +470,7 @@ $(document).ready(function () {
                         });
                     });
                     */
-                    $('#tbody-tramitesGeneral').on('click', '.visualizarTramite', function () {
+                    $('#tbody-tramitesGeneral').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
 
                         $.ajax({
@@ -519,7 +519,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramitesGeneral').on('click', '.eliminarTramite', function () {
+                    $('#tbody-tramitesGeneral').off('click', '.eliminarTramite').on('click', '.eliminarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -543,7 +543,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramitesGeneral').on('click', '.imprimirTramite', function () {
+                    $('#tbody-tramitesGeneral').off('click', '.imprimirTramite').on('click', '.imprimirTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',

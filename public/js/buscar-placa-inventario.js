@@ -82,7 +82,8 @@ $(document).ready(function () {
                 data-salida-tipo-entrega="${placaInventario.salida_tipo_entrega}"
                 data-solicitante-id="${placaInventario.solicitante_id}"
                 data-salida-acta="${placaInventario.salida_acta}"
-                data-salida-nombre-puesto-funcionario="${placaInventario.salida_nombre_puesto_funcionario}">
+                data-salida-nombre-puesto-funcionario="${placaInventario.salida_nombre_puesto_funcionario}"
+                data-salida-observacion="${placaInventario.salida_observacion}">
                 Imprimir acta
                 </a>
                 </li>
@@ -127,10 +128,11 @@ $(document).ready(function () {
             const solicitante_id = $(this).data('solicitante-id');
             const salida_acta = $(this).data('salida-acta');
             const salida_nombre_puesto_funcionario = $(this).data('salida-nombre-puesto-funcionario');
+            const salida_observacion = $(this).data('salida-observacion');
 
             console.info('solicitante-id', solicitante_id);
 
-            const url = `/inventario-placas/entrega-placas/placa-entregada?salida_id_funcionario=${encodeURIComponent(salida_id_funcionario)}&salida_fecha=${encodeURIComponent(salida_fecha)}&salida_tipo_entrega=${encodeURIComponent(salida_tipo_entrega)}&solicitante_id=${encodeURIComponent(solicitante_id)}&salida_nombre_puesto_funcionario=${encodeURIComponent(salida_nombre_puesto_funcionario)}&salida_acta=${encodeURIComponent(salida_acta)}`;
+            const url = `/inventario-placas/entrega-placas/placa-entregada?salida_id_funcionario=${encodeURIComponent(salida_id_funcionario)}&salida_fecha=${encodeURIComponent(salida_fecha)}&salida_tipo_entrega=${encodeURIComponent(salida_tipo_entrega)}&solicitante_id=${encodeURIComponent(solicitante_id)}&salida_nombre_puesto_funcionario=${encodeURIComponent(salida_nombre_puesto_funcionario)}&salida_acta=${encodeURIComponent(salida_acta)}&salida_observacion=${encodeURIComponent(salida_observacion)}`;
 
             window.location.href = url;
           });
@@ -343,7 +345,7 @@ $(document).ready(function () {
           $('#tbody-tramites').off('click', '.entregarPlaca').on('click', '.entregarPlaca', function () {
             const id_inventario = $(this).data('id-inventario');
             const placa = $(this).closest('tr').find('td:nth-child(2)').text();
-
+        
             $('#contenedorPlacaInventario').append(`
               <div class="col d-flex p-1">
                 <p class="col-2 m-0">${contadorPlacas}</p>
@@ -352,9 +354,14 @@ $(document).ready(function () {
                 <input type="hidden" name="id_inventario[]" value="${id_inventario}">
               </div>
             `);
-
+        
             contadorPlacas++;
-          });
+        
+            $('input[name="placa"]').val('');
+        
+            $('#content').addClass('d-none');
+        });
+        
 
 
 

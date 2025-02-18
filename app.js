@@ -866,8 +866,10 @@ app.get('/matriculacion/informacion/vista-turnos', async (req, res) => {
 
       //const recepcionTramites = 'HABILITADO';
 
+      const jefaturaDepartamento = 'UNIDAD DE MATRICULACIÓN';
+
       const funcionariosActivos = await Funcionario.findAll({
-        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario },
+        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario, jefatura_departamento: jefaturaDepartamento },
         attributes: ['id_funcionario', 'nombre_funcionario']
       });
 
@@ -895,9 +897,10 @@ app.get('/matriculacion/agenda-turnos', async (req, res) => {
       const idEmpresa = req.session.user.id_empresa;
       const estadoFuncionario = 'ACTIVO';
       //const recepcionTramites = 'HABILITADO';
+      const jefaturaDepartamento = 'UNIDAD DE MATRICULACIÓN';
 
       const funcionariosActivos = await Funcionario.findAll({
-        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario },
+        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario, jefatura_departamento: jefaturaDepartamento },
         attributes: ['id_funcionario', 'nombre_funcionario']
       });
 
@@ -932,9 +935,10 @@ app.get('/matriculacion/informacion/agregar-turno', async (req, res) => {
       });
 
       const estadoFuncionario = 'ACTIVO';
+      const jefaturaDepartamento = 'UNIDAD DE MATRICULACIÓN';
 
       const funcionariosActivos = await Funcionario.findAll({
-        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario },
+        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario, jefatura_departamento: jefaturaDepartamento  },
         attributes: ['id_funcionario', 'nombre_funcionario']
       });
 
@@ -1468,7 +1472,7 @@ app.get('/inventario-placas/entrega-placas/acta-entrega-pdf', async (req, res) =
 
     if (req.session.user && req.session.permisos) {
 
-      const { salida_id_funcionario, salida_fecha, salida_tipo_entrega, solicitante_id, salida_acta, salida_nombre_puesto_funcionario } = req.query;
+      const { salida_id_funcionario, salida_fecha, salida_tipo_entrega, solicitante_id, salida_acta, salida_nombre_puesto_funcionario, salida_observacion } = req.query;
 
       const funcionario = await Funcionario.findOne({ where: { id_funcionario: salida_id_funcionario } });
 
@@ -1502,7 +1506,8 @@ app.get('/inventario-placas/entrega-placas/acta-entrega-pdf', async (req, res) =
         usuario,
         salida_nombre_puesto_funcionario,
         salida_acta,
-        salida_tipo_entrega
+        salida_tipo_entrega,
+        salida_observacion
       });
 
 
@@ -1592,7 +1597,7 @@ app.get('/inventario-placas/entrega-placas/placa-entregada', async (req, res) =>
 
     if (req.session.user && req.session.permisos) {
 
-      const { salida_id_funcionario, salida_fecha, salida_tipo_entrega, solicitante_id, salida_acta, salida_nombre_puesto_funcionario } = req.query;
+      const { salida_id_funcionario, salida_fecha, salida_tipo_entrega, solicitante_id, salida_acta, salida_nombre_puesto_funcionario, salida_observacion } = req.query;
 
       const funcionario = await Funcionario.findOne({ where: { id_funcionario: salida_id_funcionario } });
 
@@ -1630,7 +1635,8 @@ app.get('/inventario-placas/entrega-placas/placa-entregada', async (req, res) =>
         usuario,
         salida_nombre_puesto_funcionario,
         salida_acta,
-        salida_tipo_entrega
+        salida_tipo_entrega,
+        salida_observacion
 
       });
     } else {
@@ -1718,6 +1724,9 @@ app.get('/servicios/generacion-turnos-web', async (req, res) => {
     'ACTUALIZACIÓN DE DATOS DEL VEHÍCULO', 'CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR', 'CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO', 'CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA',
     'CAMBIO DE SERVICIO DE PARTICULAR A COMERCIAL', 'CAMBIO DE SERVICIO DE PUBLICO A COMERCIAL', 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION', 'CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA',
     'BLOQUEO DE VEHÍCULO', 'CERTIFICADO DE POSEER VEHICULO', 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION', 'CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA',
+    'DUPLICADO DEL DOCUMENTO DE LA MATRICULA','DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION', 'DUPLICADO DEL DOCUMENTO ANUAL DE CIRCULACION',
+    'PROCESO - REVISIÓN TECNICA VEHICULAR', 'PROCESO - VERIFICACIÓN Y EXTRACCIÓN DE IMPRONTAS', 'DESBLOQUEO DE VEHÍCULO', 'CERTIFICADO UNICO VEHICULAR',
+    'DUPLICADO DE PLACAS', 'EMISION DE MATRICULA POR PRIMERA VEZ', 'TRANSFERENCIA DE DOMINIO',
   ];
   tiposTramites = tiposTramites.filter(tipo => !tiposExcluir.includes(tipo.tipo_tramite));
 

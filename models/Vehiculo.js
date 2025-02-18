@@ -34,7 +34,7 @@ const sequelize = require('../config/db');
       allowNull: true
     },
     modelo: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING(70),
       allowNull: true
     },
     año_modelo: {

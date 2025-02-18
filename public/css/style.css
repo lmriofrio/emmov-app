@@ -33185,6 +33185,14 @@ fieldset:disabled .btn {
 
 }
 
+.bg-primary-subtle3 {
+    background-color: #000000 !important;
+    --bs-btn-padding-x: 8px;
+    --bs-btn-padding-y: 5px;
+    cursor: pointer;
+
+}
+
 .bg-primary-orange {
     background-color: #ffefd6 !important;
     --bs-btn-padding-x: 8px;

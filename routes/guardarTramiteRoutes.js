@@ -197,6 +197,14 @@ router.post('/guardar-tramite-turno', async (req, res) => {
       
               console.log(`------Placa actualizada correctamente a: ${placaMayus}`);
               console.log(`-----vehiculo2`, vehiculo2.ramw);
+              console.log(`-----rawn`, ramw);
+
+              await Tramite.update(
+                { placa: placaMayus },
+                { where: { placa: ramw } }
+              );
+              
+
             } else {
               console.warn(`No se encontró un vehículo asociado al RAMW: ${ramw}`);
             }

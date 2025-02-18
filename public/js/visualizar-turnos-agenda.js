@@ -3,11 +3,12 @@ $(document).ready(function () {
         type: 'GET',
         url: '/visualizar-turnos-agenda',
         success: function (response) {
-            const tbody = $('#tbody-tramites'); tbody.empty();
 
-            const tbodyG = $('#tbody-tramitesGeneral'); tbodyG.empty();
+            const tbody = $('#tbody-tramites');
+            const tbodyG = $('#tbody-tramitesGeneral');
+            const tbodyEmpresa = $('#tbody-tramitesEmpresa');
 
-            const tbodyEmpresa = $('#tbody-tramitesEmpresa'); tbodyEmpresa.empty();
+            tbody.add(tbodyG).add(tbodyEmpresa).empty();
 
             if (response.success) {
 
@@ -181,8 +182,7 @@ $(document).ready(function () {
                         });
                     });
 
-
-                    $('#tbody-tramites').on('click', '.reasignarTramite', function () {
+                    $('#tbody-tramites').off('click', '.reasignarTramite').on('click', '.reasignarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -230,7 +230,7 @@ $(document).ready(function () {
                
                      */
 
-                    $('#tbody-tramites').on('click', '.visualizarTramite', function () {
+                    $('#tbody-tramites').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
 
                         $.ajax({
@@ -279,7 +279,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramites').on('click', '.eliminarTramite', function () {
+                    $('#tbody-tramites').off('click', '.eliminarTramite').on('click', '.eliminarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -303,7 +303,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramites').on('click', '.imprimirTramite', function () {
+                    $('#tbody-tramites').off('click', '.imprimirTramite').on('click', '.imprimirTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -477,28 +477,6 @@ $(document).ready(function () {
                     tbodyG.append(newRow2);
                     numeroFilaG++;
 
-                    $('#tbody-tramitesGeneral').on('click', '.atenderTramite', function () {
-                        const idTramite = $(this).data('id-tramite');
-
-                        $.ajax({
-                            type: 'GET',
-                            url: `/buscar-tramite-id`,
-                            data: { idTramite },
-                            success: function (response) {
-                                if (response.success) {
-
-                                    window.location.href = `/matriculacion/registro-por-turno?id_tramite=${idTramite}`;
-                                } else {
-                                    alert('Error: no se pudo obtener la información del trámite.');
-                                }
-                            },
-                            error: function (error) {
-                                console.error('Error al obtener detalles del trámite:', error);
-                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
-                            }
-                        });
-                    });
-
                     $('#tbody-tramitesGeneral').off('click', '.atenderTramite').on('click', '.atenderTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         console.info(idTramite);
@@ -521,7 +499,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramitesGeneral').on('click', '.reasignarTramite', function () {
+                    $('#tbody-tramitesGeneral').off('click', '.reasignarTramite').on('click', '.reasignarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -547,7 +525,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramitesGeneral').on('click', '.editarTramite', function () {
+                    $('#tbody-tramitesGeneral').off('click', '.editarTramite').on('click', '.editarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
 
                         $.ajax({
@@ -568,7 +546,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramitesGeneral').on('click', '.visualizarTramite', function () {
+                    $('#tbody-tramitesGeneral').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
 
                         $.ajax({
@@ -617,7 +595,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramitesGeneral').on('click', '.eliminarTramite', function () {
+                    $('#tbody-tramitesGeneral').off('click', '.eliminarTramite').on('click', '.eliminarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -641,7 +619,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramitesGeneral').on('click', '.imprimirTramite', function () {
+                    $('#tbody-tramitesGeneral').off('click', '.imprimirTramite').on('click', '.imprimirTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -781,29 +759,7 @@ $(document).ready(function () {
                     numeroFilaE++;
 
 
-                    $('#tbody-tramitesEmpresa').on('click', '.atenderTramite', function () {
-                        const idTramite = $(this).data('id-tramite');
-
-                        $.ajax({
-                            type: 'GET',
-                            url: `/buscar-tramite-id`,
-                            data: { idTramite },
-                            success: function (response) {
-                                if (response.success) {
-
-                                    window.location.href = `/matriculacion/registro-por-turno?id_tramite=${idTramite}`;
-                                } else {
-                                    alert('Error: no se pudo obtener la información del trámite.');
-                                }
-                            },
-                            error: function (error) {
-                                console.error('Error al obtener detalles del trámite:', error);
-                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
-                            }
-                        });
-                    });
-
-                    $('#tbody-tramitesEmpresa').on('click', '.reasignarTramite', function () {
+                    $('#tbody-tramitesEmpresa').off('click', '.reasignarTramite').on('click', '.reasignarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -829,7 +785,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramitesEmpresa').on('click', '.visualizarTramite', function () {
+                    $('#tbody-tramitesEmpresa').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
 
                         $.ajax({
@@ -878,7 +834,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramitesEmpresa').on('click', '.eliminarTramite', function () {
+                    $('#tbody-tramitesEmpresa').off('click', '.eliminarTramite').on('click', '.eliminarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -902,7 +858,7 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramitesEmpresa').on('click', '.imprimirTramite', function () {
+                    $('#tbody-tramitesEmpresa').off('click', '.imprimirTramite').on('click', '.imprimirTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',

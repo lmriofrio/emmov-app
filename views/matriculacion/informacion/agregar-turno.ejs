@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -722,6 +722,20 @@
                                                                     </div>
                                                                 </div>
 
+                                                                <script>
+                                                                    document.getElementById("tipo_tramite").addEventListener("change", function () {
+                                                                        const selectedValue = this.value;
+                                                                        const placaInput = document.getElementById("placa");
+
+                                                                        if (selectedValue === "BLOQUEO DE VEHÍCULO") {
+                                                                            placaInput.setAttribute("maxlength", "10");
+                                                                        } else {
+                                                                            placaInput.setAttribute("maxlength", "7");
+                                                                        }
+                                                                    });
+
+                                                                </script>
+
                                                             </div>
 
                                                         </div>
@@ -1252,7 +1266,7 @@
                     </div>
 
 
-                    <div class="modal fade" id="modalPlacaExtensa" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    <div class="modal fade" id="modalPlacaExtensa" tabindex="-1" 
                         aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">

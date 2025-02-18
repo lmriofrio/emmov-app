@@ -104,11 +104,11 @@ const InventarioPlacas = sequelize.define('registro-inventario-placas', {
     allowNull: true
   },
   solicitante_nombre: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING (70),
     allowNull: true
   },
   salida_observacion: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING (80),
     allowNull: true
   }, 
   salida_acta: {

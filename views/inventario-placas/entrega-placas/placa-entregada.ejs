@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -121,6 +121,16 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <label class="form-label col-md-5 mb-0">Observación de entrega:</label>
+                                                <div class="col-md-7">
+                                                    <p class="form-control-static mb-2" id="salida_observacion">
+                                                        <%= salida_observacion %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <br>
 
                                     </div>
@@ -145,9 +155,10 @@
                                             const solicitante_id = document.getElementById('solicitante_id').textContent.trim();
                                             const salida_acta = document.getElementById('salida_acta').textContent.trim();
                                             const salida_nombre_puesto_funcionario = document.getElementById('salida_nombre_puesto_funcionario').textContent.trim();
+                                            const salida_observacion = document.getElementById('salida_observacion').textContent.trim();
 
                                             if (salida_id_funcionario) {
-                                                const url = `acta-entrega-pdf?salida_id_funcionario=${encodeURIComponent(salida_id_funcionario)}&salida_fecha=${encodeURIComponent(salida_fecha)}&salida_tipo_entrega=${encodeURIComponent(salida_tipo_entrega)}&solicitante_id=${encodeURIComponent(solicitante_id)}&salida_nombre_puesto_funcionario=${encodeURIComponent(salida_nombre_puesto_funcionario)}&salida_acta=${encodeURIComponent(salida_acta)}`;
+                                                const url = `acta-entrega-pdf?salida_id_funcionario=${encodeURIComponent(salida_id_funcionario)}&salida_fecha=${encodeURIComponent(salida_fecha)}&salida_tipo_entrega=${encodeURIComponent(salida_tipo_entrega)}&solicitante_id=${encodeURIComponent(solicitante_id)}&salida_nombre_puesto_funcionario=${encodeURIComponent(salida_nombre_puesto_funcionario)}&salida_acta=${encodeURIComponent(salida_acta)}&salida_observacion=${encodeURIComponent(salida_observacion)}`;
 
                                                 var ventanaImpresion = window.open(url);
 

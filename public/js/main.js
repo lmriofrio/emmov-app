@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 3.- buscar vehiculo desde agregar turno en la BD (REGISTRO-VEHICULO)
 $(document).ready(function () {
   $('#buscarVehiculo').off('click').on('click', function () {
+    const tipoTramiteSelect = document.getElementById('tipo_tramite').value;
     const placa = $('input[name="placa"]').val().trim();
     const id_vehiculo = $('input[name="placa"]').val().trim();
 
@@ -125,8 +126,12 @@ $(document).ready(function () {
     }
 
     if (placa.length >= 8) {
-      $('#modalPlacaExtensa').modal('show');
-      return;
+      if (tipoTramiteSelect === 'BLOQUEO DE VEHÍCULO') {
+        console.log('Tipo de trámite es BLOQUEO DE VEHÍCULO, se permite continuar.');
+      } else {
+        $('#modalPlacaExtensa').modal('show');
+        return;
+      }
     }
 
     $.ajax({
@@ -250,7 +255,7 @@ $(document).ready(function () {
         $('#result_clase2').text();
         $('#result_servicio2').text();
 
-
+        $('#noExisteVehiculoSRI').addClass('d-none');
 
         if (response.success) {
 
@@ -339,7 +344,6 @@ $(document).ready(function () {
           $('#clase_vehiculo').trigger('change');
           $('#provincia_usuario').trigger('change');
 
-
           $('#contentConSRI').removeClass('d-none');
           $('#noDisponibleSRI').removeClass('d-none');
           $('#cosultaSRI').addClass('d-none');
@@ -353,7 +357,7 @@ $(document).ready(function () {
   });
 });
 
-// 4.- buscar vehiculo desde turnero en el SRI (API HACIA SRI)
+// 4.- buscar vehiculo desde agregar turno en el SRI (API HACIA SRI)
 $(document).ready(function () {
   $('#buscarVehiculoSRI').off('click').on('click', function () {
     const id_vehiculo = $('input[name="ramw"]').val().trim();
@@ -411,12 +415,11 @@ $(document).ready(function () {
         $('#result_servicio2').text('');
 
         $('#contentAggTurno').addClass('animated fadeInRight');
+        $('#nav-tabTittle').removeClass('d-none');
+        $('#nav-tabContent').removeClass('d-none');
+        $('#form-actions-save-turn').removeClass('d-none');
 
         if (response.success) {
-
-          $('#nav-tabTittle').removeClass('d-none');
-          $('#nav-tabContent').removeClass('d-none');
-          $('#form-actions-save-turn').removeClass('d-none');
 
           $('#informacion').text(response.data.informacion);
           $('#total').text(`USD $ ${(response.data.total)} `);
@@ -474,9 +477,6 @@ $(document).ready(function () {
           }
         } else {
           //Cuando el vehiculo no existe en el SRI
-          $('#nav-tabTittle').removeClass('d-none');
-          $('#nav-tabContent').removeClass('d-none');
-          $('#form-actions-save-turn').removeClass('d-none');
           $('#noExisteVehiculoSRI').removeClass('d-none');
           $('#clase_vehiculo').trigger('change');
           $('#provincia_usuario').trigger('change');
@@ -495,7 +495,6 @@ $(document).ready(function () {
 
           $('#clase_vehiculo').trigger('change');
           $('#provincia_usuario').trigger('change');
-
 
           $('#contentConSRI').removeClass('d-none');
           $('#noDisponibleSRI').removeClass('d-none');
