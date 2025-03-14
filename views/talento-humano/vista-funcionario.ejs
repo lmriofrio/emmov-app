@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Registro Marcacion</title>
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+    <script src="/js/talento-humano.js"></script>
+    <script src="/js/spinners.js"></script>
+
+
+    <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        .table thead th {
+            background-color: #f3f4f8;
+        }
+    </style>
+</head>
+
+<body data-vista="vista-funcionario">
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+                    <div class="container-fluid">
+                        <div class="widget-content searchable-container list">
+                            <div class="card card-body">
+
+                                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                    <div class="mb-3 mb-sm-0">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a class="text-decoration-none text-black" href="/">Vista de
+                                                    funcionario</a>
+                                            </li>
+                                            <li class="breadcrumb-item text-muted" aria-current="page">
+                                                <%= currentDaySimple %>
+                                            </li>
+
+                                        </ol>
+                                    </div>
+                                    <div style="width: 20%;">
+                                        <input type="text" name="" class="form-control-disable text-center" id=""
+                                            placeholder="">
+                                    </div>
+                                </div>
+
+
+                                <div class="mt-0 row d-none">
+
+                                    <div class="col-12 col-md-9 d-flex flex-wrap">
+                                        <input type="text" value="<%= id_funcionarios %>" id="id_usuario"
+                                            name="id_usuario">
+                                    </div>
+                                </div>
+
+                                <div class="" id="content1">
+
+                                    <br>
+                                    <div class="form-group row col-lg-7">
+                                        <label class="form-label text-start col-lg-3">Identificación:</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control-static text-black mb-2 text-start"
+                                                id="ConsultaFuncionario_id_funcionario">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row col-lg-7">
+                                        <label class="form-label text-start col-lg-3">Nombre:</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control-static text-black mb-2 text-start"
+                                                id="ConsultaFuncionario_nombre_funcionario">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row col-lg-7">
+                                        <label class="form-label text-start col-lg-3">Email:</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control-static text-black mb-2 text-start"
+                                                id="ConsultaFuncionario_email_funcionario">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row col-lg-7">
+                                        <label class="form-label text-start col-lg-3">Empresa:</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control-static text-black mb-2 text-start"
+                                                id="ConsultaFuncionario_nombre_corto_empresa">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <br>
+
+                                </div>
+
+                                <div class="" id="content2">
+                                    <br>
+                                    <div class="table-responsive2">
+                                        <table class="table table-bordered">
+                                            <thead id="thead-tramites">
+                                                <tr class="text-dark">
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-1">N°
+                                                    </th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                        ID REGISTRO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                        NOMBRE DEL FUNCIONARIO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                        FECHA DE FALTA DE REGISTRO
+                                                    </th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                        MOTIVO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                        TIEMPO DE DESCUENTO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                        ESTADO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                        NOTIFICADO POR EMAIL</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-2">
+                                                        ACCIÓNES</th>
+                                                </tr>
+
+                                            </thead>
+                                            <tbody id="tbody-tramites">
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                <br>
+                                <div class="d-none d-flex col-12 row align-items-center justify-content-center border rounded"
+                                    id="sinResultados">
+                                    <div class="pt-4 pb-4 col-12 d-flex align-items-center justify-content-center">
+                                        <br>
+                                        <h4>Sin registros</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="modal fade" id="modalVisualizarRegistro" aria-hidden="true"
+                        aria-labelledby="modalVisualizarRegistroLabel" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body">
+
+                                    <form action="" method="post" id="" class="">
+                                        <div class="border-bottom">
+                                            <div
+                                                class="modal-title d-flex justify-content-between text-black align-items-center mt-2 mb-3">
+                                                <div class="d-flex">
+                                                    <h5 class="mb-0">Visualizar registro #</h5>
+                                                    <h5 class="mb-0 fw-semibold text-black" name="vsl_id_registro2"
+                                                        id="vsl_id_registro2"></h5>
+                                                </div>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        </div>
+
+                                        <input type="text" name="vsl_id_registro" id="vsl_id_registro"
+                                            class="form-control d-none">
+
+                                        <div class="px-4 py-3">
+                                            <div class="py-1">
+
+                                                <div class="row d-none">
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">C.I:</label>
+                                                            <input type="text" name="vsl_id_funcionario"
+                                                                id="vsl_id_funcionario" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">Funcionario:</label>
+                                                            <input type="text" name="vsl_nombre_funcionario"
+                                                                id="vsl_nombre_funcionario" class="form-control"
+                                                                disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">C.I:</label>
+                                                            <input type="text" name="vsl_id_funcionario2"
+                                                                id="vsl_id_funcionario2" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">Funcionario:</label>
+                                                            <input type="text" name="vsl_nombre_funcionario2"
+                                                                id="vsl_nombre_funcionario2" class="form-control"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">DATOS DE
+                                                    FALTA DE REGISTRO
+                                                </h5>
+
+
+                                                <br>
+
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label class="col-12 form-label fw-normal">
+                                                                Fecha de falta de registro:
+                                                            </label>
+                                                            <input type="date" name="vsl_fecha" id="vsl_fecha"
+                                                                class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="mb-3">
+                                                                    <label class="col-12 form-label fw-normal">
+                                                                        Tiempo
+                                                                        en descuento (horas y minutos):
+                                                                    </label>
+                                                                    <input type="text" name="vsl_tiempo_descuento"
+                                                                        id="vsl_tiempo_descuento" class="form-control"
+                                                                       readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="col-6 form-label fw-normal">
+                                                                Motivo:
+                                                            </label>
+                                                            <select name="vsl_motivo" id="vsl_motivo"
+                                                                class="form-select" readonly>
+                                                                <option value="" disabled selected>Seleccione un motivo
+                                                                </option>
+                                                                <option value="Falta la picada del ingreso a laborar">
+                                                                    Falta la picada del ingreso a laborar
+                                                                </option>
+                                                                <option
+                                                                    value="Falta la picada de la salida al almuerzo">
+                                                                    Falta la picada de la salida al almuerzo
+                                                                </option>
+                                                                <option value="Falta la picada de regreso del amuerzo">
+                                                                    Falta la picada de regreso del amuerzo</option>
+                                                                <option
+                                                                    value="Falta la picada de la salida del trabajo">
+                                                                    Falta la picada de la salida del trabajo</option>
+                                                                <option value="No registra picadas todo el dia">No
+                                                                    registra picadas todo el dia</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <br>
+
+
+                                                <div class="col-12 mb-4">
+
+                                                    <div
+                                                        class="p-3 rounded text-black border alert-dismissible fade show mb-0">
+                                                        <div class="d-flex align-items-center gap-3 font-medium">
+
+                                                            <label class="col-12 form-label fw-semibold">
+                                                                <span class="fw-normal">Registrado por</span>
+                                                                <span class="fw-normal" id="vsl_funcionarioTTHH">Luis Michael Riofrio Jimenez</span>
+                                                                <span class="fw-normal" >el dia</span>
+                                                                <span class="fw-normal" id="vsl_fechaTTHH"></span>
+                                                            </label>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="d-none">
+                                                    <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">ESTADO
+                                                        DEL REGISTRO
+                                                    </h5>
+
+
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="mb-3">
+                                                                <label class="col-6 form-label fw-semibold">
+                                                                    <span class="text-red">*</span>Estado del registro:
+                                                                </label>
+                                                                <select name="vsl_estado" id="vsl_estado"
+                                                                    class="form-select" required>
+                                                                    <option value="" disabled selected>Seleccione un
+                                                                        motivo
+                                                                    </option>
+                                                                    <option value="NO JUSTIFICADO">
+                                                                        NO JUSTIFICADO
+                                                                    </option>
+                                                                    <option value="JUSTIFICADO">
+                                                                        JUSTIFICADO
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <br>
+                                                </div>
+
+
+
+
+
+
+
+                                                <div class="d-none" id="contentJustificar">
+
+                                                    <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">DATOS DE
+                                                        JUSTIFICACIÓN
+                                                    </h5>
+
+                                                    <br>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="mb-3">
+                                                                <label class="col-6 form-label fw-normal">
+                                                                    Fecha de justificación:
+                                                                </label>
+                                                                <input type="datetime-local"
+                                                                    name="vsl_fecha_justificacion"
+                                                                    id="vsl_fecha_justificacion" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="mb-3">
+                                                                <label class="col-6 form-label fw-normal">
+                                                                    Motivo de justificación:
+                                                                </label>
+                                                                <select name="vsl_motivo_justificacion"
+                                                                    id="vsl_motivo_justificacion" class="form-select"
+                                                                    required>
+                                                                    <option value="" disabled selected>Seleccione un
+                                                                        motivo
+                                                                    </option>
+                                                                    <option value="Asuntos laborales">
+                                                                        Asuntos laborales
+                                                                    </option>
+                                                                    <option value="Enfermedad o citas médicas">
+                                                                        Enfermedad o citas médicas
+                                                                    </option>
+                                                                    <option value="Asuntos personales">
+                                                                        Asuntos personales
+                                                                    </option>
+                                                                    <option value="Otros">
+                                                                        Otros
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="mb-3">
+                                                                <label class="col-6 form-label fw-normal">
+                                                                    Observación de justificación:
+                                                                </label>
+
+                                                                <textarea class="form-control" rows="2"
+                                                                    name="vsl_observación_justificacion"
+                                                                    id="vsl_observación_justificacion"
+                                                                    autocomplete="off" maxlength="90"></textarea>
+                                                                <div class="invalid-feedback">
+                                                                    Debe ingresar una observacion de anulacion.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3 mb-2">
+                                            <div class="col-12 d-flex gap-2 justify-content-end align-items-right">
+
+
+
+                                                <button type="button"
+                                                    class="col-3 d-flex justify-content-center btn p-2 fw-normal btn-rounded btn-secondary align-items-center"><i
+                                                        class="ti ti-exit fs-4 me-2"></i>
+                                                    CERRAR
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalEditarRegistro" aria-hidden="true"
+                        aria-labelledby="modalEditarRegistroLabel" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body">
+
+                                    <form action="/editar-falta-asistencia" method="post" id="EditarAsistenciaForm"
+                                        class="">
+                                        <div class="border-bottom">
+                                            <div
+                                                class="modal-title d-flex justify-content-between text-black align-items-center mt-2 mb-3">
+                                                <div class="d-flex">
+                                                    <h5 class="mb-0">Editar registro #</h5>
+                                                    <h5 class="mb-0 fw-semibold text-black" name="agg_id_registro2"
+                                                        id="agg_id_registro2"></h5>
+                                                </div>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        </div>
+
+                                        <input type="text" name="agg_id_registro" id="agg_id_registro"
+                                            class="form-control d-none">
+
+                                        <div class="px-4 py-3">
+                                            <div class="py-1">
+
+                                                <div class="row d-none">
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">C.I:</label>
+                                                            <input type="text" name="agg_id_funcionario"
+                                                                id="agg_id_funcionario" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">Funcionario:</label>
+                                                            <input type="text" name="agg_nombre_funcionario"
+                                                                id="agg_nombre_funcionario" class="form-control"
+                                                                disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">C.I:</label>
+                                                            <input type="text" name="agg_id_funcionario2"
+                                                                id="agg_id_funcionario2" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">Funcionario:</label>
+                                                            <input type="text" name="agg_nombre_funcionario2"
+                                                                id="agg_nombre_funcionario2" class="form-control"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">DATOS DE
+                                                    FALTA DE REGISTRO
+                                                </h5>
+
+
+                                                <br>
+
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3">
+                                                            <label class="col-6 form-label fw-semibold">
+                                                                <span class="text-red">*</span> Fecha:
+                                                            </label>
+                                                            <input type="date" name="agg_fecha" id="agg_fecha"
+                                                                class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="mb-3">
+                                                                    <label class="col-12 form-label fw-semibold">
+                                                                        <span class="text-red">*</span> Tiempo
+                                                                        en descuento (horas):
+                                                                    </label>
+                                                                    <input type="number" name="agg_tiempo_horas"
+                                                                        id="agg_tiempo_horas" class="form-control"
+                                                                        min="0" max="8" required
+                                                                        oninput="this.value = this.value.slice(0, 2)">
+                                                                    <small class="text-muted">0 - 8 horas</small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="mb-3">
+                                                                    <label class="col-12 form-label fw-semibold">
+                                                                        <span class="text-red">*</span> Tiempo
+                                                                        en descuento (minutos):
+                                                                    </label>
+                                                                    <input type="number" name="agg_tiempo_minutos"
+                                                                        id="agg_tiempo_minutos" class="form-control"
+                                                                        min="0" max="59" required
+                                                                        oninput="this.value = this.value.slice(0, 2)">
+                                                                    <small class="text-muted">0 - 59 minutos</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="col-6 form-label fw-semibold">
+                                                                <span class="text-red">*</span>Motivo:
+                                                            </label>
+                                                            <select name="agg_motivo" id="agg_motivo"
+                                                                class="form-select" required>
+                                                                <option value="" disabled selected>Seleccione un motivo
+                                                                </option>
+                                                                <option value="Falta la picada del ingreso a laborar">
+                                                                    Falta la picada del ingreso a laborar
+                                                                </option>
+                                                                <option
+                                                                    value="Falta la picada de la salida al almuerzo">
+                                                                    Falta la picada de la salida al almuerzo
+                                                                </option>
+                                                                <option value="Falta la picada de regreso del amuerzo">
+                                                                    Falta la picada de regreso del amuerzo</option>
+                                                                <option
+                                                                    value="Falta la picada de la salida del trabajo">
+                                                                    Falta la picada de la salida del trabajo</option>
+                                                                <option value="No registra picadas todo el dia">No
+                                                                    registra picadas todo el dia</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <br>
+
+                                                <div class="d-none">
+                                                    <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">ESTADO
+                                                        DEL REGISTRO
+                                                    </h5>
+
+
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="mb-3">
+                                                                <label class="col-6 form-label fw-semibold">
+                                                                    <span class="text-red">*</span>Estado del registro:
+                                                                </label>
+                                                                <select name="agg_estado" id="agg_estado"
+                                                                    class="form-select" required>
+                                                                    <option value="" disabled selected>Seleccione un
+                                                                        motivo
+                                                                    </option>
+                                                                    <option value="NO JUSTIFICADO">
+                                                                        NO JUSTIFICADO
+                                                                    </option>
+                                                                    <option value="JUSTIFICADO">
+                                                                        JUSTIFICADO
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <br>
+                                                </div>
+
+
+
+
+
+
+
+                                                <div class="d-none" id="contentJustificar">
+
+                                                    <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">DATOS DE
+                                                        JUSTIFICACIÓN
+                                                    </h5>
+
+                                                    <br>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="mb-3">
+                                                                <label class="col-6 form-label fw-normal">
+                                                                    Fecha de justificación:
+                                                                </label>
+                                                                <input type="datetime-local"
+                                                                    name="agg_fecha_justificacion"
+                                                                    id="agg_fecha_justificacion" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="mb-3">
+                                                                <label class="col-6 form-label fw-normal">
+                                                                    Motivo de justificación:
+                                                                </label>
+                                                                <select name="agg_motivo_justificacion"
+                                                                    id="agg_motivo_justificacion" class="form-select"
+                                                                    required>
+                                                                    <option value="" disabled selected>Seleccione un
+                                                                        motivo
+                                                                    </option>
+                                                                    <option value="Asuntos laborales">
+                                                                        Asuntos laborales
+                                                                    </option>
+                                                                    <option value="Enfermedad o citas médicas">
+                                                                        Enfermedad o citas médicas
+                                                                    </option>
+                                                                    <option value="Asuntos personales">
+                                                                        Asuntos personales
+                                                                    </option>
+                                                                    <option value="Otros">
+                                                                        Otros
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="mb-3">
+                                                                <label class="col-6 form-label fw-normal">
+                                                                    Observación de justificación:
+                                                                </label>
+
+                                                                <textarea class="form-control" rows="2"
+                                                                    name="agg_observación_justificacion"
+                                                                    id="agg_observación_justificacion"
+                                                                    autocomplete="off" maxlength="90"></textarea>
+                                                                <div class="invalid-feedback">
+                                                                    Debe ingresar una observacion de anulacion.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3 mb-2">
+                                            <div class="col-12 d-flex gap-2">
+
+                                                <button type="button"
+                                                    class="col-9 justify-content-center btn p-2 fw-semibold btn-rounded btn-secondary align-items-center"
+                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                    CANCELAR
+                                                </button>
+
+                                                <button type="submit"
+                                                    class="col-3 d-flex justify-content-center btn p-2 fw-normal btn-rounded btn-primary align-items-center"><i
+                                                        class="ti ti-save fs-4 me-2"></i>
+                                                    GUARDAR CAMBIOS
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalEliminarRegistro" aria-hidden="true"
+                        aria-labelledby="modalEliminarRegistroLabel" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body">
+
+
+
+                                    <form action="/eliminar-falta-asistencia" method="post" class="">
+                                        <div class="border-bottom">
+                                            <div
+                                                class="modal-title d-flex justify-content-between text-black align-items-center mt-2 mb-3">
+                                                <div class="d-flex">
+                                                    <h5 class="mb-0">Eliminar registro #</h5>
+                                                    <h5 class="mb-0 fw-semibold text-black" name="agg_id_registro2"
+                                                        id="elm_id_registro2"></h5>
+                                                </div>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        </div>
+
+                                        <input type="text" name="elm_id_registro" id="elm_id_registro"
+                                            class="form-control d-none">
+
+                                        <div class="px-4 py-3">
+                                            <div class="py-1">
+
+                                                <div class="row d-none">
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">C.I:</label>
+                                                            <input type="text" name="agg_id_funcionario"
+                                                                id="elm_id_funcionario" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">Funcionario:</label>
+                                                            <input type="text" name="eml_nombre_funcionario"
+                                                                id="elm_nombre_funcionario" class="form-control"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">C.I:</label>
+                                                            <input type="text" name="elm_id_funcionario2"
+                                                                id="elm_id_funcionario2" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">Funcionario:</label>
+                                                            <input type="text" name="elm_nombre_funcionario2"
+                                                                id="elm_nombre_funcionario2" class="form-control"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <hr>
+
+
+                                                <br>
+
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="col-6 form-label fw-semibold">
+                                                                <span class="text-red">*</span> Observación de
+                                                                eliminación:
+                                                            </label>
+
+                                                            <textarea class="form-control" rows="2"
+                                                                name="elm_observación_justificacion"
+                                                                id="elm_observación_justificacion" autocomplete="off"
+                                                                maxlength="90" required></textarea>
+                                                            <div class="invalid-feedback">
+                                                                Debe ingresar una observacion de anulacion.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <br>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3 mb-2">
+                                            <div class="col-12 d-flex gap-2">
+
+                                                <button type="button"
+                                                    class="col-9 justify-content-center btn p-2 fw-semibold btn-rounded btn-secondary align-items-center"
+                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                    CANCELAR
+                                                </button>
+
+                                                <button type="submit"
+                                                    class="col-3 d-flex justify-content-center btn p-2 fw-normal btn-rounded btn-danger align-items-center"><i
+                                                        class="ti ti-trash fs-4 me-2"></i>
+                                                    ELIMINAR
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalJustificarRegistro" aria-hidden="true"
+                        aria-labelledby="modalJustificarRegistroLabel" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body">
+
+
+
+                                    <form action="/justificar-falta-asistencia" method="post" class="">
+                                        <div class="border-bottom">
+                                            <div
+                                                class="modal-title d-flex justify-content-between text-black align-items-center mt-2 mb-3">
+                                                <div class="d-flex">
+                                                    <h5 class="mb-0">Justificar registro #</h5>
+                                                    <h5 class="mb-0 fw-semibold text-black" name="jtf_id_registro2"
+                                                        id="jtf_id_registro2"></h5>
+                                                </div>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        </div>
+
+                                        <input type="text" name="jtf_id_registro" id="jtf_id_registro"
+                                            class="form-control d-none">
+
+                                        <div class="px-4 py-3">
+                                            <div class="py-1">
+
+                                                <div class="row d-none">
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">C.I:</label>
+                                                            <input type="text" name="jtf_id_funcionario"
+                                                                id="jtf_id_funcionario" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">Funcionario:</label>
+                                                            <input type="text" name="jtf_nombre_funcionario"
+                                                                id="jtf_nombre_funcionario" class="form-control"
+                                                                disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">C.I:</label>
+                                                            <input type="text" name="jtf_id_funcionario2"
+                                                                id="jtf_id_funcionario2" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">Funcionario:</label>
+                                                            <input type="text" name="jtf_nombre_funcionario2"
+                                                                id="jtf_nombre_funcionario2" class="form-control"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <br>
+
+                                                <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">DATOS DE
+                                                    JUSTIFICACIÓN
+                                                </h5>
+
+                                                <br>
+
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label class="col-12 form-label fw-semibold">
+                                                                <span class="text-red">*</span> Fecha de justificación:
+                                                            </label>
+                                                            <input type="datetime-local" name="jtf_fecha" id="jtf_fecha"
+                                                                class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="mb-3">
+                                                                    <label class="col-12 form-label fw-semibold">
+                                                                        <span class="text-red">*</span> Motivo de
+                                                                        justificación:
+                                                                    </label>
+                                                                    <select name="jtf_motivo" id="jtf_motivo"
+                                                                        class="form-select" required>
+                                                                        <option value="" disabled selected>Seleccione un
+                                                                            motivo
+                                                                        </option>
+                                                                        <option value="Asuntos laborales">
+                                                                            Asuntos laborales
+                                                                        </option>
+                                                                        <option value="Enfermedad o citas médicas">
+                                                                            Enfermedad o citas médicas
+                                                                        </option>
+                                                                        <option value="Asuntos personales">
+                                                                            Asuntos personales
+                                                                        </option>
+                                                                        <option value="Otros">
+                                                                            Otros
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="col-6 form-label fw-normal fw-semibold">
+                                                                <span class="text-red">*</span> Observación de
+                                                                justificación - Referencias (opcional):
+                                                            </label>
+
+                                                            <textarea class="form-control" rows="2"
+                                                                name="observacion_justificacion"
+                                                                id="observacion_justificacion" autocomplete="off"
+                                                                maxlength="90" required></textarea>
+                                                            <div class="invalid-feedback">
+                                                                Debe ingresar una observacion.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <br>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3 mb-2">
+                                            <div class="col-12 d-flex gap-2">
+
+                                                <button type="button"
+                                                    class="col-9 justify-content-center btn p-2 fw-semibold btn-rounded btn-secondary align-items-center"
+                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                    CANCELAR
+                                                </button>
+
+                                                <button type="submit"
+                                                    class="col-3 d-flex justify-content-center btn p-2 fw-normal btn-rounded btn-success align-items-center"><i
+                                                        class="ti ti-check fs-4 me-2"></i>
+                                                    JUSTIFICAR
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div id="alert-container"></div>
+
+
+
+            </div>
+    </div>
+
+
+    <div id="overlay" class="overlay d-flex justify-content-center align-items-center">
+        <div class="loader text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <div id="alert-container"></div>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Suma de horas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="/js/talento-humano.js"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+    <script src="/js/spinners.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <style>
+        .table thead th {
+            background-color: #f3f4f8;
+        }
+    </style>
+
+</head>
+
+<body data-vista="vista-funcionarios">
+
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+                    <div class="container-fluid">
+                        <div class="widget-content searchable-container list">
+                            <div class="card card-body">
+
+                                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                    <div class="mb-3 mb-sm-0">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a class="text-decoration-none text-black" href="/">Suma de horas
+                                                    injustificadas</a>
+                                            </li>
+                                            <li class="breadcrumb-item text-muted" aria-current="page">
+                                                <%= currentDaySimple %>
+                                            </li>
+
+                                        </ol>
+                                    </div>
+                                    <div style="width: 20%;">
+                                        <input type="text" name="" class="form-control-disable text-center" id=""
+                                            placeholder="">
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-12 mb-2 mt-3">
+                                    <div class="form-group row">
+                                        <label for="area" class="col-md-2 form-label fw-normal col-form-label">Nombre
+                                            del usuario:</label>
+
+                                        <div class="col-md-4">
+                                            <select id="idFuncionario" name="idFuncionario"
+                                                class="form-select fw-normal text-uppercase" required>
+                                                <option value="SELECCIONAR" selected disabled>SELECCIONAR</option>
+                                                <% funcionariosTTHH.forEach(funcionario=> { %>
+                                                    <option value="<%= funcionario.id_funcionario %>">
+                                                        <%= funcionario.nombre_funcionario %>
+                                                    </option>
+                                                    <% }); %>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-12 mb-2">
+                                    <div class="form-group row">
+                                        <label for="area" class="col-md-2 form-label fw-normal col-form-label">Fecha
+                                            inicial:</label>
+                                        <div class="col-md-4">
+                                            <input type="date" class="form-control fw-normal" name="fecha_ingreso"
+                                                id="fecha_ingreso">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                    <div class="form-group row">
+                                        <label for="area" class="col-md-2 form-label  fw-normal col-form-label">Fecha
+                                            final:</label>
+                                        <div class="col-md-4">
+                                            <input type="date" class="form-control fw-normal" name="fecha_final"
+                                                id="fecha_final">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                    <div class="form-group row">
+                                        <label for="area"
+                                            class="col-md-2 form-label fw-semibold  col-form-label"></label>
+                                        <div class="col-md-4 d-flex">
+                                            <button type="submit" class="btn btn-primary me-3" id="generarSumaHoras">
+                                                <i class="ti ti-search fs-4 me-2"></i>
+                                                <span>Procesar consulta</span>
+                                            </button>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div class="col-12 d-flex mb-2 d-none gap-3" id="content">
+
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="text-center">
+                                            <div class="border rounded p-4">
+                                                <i class="ti ti-user-circle fw-normal" style="font-size: 70px; stroke-width: 1;"></i>
+
+                                                <div class="mt-n2">
+                                                    <h3 class="card-title mt-3" id="visualizacion_nombre"></h3>
+                                                    <p class="card-subtitle" id="visualizacion_email"></p>
+                                                </div>
+                                                <div class="row mt-3 justify-content-center">
+                                                    <div class="col-5">
+                                                        <div class="d-flex col-12 mt-3 justify-content-center">
+
+                                                            <h5>Horas injustificadas (hh:mm)</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <div class="d-flex col-12 mt-3 justify-content-center">
+
+                                                            <h5>Faltas sin registrar</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row justify-content-center">
+                                                    <div class="col-5">
+                                                        <div class="d-flex col-12">
+                                                            <div class="col-12 d-flex align-items-center justify-content-center gap-2">
+                                                                <div class="col-12 p-2">
+                                                                    <button type="button"
+                                                                        class="btn btn-filter py-4 px-4 w-100 fs-6 align-items-center"
+                                                                        name="visualizacion_horas"
+                                                                        id="visualizacion_horas">
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-5">
+                                                        <div class="d-flex col-12">
+                                                            <div class="col-12 d-flex align-items-center justify-content-center gap-2">
+                                                                <div class="col-12 p-2">
+                                                                    <button type="button"
+                                                                        class="btn btn-filter py-4 px-4 w-100 fs-6 align-items-center"
+                                                                        name="visualizacion_registros"
+                                                                        id="visualizacion_registros">
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6">
+
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead class="thead-primary text-black">
+                                                    <tr class="text-dark">
+                                                        <th class="text-center align-middle px-2 py-2 text-overflow-1">
+                                                            N°
+                                                        </th>
+                                                        <th
+                                                            class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                            FECHA DE FALTA DE REGISTRO
+                                                        </th>
+                                                        <th
+                                                            class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                            MOTIVO</th>
+                                                        <th
+                                                            class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                            TIEMPO DE DESCUENTO</th>
+                                                        <th
+                                                            class="text-center align-middle px-2 py-2 text-overflow-2 text-wrap">
+                                                            ESTADO</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tbody-tramites">
+
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+
+
+
+                                <br>
+                                <div class="d-none d-flex col-12 row align-items-center justify-content-center border rounded"
+                                    id="sinResultados">
+                                    <div class="pt-4 pb-4 col-12 d-flex align-items-center justify-content-center">
+                                        <br>
+                                        <h4>Sin registros</h4>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+
+
+                    <div id="spinner-wrapper" class="spinner-wrapper">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading..</span>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="permisosModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body">
+
+                                    <form action="" method="POST">
+
+
+                                        <div class="px-4">
+                                            <div class="py-1">
+                                                <div class="row align-items-center justify-content-center">
+                                                    <div class="col-2">
+                                                        <div class="mb-3">
+
+                                                            <div
+                                                                class="d-flex align-items-center justify-content-center">
+                                                                <a
+                                                                    class="text-nowrap logo-img d-flex justify-content-center align-items-center">
+                                                                    <img src="/images/favicon.ico" class="" width="50"
+                                                                        alt="50" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row align-items-center justify-content-center d-flex mb-2">
+                                                    <div class="col-lg-4">
+                                                        <div class="align-items-center justify-content-center d-flex">
+                                                            <h5>TRÁMITE #</h5>
+                                                            <h5 id="id_tramite" name="id_tramite"></h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row align-items-center justify-content-center d-flex">
+                                                    <div class="col-lg-4">
+                                                        <div
+                                                            class="mb-2 align-items-center justify-content-center d-flex">
+                                                            <label for=""
+                                                                class="form-label fw-semibold me-2 mb-0">Estado:
+                                                            </label>
+
+                                                            <span class="badge bg-primary-subtle rounded fw-semibold
+                                                     btn-status-finish mb-0 me-2" id="estado_tramite"
+                                                                name="estado_tramite"><i
+                                                                    class="ti ti-check fw-semibold ms-1 fs-3"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div
+                                                            class="mb-2 align-items-center justify-content-center d-flex">
+                                                            <label for=""
+                                                                class="form-label fw-semibold me-2 mb-0">Fecha:
+                                                            </label>
+                                                            <h7 class="form-label mb-0" style="font-weight: 400;"
+                                                                id="fecha_ingreso" name="fecha_ingreso"></h7>
+
+
+
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3 border-bottom">
+                                            <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Información del
+                                                proceso:
+                                            </h5>
+                                            <div class="py-3">
+                                                <div class="row">
+                                                    <div class="col-lg-2">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Placa</label>
+                                                            <input type="text" name="placa" class="form-control"
+                                                                id="placa" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">C.I. /
+                                                                RUC</label>
+                                                            <input type="text" class="form-control" id="id_usuario"
+                                                                name="id_usuario" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <div class="mb-2">
+                                                            <label for=""
+                                                                class="form-label fw-semibold">Propietario</label>
+                                                            <input type="text" class="form-control" id="nombre_usuario"
+                                                                nombre="nombre_usuario" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite"
+                                                                class="form-label fw-semibold">Clase de
+                                                                transporte</label>
+                                                            <input type="text" class="form-control"
+                                                                id="clase_transporte" name="clase_transporte" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Clase de
+                                                                vehículo</label>
+                                                            <input type="text" class="form-control" id="clase_vehiculo"
+                                                                name="clase_vehiculo" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite"
+                                                                class="form-label fw-semibold">Tipo de
+                                                                trámite</label>
+                                                            <input type="text" name="tipo_tramite" class="form-control"
+                                                                id="tipo_tramite" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite" class="form-label fw-semibold">#
+                                                                Adhesivo</label>
+                                                            <input type="text" name="" class="form-control"
+                                                                id="numero_adhesivo" value="numero_adhesivo" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">#
+                                                                Matrícula</label>
+                                                            <input type="text" name="numero_matricula"
+                                                                id="numero_matricula" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold"># Fojas</label>
+                                                            <input type="text" name="" class="form-control"
+                                                                id="numero_fojas" value="numero_fojas" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3 border-bottom">
+                                            <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Domicilio y
+                                                contacto
+                                            </h5>
+                                            <div class="py-3">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite"
+                                                                class="form-label fw-semibold">Celular</label>
+                                                            <input type="text" class="form-control" id="celular_usuario"
+                                                                name="celular_usuario" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Email</label>
+                                                            <input type="text" class="form-control" id="email_usuario"
+                                                                name="email_usuario" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-2">
+                                                            <label for=""
+                                                                class="form-label fw-semibold">Domicilio</label>
+                                                            <input type="text" class="form-control" id="canton_usuario"
+                                                                name="canton_usuario" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3 border-bottom">
+                                            <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Comprobante de
+                                                pago</h5>
+                                            <div class="py-3">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite"
+                                                                class="form-label fw-semibold">Entidad
+                                                                Bancaria</label>
+                                                            <input type="text" class="form-control"
+                                                                id="pago_placas_entidad_bancaria"
+                                                                value="pago_placas_entidad_bancaria" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Nº
+                                                                Comprobante</label>
+                                                            <input type="text" class="form-control"
+                                                                id="pago_placas_comprobante"
+                                                                value="pago_placas_comprobante" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Valor</label>
+                                                            <input type="text" class="form-control"
+                                                                id="pago_placas_valor" name="pago_placas_valor"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite"
+                                                                class="form-label fw-semibold">Fecha de
+                                                                pago</label>
+                                                            <input type="text" class="form-control"
+                                                                id="pago_placas_fecha" name="pago_placas_fecha"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Nuevo tipo de
+                                                                servicio</label>
+                                                            <input type="text" class="form-control"
+                                                                id="pago_placas_newservicio"
+                                                                name="pago_placas_newservicio" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Nº Trámite
+                                                                Axis</label>
+                                                            <input type="text" class="form-control" id="id_tramite_axis"
+                                                                value="id_tramite_axis" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="px-4 py-3 border-bottom">
+                                            <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Funcionario</h5>
+                                            <div class="py-3">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <div class="mb-2">
+                                                            <label for="tipo_tramite"
+                                                                class="form-label fw-semibold">Usuario</label>
+                                                            <input type="text" class="form-control" id="username"
+                                                                name="username" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <div class="mb-2">
+                                                            <label for="" class="form-label fw-semibold">Nombre del
+                                                                funcionario</label>
+                                                            <input type="text" class="form-control"
+                                                                id="nombre_funcionario" name="nombre_funcionario"
+                                                                readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="me-auto  d-none">
+                                        <label for="" class="form-label fw-normal me-2 mb-0">Registrado el día:</label>
+                                        <h7 class="form-label mb-0" style="font-weight: 400;" id="id_date_registraton"
+                                            name="id_date_registraton"></h7>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalcrearFaltaRegistro" aria-hidden="true"
+                        aria-labelledby="modalcrearFaltaRegistro" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+
+                                    <form action="/crear-falta-asistencia" method="post" id="FaltaAsistenciaForm"
+                                        class="">
+                                        <div class="border-bottom">
+                                            <div
+                                                class="modal-title d-flex justify-content-between text-black align-items-center mt-2 mb-3">
+                                                <div class="d-flex">
+                                                    <h5 class="mb-0">Agregar falta de registro</h5>
+                                                </div>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3">
+                                            <div class="py-1">
+                                                <div class="row d-none">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">C.I:</label>
+                                                            <input type="text" name="agg_id_funcionario"
+                                                                id="agg_id_funcionario" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-6 form-label fw-normal">Funcionario:</label>
+                                                            <input type="text" name="agg_nombre_funcionario"
+                                                                id="agg_nombre_funcionario" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="col-6 form-label fw-semibold">
+                                                                <span class="text-red">*</span> Fecha de falta de
+                                                                registro:
+                                                            </label>
+                                                            <input type="date" name="agg_fecha" id="agg_fecha"
+                                                                class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label class="col-6 form-label fw-semibold">
+                                                                <span class="text-red">*</span>Motivo:
+                                                            </label>
+                                                            <select name="agg_motivo" id="agg_motivo"
+                                                                class="form-select" required>
+                                                                <option value="" disabled selected>Seleccione un motivo
+                                                                </option>
+                                                                <option value="Falta la picada del ingreso a laborar">
+                                                                    Falta la picada del ingreso a laborar
+                                                                </option>
+                                                                <option
+                                                                    value="Falta la picada de la salida al almuerzo">
+                                                                    Falta la picada de la salida al almuerzo
+                                                                </option>
+                                                                <option value="Falta la picada de regreso del amuerzo">
+                                                                    Falta la picada de regreso del amuerzo</option>
+                                                                <option
+                                                                    value="Falta la picada de la salida del trabajo">
+                                                                    Falta la picada de la salida del trabajo</option>
+                                                                <option value="No registra picadas todo el dia">No
+                                                                    registra picadas todo el dia</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label class="col-12 form-label fw-semibold">
+                                                                <span class="text-red">*</span> Tiempo
+                                                                en descuento (horas):
+                                                            </label>
+                                                            <input type="number" name="agg_tiempo_horas"
+                                                                id="agg_tiempo_horas" class="form-control" min="0"
+                                                                max="8" required
+                                                                oninput="this.value = this.value.slice(0, 2)">
+                                                            <small class="text-muted">0 - 8 horas</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label class="col-12 form-label fw-semibold">
+                                                                <span class="text-red">*</span> Tiempo
+                                                                en descuento (minutos):
+                                                            </label>
+                                                            <input type="number" name="agg_tiempo_minutos"
+                                                                id="agg_tiempo_minutos" class="form-control" min="0"
+                                                                max="59" required
+                                                                oninput="this.value = this.value.slice(0, 2)">
+                                                            <small class="text-muted">0 - 59 minutos</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3 mb-2">
+                                            <div class="col-12 d-flex gap-2">
+
+                                                <button type="button"
+                                                    class="col-9 justify-content-center btn p-2 fw-semibold btn-rounded btn-secondary align-items-center"
+                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                    CANCELAR
+                                                </button>
+
+                                                <button type="submit"
+                                                    class="col-3 d-flex justify-content-center btn p-2 fw-normal btn-rounded btn-primary align-items-center"><i
+                                                        class="ti ti-save fs-4 me-2"></i>
+                                                    GUARDAR
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="alert-container"></div>
+
+
+
+            </div>
+    </div>
+
+</body>
+
+</html>

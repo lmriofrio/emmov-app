@@ -1,7 +1,9 @@
 
+
 const Vehiculo = require('../models/Vehiculo');
 const Tramite = require('../models/Tramite');
 const Usuario = require('../models/Usuario');
+const FaltaAsistenciasTTHH = require('../models/FaltaAsistenciasTTHH');
 
 
 // Listo
@@ -173,7 +175,7 @@ async function updateVehiculo_DateSRI({
 
     if (vehiculo) {
         console.log('------ Vehículo encontrado, actualizando desde SaveUtils con DATE SRI -------');
-        
+
         const camposAct = {
             ...(result_camvCpn && { ramw: result_camvCpn }),
             ...(result_cilindraje && { cilindraje: result_cilindraje }),
@@ -260,7 +262,6 @@ async function actualizarUsuario({
 
 // Listo
 async function createTramite({
-
     id_tramite_axis,
     estado_tramite_axis,
     id_etapa,
@@ -510,7 +511,81 @@ async function updateTramite_id_usuario({
     }
 }
 
-module.exports = { createVehiculo, updateVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI };
+
+// Listo
+async function createFaltaAsistencia({
+    fecha,
+    id_funcionario,
+    nombre_funcionario,
+    motivo,
+    tiempo_descuento,
+    id_funcionarioTTHH,
+    nombre_funcionarioTTHH,
+    fecha_registroTTHH,
+    username_TTHH,
+}) {
+
+    console.log('------  Creando una falta de asistencia desde SaveUtils -------');
+
+    FaltaAsistencia = await FaltaAsistenciasTTHH.create({
+        fecha,
+        id_funcionario,
+        nombre_funcionario,
+        motivo,
+        tiempo_descuento,
+        id_funcionarioTTHH,
+        nombre_funcionarioTTHH,
+        fecha_registroTTHH,
+        username_TTHH,
+        estado: 'NO JUSTIFICADO',
+        eliminado: 'NO'
+    });
+
+    const id_registro = FaltaAsistencia.id_registro;
+
+    return { id_registro };
+}
+
+// Listo
+async function editarFaltaAsistencia({
+    id_registro,
+    fecha,
+    id_funcionario,
+    motivo,
+    tiempo_descuento,
+    estado,
+    fecha_justificacion,
+    motivo_justificacion,
+    observación_justificacion,
+}) {
+
+    console.log('------  Editando una falta de asistencia desde SaveUtils -------');
+
+    const faltaAsistenciasTTHH = await FaltaAsistenciasTTHH.findOne({ where: { id_registro } });
+
+    if (!faltaAsistenciasTTHH) {
+        throw new Error(`No se pudo econtrar el tramite : ${id_registro}`);
+    }
+
+    const fecha_justificacion2 = fecha_justificacion ? fecha_justificacion : faltaAsistenciasTTHH.fecha_justificacion;
+
+    await faltaAsistenciasTTHH.update({
+        fecha: fecha,
+        id_funcionario: id_funcionario,
+        motivo: motivo,
+        tiempo_descuento: tiempo_descuento,
+        estado: estado,
+        fecha_justificacion: fecha_justificacion2,
+        motivo_justificacion: motivo_justificacion,
+        observación_justificacion: observación_justificacion,
+    });
+
+    console.log(`El trámite con ID: ${id_registro} fue actualizado exitosamente.`);
+
+    return { id_registro };
+}
+
+module.exports = { createVehiculo, updateVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, createFaltaAsistencia, editarFaltaAsistencia };
 
 
 

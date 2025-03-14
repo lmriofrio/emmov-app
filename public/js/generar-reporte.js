@@ -948,6 +948,229 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    $('#generarReporteGeneralTramites2').click(function () {
+
+        const funcionarioSeleccionado = $('select[name="funcionarioSeleccionado"]').val();
+        const tipo_tramite = $('select[name="tipo_tramite"]').val();
+        const estado_tramite = $('select[name="estado_tramite"]').val();
+        const fecha_inicial = $('input[name="fecha_inicial"]').val();
+        const fecha_final = $('input[name="fecha_final"]').val();
+
+        $('#overlay').addClass('active');
+
+        if (!funcionarioSeleccionado) {
+            alert('Por favor selecciona a un usuario.');
+            return;
+        }
+
+        if (!tipo_tramite) {
+            alert('Por favor selecciona un tipo de trámite.');
+            return;
+        }
+
+        if (!estado_tramite) {
+            alert('Por favor selecciona un estado de trámite.');
+            return;
+        }
+
+        if (!fecha_inicial) {
+            alert('Por favor ingresa una fecha válida.');
+            return;
+        }
+
+        if (!fecha_final) {
+            alert('Por favor ingresa una fecha válida.');
+            return;
+        }
+
+        console.info(funcionarioSeleccionado, tipo_tramite, estado_tramite, fecha_inicial, fecha_final);
+
+
+        $('input[name="funcionarioSeleccionado_pdf"]').val(funcionarioSeleccionado);
+        $('input[name="tipo_tramite_pdf"]').val(tipo_tramite);
+        $('input[name="estado_tramite_pdf"]').val(estado_tramite);
+        $('input[name="fecha_ingreso_pdf"]').val(fecha_inicial);
+        $('input[name="fecha_final_pdf"]').val(fecha_final);
+
+        $.ajax({
+            type: 'GET',
+            url: '/generar-reporte-general-tramites2',
+            data: { funcionarioSeleccionado, tipo_tramite, fecha_inicial, fecha_final, estado_tramite },
+            success: function (response) {
+                const tbody = $('#tbody-tramites');
+                const tbody2 = $('#tbody-tramites2');
+                const tbody3 = $('#tbody-tramites3');
+                tbody.empty();
+                tbody2.empty();
+                tbody3.empty();
+
+                if (response.success) {
+
+                    $('#content').removeClass('d-none');
+                    const tramitesFiltrados = response.tramites.filter(tramite => {
+                        return tramite.tipo_tramite !== 'ADHESIVO ANULADO' &&
+                            tramite.tipo_tramite !== 'ESPECIE ANULADA' &&
+                            tramite.tipo_tramite !== 'ESPECIE Y ADHESIVO ANULADO';
+                    });
+
+                    const tramitesFiltrados2 = response.tramitesDetalle.filter(tramite => {
+                        return tramite.tipo_tramite !== 'ADHESIVO ANULADO' &&
+                            tramite.tipo_tramite !== 'ESPECIE ANULADA' &&
+                            tramite.tipo_tramite !== 'ESPECIE Y ADHESIVO ANULADO';
+                    });
+
+                    const tramitesAgrupados = {};
+                    tramitesFiltrados.forEach(tramite => {
+                        const tipoTramite = tramite.tipo_tramite;
+                        tramitesAgrupados[tipoTramite] = (tramitesAgrupados[tipoTramite] || 0) + 1;
+                    });
+
+
+                    const tramitesMotocicletas = tramitesFiltrados2.filter(tramite => tramite.clase_vehiculo_tipo === 'MOTOCICLETA');
+                    const tramitesVehiculos = tramitesFiltrados2.filter(tramite => tramite.clase_vehiculo_tipo === 'VEHICULO');
+
+                    const tramitesAgrupadosMotocicletas = {};
+                    tramitesMotocicletas.forEach(tramite => {
+                        const tipoTramite = tramite.tipo_tramite;
+                        tramitesAgrupadosMotocicletas[tipoTramite] = (tramitesAgrupadosMotocicletas[tipoTramite] || 0) + 1;
+                    });
+
+                    const tramitesAgrupadosVehiculos = {};
+                    tramitesVehiculos.forEach(tramite => {
+                        const tipoTramite = tramite.tipo_tramite;
+                        tramitesAgrupadosVehiculos[tipoTramite] = (tramitesAgrupadosVehiculos[tipoTramite] || 0) + 1;
+                    });
+
+
+                    Object.entries(tramitesAgrupados).forEach(([tipoTramite, cantidad]) => {
+                        const newRow = `
+                        <tr>
+                            <td class="text-left">${tipoTramite}</td>
+                            <td class="text-center">${cantidad}</td>
+                        </tr>`;
+                        tbody.append(newRow);
+                    });
+
+
+                    const totalRow = `
+                    <tr>
+                        <td class="fs-3 text-center fw-normal"><b class="fw-normal">TOTAL DE PROCESOS</b></td>
+                        <td class="fs-3 text-center"><b class="fw-normal">${tramitesFiltrados.length}</b></td>
+                    </tr>`;
+                    tbody.append(totalRow);
+
+
+
+                    Object.entries(tramitesAgrupadosMotocicletas).forEach(([tipoTramite, cantidad]) => {
+                        const newRow = `
+                            <tr>
+                                <td class="text-left">${tipoTramite}</td>
+                                <td class="text-center">${cantidad}</td>
+                            </tr>`;
+                        tbody2.append(newRow);
+                    });
+
+                    Object.entries(tramitesAgrupadosVehiculos).forEach(([tipoTramite, cantidad]) => {
+                        const newRow = `
+                            <tr>
+                                <td class="text-left">${tipoTramite}</td>
+                                <td class="text-center">${cantidad}</td>
+                            </tr> `;
+                        tbody3.append(newRow);
+                    });
+
+
+                    const totalRow2 = `
+                        <tr>
+                            <td class="fs-3 text-center fw-normal"><b class="fw-normal">TOTAL DE PROCESOS</b></td>
+                            <td class="fs-3 text-center"><b class="fw-normal">${tramitesMotocicletas.length}</b></td>
+                        </tr> `;
+                    tbody2.append(totalRow2);
+
+                    const totalRow3 = `
+                        <tr>
+                           <td class="fs-3 text-center fw-normal"><b class="fw-normal">TOTAL DE PROCESOS</b></td>
+                           <td class="fs-3 text-center"><b class="fw-normal">${tramitesVehiculos.length}</b></td>
+                        </tr> `;
+                    tbody3.append(totalRow3);
+
+
+                    const EspeciesUtilizadas = response.tramites.filter(tramite => {
+                        return tramite.tipo_tramite === 'CAMBIO DE CARACTERÍSTICAS'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A COMERCIAL'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PARTICULAR'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A USO DE CUENTA PROPIA'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PARTICULAR A COMERCIAL'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PARTICULAR A ESTATAL U OFICIAL'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PARTICULAR A PUBLICO'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PARTICULAR A USO DE CUENTA PROPIA'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PARTICULAR A USO DIPLOMATICO U ORGANISMOS INTERNACIONALES'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PUBLICO A COMERCIAL'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PUBLICO A PARTICULAR'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PUBLICO A USO DE CUENTA PROPIA'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A COMERCIAL'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR'
+                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PUBLICO'
+                            || tramite.tipo_tramite === 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA'
+                            || tramite.tipo_tramite === 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION'
+                            || tramite.tipo_tramite === 'EMISION DE MATRICULA POR PRIMERA VEZ'
+                            || tramite.tipo_tramite === 'RENOVACION DE MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION'
+                            || tramite.tipo_tramite === 'TRANSFERENCIA DE DOMINIO'
+                            || tramite.tipo_tramite === 'TRANSFERENCIA DE DOMINIO Y REVISION ANUAL';
+                    });
+
+                    const EspeciesAnuladas = response.tramites.filter(tramite => {
+                        return tramite.tipo_tramite === 'ESPECIE ANULADA'
+                            || tramite.tipo_tramite === 'ESPECIE Y ADHESIVO ANULADO';
+                    });
+
+                    const AdhesivosEntregados = response.tramites.filter(tramite => {
+                        return tramite.tipo_tramite !== 'ACTUALIZACIÓN DE DATOS DEL VEHÍCULO' &&
+                            tramite.tipo_tramite !== 'ADHESIVO ANULADO' &&
+                            tramite.tipo_tramite !== 'ESPECIE ANULADA' &&
+                            tramite.tipo_tramite !== 'BLOQUEO DE VEHÍCULO' &&
+                            tramite.tipo_tramite !== 'CERTIFICADO DE POSEER VEHICULO' &&
+                            tramite.tipo_tramite !== 'CERTIFICADO UNICO VEHICULAR' &&
+                            tramite.tipo_tramite !== 'DESBLOQUEO DE VEHÍCULO' &&
+                            tramite.tipo_tramite !== 'DUPLICADO DE PLACAS' &&
+                            tramite.tipo_tramite !== 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA' &&
+                            tramite.tipo_tramite !== 'ESPECIE ANULADA' &&
+                            tramite.tipo_tramite !== 'ESPECIE Y ADHESIVO ANULADO' &&
+                            tramite.tipo_tramite !== 'TRANSFERENCIA DE DOMINIO';
+                    });
+
+
+
+
+
+
+
+                    $('input[name="fecha_ingresada"]').val(response.fecha_inicial);
+                    $('input[name="fecha_ingresada2"]').val(response.fecha_final);
+                    $('input[name="tramites_total"]').val(tramitesFiltrados.length);
+                    $('input[name="especies_utilizadas"]').val(EspeciesUtilizadas.length);
+                    $('input[name="especies_anuladas"]').val(EspeciesAnuladas.length);
+                    $('input[name="ahesivos_entregados"]').val(AdhesivosEntregados.length);
+
+                    $('#overlay').removeClass('active');
+                } else {
+                    alert('TRÁMITES NO ENCONTRADOS');
+                }
+            },
+            error: function (error) {
+                console.error('Error al buscar Trámite:', error);
+                alert('Error al buscar Trámite. Por favor, inténtelo de nuevo.');
+            }
+        });
+    });
+});
+
+
 
 
 $(document).ready(function () {

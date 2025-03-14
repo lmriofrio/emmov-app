@@ -4,6 +4,8 @@ const Tramite = require('../models/Tramite');
 const Usuario = require('../models/Usuario');
 const Vehiculo = require('../models/Vehiculo');
 const InventarioPlacas = require('../models/InventarioPlacas');
+const FuncionarioTTHH = require('../models/FuncionarioTTHH');
+const FaltaAsistenciasTTHH = require('../models/FaltaAsistenciasTTHH');
 const axios = require('axios');
 const { Op } = require('sequelize');
 
@@ -230,6 +232,48 @@ router.get('/buscar-placa-id_inventario', async (req, res) => {
     }
 });
 
+
+////////////////////////////////////
+///// ==      Funcionario TTHH   ==    ////
+////////////////////////////////////
+
+router.get('/buscar-funcionario-TTHH', async (req, res) => {
+    const { idFuncionario } = req.query;
+    //console.log('entro a consultar', idFuncionario)
+
+    try {
+        const funcionarioTTHH = await FuncionarioTTHH.findByPk(idFuncionario);
+
+        if (funcionarioTTHH !== null) {
+            //console.log('nombre_funcionario', funcionarioTTHH)
+            res.json({ success: true, funcionarioTTHH });
+        } else {
+            res.json({ success: false, message: 'Funcionario no encontrado' });
+        }
+    } catch (error) {
+        console.error('Error al buscar trámites:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
+
+router.get('/buscar-falta-asistencia', async (req, res) => {
+    const { id_registro } = req.query;
+    //console.log('entro a consultar', id_registro)
+
+    try {
+        const faltaAsistenciasTTHH = await FaltaAsistenciasTTHH.findByPk(id_registro);
+
+        if (faltaAsistenciasTTHH !== null) {
+            //console.log('nombre_funcionario', faltaAsistenciasTTHH)
+            res.json({ success: true, faltaAsistenciasTTHH });
+        } else {
+            res.json({ success: false, message: 'Funcionario no encontrado' });
+        }
+    } catch (error) {
+        console.error('Error al buscar trámites:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
 
 
 

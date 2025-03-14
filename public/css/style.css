@@ -25293,9 +25293,9 @@ fieldset:disabled .btn {
     --bs-btn-color: #000;
     --bs-btn-bg: #FEF5E5;
     --bs-btn-border-color: #FEF5E5;
-    --bs-btn-hover-color: red;
-    --bs-btn-hover-bg: #f2cd14;
-    --bs-btn-hover-border-color: #f2cd14;
+    --bs-btn-hover-color: #FEF5E5;
+    --bs-btn-hover-bg: #FEF5E5;
+    --bs-btn-hover-border-color: #FEF5E5;
     --bs-btn-focus-shadow-rgb: 216, 208, 195;
     --bs-btn-active-color: #FFFFFF;
     --bs-btn-active-bg: #fef7ea;
@@ -25304,6 +25304,23 @@ fieldset:disabled .btn {
     --bs-btn-disabled-color: #FFFFFF;
     --bs-btn-disabled-bg: #FEF5E5;
     --bs-btn-disabled-border-color: #FEF5E5
+}
+
+.btn-light-one {
+    --bs-btn-color: #333;
+    --bs-btn-bg: #f3f4f8;
+    --bs-btn-border-color: #f3f4f8;
+    --bs-btn-hover-color: #333;
+    --bs-btn-hover-bg: #f8f9fc;
+    --bs-btn-hover-border-color: #eef0f6;
+    --bs-btn-focus-shadow-rgb: 220, 223, 230;
+    --bs-btn-active-color: #FFFFFF;
+    --bs-btn-active-bg: #eef0f6;
+    --bs-btn-active-border-color: #e5e8f0;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.05);
+    --bs-btn-disabled-color: #a1a1a1;
+    --bs-btn-disabled-bg: #f3f4f8;
+    --bs-btn-disabled-border-color: #f3f4f8;
 }
 
 .btn-light-danger {
@@ -25708,6 +25725,23 @@ fieldset:disabled .btn {
     --bs-btn-active-shadow: red;
     --bs-btn-disabled-color: #366fed;
     --bs-btn-disabled-bg: #e1ebfe;
+    --bs-btn-disabled-border-color: red;
+    cursor: not-allowed;
+}
+
+
+.btn-status-red {
+    --bs-btn-padding-x: 8px;
+    --bs-btn-padding-y: 5px;
+    --bs-btn-color: #d32f2f;
+    --bs-btn-bg: #fde0dc;
+    --bs-btn-border-color: red;
+    --bs-btn-focus-shadow-rgb: red;
+    --bs-btn-active-bg: #fde0dc;
+    --bs-btn-active-border-color: green;
+    --bs-btn-active-shadow: red;
+    --bs-btn-disabled-color: #d32f2f;
+    --bs-btn-disabled-bg: #fde0dc;
     --bs-btn-disabled-border-color: red;
     cursor: not-allowed;
 }
@@ -33184,6 +33218,23 @@ fieldset:disabled .btn {
     cursor: pointer;
 
 }
+
+.bg-primary-red {
+    background-color: #f8d7da !important;
+    --bs-btn-padding-x: 8px;
+    --bs-btn-padding-y: 5px;
+    color: #9c2a2a; 
+    cursor: pointer;
+}
+
+.bg-primary-green {
+    background-color: #d4edda !important;
+    --bs-btn-padding-x: 8px;
+    --bs-btn-padding-y: 5px;
+    color: #155724;
+    cursor: pointer;
+}
+
 
 .bg-primary-subtle3 {
     background-color: #000000 !important;

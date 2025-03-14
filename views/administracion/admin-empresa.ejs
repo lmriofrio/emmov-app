@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Admin</title>
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="/js/activar-items-navbar.js"></script>
+    <script src="/js/main.js"></script>
+
+    <script src="/js/administracion.js"></script>
+
+
+    <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+                    <div class="container-fluid" style="width: 70%;">
+                        <div class="card">
+
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="cardnumbers w-100 position-relative overflow-hidden mb-0">
+                                            <div class="card-body p-4">
+
+                                                <div class="d-flex align-items-center mb-3">
+                                                    <span class="me-2">
+                                                        <i class="ti ti-settings fs-8"></i>
+                                                    </span>
+                                                    <div>
+                                                        <h5 class="card-title fw-semibold mb-0 text-black">Ajustes
+                                                            de la empresa</h5>
+                                                        <p class="card-subtitle mb-0">Datos de la institucion
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <br>
+
+
+
+                                                <div class="d-flex align-items-start">
+                                                    <div class="col-md-4 nav flex-column nav-pills rounded border"
+                                                        id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                                                        <button class="nav-link text-start rounded-0" id="v-pills-home"
+                                                            data-bs-toggle="pill" data-bs-target="#v-pills-home"
+                                                            type="button" role="tab" aria-controls="v-pills-home"
+                                                            aria-selected="false">
+                                                            Informacion general
+                                                        </button>
+
+                                                    </div>
+
+                                                    <div class="col-md-8 tab-content px-4" id="v-pills-tabContent">
+                                                        <div class="tab-pane fade show active p-4 border rounded"
+                                                            id="v-pills-home" role="tabpanel"
+                                                            aria-labelledby="v-pills-home" tabindex="0">
+                                                            <form>
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="mb-4">
+                                                                            <label for="id_funcionario"
+                                                                                class="form-label fw-normal">
+                                                                                Identificación</label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="id_empresa" id="id_empresa"
+                                                                                value="<%= empresa.id_empresa %>" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="mb-4">
+                                                                            <label for="id_empresa"
+                                                                                class="form-label fw-normal">Correo TTHH
+                                                                                empresa</label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="email_empresa_tthh"
+                                                                                id="email_empresa_tthh"
+                                                                                value="<%= empresa.email_empresa_tthh %>"
+                                                                                readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="mb-4">
+                                                                            <label for="nombre_funcionario"
+                                                                                class="form-label fw-normal">Password
+                                                                                TTHH</label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="password_empresa_tthh"
+                                                                                id="password_empresa_tthh"
+                                                                                value="<%= empresa.password_empresa_tthh %>">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-12 mb-2">
+                                                                        <div class="form-group row">
+                                                                            <div class="col-md-8 d-flex">
+                                                                                <button type="submit"
+                                                                                    class="btn btn-primary"
+                                                                                    id="encriptarPassword"
+                                                                                    name="encriptarPassword">
+                                                                                    <span>Encriptar y guardar</span>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+            </div>
+
+            <div id="alert-container"></div>
+
+
+
+</body>
+
+</html>

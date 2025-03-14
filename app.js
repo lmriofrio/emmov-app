@@ -10,11 +10,14 @@ const $ = require('jquery');
 const fs = require('fs');
 // Declarar los modelos
 const Funcionario = require('./models/Funcionario');
+const FuncionarioTTHH = require('./models/FuncionarioTTHH');
+const FaltaAsistenciasTTHH = require('./models/FaltaAsistenciasTTHH');
 const Tramite = require('./models/Tramite');
 const Vehiculo = require('./models/Vehiculo');
 const Usuario = require('./models/Usuario');
 const CentroMatriculacion = require('./models/CentroMatriculacion');
 const Empresa = require('./models/Empresa');
+const Email = require('./models/Email');
 const Modulos = require('./models/Modulos');
 const PermisosUsuarios = require('./models/PermisosUsuarios');
 const InventarioPlacas = require('./models/InventarioPlacas');
@@ -32,6 +35,7 @@ const reportesRoutes = require('./routes/reportesRoutes');
 const guardarTramiteRoutes = require('./routes/guardarTramiteRoutes');
 const visualizarTurnosRoutes = require('./routes/visualizarTurnosRoutes');
 const gestionTramiteRoutes = require('./routes/gestionTramiteRoutes');
+const gestionTalentoHumano = require('./routes/gestionTalentoHumano');
 const buscarRoutes = require('./routes/buscarRoutes');
 const gestionInventarioRoutes = require('./routes/gestionInventarioRoutes');
 
@@ -104,8 +108,8 @@ app.use('/', guardarTramiteRoutes);
 app.use('/', visualizarTurnosRoutes);
 app.use('/', gestionTramiteRoutes);
 app.use('/', buscarRoutes);
-app.use('/', buscarRoutes);
 app.use('/', gestionInventarioRoutes);
+app.use('/', gestionTalentoHumano);
 
 
 // Traer los datos del json cantones
@@ -938,7 +942,7 @@ app.get('/matriculacion/informacion/agregar-turno', async (req, res) => {
       const jefaturaDepartamento = 'UNIDAD DE MATRICULACIÓN';
 
       const funcionariosActivos = await Funcionario.findAll({
-        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario, jefatura_departamento: jefaturaDepartamento  },
+        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario, jefatura_departamento: jefaturaDepartamento },
         attributes: ['id_funcionario', 'nombre_funcionario']
       });
 
@@ -1177,6 +1181,37 @@ app.get('/matriculacion/reportes-generales/reporte-general-tramites', async (req
     res.redirect('/login');
   }
 });
+app.get('/matriculacion/reportes-generales/reporte-general-tramites2', async (req, res) => {
+  if (req.session.user) {
+
+
+    const selectorTramites = new SeleccionarTipoTramites();
+
+    const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
+
+    let tiposTramites = await obtenerTiposTramitesAsync();
+
+    const tiposExcluir = ['ADHESIVO ANULADO', 'ESPECIE ANULADA', 'ESPECIE Y ADHESIVO ANULADO'];
+
+    tiposTramites = tiposTramites.filter(tipo => !tiposExcluir.includes(tipo.tipo_tramite));
+
+    const idEmpresa = req.session.user.id_empresa;
+
+    const centrosMatriculacion = await CentroMatriculacion.findAll({
+      where: { id_empresa: idEmpresa },
+      attributes: ['id_centro_matriculacion', 'nombre_centro_matriculacion']
+    });
+
+
+    const funcionarios = await Funcionario.findAll({
+      where: { id_empresa: idEmpresa },
+      attributes: ['id_funcionario', 'nombre_funcionario']
+    });
+    res.render('matriculacion/reportes-generales/reporte-general-tramites2', { userData: req.session.user, tiposTramites, centrosMatriculacion, funcionarios, permisos: req.session.permisos });
+  } else {
+    res.redirect('/login');
+  }
+});
 app.post('/matriculacion/reportes-generales/reporte-general-tramites-pdf', async (req, res) => {
   if (req.session.user) {
 
@@ -1274,8 +1309,9 @@ app.get('/calcular-valores', async (req, res) => {
     let tiposTramites = await obtenerTiposTramitesAsync();
     const tiposExcluir = ['ADHESIVO ANULADO', 'ESPECIE ANULADA', 'ESPECIE Y ADHESIVO ANULADO'];
     tiposTramites = tiposTramites.filter(tipo => !tiposExcluir.includes(tipo.tipo_tramite));
-    res.render('calcular-valores', { 
-      userData: req.session.user, permisos: req.session.permisos, tiposTramites, resultados  });
+    res.render('calcular-valores', {
+      userData: req.session.user, permisos: req.session.permisos, tiposTramites, resultados
+    });
   } else {
     res.redirect('/');
   }
@@ -1698,6 +1734,80 @@ app.get('/inventario-placas/seleccion-grupal', (req, res) => {
 });
 
 
+//////////////////////////////////////////////////////////
+//////////   TALENTO HUMANO                   ///////////
+/////////////////////////////////////////////////////////
+
+
+
+app.get('/talento-humano/vista-general', async (req, res) => {
+  try {
+    if (req.session.user, req.session.permisos) {
+
+      const { currentDaySimple } = getCurrentDaySimple();
+
+      res.render('talento-humano/vista-general', {
+        userData: req.session.user, permisos: req.session.permisos, currentDaySimple
+      });
+    } else {
+      res.redirect('/login');
+    }
+  } catch (error) {
+    console.error('Error al obtener los registros:', error);
+    res.status(500).send('Error al obtener los registros');
+  }
+});
+
+app.get('/talento-humano/vista-funcionario', async (req, res) => {
+  try {
+    if (req.session.user, req.session.permisos) {
+
+      const id_funcionarios = req.query.id_funcionario;
+      const { currentDaySimple } = getCurrentDaySimple();
+
+      res.render('talento-humano/vista-funcionario', {
+        userData: req.session.user, permisos: req.session.permisos, id_funcionarios, currentDaySimple
+      });
+    } else {
+      res.redirect('/login');
+    }
+  } catch (error) {
+    console.error('Error al obtener los registros:', error);
+    res.status(500).send('Error al obtener los registros');
+  }
+});
+
+app.get('/talento-humano/suma-horas', async (req, res) => {
+  try {
+    if (req.session.user, req.session.permisos) {
+
+
+
+      const { currentDaySimple } = getCurrentDaySimple();
+
+      const idEmpresa = req.session.user.id_empresa;
+
+      const estadoFuncionario = 'ACTIVO';
+
+      const funcionariosTTHH = await FuncionarioTTHH.findAll({
+        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario },
+        attributes: ['id_funcionario', 'nombre_funcionario']
+      });
+
+
+      res.render('talento-humano/suma-horas', {
+        userData: req.session.user, permisos: req.session.permisos, funcionariosTTHH, currentDaySimple
+      });
+    } else {
+      res.redirect('/login');
+    }
+  } catch (error) {
+    console.error('Error al obtener los registros:', error);
+    res.status(500).send('Error al obtener los registros');
+  }
+});
+
+
 
 //////////////////////////////////////////////////////////
 //////////   SERVICIOS WEB                    ///////////
@@ -1718,13 +1828,13 @@ app.get('/servicios/generacion-turnos-web', async (req, res) => {
   const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
   let tiposTramites = await obtenerTiposTramitesAsync();
   const tiposExcluir = ['ADHESIVO ANULADO', 'ESPECIE ANULADA', 'ESPECIE Y ADHESIVO ANULADO', 'CAMBIO DE CARACTERÍSTICAS', 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A COMERCIAL'
-    , 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PARTICULAR', 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO', 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO', 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A USO DE CUENTA PROPIA', 
-    'CAMBIO DE SERVICIO DE PARTICULAR A ESTATAL U OFICIAL', 'CAMBIO DE SERVICIO DE PARTICULAR A USO DE CUENTA PROPIA', 'CAMBIO DE SERVICIO DE PARTICULAR A USO DIPLOMATICO U ORGANISMOS INTERNACIONALES', 'CAMBIO DE SERVICIO DE PUBLICO A USO DE CUENTA PROPIA', 
+    , 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PARTICULAR', 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO', 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO', 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A USO DE CUENTA PROPIA',
+    'CAMBIO DE SERVICIO DE PARTICULAR A ESTATAL U OFICIAL', 'CAMBIO DE SERVICIO DE PARTICULAR A USO DE CUENTA PROPIA', 'CAMBIO DE SERVICIO DE PARTICULAR A USO DIPLOMATICO U ORGANISMOS INTERNACIONALES', 'CAMBIO DE SERVICIO DE PUBLICO A USO DE CUENTA PROPIA',
     'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A COMERCIAL', 'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR', 'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PUBLICO', 'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR',
     'ACTUALIZACIÓN DE DATOS DEL VEHÍCULO', 'CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR', 'CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO', 'CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA',
     'CAMBIO DE SERVICIO DE PARTICULAR A COMERCIAL', 'CAMBIO DE SERVICIO DE PUBLICO A COMERCIAL', 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION', 'CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA',
     'BLOQUEO DE VEHÍCULO', 'CERTIFICADO DE POSEER VEHICULO', 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION', 'CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA',
-    'DUPLICADO DEL DOCUMENTO DE LA MATRICULA','DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION', 'DUPLICADO DEL DOCUMENTO ANUAL DE CIRCULACION',
+    'DUPLICADO DEL DOCUMENTO DE LA MATRICULA', 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION', 'DUPLICADO DEL DOCUMENTO ANUAL DE CIRCULACION',
     'PROCESO - REVISIÓN TECNICA VEHICULAR', 'PROCESO - VERIFICACIÓN Y EXTRACCIÓN DE IMPRONTAS', 'DESBLOQUEO DE VEHÍCULO', 'CERTIFICADO UNICO VEHICULAR',
     'DUPLICADO DE PLACAS', 'EMISION DE MATRICULA POR PRIMERA VEZ', 'TRANSFERENCIA DE DOMINIO',
   ];
@@ -1736,6 +1846,42 @@ app.get('/servicios/generacion-turnos-web', async (req, res) => {
 
 
 });
+
+
+//////////////////////////////////////////////////////////
+//////////   SERVICIOS WEB                    ///////////
+/////////////////////////////////////////////////////////
+
+
+app.get('/administracion/admin-empresa', async (req, res) => {
+  try {
+    if (req.session.user && req.session.permisos) { 
+
+      const id_empresa = parseInt(req.session.user.id_empresa, 10);
+
+      //console.log('email_empresa_tthh id empresasss', id_empresa);
+
+      const empresa = await Email.findOne({
+        where: { id_empresa: id_empresa }
+      });
+
+      //console.log('email_empresa_tthh resultados', empresa);
+
+      res.render('administracion/admin-empresa', {
+        userData: req.session.user, 
+        permisos: req.session.permisos, 
+        empresa
+      });
+
+    } else {
+      res.redirect('/login');
+    }
+  } catch (error) {
+    console.error('Error al obtener los registros:', error);
+    res.status(500).send('Error al obtener los registros');
+  }
+});
+
 
 
 

@@ -76,7 +76,7 @@ const Empresa = sequelize.define('registro-empresas', {
   cargo_representante_empresa: {
     type: DataTypes.STRING(45),
     allowNull: true
-  },
+  }
 }, {
  
   tableName: 'registro-empresas',
