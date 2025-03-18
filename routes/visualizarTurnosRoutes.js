@@ -10,6 +10,8 @@ router.get('/visualizar-turnos', async (req, res) => {
         const id_empresa = req.session.user.id_empresa;
 
         const { startOfDay, endOfDay } = getRangeCurrentDay();
+
+        
         const columnas = [
             'id_tramite',
             'placa',
@@ -35,6 +37,7 @@ router.get('/visualizar-turnos', async (req, res) => {
             },
             order: [['fecha_ingreso_INFORMACION', 'ASC']]
         });
+
 
         const tramitesGeneral = await Tramite.findAll({
             attributes: columnas,

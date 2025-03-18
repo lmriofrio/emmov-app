@@ -765,11 +765,11 @@ $(document).ready(function () {
         console.info(funcionarioSeleccionado, tipo_tramite, estado_tramite, fecha_inicial, fecha_final);
 
 
-        $('input[name="funcionarioSeleccionado_pdf"]').val(funcionarioSeleccionado);
-        $('input[name="tipo_tramite_pdf"]').val(tipo_tramite);
-        $('input[name="estado_tramite_pdf"]').val(estado_tramite);
-        $('input[name="fecha_ingreso_pdf"]').val(fecha_inicial);
-        $('input[name="fecha_final_pdf"]').val(fecha_final);
+        $('input[name="cons_funcionario_excel"]').val(funcionarioSeleccionado);
+        $('input[name="tipo_tramite_excel"]').val(tipo_tramite);
+        $('input[name="fecha_ingreso_excel"]').val(fecha_inicial);
+        $('input[name="fecha_final_excel"]').val(fecha_final);
+        $('input[name="cons_estado_tramite_excel"]').val(estado_tramite);
 
         $.ajax({
             type: 'GET',
@@ -1252,6 +1252,8 @@ $(document).ready(function () {
                     $('#visualizacion_clase_vehiculo').text(`Clase de vehículo: ${cons_clase_vehiculo}`);
 
                 } else {
+
+                    
                     alert('TRÁMITES NO ENCONTRADOS');
                     $('#overlay').removeClass('active');
                 }
@@ -1377,7 +1379,51 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    $('#generarReporteTramitesEXCEL').click(function () {
+        const cons_funcionario = $('input[name="cons_funcionario_excel"]').val();
+        const fecha_inicial = $('input[name="fecha_ingreso_excel"]').val();
+        const fecha_final = $('input[name="fecha_final_excel"]').val();
+        const cons_tipo_tramite = $('input[name="tipo_tramite_excel"]').val();
+        const estado_tramite = $('input[name="cons_estado_tramite_excel"]').val();
 
+
+
+        $('#overlay').addClass('active');
+
+        console.info(cons_funcionario, cons_tipo_tramite, fecha_inicial, fecha_final, estado_tramite);
+
+        $.ajax({
+            type: 'GET',
+            url: '/exportar-datos-tramites-generales',
+            data: { cons_funcionario, cons_tipo_tramite, fecha_inicial, fecha_final, estado_tramite },
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (response) {
+                const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const url = window.URL.createObjectURL(blob);
+
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Tramites-filtrados.xlsx';
+                document.body.appendChild(a);
+                a.click();
+
+
+                a.remove();
+                window.URL.revokeObjectURL(url);
+                $('#overlay').removeClass('active');
+            },
+            error: function (error) {
+                console.error('Error al buscar Trámite:', error);
+                alert('Error al buscar Trámite. Por favor, inténtelo de nuevo.');
+                $('#overlay').removeClass('active');
+            }
+        });
+    });
+});
 
 $(document).ready(function () {
     $('#generarReporteInformacionEXCEL').click(function () {

@@ -10,11 +10,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
-    <script src="/js/activar-items-navbar.js"></script>
-
     <script src="/js/main.js"></script>
-
     <script src="/js/spinners.js"></script>
+    <script src="/js/activar-items-navbar.js"></script>
 
 
     <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -504,7 +502,7 @@
                                                                                     id="id_usuario" class="form-control"
                                                                                     placeholder=""
                                                                                     aria-describedby="basic-addon2"
-                                                                                    autocomplete="off" required>
+                                                                                    autocomplete="off" required maxlength="15">
                                                                                 <button
                                                                                     class="btn btn-search  text-white font-medium px-3"
                                                                                     type="button" id="buscarUsuario">
@@ -525,7 +523,7 @@
                                                                         <div class="col-md-8">
                                                                             <input type="text" class="form-control"
                                                                                 name="nombre_usuario"
-                                                                                id="nombre_usuario" required>
+                                                                                id="nombre_usuario" required maxlength="100">
                                                                             <div class="invalid-feedback">
                                                                                 Por favor, ingresa un valor.
                                                                             </div>
@@ -631,7 +629,7 @@
                                                                             <input type="text" class="form-control"
                                                                                 autocomplete="off"
                                                                                 name="parroquia_usuario"
-                                                                                id="parroquia_usuario">
+                                                                                id="parroquia_usuario" maxlength="45">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -644,7 +642,7 @@
                                                                             <input type="text" class="form-control"
                                                                                 autocomplete="off"
                                                                                 name="direccion_usuario"
-                                                                                id="direccion_usuario" maxlength="100">
+                                                                                id="direccion_usuario" maxlength="45">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -699,7 +697,7 @@
                                                                                 name="valor_pago_INFORMACION"
                                                                                 id="valor_pago_INFORMACION" step="0.01"
                                                                                 min="0.00" placeholder="0.00"
-                                                                                autocomplete="off">
+                                                                                autocomplete="off" max="1000">
                                                                         </div>
 
 
@@ -716,7 +714,7 @@
                                                                                     name="observaciones_INFORMACION"
                                                                                     id="observaciones_INFORMACION"
                                                                                     autocomplete="off"
-                                                                                    maxlength="200"></textarea>
+                                                                                    maxlength="100"></textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1266,8 +1264,7 @@
                     </div>
 
 
-                    <div class="modal fade" id="modalPlacaExtensa" tabindex="-1" 
-                        aria-hidden="true">
+                    <div class="modal fade" id="modalPlacaExtensa" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">

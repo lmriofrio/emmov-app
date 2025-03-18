@@ -1,14 +1,15 @@
 const { Sequelize } = require('sequelize');
+require("dotenv").config();
 
-const sequelize = new Sequelize({
-  dialect: 'mysql',
-  host: '64.23.134.120',
-  port: 3306,
-  username: 'lmriofrio',
-  password: 'lmriofrio',
-  database: 'mydb',
-  //64.23.134.120
-  //localhost
-});
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT || "mysql",
+    logging: false,
+  }
+);
 
 module.exports = sequelize;
