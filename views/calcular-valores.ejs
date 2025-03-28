@@ -8,12 +8,14 @@
     <title>Calcular Valores</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="/js/buscar-vehiculo.js"></script>
     <script src="/js/activar-items-navbar.js"></script>
 </head>
 
 <body>
+
     <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Inicio de barra de navegación -->
@@ -133,12 +135,16 @@
                         <div class="john-img" style="width: 40px; height: 40px;">
                             <img src="/images/user.png" class="rounded-circle" width="40" height="40" alt="">
                         </div>
-                      <div class="john-title">
-                        <h6 class="mb-0 fs-4 fw-semibold"><%= userData.username %></h6>
-                        <span class="fs-2"><%= userData.nombre_funcionario %></span>
+                        <div class="john-title">
+                            <h6 class="mb-0 fs-4 fw-semibold">
+                                <%= userData.username %>
+                            </h6>
+                            <span class="fs-2">
+                                <%= userData.nombre_funcionario %>
+                            </span>
+                        </div>
                     </div>
-                    </div>
-                  </div>
+                </div>
 
 
 
@@ -196,7 +202,7 @@
                                                 placeholder="" aria-label="Recipient's username"
                                                 aria-describedby="basic-addon2" autocomplete="off">
                                             <button class="btn btn-search font-medium px-3" type="button"
-                                            id="buscarVehiculo">Buscar</button>
+                                                id="buscarVehiculo">Buscar</button>
                                         </div>
                                     </div>
 
@@ -211,8 +217,8 @@
                                         <div class="col">
                                             <div class="form-items4">
                                                 <label for="" class="form-label fw-semibold">C. de Transporte</label>
-                                                <input type="text" name="clase_transporte" class="form-control" id="clase_transporte"
-                                                    placeholder="" autocomplete="off">
+                                                <input type="text" name="clase_transporte" class="form-control"
+                                                    id="clase_transporte" placeholder="" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -221,8 +227,8 @@
                                         <div class="col">
                                             <div class="form-items4">
                                                 <label for="" class="form-label fw-semibold">Ultima Rtv</label>
-                                                <input type="text" name="" class="form-control"
-                                                    id="" placeholder="Año" autocomplete="off">
+                                                <input type="text" name="" class="form-control" id="" placeholder="Año"
+                                                    autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="col">

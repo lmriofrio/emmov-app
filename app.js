@@ -1329,10 +1329,22 @@ app.get('/consultar/consulta-vehiculo', async (req, res) => {
 
   if (req.session.user, req.session.permisos) {
 
+    const idEmpresa = req.session.user.id_empresa;
+    const estadoFuncionario = 'ACTIVO';
+
+    //const recepcionTramites = 'HABILITADO';
+
+    const jefaturaDepartamento = 'UNIDAD DE MATRICULACIÓN';
+
+    const funcionariosActivos = await Funcionario.findAll({
+      where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario, jefatura_departamento: jefaturaDepartamento },
+      attributes: ['id_funcionario', 'nombre_funcionario']
+    });
+
 
     res.render('consultar/consulta-vehiculo', {
 
-      userData: req.session.user, permisos: req.session.permisos
+      userData: req.session.user, permisos: req.session.permisos, funcionariosActivos
     });
   } else {
 

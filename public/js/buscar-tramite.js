@@ -1,13 +1,13 @@
 function mostrarAlerta(mensaje, tipo = 'success') {
 
     $('#alert-container').find('.alert').remove();
-  
+
     const estadoTexto =
-      tipo === 'success' ? 'ÉXITO' :
-        tipo === 'warning' ? 'ATENCIÓN' :
-          tipo === 'danger' ? 'ERROR' :
-            'INFORMACIÓN';
-  
+        tipo === 'success' ? 'ÉXITO' :
+            tipo === 'warning' ? 'ATENCIÓN' :
+                tipo === 'danger' ? 'ERROR' :
+                    'INFORMACIÓN';
+
     $('#alert-container').html(`
       <div class="alert alert-${tipo} alert-dismissible p-2 fade show d-flex col-12 align-items-center shadow-alert">
         <div class="col-11 pe-2">
@@ -25,14 +25,14 @@ function mostrarAlerta(mensaje, tipo = 'success') {
         </div>
       </div>
     `);
-  
+
     const $alert = $('#alert-container').find('.alert');
     setTimeout(function () {
-      $alert.addClass('fade-out');
-      setTimeout(() => $alert.alert('close'), 1000);
+        $alert.addClass('fade-out');
+        setTimeout(() => $alert.alert('close'), 1000);
     }, 3000);
-  }
-  
+}
+
 $(document).ready(function () {
     $('#buscarTramite').click(function () {
         const placa = $('input[name="placa"]').val();
@@ -288,12 +288,27 @@ $(document).ready(function () {
 
                         } else if (tramite.estado_tramite === 'En proceso') {
                             estadoClass = 'bg-wait';
+                            opcionesHabilitadas.push(`
+                                <li>
+                                    <a class="dropdown-item reasignarTramite text-black px-4" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#modalReasignarTramite" id="reasignar-${tramite.id_tramite}"
+                                        data-id-tramite="${tramite.id_tramite}" data-username="${tramite.username}">
+                                        Reasignar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item imprimirTramite text-black px-4" href="#" id="imprimir-${tramite.id_tramite}"
+                                        data-id-tramite="${tramite.id_tramite}" data-username="${tramite.username}">
+                                        Imprimir
+                                    </a>
+                                </li>
+                            `);
                         }
 
 
                         opcionesHabilitadas.push(`
                             <li>
-                                <a class="dropdown-item visualizarTramite text-black" href="#" 
+                                <a class="dropdown-item visualizarTramite text-black px-4" href="#" 
                                    id="visualizar-${tramite.id_tramite}" 
                                    data-id-tramite="${tramite.id_tramite}"
                                    data-username="${tramite.username}">
@@ -304,7 +319,7 @@ $(document).ready(function () {
                         if (tramite.username === usernameSesion) {
                             opcionesHabilitadas.push(`
                                  <li>
-                                    <a class="dropdown-item editarTramite text-black" href="#" 
+                                    <a class="dropdown-item editarTramite text-black px-4" href="#" 
                                         id="editar-${tramite.id_tramite}" 
                                         data-id-tramite="${tramite.id_tramite}" 
                                         data-username="${tramite.username}">
@@ -330,7 +345,7 @@ $(document).ready(function () {
                                     <span class="round-8 ${estadoClass} rounded-circle d-inline-block ms-2"></span>
                                     <span class="badge text-dark rounded-pill fw-normal">${tramite.estado_tramite}</span>
                                 </td>
-                                <td class="text-center">${tramite.username}</td>
+                                <td class="text-center">${tramite.username || tramite.username_funcionario_asignado_INFORMACION}</td>
                                 <td class="text-center align-items-center justify-content-center p-2">
                                     <div class="btn-group">
                                         <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
@@ -348,7 +363,7 @@ $(document).ready(function () {
                     });
 
 
-                    $('#tbody-tramites').on('click', '.visualizarTramite', function () {
+                    $('#tbody-tramites').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
 
                         $.ajax({
@@ -400,6 +415,50 @@ $(document).ready(function () {
                                     $('#id_date_registraton').text(response.tramite.date_registraton);
 
                                     $('#permisosModal2').modal('show');
+                                } else {
+                                    alert('Error: no se pudo obtener la información del trámite.');
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error al obtener detalles del trámite:', error);
+                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
+                            }
+                        });
+                    });
+                    $('#tbody-tramites').off('click', '.reasignarTramite').on('click', '.reasignarTramite', function () {
+                        const idTramite = $(this).data('id-tramite');
+                        $.ajax({
+                            type: 'GET',
+                            url: `/buscar-tramite-id`,
+                            data: { idTramite },
+                            success: function (response) {
+                                if (response.success) {
+                                    $('#reasignar_placa').val(response.tramite.placa);
+                                    $('#reasignar_id_usuario').val(response.tramite.id_usuario);
+                                    $('#reasignar_nombre_usuario').val(response.tramite.nombre_usuario);
+                                    $('#reasignar_nombre_funcionario').val(response.tramite.nombre_funcionario);
+                                    $('#reasignar_tipo_tramite').val(response.tramite.tipo_tramite);
+                                    $('#reasignar_id_tramite').val(response.tramite.id_tramite);
+                                    $('#nombre_funcionario_asignado_INFORMACION').val(response.tramite.id_funcionario_asignado_INFORMACION);
+                                } else {
+                                    alert('Error: no se pudo obtener la información del trámite.');
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error al obtener detalles del trámite:', error);
+                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
+                            }
+                        });
+                    });
+                    $('#tbody-tramites').off('click', '.imprimirTramite').on('click', '.imprimirTramite', function () {
+                        const idTramite = $(this).data('id-tramite');
+                        $.ajax({
+                            type: 'GET',
+                            url: `/buscar-tramite-id`,
+                            data: { idTramite },
+                            success: function (response) {
+                                if (response.success) {
+                                    window.location.href = `/matriculacion/informacion/turno-agregado?id_tramite=${idTramite}`;
                                 } else {
                                     alert('Error: no se pudo obtener la información del trámite.');
                                 }
@@ -463,14 +522,14 @@ $(document).ready(function () {
                 $('#tipo_vehiculo').text('');
 
                 if (response.success) {
-                    
+
                     $('#sinResultados').addClass('d-none');
                     $('#content').removeClass('d-none');
                     $('#ConsultaVehiculo_tipo_id_usuario').text((response.vehiculo.tipo_id_usuario || '').toUpperCase());
                     $('#ConsultaVehiculo_id_usuario').text(response.vehiculo.id_usuario);
                     $('#ConsultaVehiculo_nombre_usuario').text(response.vehiculo.nombre_usuario);
 
-                   
+
 
                     $('#placaConsultada').text(response.vehiculo.placa);
                     $('#ramw').text(response.vehiculo.ramw);
@@ -487,7 +546,7 @@ $(document).ready(function () {
                     $('#clase_vehiculo').text(response.vehiculo.clase_vehiculo);
                     $('#tipo_vehiculo').text(response.vehiculo.tipo_vehiculo);
 
-                  
+
                     $('#overlay').removeClass('active');
                 } else {
 
@@ -912,70 +971,70 @@ $(document).ready(function () {
             filtro = nombre;
 
         }
-  
-      if (!identificación || identificación.length >= 15) {
-        console.log("ID de usuario demasiado largo o vacío");
-        $('#modalIDExtensa').modal('show');
-        return;
-      }
 
-      let id_usuario = identificación;
-
-      $('#overlay').addClass('active');
-  
-      $.ajax({
-        type: 'POST',
-        url: '/buscar-usuario',
-        data: { id_usuario },
-        success: function (response) {
-          
-          $('#nombre_usuario').val('');
-          $('#provincia_usuario').val('');
-          $('#canton_usuario').val('');
-          $('#parroquia_usuario').val('');
-          $('#direccion_usuario').val('');
-          $('#celular_usuario').val('');
-          $('#email_usuario').val('');
-  
-          if (response.success) {
-
-            $('#sinResultados').addClass('d-none');
-            $('#content').removeClass('d-none');
-
-            $('#ConsultaPersona_tipo_id_usuario').text(response.usuario.tipo_id_usuario);
-            $('#ConsultaPersona_id_usuario').text(response.usuario.id_usuario);
-            $('#ConsultaPersona_nombre_usuario').text(response.usuario.nombre_usuario);
-
-            $('#ConsultaPersona_canton_usuario').text(response.usuario.canton_usuario);
-            $('#ConsultaPersona_celular_usuario').text(response.usuario.celular_usuario);
-
-
-            $('#nombre_usuario').val(response.usuario.nombre_usuario);
-            $('#provincia_usuario').val(response.usuario.provincia_usuario);
-            $('#canton_usuario').val(response.usuario.canton_usuario);
-            $('#parroquia_usuario').val(response.usuario.parroquia_usuario);
-            $('#direccion_usuario').val(response.usuario.direccion_usuario);
-            $('#celular_usuario').val(response.usuario.celular_usuario);
-            $('#email_usuario').val(response.usuario.email_usuario);
-            $('#provincia_usuario').trigger('change');
-
-            $('#overlay').removeClass('active');
-  
-          } else {
-
-            $('#sinResultados').removeClass('d-none');
-            $('#content').addClass('d-none');
-            $('#overlay').removeClass('active');
-            mostrarAlerta('Usuario no encontrado.', 'warning');
-          }
-        },
-        error: function (error) {
-          console.error('Error al buscar usuario:', error);
-          alert('Error al buscar usuario. Por favor, inténtelo de nuevo.');
+        if (!identificación || identificación.length >= 15) {
+            console.log("ID de usuario demasiado largo o vacío");
+            $('#modalIDExtensa').modal('show');
+            return;
         }
-      });
+
+        let id_usuario = identificación;
+
+        $('#overlay').addClass('active');
+
+        $.ajax({
+            type: 'POST',
+            url: '/buscar-usuario',
+            data: { id_usuario },
+            success: function (response) {
+
+                $('#nombre_usuario').val('');
+                $('#provincia_usuario').val('');
+                $('#canton_usuario').val('');
+                $('#parroquia_usuario').val('');
+                $('#direccion_usuario').val('');
+                $('#celular_usuario').val('');
+                $('#email_usuario').val('');
+
+                if (response.success) {
+
+                    $('#sinResultados').addClass('d-none');
+                    $('#content').removeClass('d-none');
+
+                    $('#ConsultaPersona_tipo_id_usuario').text(response.usuario.tipo_id_usuario);
+                    $('#ConsultaPersona_id_usuario').text(response.usuario.id_usuario);
+                    $('#ConsultaPersona_nombre_usuario').text(response.usuario.nombre_usuario);
+
+                    $('#ConsultaPersona_canton_usuario').text(response.usuario.canton_usuario);
+                    $('#ConsultaPersona_celular_usuario').text(response.usuario.celular_usuario);
+
+
+                    $('#nombre_usuario').val(response.usuario.nombre_usuario);
+                    $('#provincia_usuario').val(response.usuario.provincia_usuario);
+                    $('#canton_usuario').val(response.usuario.canton_usuario);
+                    $('#parroquia_usuario').val(response.usuario.parroquia_usuario);
+                    $('#direccion_usuario').val(response.usuario.direccion_usuario);
+                    $('#celular_usuario').val(response.usuario.celular_usuario);
+                    $('#email_usuario').val(response.usuario.email_usuario);
+                    $('#provincia_usuario').trigger('change');
+
+                    $('#overlay').removeClass('active');
+
+                } else {
+
+                    $('#sinResultados').removeClass('d-none');
+                    $('#content').addClass('d-none');
+                    $('#overlay').removeClass('active');
+                    mostrarAlerta('Usuario no encontrado.', 'warning');
+                }
+            },
+            error: function (error) {
+                console.error('Error al buscar usuario:', error);
+                alert('Error al buscar usuario. Por favor, inténtelo de nuevo.');
+            }
+        });
     });
-  });
+});
 
 
 

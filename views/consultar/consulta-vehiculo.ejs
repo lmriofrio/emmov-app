@@ -66,7 +66,7 @@
                                             <div class="input-group">
                                                 <input type="text" name="placa" class="form-control text-uppercase"
                                                     placeholder="" aria-label="Recipient's username"
-                                                    aria-describedby="basic-addon2" autocomplete="off">
+                                                    aria-describedby="basic-addon2" autocomplete="off" maxlength="10">
                                                 <button class="btn btn-search text-white font-medium px-3" type="button"
                                                     id="consultarVehiculo">
                                                     <i class="ti ti-search fs-4"></i>
@@ -273,7 +273,9 @@
                                                 <tr class="text-dark">
                                                     <th class="text-center align-middle px-2 py-2 text-overflow-2">N°
                                                     </th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">TRÁMITE
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        TRÁMITE
                                                     </th>
                                                     <th class="text-center align-middle px-2 py-2 text-overflow-4">FECHA
                                                     </th>
@@ -308,9 +310,11 @@
                                 <div class="d-none m-1 row mt-4 mb-4" id="sinResultados">
 
                                     <br>
-                                    <div class="d-flex col-lg-12 row align-items-center justify-content-center mt-4 mb-4">
+                                    <div
+                                        class="d-flex col-lg-12 row align-items-center justify-content-center mt-4 mb-4">
                                         <br>
-                                        <div class="pt-4 pb-4 col-12 d-flex align-items-center justify-content-center mt-4 mb-4">
+                                        <div
+                                            class="pt-4 pb-4 col-12 d-flex align-items-center justify-content-center mt-4 mb-4">
                                             <br>
                                             <h4>Vehiculo no encontrado</h4>
                                         </div>
@@ -396,7 +400,8 @@
                                                             </label>
 
                                                             <span class="badge bg-primary-subtle rounded fw-semibold
-                                                     btn-status-finish mb-0 me-2" id="estado_tramite" name="estado_tramite"><i
+                                                     btn-status-finish mb-0 me-2" id="estado_tramite"
+                                                                name="estado_tramite"><i
                                                                     class="ti ti-check fw-semibold ms-1 fs-3"></i></span>
                                                         </div>
                                                     </div>
@@ -647,6 +652,107 @@
                                         data-bs-dismiss="modal">Cerrar</button>
                                 </div>
 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalReasignarTramite" aria-hidden="true"
+                        aria-labelledby="modalReasignarTramiteLabel" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+
+                                    <form action="/reasignar-tramite" method="post" id="reasignarForm"
+                                        class="needs-validation">
+                                        <div class="border-bottom">
+                                            <div
+                                                class="modal-title d-flex justify-content-between text-black align-items-center mt-2 mb-3">
+                                                <div class="d-flex">
+                                                    <h5 class="mb-0">Reasignar trámite</h5>
+                                                </div>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3">
+                                            <div class="py-1">
+                                                <div class="row d-flex">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="placa"
+                                                                class="col-lg-6 form-label fw-normal">Placa</label>
+                                                            <input type="text" name="reasignar_placa" id="reasignar_placa"
+                                                                class="form-control" readonly>
+                                                            <input type="hidden" name="reasignar_id_tramite"
+                                                                id="reasignar_id_tramite" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="nombre_usuario"
+                                                                class="col-4 form-label fw-normal">Propietario</label>
+                                                            <input type="text" name="reasignar_nombre_usuario" id="reasignar_nombre_usuario"
+                                                                class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label for="tipo_tramite"
+                                                                class="col-4 form-label fw-normal">Tipo
+                                                                de
+                                                                trámite</label>
+                                                            <input type="text" name="reasignar_tipo_tramite" id="reasignar_tipo_tramite"
+                                                                class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="mb-3">
+                                                            <label for="nombre_funcionario_asignado_INFORMACION"
+                                                                class="col-4 form-label fw-semibold">Asignar a:</label>
+                                                            <select class="form-select"
+                                                                name="nombre_funcionario_asignado_INFORMACION"
+                                                                id="nombre_funcionario_asignado_INFORMACION" required>
+                                                                <% if (funcionariosActivos &&
+                                                                    funcionariosActivos.length> 0) {
+                                                                    %>
+                                                                    <% funcionariosActivos.forEach(function(funcionario)
+                                                                        { %>
+                                                                        <option
+                                                                            value="<%= funcionario.id_funcionario %>"
+                                                                            <%=userData.nombre_funcionario_asignado_INFORMACION===funcionario.id_funcionario
+                                                                            ? 'selected' : '' %>>
+                                                                            <%= funcionario.nombre_funcionario %>
+                                                                        </option>
+                                                                        <% }); %>
+                                                                            <% } else { %>
+                                                                                <option disabled>No hay funcionarios
+                                                                                    activos disponibles</option>
+                                                                                <% } %>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="px-4 py-3 mb-2">
+                                            <div class="col-lg-12">
+                                                <button type="submit"
+                                                    class="col-12 d-flex justify-content-center btn p-3 fw-semibold btn-rounded btn-primary shadow-btn align-items-center"><i
+                                                        class="ti ti-switch-3 fs-6 me-2 center text-center"></i>
+                                                    REASIGNAR TRÁMITE
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -373,13 +373,18 @@ const Tramite = sequelize.define('registro-tramites', {
   },
 
   //////////////////////////////////////////////////
-  ///// ==  FECHA PARA PRESEMTAR EN LAS VISTAS == ////
+  ///// ==  FECHA PARA PRESENTAR EN LAS VISTAS == ////
   ///////////////////////////////////////////////////
 
   fecha_final_PRESENTACION: {
     type: DataTypes.STRING(45),
     allowNull: true
   },
+  username_final_PRESENTACION: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+
 
   //////////////////////////////////////////////////
   ///// ==  MOTIVO DE ANULACIÓN DE ESPECIE ==   ////

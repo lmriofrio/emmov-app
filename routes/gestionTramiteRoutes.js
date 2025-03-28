@@ -174,6 +174,8 @@ router.post('/reasignar-tramite', async (req, res) => {
   try {
     const { reasignar_id_tramite, nombre_funcionario_asignado_INFORMACION } = req.body;
 
+    console.log('Intentando reasignar trámite', reasignar_id_tramite, nombre_funcionario_asignado_INFORMACION);
+
     const id_tramite = reasignar_id_tramite;
     const idFuncionario = nombre_funcionario_asignado_INFORMACION;
 
@@ -184,7 +186,7 @@ router.post('/reasignar-tramite', async (req, res) => {
 
     const tramite = await Tramite.findByPk(id_tramite);
 
-    console.log('Intentando reasignar trámite');
+    //console.log('Intentando reasignar trámite');
 
     await tramite.update({
       id_funcionario_asignado_INFORMACION: funcionario.id_funcionario,
