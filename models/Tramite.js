@@ -380,11 +380,6 @@ const Tramite = sequelize.define('registro-tramites', {
     type: DataTypes.STRING(45),
     allowNull: true
   },
-  username_final_PRESENTACION: {
-    type: DataTypes.STRING(45),
-    allowNull: true
-  },
-
 
   //////////////////////////////////////////////////
   ///// ==  MOTIVO DE ANULACIÓN DE ESPECIE ==   ////
