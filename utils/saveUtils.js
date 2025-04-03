@@ -606,10 +606,16 @@ async function solicitarTurnos({
             fecha_final_PRESENTACION: {
                 [Op.between]: [startOfDay, endOfDay]
             },
+            fecha_turno_RTV: {
+                [Op.between]: [startOfDay, endOfDay],
+                [Op.ne]: null,  // Evita valores NULL
+                [Op.not]: ''    // Evita valores vacíos
+            },
             id_centro_matriculacion: oficina_ASIGNACION
         },
         order: [['numero_turno_matriculacion_INFORMACION', 'DESC']]
     });
+    
 
     const TurnoMatr = lastCurrentTurner ? lastCurrentTurner.numero_turno_matriculacion_INFORMACION + 1 : 1;
 

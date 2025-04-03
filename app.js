@@ -1333,6 +1333,11 @@ app.get('/home', async (req, res) => {
           fecha_final_PRESENTACION: {
             [SequelizeOp.between]: [startOfDay, endOfDay]
           },
+          fecha_turno_RTV: {
+              [SequelizeOp.between]: [startOfDay, endOfDay],
+              [SequelizeOp.between]: null,  // Evita valores NULL
+              [SequelizeOp.between]: ''    // Evita valores vacíos
+          },
           id_centro_matriculacion: id_centro_matriculacion
         },
         order: [['numero_turno_matriculacion_INFORMACION', 'DESC']]
