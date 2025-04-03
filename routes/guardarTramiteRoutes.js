@@ -8,7 +8,7 @@ const CentroMatriculacion = require('../models/CentroMatriculacion');
 const { sequelize } = require('sequelize');
 const { Op } = require('sequelize');
 const { getCurrentDay, getRangeCurrentDay } = require('../utils/dateUtils');
-const { updateVehiculo, createVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI } = require('../utils/saveUtils');
+const { updateVehiculo, createVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, solicitarTurnos } = require('../utils/saveUtils');
 
 router.post('/guardar-tramite-directo', async (req, res) => {
   try {
@@ -42,7 +42,7 @@ router.post('/guardar-tramite-directo', async (req, res) => {
 
     } else {
       console.log('La placa tiene un valor:', placa);
-       
+
       console.log('   1 Verificando si el vehículo ya existe... ');
       let vehiculo = await Vehiculo.findOne({ where: { placa } });
       if (vehiculo) {
@@ -167,26 +167,26 @@ router.post('/guardar-tramite-turno', async (req, res) => {
 
       if (tipo_tramite === 'EMISION DE MATRICULA POR PRIMERA VEZ') {
         let ramw = tramite.ramw;
-      
+
         if (!ramw) {
           console.error("El campo 'ramw' no está definido en el objeto 'tramite'.");
         } else {
           try {
             // Buscar el vehículo por RAMW
             const vehiculo2 = await Vehiculo.findOne({ where: { ramw } });
-      
+
             if (vehiculo2) {
               console.error("--------EMISION DE MATRICULA POR PRIMERA VEZ--------.");
               //console.log(`-----vehiculo2:`, vehiculo2);
               console.log(`-----Vehículo encontrado - RAMW: ${vehiculo2.ramw}, Placa actual: ${vehiculo2.placa}`);
               console.log(`-----Nueva placa a asignar: ${placaMayus}`);
-      
+
               // Verificar si la nueva placa ya existe
               const existePlaca = await Vehiculo.findOne({ where: { placa: placaMayus } });
               if (existePlaca) {
                 throw new Error(`La placa "${placaMayus}" ya está en uso.`);
               }
-      
+
               // Actualizar directamente la placa
               await Vehiculo.update(
                 { placa: placaMayus },
@@ -194,7 +194,7 @@ router.post('/guardar-tramite-turno', async (req, res) => {
               );
 
               //console.log(`-----vehiculo2:`, vehiculo2);
-      
+
               console.log(`------Placa actualizada correctamente a: ${placaMayus}`);
               console.log(`-----vehiculo2`, vehiculo2.ramw);
               console.log(`-----rawn`, ramw);
@@ -203,7 +203,7 @@ router.post('/guardar-tramite-turno', async (req, res) => {
                 { placa: placaMayus },
                 { where: { placa: ramw } }
               );
-              
+
 
             } else {
               console.warn(`No se encontró un vehículo asociado al RAMW: ${ramw}`);
@@ -213,8 +213,8 @@ router.post('/guardar-tramite-turno', async (req, res) => {
           }
         }
       }
-      
-      
+
+
 
       console.log('Verificando si el vehículo ya existe');
       let vehiculo = await Vehiculo.findOne({ where: { placa } });
@@ -279,16 +279,22 @@ router.post('/guardar-tramite-turno', async (req, res) => {
 router.post('/guardar-tramite-informacion', async (req, res) => {
   try {
 
-    const { id_funcionario, username, nombre_funcionario, id_empresa, nombre_empresa, nombre_corto_empresa, estado_empresa, provincia_empresa, canton_empresa, id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion } = req.session.user;
+    const { id_funcionario, username, nombre_funcionario, id_empresa, nombre_empresa, nombre_corto_empresa, estado_empresa, provincia_empresa, canton_empresa, id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion, id_centro_matriculacion_ASIGNACION_RTV } = req.session.user;
     const { tipo_peso, tipo_tramite, id_usuario, tipo_id_usuario, nombre_usuario, celular_usuario, email_usuario, provincia_usuario, canton_usuario, parroquia_usuario, direccion_usuario, clase_vehiculo_tipo, clase_vehiculo, tipo_vehiculo, clase_transporte, observaciones_INFORMACION,
       revision_tecnica_vehicular_TURNO, verificacion_improntas_TURNO, cambio_servicio_TURNO, cambio_color_TURNO, cambio_motor_TURNO, tipo_asignacion, oficina_ASIGNACION, usuario_ASIGNACION } = req.body;
     let { placa, ramw } = req.body;
-    let { fecha_turno_RTV } = req.body;
 
-    console.log('PASO 8 revisar este valor: revision_tecnica_vehicular_TURNO', revision_tecnica_vehicular_TURNO);
-    console.log('Fecha de turno', fecha_turno_RTV);
     const { result_placa, result_camvCpn, result_cilindraje, result_marca, result_modelo, result_anioModelo, result_paisFabricacion, result_clase, result_servicio } = req.body;
-
+    const tramitesSinRTV = [
+      "ACTUALIZACIÓN DE DATOS DEL VEHÍCULO",
+      "BLOQUEO DE VEHÍCULO",
+      "CERTIFICADO DE POSEER VEHICULO",
+      "CERTIFICADO UNICO VEHICULAR",
+      "DESBLOQUEO DE VEHÍCULO",
+      "DUPLICADO DEL DOCUMENTO ANUAL DE CIRCULACION",
+      "DUPLICADO DEL DOCUMENTO DE LA MATRICULA",
+      "DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION"
+    ];
     let { valor_pago_INFORMACION } = req.body;
 
     valor_pago_INFORMACION = valor_pago_INFORMACION === '' ? null : valor_pago_INFORMACION;
@@ -305,6 +311,7 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
     const fecha_ingreso_INFORMACION = currentDay;
     const { startOfDay, endOfDay } = getRangeCurrentDay();
     const fecha_final_PRESENTACION = fecha_ingreso_INFORMACION;
+    const fecha_turno_RTV = currentDay;
 
     let fecha_ultimo_proceso = fecha_ingreso_INFORMACION;
 
@@ -312,21 +319,20 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
       placa = ramw;
     }
 
-    // Buscar el último turno asignado en el día actual para una empresa específica
-    const lastCurrentTurner = await Tramite.findOne({
-      where: {
-        fecha_ingreso_INFORMACION: {
-          [Op.between]: [startOfDay, endOfDay]
-        },
-        id_empresa: id_empresa
-      },
-      order: [['numero_turno_INFORMACION', 'DESC']]
+    let { TurnoMatr, TurnoRtv } = await solicitarTurnos({
+      startOfDay,
+      endOfDay,
+      oficina_ASIGNACION,
+      id_centro_matriculacion_ASIGNACION_RTV
     });
-    const nextTurno = lastCurrentTurner ? lastCurrentTurner.numero_turno_INFORMACION + 1 : 1;
 
-    let asignacion,
-      funcionarioAsignado,
-      funcionarioDetails;
+    if (tramitesSinRTV.includes(tipo_tramite)) {
+      TurnoRtv = null;
+    }
+
+    let asignacion;
+    let funcionarioAsignado;
+    let funcionarioDetails;
 
     if (tipo_tramite === 'PROCESO - VERIFICACIÓN Y EXTRACCIÓN DE IMPRONTAS' || tipo_tramite === 'PROCESO - REVISIÓN TECNICA VEHICULAR') {
       console.log('PASO 6: Validando si el tramite necesita asignacion');
@@ -400,8 +406,9 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
       clase_vehiculo_tipo, clase_vehiculo, tipo_vehiculo, clase_transporte,
       id_empresa, nombre_empresa, nombre_corto_empresa, estado_empresa, provincia_empresa, canton_empresa,
       valor_pago_INFORMACION, observaciones_INFORMACION, id_funcionario_INFORMACION, username_funcionario_INFORMACION, nombre_funcionario_INFORMACION, fecha_ingreso_INFORMACION,
-      id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion, fecha_final_PRESENTACION,
-      revision_tecnica_vehicular_TURNO, verificacion_improntas_TURNO, cambio_servicio_TURNO, cambio_color_TURNO, cambio_motor_TURNO, numero_turno_INFORMACION: nextTurno,
+      id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion, fecha_final_PRESENTACION, fecha_turno_RTV,
+      revision_tecnica_vehicular_TURNO, verificacion_improntas_TURNO, cambio_servicio_TURNO, cambio_color_TURNO, cambio_motor_TURNO, numero_turno_matriculacion_INFORMACION: TurnoMatr,
+      numero_turno_rtv_INFORMACION: TurnoRtv,
     });
 
     const idTramite = id_tramite;
@@ -415,8 +422,8 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
           username_funcionario_asignado_INFORMACION: funcionarioDetails.username,
           nombre_funcionario_asignado_INFORMACION: funcionarioAsignado.nombre_funcionario,
         }, {
-          where: { id_tramite: idTramite }, // Asegúrate de que idTramite tenga el ID correcto
-          returning: true // Devuelve el objeto actualizado
+          where: { id_tramite: idTramite },
+          returning: true
         });
 
         if (affectedCount > 0) {
@@ -451,6 +458,7 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
         id_funcionario, username, id_centro_matriculacion, id_empresa, nombre_corto_empresa
       });
     }
+
 
     await updateVehiculo_DateSRI({
       placa, result_placa, result_camvCpn, result_cilindraje, result_marca, result_modelo, result_anioModelo, result_paisFabricacion, result_clase, result_servicio

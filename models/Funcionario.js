@@ -114,9 +114,11 @@ const Funcionario = db.define('Funcionario', {
     type: DataTypes.INTEGER(11),
     allowNull: true
   },
-
-
   numero_acta: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+  id_centro_matriculacion_ASIGNACION_RTV: {
     type: DataTypes.STRING(45),
     allowNull: true
   },

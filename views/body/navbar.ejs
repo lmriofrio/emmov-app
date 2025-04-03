@@ -299,6 +299,26 @@
 
                                                             <% } %>
                                                                 <!-- Fin -->
+                                                                <!-- Modulo de TTHH -->
+                                                                <% if (permisos.some(p=> p.id_modulo === 8 && p.acceso))
+                                                                    { %>
+                                                                    <li class="nav-small-cap">
+                                                                        <i
+                                                                            class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                                                        <span class="hide-menu">Revisión técnica</span>
+                                                                    </li>
+                                                                    <li class="sidebar-item">
+                                                                        <a class="sidebar-link"
+                                                                            href="/revision-tecnica/vista-turnos-rtv"
+                                                                            aria-expanded="false">
+                                                                            <span><i class="ti ti-checkup-list"
+                                                                                    stroke-width="0.5"></i></span>
+                                                                            <span class="hide-menu">Procesos de
+                                                                                RTV</span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <% } %>
+                                                                        <!-- Fin -->
 
 
             </ul>

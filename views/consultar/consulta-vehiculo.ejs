@@ -337,26 +337,6 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="permisosModal" tabindex="-1" aria-labelledby="permisosModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="permisosModalLabel">Permisos insuficientes</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Usted no tiene permisos para editar este trámite.
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Cerrar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="modal fade" id="permisosModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -756,6 +736,79 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="modal fade" id="modalreasignarTurno" aria-hidden="true"
+                    aria-labelledby="modalreasignarTurnoLabel" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+
+                                <form action="/reasignar-turno" method="post" id="reasignarForm"
+                                    class="needs-validation">
+                                    <div class="border-bottom">
+                                        <div
+                                            class="modal-title d-flex justify-content-between text-black align-items-center mt-2 mb-3">
+                                            <div class="d-flex">
+                                                <h5 class="mb-0">Reasignar turnos a la fecha actual</h5>
+                                            </div>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="px-4 py-3">
+                                        <div class="py-1">
+                                            <div class="row d-flex">
+                                                <div class="col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="placa"
+                                                            class="col-lg-6 form-label fw-normal">Placa</label>
+                                                        <input type="text" name="reasignarTurnoFechaActual_placa" id="reasignarTurnoFechaActual_placa"
+                                                            class="form-control" readonly>
+                                                        <input type="hidden" name="reasignarTurnoFechaActual_id_tramite"
+                                                            id="reasignarTurnoFechaActual_id_tramite" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-3">
+                                                        <label for="nombre_usuario"
+                                                            class="col-4 form-label fw-normal">Propietario</label>
+                                                        <input type="text" name="reasignarTurnoFechaActual_nombre_usuario" id="reasignarTurnoFechaActual_nombre_usuario"
+                                                            class="form-control" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="mb-3">
+                                                        <label for="tipo_tramite"
+                                                            class="col-4 form-label fw-normal">Tipo
+                                                            de
+                                                            trámite</label>
+                                                        <input type="text" name="reasignarTurnoFechaActual_tipo_tramite" id="reasignarTurnoFechaActual_tipo_tramite"
+                                                            class="form-control" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="px-4 py-3 mb-2">
+                                        <div class="col-lg-12">
+                                            <button type="submit"
+                                                class="col-12 d-flex justify-content-center btn p-3 fw-semibold btn-rounded btn-primary shadow-btn align-items-center"><i
+                                                    class="ti ti-switch-3 fs-6 me-2 center text-center"></i>
+                                                REASIGNAR TURNOS
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                     <div id="alert-container"></div>
 

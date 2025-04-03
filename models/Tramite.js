@@ -274,7 +274,11 @@ const Tramite = sequelize.define('registro-tramites', {
     type: DataTypes.STRING(10),
     allowNull: true,
   },
-  numero_turno_INFORMACION: {
+  numero_turno_matriculacion_INFORMACION: {
+    type: DataTypes.INTEGER(11),
+    allowNull: true,
+  },
+  numero_turno_rtv_INFORMACION: {
     type: DataTypes.INTEGER(11),
     allowNull: true,
   },

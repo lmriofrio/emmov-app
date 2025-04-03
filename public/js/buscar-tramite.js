@@ -302,7 +302,25 @@ $(document).ready(function () {
                                         Imprimir
                                     </a>
                                 </li>
+                                <li>
+                                    <a class="dropdown-item reasignarTurno text-black px-4" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#modalreasignarTurno" id="reasignar-${tramite.id_tramite}"
+                                        data-id-tramite="${tramite.id_tramite}" data-username="${tramite.username}">
+                                        Reasignar turnos a la fecha actual
+                                    </a>
+                                </li>
                             `);
+                            if ((tramite.username === usernameSesion) || (tramite.username_funcionario_asignado_INFORMACION === usernameSesion)) {
+                                opcionesHabilitadas.push(`
+                                    <li>
+                                       <a class="dropdown-item atenderTramite text-black px-4" href="#" 
+                                           id="editar-${tramite.id_tramite}" 
+                                           data-id-tramite="${tramite.id_tramite}">
+                                           Atender
+                                       </a>
+                                    </li>
+                               `);
+                            }
                         }
 
 
@@ -362,6 +380,29 @@ $(document).ready(function () {
                         numeroFila++;
                     });
 
+
+                    
+                    $('#tbody-tramites').off('click', '.atenderTramite').on('click', '.atenderTramite', function () {
+                        const idTramite = $(this).data('id-tramite');
+                        console.info(idTramite);
+
+                        $.ajax({
+                            type: 'GET',
+                            url: `/buscar-tramite-id`,
+                            data: { idTramite },
+                            success: function (response) {
+                                if (response.success) {
+                                    window.location.href = `/matriculacion/registro-por-turno?id_tramite=${idTramite}`;
+                                } else {
+                                    alert('Error: no se pudo obtener la información del trámite.');
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error al obtener detalles del trámite:', error);
+                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
+                            }
+                        });
+                    });
 
                     $('#tbody-tramites').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
@@ -459,6 +500,31 @@ $(document).ready(function () {
                             success: function (response) {
                                 if (response.success) {
                                     window.location.href = `/matriculacion/informacion/turno-agregado?id_tramite=${idTramite}`;
+                                } else {
+                                    alert('Error: no se pudo obtener la información del trámite.');
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error al obtener detalles del trámite:', error);
+                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
+                            }
+                        });
+                    });
+
+                    $('#tbody-tramites').off('click', '.reasignarTurno').on('click', '.reasignarTurno', function () {
+                        const idTramite = $(this).data('id-tramite');
+                        $.ajax({
+                            type: 'GET',
+                            url: `/buscar-tramite-id`,
+                            data: { idTramite },
+                            success: function (response) {
+                                if (response.success) {
+                                    $('#reasignarTurnoFechaActual_placa').val(response.tramite.placa);
+                                    $('#reasignarTurnoFechaActual_id_usuario').val(response.tramite.id_usuario);
+                                    $('#reasignarTurnoFechaActual_nombre_usuario').val(response.tramite.nombre_usuario);
+                                    $('#reasignarTurnoFechaActual_nombre_funcionario').val(response.tramite.nombre_funcionario);
+                                    $('#reasignarTurnoFechaActual_tipo_tramite').val(response.tramite.tipo_tramite);
+                                    $('#reasignarTurnoFechaActual_id_tramite').val(response.tramite.id_tramite);
                                 } else {
                                     alert('Error: no se pudo obtener la información del trámite.');
                                 }

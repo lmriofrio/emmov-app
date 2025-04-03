@@ -42,14 +42,14 @@
                                             <form action="" method="post" id="" class="">
                                                 <input type="hidden" value=" <%= tramite.id_tramite %>" id="id_tramite">
 
-                                                <h5 class="m-2 fw-normal text-center text-black">TURNO NÚMERO</h5>
+                                                <h5 class="m-2 fw-normal text-center text-black">TURNO NÚMERO (MATR)</h5>
 
 
                                                 <div
                                                     class="p-1 m-1 d-flex align-items-center justify-content-center bg-four-card rounded">
                                                     <p
                                                         class="fw-semibold m-0 text-turner d-flex align-items-center justify-content-center fs-14">
-                                                        <%= tramite.numero_turno_INFORMACION %>
+                                                        <%= tramite.numero_turno_matriculacion_INFORMACION %>
                                                     </p>
                                                 </div>
 
@@ -339,7 +339,7 @@
 
                                                     <button type="button" id="imprimirTurno"
                                                         class="me-auto btn btn-rounded btn-print px-4 py-2">
-                                                        <i class="ti ti-printer fs-4 me-2"></i>Imprimir turno
+                                                        <i class="ti ti-printer fs-4 me-2"></i>Imprimir turno de RTV
                                                     </button>
 
                                                     <script>
@@ -347,7 +347,7 @@
                                                             const idTramite = document.getElementById('id_tramite').value.trim();
 
                                                             if (idTramite) {
-                                                                var ventanaImpresion = window.open('/matriculacion/informacion/turno-pdf?id_tramite=' + idTramite, '_blank');
+                                                                var ventanaImpresion = window.open('/matriculacion/informacion/turno-rtv-pdf?id_tramite=' + idTramite, '_blank');
                                                                 ventanaImpresion.onload = function () {
                                                                     ventanaImpresion.print();
                                                                     ventanaImpresion.onafterprint = function () {

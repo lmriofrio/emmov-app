@@ -122,7 +122,7 @@ $(document).ready(function () {
                             <td class="text-overflow-12">${tramite.tipo_tramite}</td>
                             <td class="text-center">${fechaIngresoFormateada}</td>
                             <td class="text-center text-overflow-4 ${estadoFont}">${tiempoEspera}</td>
-                            <td class="text-center text-overflow-1">${tramite.numero_turno_INFORMACION}</td>
+                            <td class="text-center text-overflow-1">${tramite.numero_turno_matriculacion_INFORMACION}</td>
                             <td class="align-items-center justify-content-start text-overflow-4">
                                 <span class="round-8 ${estadoClass} rounded-circle d-inline-block ms-2"></span>
                                 <span class="badge text-dark rounded-pill fw-normal">${tramite.estado_tramite}</span>
@@ -399,7 +399,7 @@ $(document).ready(function () {
                             <td class="text-overflow-12">${tramite.tipo_tramite}</td>
                             <td class="text-center">${fechaIngresoFormateada}</td>
                             <td class="text-center text-overflow-4 ${estadoFont}">${tiempoEspera}</td>
-                            <td class="text-center text-overflow-1">${tramite.numero_turno_INFORMACION}</td>
+                            <td class="text-center text-overflow-1">${tramite.numero_turno_matriculacion_INFORMACION}</td>
                             <td class="align-items-center justify-content-start text-overflow-4">
                                 <span class="round-8 ${estadoClass} rounded-circle d-inline-block ms-2"></span>
                                 <span class="badge text-dark rounded-pill fw-normal">${tramite.estado_tramite}</span>

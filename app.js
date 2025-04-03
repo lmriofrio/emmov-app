@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const favicon = require('serve-favicon');
+const echarts = require('echarts');
 const bcryptjs = require('bcryptjs');
 const bodyParser = require('body-parser');
 const config = require('./config');
@@ -43,6 +44,8 @@ const gestionInventarioRoutes = require('./routes/gestionInventarioRoutes');
 const dateUtils = require('./utils/dateUtils');
 
 const { Op, literal, Sequelize } = require('./config/db');
+const { Op: SequelizeOp } = require('sequelize');
+
 
 // Reorganizar por la funcionalidad dateUtils
 const formatDate = dateString => {
@@ -178,6 +181,7 @@ app.post('/login', async (req, res) => {
         tipo_ASIGNACION: user.tipo_ASIGNACION,
         oficina_ASIGNACION: user.oficina_ASIGNACION,
         usuario_ASIGNACION: user.usuario_ASIGNACION,
+        id_centro_matriculacion_ASIGNACION_RTV: user.id_centro_matriculacion_ASIGNACION_RTV,
       };
       req.session.user = userData;
 
@@ -1027,7 +1031,7 @@ app.get('/matriculacion/informacion/turno-agregado', async (req, res) => {
   }
 });
 
-app.get('/matriculacion/informacion/turno-pdf', async (req, res) => {
+app.get('/matriculacion/informacion/turno-rtv-pdf', async (req, res) => {
   try {
     if (req.session.user, req.session.permisos) {
       const idTramite = req.query.id_tramite;
@@ -1038,7 +1042,7 @@ app.get('/matriculacion/informacion/turno-pdf', async (req, res) => {
 
       const tramite = await Tramite.findByPk(idTramite);
 
-      res.render('matriculacion/informacion/turno-pdf', {
+      res.render('matriculacion/informacion/turno-rtv-pdf', {
         userData: req.session.user, permisos: req.session.permisos,
         tramite
       });
@@ -1289,10 +1293,73 @@ app.get('/perfil/configuracion-cuenta', async (req, res) => {
 });
 
 app.get('/home', async (req, res) => {
-  if (req.session.user, req.session.permisos) {
+  if (req.session.user && req.session.permisos) {
+    try {
+      const { id_centro_matriculacion_ASIGNACION_RTV, id_centro_matriculacion } = req.session.user;
+      const { startOfDay, endOfDay } = getRangeCurrentDay();
+      const estado = 'Finalizado'; 
 
+      const tramitesIngresados = await Tramite.count({
+        where: {
+          id_centro_matriculacion: id_centro_matriculacion,
+          fecha_final_PRESENTACION: {
+            [SequelizeOp.between]: [startOfDay, endOfDay]
+          }
+        }
+      });
 
-    res.render('home', { userData: req.session.user, permisos: req.session.permisos });
+      const tramitesFinalizados = await Tramite.count({
+        where: {
+          id_centro_matriculacion: id_centro_matriculacion,
+          estado_tramite: estado,
+          fecha_final_PRESENTACION: {
+            [SequelizeOp.between]: [startOfDay, endOfDay]
+          }
+        }
+      });
+
+      const tramitesRTV = await Tramite.count({
+        where: {
+          id_centro_matriculacion: id_centro_matriculacion,
+          fecha_turno_RTV: {
+            [SequelizeOp.between]: [startOfDay, endOfDay]
+          }
+        }
+      });
+
+      // Buscar el último turno asignado en el día actual para la empresa
+      const lastCurrentTurner = await Tramite.findOne({
+        where: {
+          fecha_final_PRESENTACION: {
+            [SequelizeOp.between]: [startOfDay, endOfDay]
+          },
+          id_centro_matriculacion: id_centro_matriculacion
+        },
+        order: [['numero_turno_matriculacion_INFORMACION', 'DESC']]
+      });
+      
+      const ultimoTurno = lastCurrentTurner ? lastCurrentTurner.numero_turno_matriculacion_INFORMACION : "0";
+
+      // Buscar el último turno asignado en el día actual para la empresa
+      const lastCurrentTurnerRTV = await Tramite.findOne({
+        where: {
+          fecha_turno_RTV: {
+            [SequelizeOp.between]: [startOfDay, endOfDay]
+          },
+          id_centro_matriculacion: id_centro_matriculacion_ASIGNACION_RTV
+        },
+        order: [['numero_turno_rtv_INFORMACION', 'DESC']]
+      });
+
+      const ultimoTurnoRTV = lastCurrentTurnerRTV ? lastCurrentTurnerRTV.numero_turno_rtv_INFORMACION : "0"; 
+
+      res.render('home', { userData: req.session.user, permisos: req.session.permisos, ultimoTurno, ultimoTurnoRTV, 
+        tramitesRTV, tramitesFinalizados, id_centro_matriculacion_ASIGNACION_RTV, tramitesIngresados});
+
+    } catch (error) {
+      console.error('Error al obtener el último turno:', error);
+      res.status(500).send('Error interno del servidor');
+    }
   } else {
     res.redirect('/');
   }
@@ -1861,13 +1928,13 @@ app.get('/servicios/generacion-turnos-web', async (req, res) => {
 
 
 //////////////////////////////////////////////////////////
-//////////   SERVICIOS WEB                    ///////////
+//////////   ADMINISTRACION DE EMPRESA         ///////////
 /////////////////////////////////////////////////////////
 
 
 app.get('/administracion/admin-empresa', async (req, res) => {
   try {
-    if (req.session.user && req.session.permisos) { 
+    if (req.session.user && req.session.permisos) {
 
       const id_empresa = parseInt(req.session.user.id_empresa, 10);
 
@@ -1880,11 +1947,47 @@ app.get('/administracion/admin-empresa', async (req, res) => {
       //console.log('email_empresa_tthh resultados', empresa);
 
       res.render('administracion/admin-empresa', {
-        userData: req.session.user, 
-        permisos: req.session.permisos, 
+        userData: req.session.user,
+        permisos: req.session.permisos,
         empresa
       });
 
+    } else {
+      res.redirect('/login');
+    }
+  } catch (error) {
+    console.error('Error al obtener los registros:', error);
+    res.status(500).send('Error al obtener los registros');
+  }
+});
+
+//////////////////////////////////////////////////////////
+//////////   REVISION TÉCNICA                 ///////////
+/////////////////////////////////////////////////////////
+
+app.get('/revision-tecnica/vista-turnos-rtv', async (req, res) => {
+  try {
+    if (req.session.user, req.session.permisos) {
+
+      const { currentDaySimple } = getCurrentDaySimple();
+
+      const usernameSesion = req.session.user.username;
+      const idEmpresa = req.session.user.id_empresa;
+      const estadoFuncionario = 'ACTIVO';
+
+      //const recepcionTramites = 'HABILITADO';
+
+      const jefaturaDepartamento = 'UNIDAD DE MATRICULACIÓN';
+
+      const funcionariosActivos = await Funcionario.findAll({
+        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario, jefatura_departamento: jefaturaDepartamento },
+        attributes: ['id_funcionario', 'nombre_funcionario']
+      });
+
+
+      res.render('revision-tecnica/vista-turnos-rtv', {
+        usernameSesion, userData: req.session.user, funcionariosActivos, currentDaySimple, permisos: req.session.permisos
+      });
     } else {
       res.redirect('/login');
     }

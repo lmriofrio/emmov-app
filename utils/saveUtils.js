@@ -1,9 +1,8 @@
-
-
 const Vehiculo = require('../models/Vehiculo');
 const Tramite = require('../models/Tramite');
 const Usuario = require('../models/Usuario');
 const FaltaAsistenciasTTHH = require('../models/FaltaAsistenciasTTHH');
+const { Op } = require('sequelize');
 
 
 // Listo
@@ -309,7 +308,8 @@ async function createTramite({
     nombre_funcionario,
     username,
     solicitud_del_servicio_INFORMACION,
-    numero_turno_INFORMACION,
+    numero_turno_matriculacion_INFORMACION,
+    numero_turno_rtv_INFORMACION,
     id_funcionario_INFORMACION,
     username_funcionario_INFORMACION,
     nombre_funcionario_INFORMACION,
@@ -319,6 +319,7 @@ async function createTramite({
     id_funcionario_asignado_INFORMACION,
     username_funcionario_asignado_INFORMACION,
     nombre_funcionario_asignado_INFORMACION,
+    fecha_turno_RTV,
     revision_tecnica_vehicular_TURNO,
     verificacion_improntas_TURNO,
     cambio_servicio_TURNO,
@@ -392,7 +393,8 @@ async function createTramite({
         nombre_funcionario,
         username,
         solicitud_del_servicio_INFORMACION,
-        numero_turno_INFORMACION,
+        numero_turno_matriculacion_INFORMACION,
+        numero_turno_rtv_INFORMACION,
         id_funcionario_INFORMACION,
         username_funcionario_INFORMACION,
         nombre_funcionario_INFORMACION,
@@ -402,6 +404,7 @@ async function createTramite({
         id_funcionario_asignado_INFORMACION,
         username_funcionario_asignado_INFORMACION,
         nombre_funcionario_asignado_INFORMACION,
+        fecha_turno_RTV,
         revision_tecnica_vehicular_TURNO,
         verificacion_improntas_TURNO,
         cambio_servicio_TURNO,
@@ -585,7 +588,50 @@ async function editarFaltaAsistencia({
     return { id_registro };
 }
 
-module.exports = { createVehiculo, updateVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, createFaltaAsistencia, editarFaltaAsistencia };
+
+// Listo
+async function solicitarTurnos({
+    startOfDay,
+    endOfDay,
+    oficina_ASIGNACION,
+    id_centro_matriculacion_ASIGNACION_RTV
+
+}) {
+
+    console.log('------ Generando turnos desde saveUtils -------');
+
+    // Buscar el último turno asignado (MATR) en el día actual
+    const lastCurrentTurner = await Tramite.findOne({
+        where: {
+            fecha_final_PRESENTACION: {
+                [Op.between]: [startOfDay, endOfDay]
+            },
+            id_centro_matriculacion: oficina_ASIGNACION
+        },
+        order: [['numero_turno_matriculacion_INFORMACION', 'DESC']]
+    });
+
+    const TurnoMatr = lastCurrentTurner ? lastCurrentTurner.numero_turno_matriculacion_INFORMACION + 1 : 1;
+
+    // Buscar el último turno asignado (RTV) en el día actual para una empresa
+    const lastCurrentTurnerRTV = await Tramite.findOne({
+        where: {
+            fecha_turno_RTV: {
+                [Op.between]: [startOfDay, endOfDay]
+            },
+            id_centro_matriculacion: id_centro_matriculacion_ASIGNACION_RTV
+        },
+        order: [['numero_turno_rtv_INFORMACION', 'DESC']]
+    });
+
+    const TurnoRtv = lastCurrentTurnerRTV ? lastCurrentTurnerRTV.numero_turno_rtv_INFORMACION + 1 : 1;
+
+    return { TurnoMatr, TurnoRtv };
+}
+
+
+
+module.exports = { solicitarTurnos, createVehiculo, updateVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, createFaltaAsistencia, editarFaltaAsistencia };
 
 
 

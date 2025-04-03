@@ -1119,7 +1119,11 @@ if (document.getElementById('registroFormAreaInformacion')) {
 
     // Definir reglas para la asignación de valores
     const reglasTramites = {
-      'CAMBIO DE CARACTERÍSTICAS': {
+      'EMISION DE MATRICULA POR PRIMERA VEZ': {
+        verificacion_improntas_TURNO: 'NO',
+        revision_tecnica_vehicular_TURNO: 'SI',
+        cambio_servicio_TURNO: 'NO'
+      },'CAMBIO DE CARACTERÍSTICAS': {
         verificacion_improntas_TURNO: 'SI',
         revision_tecnica_vehicular_TURNO: 'SI',
         cambio_servicio_TURNO: 'NO'
