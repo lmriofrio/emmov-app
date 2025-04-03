@@ -599,6 +599,8 @@ async function solicitarTurnos({
 }) {
 
     console.log('------ Generando turnos desde saveUtils -------');
+    console.log('------ Generando turnos desde saveUtils -------',  startOfDay,
+        endOfDay);
 
     // Buscar el último turno asignado (MATR) en el día actual
     const lastCurrentTurner = await Tramite.findOne({
@@ -608,8 +610,7 @@ async function solicitarTurnos({
             },
             fecha_turno_RTV: {
                 [Op.between]: [startOfDay, endOfDay],
-                [Op.ne]: null,  // Evita valores NULL
-                [Op.not]: ''    // Evita valores vacíos
+                [Op.ne]: null,
             },
             id_centro_matriculacion: oficina_ASIGNACION
         },
