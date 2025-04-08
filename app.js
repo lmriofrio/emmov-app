@@ -1335,8 +1335,7 @@ app.get('/home', async (req, res) => {
           },
           fecha_turno_RTV: {
               [SequelizeOp.between]: [startOfDay, endOfDay],
-              [SequelizeOp.between]: null,  // Evita valores NULL
-              [SequelizeOp.between]: ''    // Evita valores vacíos
+              [SequelizeOp.ne]: null
           },
           id_centro_matriculacion: id_centro_matriculacion
         },

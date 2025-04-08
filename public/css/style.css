@@ -27048,8 +27048,8 @@ fieldset:disabled .btn {
 }
 
 .card-subtitle {
-    margin-top: calc(-.5 * var(--bs-card-title-spacer-y));
-    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 24px;
     color: var(--bs-card-subtitle-color)
 }
 

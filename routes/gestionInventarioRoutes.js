@@ -5,7 +5,7 @@ const InventarioPlacas = require('../models/InventarioPlacas');
 const Funcionario = require('../models/Funcionario');
 const Usuario = require('../models/Usuario');
 const { getChangeDay } = require('../utils/dateUtils');
-const { createUsuario, actualizarUsuario, updateTramite_id_usuario } = require('../utils/saveUtils');
+const { createUsuario, actualizarUsuario, updateTramite_id_usuario, editarInventarioPlacas } = require('../utils/saveUtils');
 
 router.post('/ingresar-placa-individual', async (req, res) => {
   try {
@@ -13,7 +13,7 @@ router.post('/ingresar-placa-individual', async (req, res) => {
     const { clase_vehiculo, clase_transporte, cantidad } = req.body;
     let { placa, ubicacion, ingreso_fecha } = req.body;
 
-    console.log('POR ENTREGAR',ingreso_fecha );
+    console.log('POR ENTREGAR', ingreso_fecha);
 
     placa = placa.toUpperCase();
     ubicacion = ubicacion.toUpperCase();
@@ -21,7 +21,7 @@ router.post('/ingresar-placa-individual', async (req, res) => {
     let { ChangeDay } = getChangeDay(ingreso_fecha);
     ingreso_fecha = ChangeDay;
 
-    console.log('POR ENTREGAR', ingreso_fecha );
+    console.log('POR ENTREGAR', ingreso_fecha);
 
     const ingreso_id_funcionario = id_funcionario;
     const ingreso_funcionario = nombre_funcionario;
@@ -125,14 +125,57 @@ router.post('/ingresar-placa-lotes', async (req, res) => {
   }
 });
 
+router.post('/editar-placa-inventario', async (req, res) => {
+  try {
+    const {
+      vls_id_inventario2,
+      vls_placa,
+      vls_clase_transporte,
+      vls_clase_vehiculo,
+      vls_cantidad,
+      vls_ubicacion } = req.body;
 
+
+    let id_inventario = vls_id_inventario2;
+
+    const placa = vls_placa;
+    const clase_transporte = vls_clase_transporte;
+    const clase_vehiculo = vls_clase_vehiculo;
+    const cantidad = vls_cantidad;
+    const ubicacion = vls_ubicacion;
+
+    // Guardar el nuevo trámite 
+    id_inv = await editarInventarioPlacas({
+      id_inventario,
+      placa,
+      clase_transporte,
+      clase_vehiculo,
+      cantidad,
+      ubicacion,
+    });
+
+
+    res.redirect(`/inventario-placas/inventario`);
+
+
+
+  } catch (error) {
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      console.error('Error: Registro duplicado en la base de datos', error);
+      res.status(400).json({ success: false, message: 'El registro con esta placa ya existe' });
+    } else {
+      console.error('Error al guardar el trámite en la ruta:', error);
+      res.status(500).json({ success: false, message: 'Error al guardar el trámite' });
+    }
+  }
+});
 
 
 router.post('/buscar-placa-inventario', async (req, res) => {
   let { placa } = req.body;
   placa = placa.toUpperCase();
 
-  console.log('Placa recibida:', placa);
+  console.log('Placa recibida new:', placa);
 
   const validarPlaca = (placa) => {
     const patronPlaca = /^[A-Z0-9]{1,7}$/;
@@ -145,7 +188,7 @@ router.post('/buscar-placa-inventario', async (req, res) => {
     validarPlaca(placa);
     const placaInventario = await InventarioPlacas.findAll({ where: { placa } });
     //console.log('Placa  encontrada', placaInventario );
- 
+
     if (placaInventario && placaInventario.length > 0) {
       res.json({ success: true, placaInventario });
     } else {
@@ -160,11 +203,12 @@ router.post('/buscar-placa-inventario', async (req, res) => {
 
 router.get('/buscar-placa-id-inventario', async (req, res) => {
   let { id_inventario } = req.query;
-  
+
   console.log('ID Inventario recibido:', id_inventario);
 
   try {
     const placaInventario = await InventarioPlacas.findOne({ where: { id_inventario } });
+
 
     if (placaInventario) {
       res.json({ success: true, placaInventario });
@@ -299,7 +343,7 @@ router.post('/entregar-placa-grupal', async (req, res) => {
 
     res.redirect(`/inventario-placas/entrega-placas/placa-entregada?salida_id_funcionario=${salida_id_funcionario}&salida_fecha=${salida_fecha}&salida_tipo_entrega=${salida_tipo_entrega}&solicitante_id=${solicitante_id}&salida_nombre_puesto_funcionario=${salida_nombre_puesto_funcionario}&salida_acta=${salida_acta}&salida_observacion=${salida_observacion}`);
 
-   
+
   } catch (error) {
     console.error('Error al entregar placas grupales:', error);
     res.status(500).json({ success: false, message: 'Error interno del servidor' });

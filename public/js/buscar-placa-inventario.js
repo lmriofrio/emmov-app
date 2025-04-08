@@ -61,11 +61,11 @@ $(document).ready(function () {
                   </a>
               </li>
               <li>
-                  <a class="dropdown-item ModificarTramite text-black" href="#" 
-                     id="${placaInventario.id_inventario}" 
-                     data-id_inventario="${placaInventario.id_inventario}"
-                     data-username="">
-                     Modificar registro
+                  <a class="dropdown-item editarRegistro text-black" href="#" 
+                      data-bs-toggle="modal" data-bs-target="#modalEditarRegistro" 
+                      id="${placaInventario.id_inventario}"
+                      data-id_inventario="${placaInventario.id_inventario}">
+                      Editar registro
                   </a>
               </li>
 
@@ -162,6 +162,40 @@ $(document).ready(function () {
             });
           });
 
+          $('#tbody-tramites').off('click', '.editarRegistro').on('click', '.editarRegistro', function () {
+
+            const id_inventario = $(this).data('id_inventario');
+
+            $.ajax({
+              type: 'GET',
+              url: `/buscar-placa-id-inventario`,
+              data: { id_inventario },
+              success: function (response) {
+                if (response.success) {
+
+                  const data = response.placaInventario;
+
+                  // Llenar campos del formulario
+                  $('#vls_id_inventario2').val(data.id_inventario);
+                  $('#vls_placa').val(data.placa);
+                  $('select[name="vls_clase_transporte"]').val(data.clase_transporte);
+                  $('select[name="vls_clase_vehiculo"]').val(data.clase_vehiculo);
+                  $('#vls_cantidad').val(data.cantidad);
+                  $('#vls_ubicacion').val(data.ubicacion);
+
+                } else {
+                  alert('Error: no se pudo obtener la información del trámite.');
+                }
+              },
+              error: function (error) {
+                console.error('Error al obtener detalles del trámite:', error);
+                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
+              }
+            });
+
+          });
+
+
 
 
         } else {
@@ -211,15 +245,15 @@ $(document).ready(function () {
 
             let estadoClass = '';
             let estadoFont = '';
-             
+
             if (placaInventario.estado === 'ENTREGADO') {
               estadoClass = '';
               estadoFont = 'fw-normal';
 
-          } else if (placaInventario.estado === 'POR ENTREGAR') {
+            } else if (placaInventario.estado === 'POR ENTREGAR') {
               estadoClass = 'text-blue';
               estadoFont = 'fw-semibold';
-          }
+            }
 
             const newRow = `
                     <tr  style="border-style: none; border-bottom: 1px solid #dddee4;">
@@ -345,7 +379,7 @@ $(document).ready(function () {
           $('#tbody-tramites').off('click', '.entregarPlaca').on('click', '.entregarPlaca', function () {
             const id_inventario = $(this).data('id-inventario');
             const placa = $(this).closest('tr').find('td:nth-child(2)').text();
-        
+
             $('#contenedorPlacaInventario').append(`
               <div class="col d-flex p-1">
                 <p class="col-2 m-0">${contadorPlacas}</p>
@@ -354,14 +388,14 @@ $(document).ready(function () {
                 <input type="hidden" name="id_inventario[]" value="${id_inventario}">
               </div>
             `);
-        
+
             contadorPlacas++;
-        
+
             $('input[name="placa"]').val('');
-        
+
             $('#content').addClass('d-none');
-        });
-        
+          });
+
 
 
 

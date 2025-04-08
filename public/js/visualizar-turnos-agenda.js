@@ -401,13 +401,6 @@ $(document).ready(function () {
                                    Atender
                                </a>
                             </li>
-
-
-
-
-
-
-                            
                             <li>
                                 <a class="dropdown-item reasignarTramite text-black px-4" href="#" 
                                    data-bs-toggle="modal" data-bs-target="#modalReasignarTramite" 

@@ -141,7 +141,6 @@ router.get('/visualizar-turnos-rtv', async (req, res) => {
             attributes: columnas,
             where: {
                 estado_tramite: { [Op.or]: ['En proceso', 'Finalizado'] },
-                username_funcionario_INFORMACION: username,
                 fecha_turno_RTV: {
                     [Op.and]: [
                         { [Op.gte]: startOfDay },

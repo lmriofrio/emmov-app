@@ -257,7 +257,6 @@ router.post('/reasignar-turno', async (req, res) => {
       TurnoRtv = null;
     }
 
-
     if (tramiteReasignarTurno.tipo_tramite === 'PROCESO - VERIFICACIÓN Y EXTRACCIÓN DE IMPRONTAS' || tramiteReasignarTurno.tipo_tramite === 'PROCESO - REVISIÓN TECNICA VEHICULAR') {
       console.log('PASO 666: Validando si el tramite necesita asignacion');
 
@@ -317,8 +316,6 @@ router.post('/reasignar-turno', async (req, res) => {
       console.log('PASO 8: ASIGNACION REALIZADA, guardando el tramite');
 
       asignacion = 'SI';
-
-      console.log('PASO 8: funcionarioAsignado.id_funcionario', funcionarioAsignado.id_funcionario);
 
       funcionarioDetails = await Funcionario.findOne({
         where: { id_funcionario: funcionarioAsignado.id_funcionario }

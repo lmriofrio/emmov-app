@@ -2,6 +2,7 @@ const Vehiculo = require('../models/Vehiculo');
 const Tramite = require('../models/Tramite');
 const Usuario = require('../models/Usuario');
 const FaltaAsistenciasTTHH = require('../models/FaltaAsistenciasTTHH');
+const InventarioPlacas = require('../models/InventarioPlacas');
 const { Op } = require('sequelize');
 
 
@@ -599,8 +600,6 @@ async function solicitarTurnos({
 }) {
 
     console.log('------ Generando turnos desde saveUtils -------');
-    console.log('------ Generando turnos desde saveUtils -------',  startOfDay,
-        endOfDay);
 
     // Buscar el último turno asignado (MATR) en el día actual
     const lastCurrentTurner = await Tramite.findOne({
@@ -616,7 +615,7 @@ async function solicitarTurnos({
         },
         order: [['numero_turno_matriculacion_INFORMACION', 'DESC']]
     });
-    
+
 
     const TurnoMatr = lastCurrentTurner ? lastCurrentTurner.numero_turno_matriculacion_INFORMACION + 1 : 1;
 
@@ -637,8 +636,45 @@ async function solicitarTurnos({
 }
 
 
+// Listo
+async function editarInventarioPlacas({
+    id_inventario,
+    placa,
+    clase_transporte,
+    clase_vehiculo,
+    cantidad,
+    ubicacion,
+}) {
 
-module.exports = { solicitarTurnos, createVehiculo, updateVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, createFaltaAsistencia, editarFaltaAsistencia };
+    console.log('------  Editando una editarInventarioPlacas desde SaveUtils -------');
+
+    const inventarioPlacas = await InventarioPlacas.findOne({ where: { id_inventario } });
+
+    if (!inventarioPlacas) {
+        throw new Error(`No se pudo econtrar el tramite : ${id_inventario}`);
+    }
+
+
+    await inventarioPlacas.update({
+        placa: placa,
+        clase_transporte: clase_transporte,
+        clase_vehiculo: clase_vehiculo,
+        cantidad: cantidad,
+        ubicacion: ubicacion,
+    });
+
+
+    const id_inv = inventarioPlacas.id_inventario
+
+    console.log(`El trámite con ID: ${id_inv} fue actualizado exitosamente.`);
+
+    return { id_inv };
+}
+
+
+
+
+module.exports = { editarInventarioPlacas, solicitarTurnos, createVehiculo, updateVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, createFaltaAsistencia, editarFaltaAsistencia };
 
 
 
