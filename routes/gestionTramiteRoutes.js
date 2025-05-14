@@ -25,7 +25,7 @@ router.post('/estado-eliminar-tramite', async (req, res) => {
       username_funcionario_ELIMINACION: username
     });
 
-    res.redirect(`/matriculacion/informacion/vista-turnos`);
+    res.redirect(`/home`);
 
   } catch (error) {
     if (error.name === 'SequelizeUniqueConstraintError') {

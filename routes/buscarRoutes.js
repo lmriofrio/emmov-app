@@ -275,7 +275,30 @@ router.get('/buscar-falta-asistencia', async (req, res) => {
     }
 });
 
+//////////////////////////////////////////
+///// ==      TRAMITES DE RTV   ==    ////
+//////////////////////////////////////////
 
+router.get('/buscar-tramite-rtv', async (req, res) => {
+    const { placa } = req.query;
 
+    //console.log('Placa recibida:', placa);  
+ 
+    try {
+        const tramites = await Tramite.findAll({ 
+            where: { placa },
+            order: [['fecha_ingreso', 'ASC']], 
+        });
+
+        if (tramites.length > 0) {
+            res.json({ success: true, tramites });
+        } else {
+            res.json({ success: false, message: 'Trámites no encontrados' });
+        }
+    } catch (error) {
+        console.error('Error al buscar trámites:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
 
 module.exports = router;

@@ -579,7 +579,7 @@
 
 
                                                     <button type="submit"
-                                                        class="btn btn-secondary btn-rounded fw-semibold shadow-btn me-3 mb-3"
+                                                        class="btn btn-danger btn-rounded fw-semibold shadow-btn me-3 mb-3"
                                                         id="btnEliminarTramite">
                                                         Eliminar trámite
                                                     </button>
@@ -633,29 +633,10 @@
                                     </form>
                                 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
                             </div>
 
                         </div>
                     </div>
-
-
-
-
-
-
-
             </div>
     </div>
 
@@ -665,7 +646,20 @@
         </div>
     </div>
 
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                }
+                const tag = e.target.tagName;
+                if (e.key === 'Delete' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+    
 </body>
 
 </html>

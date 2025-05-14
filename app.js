@@ -1269,9 +1269,10 @@ app.get('/perfil/configuracion-cuenta', async (req, res) => {
     const idFuncionario = req.session.user.id_funcionario;
     const idEmpresa = req.session.user.id_empresa;
     const estadoFuncionario = 'ACTIVO';
+    const jefaturaDepartamento = 'UNIDAD DE MATRICULACIÓN';
 
     const centrosMatriculacion = await CentroMatriculacion.findAll({
-      where: { id_empresa: idEmpresa },
+      where: { id_empresa: idEmpresa,  },
       attributes: ['id_centro_matriculacion', 'nombre_centro_matriculacion']
     });
 
@@ -1282,7 +1283,7 @@ app.get('/perfil/configuracion-cuenta', async (req, res) => {
     console.log('funcionario', funcionario.numero_acta);
 
     const funcionariosActivos = await Funcionario.findAll({
-      where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario },
+      where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario, jefatura_departamento: jefaturaDepartamento },
       attributes: ['id_funcionario', 'nombre_funcionario']
     });
 
@@ -1302,6 +1303,9 @@ app.get('/home', async (req, res) => {
       const tramitesIngresados = await Tramite.count({
         where: {
           id_centro_matriculacion: id_centro_matriculacion,
+          estado_tramite: {
+            [SequelizeOp.ne]: 'Eliminado' 
+          },
           fecha_final_PRESENTACION: {
             [SequelizeOp.between]: [startOfDay, endOfDay]
           }
@@ -1312,6 +1316,9 @@ app.get('/home', async (req, res) => {
         where: {
           id_centro_matriculacion: id_centro_matriculacion,
           estado_tramite: estado,
+          estado_tramite: {
+            [SequelizeOp.ne]: 'Eliminado' 
+          },
           fecha_final_PRESENTACION: {
             [SequelizeOp.between]: [startOfDay, endOfDay]
           }
@@ -1321,6 +1328,9 @@ app.get('/home', async (req, res) => {
       const tramitesRTV = await Tramite.count({
         where: {
           id_centro_matriculacion: id_centro_matriculacion,
+          estado_tramite: {
+            [SequelizeOp.ne]: 'Eliminado' 
+          },
           fecha_turno_RTV: {
             [SequelizeOp.between]: [startOfDay, endOfDay]
           }

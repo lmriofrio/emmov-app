@@ -174,6 +174,63 @@ router.get('/visualizar-turnos-rtv', async (req, res) => {
     }
 });
 
+router.get('/visualizar-turnos-rtv-filtro', async (req, res) => {
+    try {
+        const username = req.session.user.username;
+        const { placa } = req.query;
+
+        console.log('/visualizar-turnos-rtv-filtro', placa );
+        
+        const { startOfDay, endOfDay } = getRangeCurrentDay();
+
+        const columnas = [
+            'id_tramite',
+            'placa',
+            'tipo_tramite',
+            'fecha_turno_RTV',
+            'numero_turno_rtv_INFORMACION',
+            'estado_tramite',
+            'username_funcionario_asignado_INFORMACION',
+            'revision_tecnica_vehicular_TURNO',
+            'verificacion_improntas_TURNO',
+            'cambio_servicio_TURNO',
+            'cambio_color_TURNO'
+        ];
+
+        const tramitesUsuario = await Tramite.findAll({
+            attributes: columnas,
+            where: {
+                estado_tramite: { [Op.or]: ['En proceso', 'Finalizado'] },
+                placa,
+                [Op.or]: [
+                    { revision_tecnica_vehicular_TURNO: 'SI' },
+                    { verificacion_improntas_TURNO: 'SI' },
+                    { cambio_servicio_TURNO: 'SI' },
+                    { cambio_color_TURNO: 'SI' }
+                ]
+            },
+            order: [['fecha_turno_RTV', 'ASC']]
+        });
+
+        const tramitesProcesados = tramitesUsuario.map(tramite => ({
+            ...tramite.toJSON(),
+            revision_tecnica_vehicular_TURNO: tramite.revision_tecnica_vehicular_TURNO === 'SI' ? 'SI' : '',
+            verificacion_improntas_TURNO: tramite.verificacion_improntas_TURNO === 'SI' ? 'SI' : '',
+            cambio_servicio_TURNO: tramite.cambio_servicio_TURNO === 'SI' ? 'SI' : '',
+            cambio_color_TURNO: tramite.cambio_color_TURNO === 'SI' ? 'SI' : '',
+        }));
+
+        console.log('/visualizar-turnos-rtv-filtro', tramitesProcesados );
+
+
+        res.json({ success: true, tramitesUsuario: tramitesProcesados });
+
+    } catch (error) {
+        console.error('Error al buscar trámites:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
+
 
 
 

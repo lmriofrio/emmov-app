@@ -28,11 +28,11 @@
         <!--  Encabezado de pagina -->
         <%- include('../../body/header') %>
           <!--  Fin de encabezado de pagina  -->
-          <div class="container-fluid" style="width: 55%;">
+          <div class="container-fluid">
             <div class="widget-content searchable-container list">
 
-              <div class="row">
-                <div class="col-lg-12">
+              <div class="row align-items-center justify-content-center">
+                <div class="col-lg-6">
 
 
                   <form action="/ingresar-placa-individual" method="POST" id="ingresarPlacaInventarioForm">
@@ -65,32 +65,30 @@
 
                         <div class="py-3">
                           <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-12">
                               <div class="mb-2">
-                                <label for="" class="col-lg-9 form-label fw-normal">Placa:</label>
-                                <input type="text" class="col-lg-12 form-control-flex text-uppercase" name="placa"
-                                  required autocomplete="off" maxlength="7">
+                                <label for="" class="col-lg-12 col-sm-12 col-12 form-label fw-normal">Placa:</label>
+                                <input type="text" class="col-lg-12 col-sm-12 col-12 form-control-flex text-uppercase"
+                                  name="placa" required autocomplete="off" maxlength="7">
                                 <small class="text-muted">Vehículo: 7 caracteres /</small>
                                 <small class="text-muted">Motocicleta: 6 caracteres</small>
                               </div>
                             </div>
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 col-sm-12 col-12">
                               <div class="mb-2">
-                                <label for="" class="col-lg-10 form-label fw-normal">Fecha de ingreso:</label>
-                                <input type="datetime-local" class="form-control is-valid col-lg-12"
+                                <label for="" class="col-lg-12 col-sm-12 col-12 form-label fw-normal">Fecha de
+                                  ingreso:</label>
+                                <input type="datetime-local" class="form-control is-valid col-lg-12 col-sm-12 col-12"
                                   name="ingreso_fecha" id="ingreso_fecha" placeholder="" required>
                                 <script>
                                   var fecha = new Date();
                                   var year = fecha.getFullYear();
                                   var month = (fecha.getMonth() + 1).toString().padStart(2, '0');
                                   var day = fecha.getDate().toString().padStart(2, '0');
-
                                   var hours = fecha.getHours().toString().padStart(2, '0');
                                   var minutes = fecha.getMinutes().toString().padStart(2, '0');
-
                                   var formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
-
                                   document.getElementById('ingreso_fecha').value = formattedDate;
                                 </script>
                               </div>
@@ -98,11 +96,12 @@
 
                           </div>
                           <div class="row">
-                            <div class="col-lg-4">
+
+                            <div class="col-lg-4 col-sm-12 col-12">
                               <div class="mb-2">
-                                <label for="" class="col-lg-9 form-label fw-normal">Clase de
+                                <label for="" class="col-lg-12 col-sm-12 col-12 form-label fw-normal">Clase de
                                   transporte:</label>
-                                <select class="form-select-flex col-lg-12" name="clase_transporte"
+                                <select class="form-select-flex col-lg-12 col-sm-12 col-12" name="clase_transporte"
                                   aria-label="Default select example" required>
                                   <option selected=""></option>
                                   <option value="PARTICULAR">PARTICULAR</option>
@@ -112,26 +111,27 @@
                                 </select>
                               </div>
                             </div>
-                            <div class="col-lg-4">
-                              <div class="mb-2">
-                                <label for="" class="col-lg-9 form-label fw-normal">Clase de
-                                  vehículo:</label>
-                                <select class="form-select-flex col-lg-12" name="clase_vehiculo" id="clase_vehiculo"
-                                  aria-label="Default select example" required>
-                                  <option selected=""></option>
-                                  <option value="VEHICULO">VEHICULO</option>
-                                  <option value="MOTOCICLETA">MOTOCICLETA</option>
-                                </select>
-                              </div>
-                            </div>
+                            <div class="col-12 col-lg-8">
+                              <div class="row">
+                                <!-- CLASE DE VEHÍCULO -->
+                                <div class="col-8 col-lg-6 mb-2 mb-lg-0">
+                                  <label for="clase_vehiculo" class="form-label fw-normal">Clase de vehículo:</label>
+                                  <select class="form-select w-100" name="clase_vehiculo" id="clase_vehiculo" required>
+                                    <option selected=""></option>
+                                    <option value="VEHICULO">VEHICULO</option>
+                                    <option value="MOTOCICLETA">MOTOCICLETA</option>
+                                  </select>
+                                </div>
 
-                            <div class="col-lg-4">
-                              <div class="mb-2">
-                                <label for="" class="col-lg-10 form-label fw-normal">Cantidad:</label>
-                                <input type="number" class="col-lg-12 form-control is-valid" name="cantidad"
-                                  id="cantidad" required>
+                                <!-- CANTIDAD -->
+                                <div class="col-4 col-lg-6">
+                                  <label for="cantidad" class="form-label fw-normal">Cantidad:</label>
+                                  <input type="number" class="form-control is-valid w-100" name="cantidad" id="cantidad"
+                                    required>
+                                </div>
                               </div>
 
+                              <!-- Script para autollenado -->
                               <script>
                                 document.getElementById('clase_vehiculo').addEventListener('change', function () {
                                   const cantidadInput = document.getElementById('cantidad');
@@ -144,21 +144,16 @@
                                   }
                                 });
                               </script>
-
                             </div>
-                          </div>
-
-                          <div class="row">
 
                           </div>
                           <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-12 col-sm-12 col-12">
                               <div class="mb-2">
-                                <label for="" class="col-lg-10 form-label fw-normal">Ubicación:</label>
-                                <input type="text" class="col-lg-12 form-control-flex text-uppercase" name="ubicacion"
-                                  id="ubicacion" required placeholder="" autocomplete="off">
+                                <label for="" class="col-lg-12 col-sm-12 col-12 form-label fw-normal">Ubicación:</label>
+                                <input type="text" class="col-lg-12 col-sm-12 col-12 form-control-flex text-uppercase"
+                                  name="ubicacion" id="ubicacion" required placeholder="" autocomplete="off">
                                 <small class="text-muted">Ejemplo: CAJA 1</small>
-
                               </div>
                             </div>
 
@@ -170,16 +165,23 @@
 
 
                         <div class="mb-3">
-                          <div class="card-body px-0 py-0 d-flex justify-content-end gap-2">
-                            <button type="button" onclick="window.location.href='/home'"
-                              class="justify-content-center fw-semibold btn shadow-btn mb-1  btn-rounded btn-secondary align-items-center">Cancelar
-                              ingreso
-                            </button>
-                            <button type="submit"
-                              class="justify-content-center fw-semibold btn shadow-btn mb-1 btn-rounded btn-primary align-items-center">Guardar
-                            </button>
+                          <div class="card-body px-0 py-0 row justify-content-end">
+                            <div class="col-12 col-lg-3 mb-2">
+                              <button type="button" onclick="window.location.href='/home'"
+                                class="justify-content-center fw-semibold btn shadow-btn btn-rounded btn-secondary align-items-center w-100">
+                                Cancelar ingreso
+                              </button>
+                            </div>
+                            <div class="col-12 col-lg-3">
+                              <button type="submit"
+                                class="justify-content-center fw-semibold btn shadow-btn btn-rounded btn-primary align-items-center w-100">
+                                Guardar
+                              </button>
+                            </div>
                           </div>
                         </div>
+
+
 
 
                       </div>

@@ -180,6 +180,9 @@ $(document).ready(function () {
                                     $('#nombre_funcionario').val(response.tramite.nombre_funcionario);
                                     $('#username').val(response.tramite.username);
 
+                                    $('#username_funcionario_INFORMACION').val(response.tramite.username_funcionario_INFORMACION);
+                                    $('#nombre_funcionario_INFORMACION').val(response.tramite.nombre_funcionario_INFORMACION);
+
                                     $('#fecha_ingreso').text(response.tramite.fecha_ingreso);
                                     $('#id_tramite').text(response.tramite.id_tramite);
 
@@ -449,6 +452,9 @@ $(document).ready(function () {
 
                                     $('#nombre_funcionario').val(response.tramite.nombre_funcionario);
                                     $('#username').val(response.tramite.username);
+
+                                    $('#username_funcionario_INFORMACION').val(response.tramite.username_funcionario_INFORMACION);
+                                    $('#nombre_funcionario_INFORMACION').val(response.tramite.nombre_funcionario_INFORMACION);
 
                                     $('#fecha_ingreso').text(fechaFormateada);
                                     $('#id_tramite').text(response.tramite.id_tramite);
@@ -720,7 +726,7 @@ $(document).ready(function () {
                                     <span class="round-8 ${estadoClass} rounded-circle d-inline-block ms-2"></span>
                                     <span class="badge text-dark rounded-pill fw-normal">${tramite.estado_tramite}</span>
                                 </td>
-                                <td class="text-center">${tramite.username}</td>
+                                <td class="text-center">${tramite.username || tramite.username_funcionario_asignado_INFORMACION}</td>
                                 <td class="text-center align-items-center justify-content-center p-2">
                                     <div class="btn-group">
                                         <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
@@ -771,6 +777,9 @@ $(document).ready(function () {
 
                                     $('#nombre_funcionario').val(response.tramite.nombre_funcionario);
                                     $('#username').val(response.tramite.username);
+
+                                    $('#username_funcionario_INFORMACION').val(response.tramite.username_funcionario_INFORMACION);
+                                    $('#nombre_funcionario_INFORMACION').val(response.tramite.nombre_funcionario_INFORMACION);
 
                                     $('#fecha_ingreso').text(response.tramite.fecha_ingreso);
                                     $('#id_tramite').text(response.tramite.id_tramite);
@@ -871,7 +880,7 @@ $(document).ready(function () {
                                    Visualizar
                                 </a>
                             </li>
-                                                            <li>
+                                        <li>
                                     <a class="dropdown-item editarTramite text-black" href="#" 
                                        id="editar-${tramite.id_tramite}" 
                                        data-id-tramite="${tramite.id_tramite}" 
@@ -949,6 +958,9 @@ $(document).ready(function () {
 
                                     $('#nombre_funcionario').val(response.tramite.nombre_funcionario);
                                     $('#username').val(response.tramite.username);
+
+                                    $('#username_funcionario_INFORMACION').val(response.tramite.username_funcionario_INFORMACION);
+                                    $('#nombre_funcionario_INFORMACION').val(response.tramite.nombre_funcionario_INFORMACION);
 
                                     $('#fecha_ingreso').text(response.tramite.fecha_ingreso);
                                     $('#id_tramite').text(response.tramite.id_tramite);
