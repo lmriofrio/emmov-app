@@ -64,41 +64,35 @@ router.get('/buscar-tramite-filtro-seleccionado', async (req, res) => {
     
     const { tipoIdBusqueda, filtro } = req.query;
 
-    console.log('tipoIdBusqueda:', tipoIdBusqueda); 
-    console.log('filtro:', filtro); 
-    
     if (tipoIdBusqueda === 'PLACA') {
+
         const tramites = await Tramite.findAll({
             where: {
                 placa: filtro,
             },
-            order: [['fecha_final_PRESENTACION', 'ASC']]
+            order: [['fecha_final_PRESENTACION', 'DESC']]
         });
        
         res.json({ success: true, tramites });
 
     } else if (tipoIdBusqueda === 'USUARIO') {
 
-        console.log('tipoIdBusqueda:', tipoIdBusqueda); 
-
         const tramites = await Tramite.findAll({
             where: {
                 id_funcionario: filtro,
             },
-            order: [['fecha_final_PRESENTACION', 'ASC']]
+            order: [['fecha_final_PRESENTACION', 'DESC']]
         });
        
         res.json({ success: true, tramites });
 
     } else if (tipoIdBusqueda === 'CÉDULA') {
 
-        console.log('tipoIdBusqueda:', tipoIdBusqueda); 
-
         const tramites = await Tramite.findAll({
             where: {
                 id_usuario: filtro,
             },
-            order: [['fecha_final_PRESENTACION', 'ASC']]
+            order: [['fecha_final_PRESENTACION', 'DESC']]
         });
        
         res.json({ success: true, tramites });

@@ -142,10 +142,6 @@
                                             </div>
                                         </div>
 
-
-
-
-
                                         <script>
                                             document.getElementById('tipoIdBusqueda').addEventListener('change', function () {
                                                 var tipoIdBusqueda = this.value;
@@ -201,7 +197,7 @@
                                     </div>
                                 </div>
 
-                                <div class="d-none" id="content">
+                                <div class="d-none row" id="contenido">
                                     <br>
                                     <div class="table-responsive2">
                                         <table class="table table-bordered">
@@ -227,8 +223,9 @@
                                                         NOMBRE DEL PROPIETARIO</th>
                                                     <th class="text-center align-middle px-2 py-2 text-overflow-3">
                                                         ESTADO</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3">
-                                                        USUARIO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        USUARIO (DIGITADOR)</th>
                                                     <th class="text-center align-middle px-2 py-2 text-overflow-3">
                                                         ACCIÓNES</th>
                                                 </tr>
@@ -238,6 +235,19 @@
                                         </table>
                                     </div>
                                 </div>
+
+                                <div class="d-none row px-1" id="sinResultados">
+                                    <br>
+                                    <div
+                                        class="pt-4 pb-4 col-lg-12 align-items-center justify-content-center border rounded">
+                                        <div class="pt-4 pb-4 col-12 d-flex align-items-center justify-content-center">
+                                            <br>
+                                            <h4>Sin registros</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+
 
 
 
@@ -586,6 +596,12 @@
 
 
             </div>
+    </div>
+
+    <div id="overlay" class="overlay d-flex justify-content-center align-items-center">
+        <div class="loader text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
 
 </body>
