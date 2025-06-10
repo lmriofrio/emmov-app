@@ -724,9 +724,6 @@ $(document).ready(function () {
     });
 });
 
-
-
-
 $(document).ready(function () {
     $('#generarReporteGeneralTramites').click(function () {
 
@@ -1172,8 +1169,6 @@ $(document).ready(function () {
 });
 
 
-
-
 $(document).ready(function () {
 
     $('#generarReportePlacas').click(function () {
@@ -1254,7 +1249,7 @@ $(document).ready(function () {
 
                 } else {
 
-                    
+
                     alert('TRÁMITES NO ENCONTRADOS');
                     $('#overlay').removeClass('active');
                 }
@@ -1466,3 +1461,73 @@ $(document).ready(function () {
     });
 });
 
+
+
+$(document).ready(function () {
+    $('#generarReporteDiarioRTV').click(function () {
+        const fecha_finalizacion = $('input[name="fecha_finalización_RTV"]').val();
+        const id_funcionario = $('input[name="id_funcionario"]').val();
+        const nombre_funcionario = $('input[name="nombre_funcionario"]').val();
+        const username = $('input[name="username"]').val();
+        const jefatura_departamento = $('input[name="jefatura_departamento"]').val();
+        const area_laboral = $('input[name="area_laboral"]').val();
+        const rol_funcionario = $('input[name="rol_funcionario"]').val();
+
+
+        $('input[name="fecha_finalizacion_pdf"]').val(fecha_finalizacion);
+
+
+        if (!fecha_finalizacion) {
+            alert('Por favor ingresa una fecha válida.');
+            return;
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: '/generar-reporte-diario-RTV',
+            data: { fecha_finalizacion, id_funcionario },
+            success: function (response) {
+                const tbody = $('#tbody-tramites');
+                tbody.empty();
+
+                if (response.success) {
+
+                    $('#content').removeClass('d-none');
+                    let numeroFila = 1;
+                    response.tramites.forEach(tramite => {
+
+                        const fechaIngresoOriginal = tramite.fecha_finalización_RTV;
+                        const fechaIngreso = new Date(fechaIngresoOriginal);
+                        fechaIngreso.setHours(fechaIngreso.getHours() + 5);
+
+                        const diaIngreso = fechaIngreso.getDate().toString().padStart(2, '0');
+                        const mesIngreso = (fechaIngreso.getMonth() + 1).toString().padStart(2, '0');
+                        const añoIngreso = fechaIngreso.getFullYear();
+                        const fechaFormateada = `${diaIngreso}-${mesIngreso}-${añoIngreso}`;
+
+                        const newRow = `
+                                <tr>
+                                <td class="text-center">${numeroFila}</td>
+                                <td class="text-center">${jefatura_departamento}</td>
+                                <td class="text-center">${area_laboral}</td>
+                                <td class="text-center">${tramite.placa}</td>
+                                <td class="text-center">${tramite.CRTV}</td>
+                                <td class="text-center">${tramite.numero_fojas_RTV}</td>
+                                <td class="text-center">${fechaFormateada}</td>
+                                <td class="text-center">${rol_funcionario} (${nombre_funcionario})</td>
+                                <td class="text-center">AUTORIZACIÓN DE GERENCIA</td>
+                            </tr>`;
+                        tbody.append(newRow);
+                        numeroFila++;
+                    });
+                } else {
+                    alert('TRÁMITES NO ENCONTRADOS');
+                }
+            },
+            error: function (error) {
+                console.error('Error al buscar Trámite:', error);
+                alert('Error al buscar Trámite. Por favor, inténtelo de nuevo.');
+            }
+        });
+    });
+});

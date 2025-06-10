@@ -38,25 +38,31 @@ $(document).ready(function () {
                         </li>
                     `);
 
-                    if (tramite.estado_tramite === 'Finalizado') {
+                    if (tramite.resultado_final_RTV === 'Aprobado') {
                         estadoClass = 'bg-info';
                         estadoFont = 'fw-normal';
 
-                    } else if (tramite.estado_tramite === 'En proceso') {
+                    } else if (tramite.resultado_final_RTV === 'Condicionado') {
                         estadoClass = 'bg-wait';
+                        estadoFont = 'fw-normal';
+
+                    } else if (tramite.resultado_final_RTV === '' || tramite.resultado_final_RTV === null) {
                         estadoFont = 'fw-semibold';
+
                         opcionesHabilitadas.push(`
-                            <li>
-                                <a class="dropdown-item reasignarTramite text-black px-4" href="#" 
-                                   data-bs-toggle="modal" data-bs-target="#modalReasignarTramite" 
-                                   id="reasignar-${tramite.id_tramite}" 
-                                   data-id-tramite="${tramite.id_tramite}" 
-                                   data-username="${tramite.username}">
-                                   Aprobar inspección
-                                </a>
-                            </li>
-                        `);
+        <li>
+            <a class="dropdown-item aprobarRevision text-black px-4" href="#" 
+               data-bs-toggle="modal" data-bs-target="#modalAprobarRevision" 
+               id="reasignar-${tramite.id_tramite}" 
+               data-id-tramite="${tramite.id_tramite}" 
+               data-username="${tramite.username}">
+               Aprobar revisión
+            </a>
+        </li>
+    `);
                     }
+
+
 
                     opcionesHabilitadas.push(`
                         <li>
@@ -95,10 +101,12 @@ $(document).ready(function () {
                                 <span class="${estadoColor} badge bg-primary-red rounded fw-semibold
                                  mb-0 px-3"">${tramite.cambio_color_TURNO}</span>
                             </td>
-                            <td class="align-items-center justify-content-start text-overflow-4">
-                                <span class="round-8 ${estadoClass} rounded-circle d-inline-block ms-2"></span>
-                                <span class="badge text-dark rounded-pill fw-normal">${tramite.estado_tramite}</span>
-                            </td>
+
+<td class="d-flex align-items-center justify-content-start text-overflow-5">
+  <span class="round-8 ${estadoClass} rounded-circle d-inline-block ms-2"></span>
+  <span class="badge text-dark rounded-pill fw-normal ms-2">${tramite.resultado_final_RTV || 'No registrado'}</span>
+</td>
+
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
                                                         <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
@@ -119,7 +127,8 @@ $(document).ready(function () {
 
 
 
-                    $('#tbody-tramites').off('click', '.reasignarTramite').on('click', '.reasignarTramite', function () {
+
+                    $('#tbody-tramites').off('click', '.aprobarRevision').on('click', '.aprobarRevision', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
                             type: 'GET',
@@ -127,12 +136,12 @@ $(document).ready(function () {
                             data: { idTramite },
                             success: function (response) {
                                 if (response.success) {
-                                    $('#placa').val(response.tramite.placa);
+                                    $('#vsl_placa').val(response.tramite.placa);
                                     $('#id_usuario').val(response.tramite.id_usuario);
                                     $('#nombre_usuario').val(response.tramite.nombre_usuario);
                                     $('#nombre_funcionario').val(response.tramite.nombre_funcionario);
                                     $('#tipo_tramite').val(response.tramite.tipo_tramite);
-                                    $('#reasignar_id_tramite').val(response.tramite.id_tramite);
+                                    $('#aprobar_id_tramite').val(response.tramite.id_tramite);
                                     $('#nombre_funcionario_asignado_INFORMACION').val(response.tramite.id_funcionario_asignado_INFORMACION);
                                 } else {
                                     alert('Error: no se pudo obtener la información del trámite.');
@@ -145,26 +154,6 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramites').off('click', '.editarTramite').on('click', '.editarTramite', function () {
-                        const idTramite = $(this).data('id-tramite');
-
-                        $.ajax({
-                            type: 'GET',
-                            url: `/buscar-tramite-id`,
-                            data: { idTramite },
-                            success: function (response) {
-                                if (response.success) {
-                                    window.location.href = `/matriculacion/informacion/editar-turno?id_tramite=${idTramite}`;
-                                } else {
-                                    alert('Error: no se pudo obtener la información del trámite.');
-                                }
-                            },
-                            error: function (error) {
-                                console.error('Error al obtener detalles del trámite:', error);
-                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
-                            }
-                        });
-                    });
 
                     $('#tbody-tramites').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
@@ -175,6 +164,17 @@ $(document).ready(function () {
                             data: { idTramite },
                             success: function (response) {
                                 if (response.success) {
+
+
+                                    const fechaOriginal = response.tramite.fecha_finalización_RTV;
+                                    const fecha = new Date(fechaOriginal);
+                                    fecha.setHours(fecha.getHours() + 5);
+                                    const dia = fecha.getDate().toString().padStart(2, '0');
+                                    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                                    const año = fecha.getFullYear();
+                                    const hora = fecha.getHours().toString().padStart(2, '0');
+                                    const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                                    const fechaFormateada = `${dia}-${mes}-${año} ${hora}:${minutos}`;
 
                                     $('#visualizar_id_tramite').val(response.tramite.id_tramite);
                                     $('#placaVisualizar').val(response.tramite.placa);
@@ -203,6 +203,10 @@ $(document).ready(function () {
 
                                     $('#id_date_registratonVisualizar').text(response.tramite.date_registraton);
 
+                                    $('#resultado_final_Visualizar').val(response.tramite.resultado_final_RTV);
+                                    $('#fecha_finalización_RTV').val(fechaFormateada);
+                                    $('#nombre_funcionario_RTV').val(response.tramite.nombre_funcionario_RTV);
+
                                     $('#modalVisualizarTramite').modal('show');
                                 } else {
                                     alert('Error: no se pudo obtener la información del trámite.');
@@ -215,49 +219,6 @@ $(document).ready(function () {
                         });
                     });
 
-                    $('#tbody-tramites').off('click', '.eliminarTramite').on('click', '.eliminarTramite', function () {
-                        const idTramite = $(this).data('id-tramite');
-                        $.ajax({
-                            type: 'GET',
-                            url: `/buscar-tramite-id`,
-                            data: { idTramite },
-                            success: function (response) {
-                                if (response.success) {
-                                    $('#eliminar_placa').val(response.tramite.placa);
-                                    $('#eliminar_nombre_usuario').val(response.tramite.nombre_usuario);
-                                    $('#eliminar_nombre_funcionario').val(response.tramite.nombre_funcionario);
-                                    $('#eliminar_tipo_tramite').val(response.tramite.tipo_tramite);
-                                    $('#eliminar_id_tramite').val(response.tramite.id_tramite);
-                                } else {
-                                    alert('Error: no se pudo obtener la información del trámite.');
-                                }
-                            },
-                            error: function (error) {
-                                console.error('Error al obtener detalles del trámite:', error);
-                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
-                            }
-                        });
-                    });
-
-                    $('#tbody-tramites').off('click', '.imprimirTramite').on('click', '.imprimirTramite', function () {
-                        const idTramite = $(this).data('id-tramite');
-                        $.ajax({
-                            type: 'GET',
-                            url: `/buscar-tramite-id`,
-                            data: { idTramite },
-                            success: function (response) {
-                                if (response.success) {
-                                    window.location.href = `/matriculacion/informacion/turno-agregado?id_tramite=${idTramite}`;
-                                } else {
-                                    alert('Error: no se pudo obtener la información del trámite.');
-                                }
-                            },
-                            error: function (error) {
-                                console.error('Error al obtener detalles del trámite:', error);
-                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
-                            }
-                        });
-                    });
 
 
                 });
@@ -288,30 +249,30 @@ $(document).ready(function () {
             data: { placa },
             success: function (response) {
                 const tbody = $('#tbody-tramites'); tbody.empty();
-               
+
                 if (response.success) {
 
                     let numeroFila = 1;
                     response.tramitesUsuario.forEach(tramite => {
-    
+
                         const fechaIngresoOriginal = tramite.fecha_turno_RTV;
                         const fechaIngreso = new Date(fechaIngresoOriginal);
                         fechaIngreso.setHours(fechaIngreso.getHours() + 5);
-    
+
                         const diaIngreso = fechaIngreso.getDate().toString().padStart(2, '0');
                         const mesIngreso = (fechaIngreso.getMonth() + 1).toString().padStart(2, '0');
                         const añoIngreso = fechaIngreso.getFullYear();
                         const horaIngreso = fechaIngreso.getHours().toString().padStart(2, '0');
                         const minutosIngreso = fechaIngreso.getMinutes().toString().padStart(2, '0');
                         const fechaIngresoFormateada = `${diaIngreso}-${mesIngreso}-${añoIngreso} ${horaIngreso}:${minutosIngreso}`;
-    
+
                         let estadoClass = '';
                         let estadoColor = '';
                         let estadoFont = '';
                         let opcionesHabilitadas = [];
-    
+
                         estadoColor = 'bg-primary-green';
-    
+
                         opcionesHabilitadas.push(`
                             <li>
                                 <a class="dropdown-item visualizarTramite text-black px-4" href="#" 
@@ -321,40 +282,34 @@ $(document).ready(function () {
                                 </a>
                             </li>
                         `);
-    
-                        if (tramite.estado_tramite === 'Finalizado') {
+
+                        if (tramite.resultado_final_RTV === 'Aprobado') {
                             estadoClass = 'bg-info';
                             estadoFont = 'fw-normal';
-    
-                        } else if (tramite.estado_tramite === 'En proceso') {
+
+                        } else if (tramite.resultado_final_RTV === 'Condicionado') {
                             estadoClass = 'bg-wait';
+                            estadoFont = 'fw-normal';
+
+                        } else if (tramite.resultado_final_RTV === '' || tramite.resultado_final_RTV === null) {
+
                             estadoFont = 'fw-semibold';
+
                             opcionesHabilitadas.push(`
-                                <li>
-                                    <a class="dropdown-item reasignarTramite text-black px-4" href="#" 
-                                       data-bs-toggle="modal" data-bs-target="#modalReasignarTramite" 
-                                       id="reasignar-${tramite.id_tramite}" 
-                                       data-id-tramite="${tramite.id_tramite}" 
-                                       data-username="${tramite.username}">
-                                       Aprobar inspección
-                                    </a>
-                                </li>
-                            `);
+        <li>
+            <a class="dropdown-item aprobarRevision text-black px-4" href="#" 
+               data-bs-toggle="modal" data-bs-target="#modalAprobarRevision" 
+               id="reasignar-${tramite.id_tramite}" 
+               data-id-tramite="${tramite.id_tramite}" 
+               data-username="${tramite.username}">
+               Aprobar revisión
+            </a>
+        </li>
+    `);
                         }
-    
-                        opcionesHabilitadas.push(`
-                            <li>
-                                <a class="dropdown-item imprimirTramite text-black px-4" href="#" 
-                                   id="imprimir-${tramite.id_tramite}" 
-                                   data-id-tramite="${tramite.id_tramite}" 
-                                   data-username="${tramite.username}">
-                                   Imprimir
-                                </a>
-                            </li>
-                        `);
-    
+
                         const opcionesMenu = opcionesHabilitadas.join('');
-    
+
                         const newRow = `
                             <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
                                 <td class="text-center">${numeroFila}</td>
@@ -379,10 +334,11 @@ $(document).ready(function () {
                                     <span class="${estadoColor} badge bg-primary-red rounded fw-semibold
                                      mb-0 px-3"">${tramite.cambio_color_TURNO}</span>
                                 </td>
-                                <td class="align-items-center justify-content-start text-overflow-4">
-                                    <span class="round-8 ${estadoClass} rounded-circle d-inline-block ms-2"></span>
-                                    <span class="badge text-dark rounded-pill fw-normal">${tramite.estado_tramite}</span>
-                                </td>
+<td class="d-flex align-items-center justify-content-start text-overflow-5">
+  <span class="round-8 ${estadoClass} rounded-circle d-inline-block ms-2"></span>
+  <span class="badge text-dark rounded-pill fw-normal ms-2">${tramite.resultado_final_RTV || 'No registrado'}</span>
+</td>
+
                                 <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
                                                             <td class="text-center align-items-center justify-content-center p-2">
                                     <div class="btn-group">
@@ -399,10 +355,10 @@ $(document).ready(function () {
                         `;
                         tbody.append(newRow);
                         numeroFila++;
-    
 
-    
-                        $('#tbody-tramites').off('click', '.reasignarTramite').on('click', '.reasignarTramite', function () {
+
+
+                        $('#tbody-tramites').off('click', '.aprobarRevision').on('click', '.aprobarRevision', function () {
                             const idTramite = $(this).data('id-tramite');
                             $.ajax({
                                 type: 'GET',
@@ -410,12 +366,12 @@ $(document).ready(function () {
                                 data: { idTramite },
                                 success: function (response) {
                                     if (response.success) {
-                                        $('#placa').val(response.tramite.placa);
+                                        $('#vsl_placa').val(response.tramite.placa);
                                         $('#id_usuario').val(response.tramite.id_usuario);
                                         $('#nombre_usuario').val(response.tramite.nombre_usuario);
                                         $('#nombre_funcionario').val(response.tramite.nombre_funcionario);
                                         $('#tipo_tramite').val(response.tramite.tipo_tramite);
-                                        $('#reasignar_id_tramite').val(response.tramite.id_tramite);
+                                        $('#aprobar_id_tramite').val(response.tramite.id_tramite);
                                         $('#nombre_funcionario_asignado_INFORMACION').val(response.tramite.id_funcionario_asignado_INFORMACION);
                                     } else {
                                         alert('Error: no se pudo obtener la información del trámite.');
@@ -427,10 +383,10 @@ $(document).ready(function () {
                                 }
                             });
                         });
-    
+
                         $('#tbody-tramites').off('click', '.editarTramite').on('click', '.editarTramite', function () {
                             const idTramite = $(this).data('id-tramite');
-    
+
                             $.ajax({
                                 type: 'GET',
                                 url: `/buscar-tramite-id`,
@@ -448,26 +404,37 @@ $(document).ready(function () {
                                 }
                             });
                         });
-    
+
                         $('#tbody-tramites').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                             const idTramite = $(this).data('id-tramite');
-    
+
                             $.ajax({
                                 type: 'GET',
                                 url: `/buscar-tramite-id`,
                                 data: { idTramite },
                                 success: function (response) {
                                     if (response.success) {
-    
+
+
+                                        const fechaOriginal = response.tramite.fecha_finalización_RTV;
+                                        const fecha = new Date(fechaOriginal);
+                                        fecha.setHours(fecha.getHours() + 5);
+                                        const dia = fecha.getDate().toString().padStart(2, '0');
+                                        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                                        const año = fecha.getFullYear();
+                                        const hora = fecha.getHours().toString().padStart(2, '0');
+                                        const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                                        const fechaFormateada = `${dia}-${mes}-${año} ${hora}:${minutos}`;
+
                                         $('#visualizar_id_tramite').val(response.tramite.id_tramite);
                                         $('#placaVisualizar').val(response.tramite.placa);
                                         $('#tipo_tramiteVisualizar').val(response.tramite.tipo_tramite);
-    
+
                                         $('#clase_vehiculoVisualizar').val(response.tramite.clase_vehiculo);
                                         $('#tipo_vehiculoVisualizar').val(response.tramite.tipo_vehiculo);
                                         $('#clase_transporteVisualizar').val(response.tramite.clase_transporte);
                                         $('#tipo_pesoVisualizar').val(response.tramite.tipo_peso);
-    
+
                                         $('#tipo_id_usuarioVisualizar').val(response.tramite.tipo_id_usuario);
                                         $('#id_usuarioVisualizar').val(response.tramite.id_usuario);
                                         $('#nombre_usuarioVisualizar').val(response.tramite.nombre_usuario);
@@ -477,15 +444,19 @@ $(document).ready(function () {
                                         $('#direccion_usuarioVisualizar').val(response.tramite.direccion_usuario);
                                         $('#email_usuarioVisualizar').val(response.tramite.email_usuario);
                                         $('#celular_usuarioVisualizar').val(response.tramite.celular_usuario);
-    
+
                                         $('#nombre_funcionarioVisualizar').val(response.tramite.nombre_funcionario);
                                         $('#usernameVisualizar').val(response.tramite.username);
-    
+
                                         $('#visualizar_fecha_ingreso').text(response.tramite.fecha_ingreso_INFORMACION);
                                         $('#id_tramiteVisualizar').text(response.tramite.id_tramite);
-    
+
                                         $('#id_date_registratonVisualizar').text(response.tramite.date_registraton);
-    
+
+                                        $('#resultado_final_Visualizar').val(response.tramite.resultado_final_RTV);
+                                        $('#fecha_finalización_RTV').val(fechaFormateada);
+                                        $('#nombre_funcionario_RTV').val(response.tramite.nombre_funcionario_RTV);
+
                                         $('#modalVisualizarTramite').modal('show');
                                     } else {
                                         alert('Error: no se pudo obtener la información del trámite.');
@@ -497,58 +468,14 @@ $(document).ready(function () {
                                 }
                             });
                         });
-    
-                        $('#tbody-tramites').off('click', '.eliminarTramite').on('click', '.eliminarTramite', function () {
-                            const idTramite = $(this).data('id-tramite');
-                            $.ajax({
-                                type: 'GET',
-                                url: `/buscar-tramite-id`,
-                                data: { idTramite },
-                                success: function (response) {
-                                    if (response.success) {
-                                        $('#eliminar_placa').val(response.tramite.placa);
-                                        $('#eliminar_nombre_usuario').val(response.tramite.nombre_usuario);
-                                        $('#eliminar_nombre_funcionario').val(response.tramite.nombre_funcionario);
-                                        $('#eliminar_tipo_tramite').val(response.tramite.tipo_tramite);
-                                        $('#eliminar_id_tramite').val(response.tramite.id_tramite);
-                                    } else {
-                                        alert('Error: no se pudo obtener la información del trámite.');
-                                    }
-                                },
-                                error: function (error) {
-                                    console.error('Error al obtener detalles del trámite:', error);
-                                    alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
-                                }
-                            });
-                        });
-    
-                        $('#tbody-tramites').off('click', '.imprimirTramite').on('click', '.imprimirTramite', function () {
-                            const idTramite = $(this).data('id-tramite');
-                            $.ajax({
-                                type: 'GET',
-                                url: `/buscar-tramite-id`,
-                                data: { idTramite },
-                                success: function (response) {
-                                    if (response.success) {
-                                        window.location.href = `/matriculacion/informacion/turno-agregado?id_tramite=${idTramite}`;
-                                    } else {
-                                        alert('Error: no se pudo obtener la información del trámite.');
-                                    }
-                                },
-                                error: function (error) {
-                                    console.error('Error al obtener detalles del trámite:', error);
-                                    alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
-                                }
-                            });
-                        });
-    
-    
+
+
                     });
-    
-    
+
+
                     $('#TraPersonal').text(`${response.tramitesUsuario.length}`);
-    
-    
+
+
                 } else {
                     console.log('TRÁMITES NO ENCONTRADOS');
                 }

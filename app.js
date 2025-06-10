@@ -1272,7 +1272,7 @@ app.get('/perfil/configuracion-cuenta', async (req, res) => {
     const jefaturaDepartamento = 'UNIDAD DE MATRICULACIÓN';
 
     const centrosMatriculacion = await CentroMatriculacion.findAll({
-      where: { id_empresa: idEmpresa,  },
+      where: { id_empresa: idEmpresa, },
       attributes: ['id_centro_matriculacion', 'nombre_centro_matriculacion']
     });
 
@@ -1298,13 +1298,13 @@ app.get('/home', async (req, res) => {
     try {
       const { id_centro_matriculacion_ASIGNACION_RTV, id_centro_matriculacion } = req.session.user;
       const { startOfDay, endOfDay } = getRangeCurrentDay();
-      const estado = 'Finalizado'; 
+      const estado = 'Finalizado';
 
       const tramitesIngresados = await Tramite.count({
         where: {
           id_centro_matriculacion: id_centro_matriculacion,
           estado_tramite: {
-            [SequelizeOp.ne]: 'Eliminado' 
+            [SequelizeOp.ne]: 'Eliminado'
           },
           fecha_final_PRESENTACION: {
             [SequelizeOp.between]: [startOfDay, endOfDay]
@@ -1312,24 +1312,26 @@ app.get('/home', async (req, res) => {
         }
       });
 
+
       const tramitesFinalizados = await Tramite.count({
         where: {
           id_centro_matriculacion: id_centro_matriculacion,
-          estado_tramite: estado,
-          estado_tramite: {
-            [SequelizeOp.ne]: 'Eliminado' 
-          },
+          [SequelizeOp.and]: [
+            { estado_tramite: estado },
+            { estado_tramite: { [SequelizeOp.ne]: 'Eliminado' } }
+          ],
           fecha_final_PRESENTACION: {
             [SequelizeOp.between]: [startOfDay, endOfDay]
           }
         }
       });
+
 
       const tramitesRTV = await Tramite.count({
         where: {
           id_centro_matriculacion: id_centro_matriculacion,
           estado_tramite: {
-            [SequelizeOp.ne]: 'Eliminado' 
+            [SequelizeOp.ne]: 'Eliminado'
           },
           fecha_turno_RTV: {
             [SequelizeOp.between]: [startOfDay, endOfDay]
@@ -1344,14 +1346,14 @@ app.get('/home', async (req, res) => {
             [SequelizeOp.between]: [startOfDay, endOfDay]
           },
           fecha_turno_RTV: {
-              [SequelizeOp.between]: [startOfDay, endOfDay],
-              [SequelizeOp.ne]: null
+            [SequelizeOp.between]: [startOfDay, endOfDay],
+            [SequelizeOp.ne]: null
           },
           id_centro_matriculacion: id_centro_matriculacion
         },
         order: [['numero_turno_matriculacion_INFORMACION', 'DESC']]
       });
-      
+
       const ultimoTurno = lastCurrentTurner ? lastCurrentTurner.numero_turno_matriculacion_INFORMACION : "0";
 
       // Buscar el último turno asignado en el día actual para la empresa
@@ -1365,10 +1367,12 @@ app.get('/home', async (req, res) => {
         order: [['numero_turno_rtv_INFORMACION', 'DESC']]
       });
 
-      const ultimoTurnoRTV = lastCurrentTurnerRTV ? lastCurrentTurnerRTV.numero_turno_rtv_INFORMACION : "0"; 
+      const ultimoTurnoRTV = lastCurrentTurnerRTV ? lastCurrentTurnerRTV.numero_turno_rtv_INFORMACION : "0";
 
-      res.render('home', { userData: req.session.user, permisos: req.session.permisos, ultimoTurno, ultimoTurnoRTV, 
-        tramitesRTV, tramitesFinalizados, id_centro_matriculacion_ASIGNACION_RTV, tramitesIngresados});
+      res.render('home', {
+        userData: req.session.user, permisos: req.session.permisos, ultimoTurno, ultimoTurnoRTV,
+        tramitesRTV, tramitesFinalizados, id_centro_matriculacion_ASIGNACION_RTV, tramitesIngresados
+      });
 
     } catch (error) {
       console.error('Error al obtener el último turno:', error);
@@ -2011,7 +2015,47 @@ app.get('/revision-tecnica/vista-turnos-rtv', async (req, res) => {
   }
 });
 
+app.get('/revision-tecnica/reporte-diario', async (req, res) => {
+  try {
+    if (req.session.user, req.session.permisos) {
 
+      const { currentDaySimple } = getCurrentDaySimple();
+
+      const usernameSesion = req.session.user.username;
+      const idEmpresa = req.session.user.id_empresa;
+      const estadoFuncionario = 'ACTIVO';
+
+      //const recepcionTramites = 'HABILITADO';
+
+      const jefaturaDepartamento = 'UNIDAD DE MATRICULACIÓN';
+
+      const funcionariosActivos = await Funcionario.findAll({
+        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario, jefatura_departamento: jefaturaDepartamento },
+        attributes: ['id_funcionario', 'nombre_funcionario']
+      });
+
+
+      res.render('revision-tecnica/reporte-diario', {
+        usernameSesion, userData: req.session.user, funcionariosActivos, currentDaySimple, permisos: req.session.permisos
+      });
+    } else {
+      res.redirect('/login');
+    }
+  } catch (error) {
+    console.error('Error al obtener los registros:', error);
+    res.status(500).send('Error al obtener los registros');
+  }
+});
+
+app.post('/revision-tecnica/reporte-diario-pdf', (req, res) => {
+  if (req.session.user, req.session.permisos) {
+    const fecha_finalizacion_pdf = req.body.fecha_finalizacion_pdf;
+    console.log('fecha_finalizacion_pdf:', fecha_finalizacion_pdf);
+    res.render('revision-tecnica/reporte-diario-pdf', { userData: req.session.user, fecha_finalizacion_pdf, permisos: req.session.permisos });
+  } else {
+    res.redirect('/login');
+  }
+});
 
 
 app.get('/node_modules/@tabler/icons/dist/cjs/tabler-icons.js', (req, res) => {

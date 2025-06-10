@@ -299,7 +299,7 @@
 
                                                             <% } %>
                                                                 <!-- Fin -->
-                                                                <!-- Modulo de TTHH -->
+                                                                 <!-- Modulo de RTV-->
                                                                 <% if (permisos.some(p=> p.id_modulo === 8 && p.acceso))
                                                                     { %>
                                                                     <li class="nav-small-cap">
@@ -315,6 +315,15 @@
                                                                                     stroke-width="0.5"></i></span>
                                                                             <span class="hide-menu">Procesos de
                                                                                 RTV</span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li class="sidebar-item">
+                                                                        <a class="sidebar-link"
+                                                                            href="/revision-tecnica/reporte-diario"
+                                                                            aria-expanded="false">
+                                                                            <span><i class="ti ti-report-search"
+                                                                                    stroke-width="0.5"></i></span>
+                                                                            <span class="hide-menu">Reporte diario</span>
                                                                         </a>
                                                                     </li>
                                                                     <% } %>

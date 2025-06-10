@@ -580,6 +580,56 @@ router.get('/exportar-datos-informacion', async (req, res) => {
 });
 
 
+router.get('/generar-reporte-diario-RTV', async (req, res) => {
+    const { fecha_finalizacion, id_funcionario } = req.query;
+
+    const fecha_inicial = fecha_finalizacion;
+    const fecha_final = fecha_finalizacion;
+
+    const { startOfDay, endOfDay } = getChangeDate(fecha_inicial, fecha_final);
+
+    try {
+        const tramites = await Tramite.findAll({
+            where: {
+                id_funcionario_RTV: id_funcionario,
+                fecha_finalización_RTV: {
+                    [Op.and]: [
+                        { [Op.gte]: startOfDay },
+                        { [Op.lte]: endOfDay }
+                    ]
+                }
+            },
+        });
+
+        if (tramites.length > 0) {
+
+            const tramitesConCRTV = tramites.map(tramite => {
+                let detalles = [];
+
+                if (tramite.revision_tecnica_vehicular_TURNO === 'SI') detalles.push('Revisión técnica vehicular');
+                if (tramite.verificacion_improntas_TURNO === 'SI') detalles.push('Verificación y extracción de improntas');
+                if (tramite.cambio_servicio_TURNO === 'SI') detalles.push('Cambio de servicio');
+                if (tramite.cambio_color_TURNO === 'SI') detalles.push('Cambio de color');
+                if (tramite.cambio_motor_TURNO === 'SI') detalles.push('Cambio de motor');
+
+                const CRTV = detalles.length > 0 ? `CRTV (${detalles.join(', ')})` : '';
+
+                return {
+                    ...tramite.toJSON(),
+                    CRTV
+                };
+            });
+
+            res.json({ success: true, tramites: tramitesConCRTV });
+        } else {
+            res.json({ success: false, message: 'Trámites no encontrados' });
+        }
+    } catch (error) {
+        console.error('Error al buscar trámites:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
+
 
 module.exports = router;
 

@@ -99,47 +99,47 @@ const Tramite = sequelize.define('registro-tramites', {
     allowNull: true
   },
   ramw: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING(45),
     allowNull: true
   },
   chasis: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING(45),
     allowNull: true
   },
   motor: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING(45),
     allowNull: true
   },
   pais_origen: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING(45),
     allowNull: true
   },
   marca: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING(45),
     allowNull: true
   },
   modelo: {
-    type: DataTypes.STRING (70),
+    type: DataTypes.STRING(70),
     allowNull: true
   },
   año_modelo: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING(45),
     allowNull: true
   },
   combustible: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING(45),
     allowNull: true
   },
   cilindraje: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING(45),
     allowNull: true
   },
   tipo_peso: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING(45),
     allowNull: true
   },
   clase_vehiculo_tipo: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING(45),
     allowNull: true
   },
   clase_vehiculo: {
@@ -147,7 +147,7 @@ const Tramite = sequelize.define('registro-tramites', {
     allowNull: true
   },
   tipo_vehiculo: {
-    type: DataTypes.STRING (45),
+    type: DataTypes.STRING(45),
     allowNull: true
   },
   clase_transporte: {
@@ -251,7 +251,7 @@ const Tramite = sequelize.define('registro-tramites', {
 
   entrega_informe_certificado_FINALIZACION: {
     type: DataTypes.STRING(10),
-    allowNull: true 
+    allowNull: true
   },
   id_funcionario: {
     type: DataTypes.INTEGER(15),
@@ -301,7 +301,7 @@ const Tramite = sequelize.define('registro-tramites', {
   valor_pago_INFORMACION: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
-},
+  },
   observaciones_INFORMACION: {
     type: DataTypes.STRING(200),
     allowNull: true,
@@ -318,6 +318,11 @@ const Tramite = sequelize.define('registro-tramites', {
     type: DataTypes.STRING(100),
     allowNull: true,
   },
+
+  ///////////////////////////////////////////////////////////////////////////
+  ///// ==  PROCESO DE RTV == ////
+  ///////////////////////////////////////////////////////////////////////////
+
   revision_tecnica_vehicular_TURNO: {
     type: DataTypes.STRING(10),
     allowNull: true,
@@ -342,6 +347,31 @@ const Tramite = sequelize.define('registro-tramites', {
     type: DataTypes.STRING(10),
     allowNull: true,
   },
+
+  resultado_final_RTV: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+  fecha_finalización_RTV: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+  id_funcionario_RTV: {
+    type: DataTypes.STRING(30),
+    allowNull: true
+  },
+  nombre_funcionario_RTV: {
+    type: DataTypes.STRING(100),
+    allowNull: true
+  },
+  numero_fojas_RTV: {
+    type: DataTypes.STRING(25),
+    allowNull: true
+  },
+
+
+
+
   observaciones_ELIMINACION: {
     type: DataTypes.STRING(200),
     allowNull: true,

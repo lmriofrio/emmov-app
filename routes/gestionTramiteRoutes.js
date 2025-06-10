@@ -366,4 +366,38 @@ router.post('/reasignar-turno', async (req, res) => {
   }
 });
 
+
+router.post('/aprobar-revision-tecnica', async (req, res) => {
+  try {
+    const { id_funcionario, nombre_funcionario, username } = req.session.user;
+    const { aprobar_id_tramite, fecha_finalización_RTV, numero_fojas_RTV } = req.body;
+
+    const resultado_final_RTV = 'Aprobado';
+    console.log('Aprobado');
+    console.log(fecha_finalización_RTV);
+
+    const tramite = await Tramite.findByPk(aprobar_id_tramite);
+
+    await tramite.update({
+      resultado_final_RTV: resultado_final_RTV,
+      id_funcionario_RTV: id_funcionario,
+      nombre_funcionario_RTV: nombre_funcionario,
+      fecha_finalización_RTV: fecha_finalización_RTV,
+      numero_fojas_RTV: numero_fojas_RTV
+    });
+
+    res.redirect(`/home`);
+
+  } catch (error) {
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      console.error('Error: Registro duplicado en la base de datos', error);
+      res.status(400).json({ success: false, message: 'El registro con esta placa ya existe' });
+    } else {
+      console.error('Error al guardar el trámite en la ruta:', error);
+      res.status(500).json({ success: false, message: 'Error al guardar el trámite' });
+    }
+  }
+});
+
+
 module.exports = router;

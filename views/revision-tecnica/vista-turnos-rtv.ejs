@@ -42,7 +42,7 @@
                     <div class="container-fluid ">
                         <div class="card card-body">
 
-                            
+
                             <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                                 <div class="mb-3 mb-sm-0">
                                     <ol class="breadcrumb">
@@ -79,9 +79,10 @@
                                     <div class="col-12 col-md-3 flex-wrap align-items-center mb-2">
                                         <div class="col-12 col-md-12">
                                             <div class="input-group">
-                                                <input type="text" name="placa" id="placa" class="form-control text-uppercase"
-                                                    placeholder="" aria-label="Recipient's username"
-                                                    aria-describedby="basic-addon2" autocomplete="off" maxlength="10">
+                                                <input type="text" name="placa" id="placa"
+                                                    class="form-control text-uppercase" placeholder=""
+                                                    aria-label="Recipient's username" aria-describedby="basic-addon2"
+                                                    autocomplete="off" maxlength="10">
                                                 <button class="btn btn-search text-white font-medium px-3" type="button"
                                                     id="consultarProcesoRTV">
                                                     <i class="ti ti-search fs-4"></i>
@@ -121,7 +122,7 @@
                                                 CAMBIO DE COLOR
                                             </th>
                                             <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
-                                                ESTADO (RTV)
+                                                RESULTADO (RTV)
                                             </th>
                                             <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
                                                 USUARIO ASIGNADO</th>
@@ -145,18 +146,19 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="modalReasignarTramite" aria-hidden="true"
-                aria-labelledby="modalReasignarTramiteLabel" tabindex="-1">
+            <div class="modal fade" id="modalAprobarRevision" aria-hidden="true"
+                aria-labelledby="modalAprobarRevisionLabel" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-body">
 
-                            <form action="/reasignar-tramite" method="post" id="reasignarForm" class="needs-validation">
+                            <form action="/aprobar-revision-tecnica" method="post" id="reasignarForm"
+                                class="needs-validation">
                                 <div class="border-bottom">
                                     <div
                                         class="modal-title d-flex justify-content-between text-black align-items-center mt-2 mb-3">
                                         <div class="d-flex">
-                                            <h5 class="mb-0">Reasignar trámite</h5>
+                                            <h5 class="mb-0">Registrar el resultado final </h5>
                                         </div>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
@@ -170,10 +172,10 @@
                                                 <div class="mb-3">
                                                     <label for="placa"
                                                         class="col-lg-6 form-label fw-normal">Placa</label>
-                                                    <input type="text" name="placa" id="placa" class="form-control"
-                                                        readonly>
-                                                    <input type="hidden" name="reasignar_id_tramite"
-                                                        id="reasignar_id_tramite" class="form-control">
+                                                    <input type="text" name="vsl_placa" id="vsl_placa"
+                                                        class="form-control" readonly>
+                                                    <input type="hidden" name="aprobar_id_tramite"
+                                                        id="aprobar_id_tramite" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -196,28 +198,40 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row d-flex">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="nombre_funcionario_asignado_INFORMACION"
+                                                        class="col-12 form-label fw-semibold"><span
+                                                            class="text-red">*</span>Fecha de revisión
+                                                        técnica:</label>
+                                                    <input type="datetime-local" name="fecha_finalización_RTV"
+                                                        id="fecha_finalización_RTV" class="form-control">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="nombre_funcionario_asignado_INFORMACION"
+                                                        class="col-12 form-label fw-semibold"><span
+                                                            class="text-red">*</span>N° Fojas:</label>
+                                                    <input type="number" name="numero_fojas_RTV"
+                                                        id="numero_fojas_RTV" class="form-control" value="2">
+
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="mb-3">
                                                     <label for="nombre_funcionario_asignado_INFORMACION"
-                                                        class="col-4 form-label fw-semibold">Asignar a:</label>
-                                                    <select class="form-select"
-                                                        name="nombre_funcionario_asignado_INFORMACION"
-                                                        id="nombre_funcionario_asignado_INFORMACION" required>
-                                                        <% if (funcionariosActivos && funcionariosActivos.length> 0) {
-                                                            %>
-                                                            <% funcionariosActivos.forEach(function(funcionario) { %>
-                                                                <option value="<%= funcionario.id_funcionario %>"
-                                                                    <%=userData.nombre_funcionario_asignado_INFORMACION===funcionario.id_funcionario
-                                                                    ? 'selected' : '' %>>
-                                                                    <%= funcionario.nombre_funcionario %>
-                                                                </option>
-                                                                <% }); %>
-                                                                    <% } else { %>
-                                                                        <option disabled>No hay funcionarios
-                                                                            activos disponibles</option>
-                                                                        <% } %>
+                                                        class="col-4 form-label fw-semibold"><span
+                                                            class="text-red">*</span>Resultado:</label>
+                                                    <select class="form-select" name="estado_revision"
+                                                        id="estado_revision" required>
+                                                        <option value="APROBADO" selected>APROBADO</option>
                                                     </select>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -228,8 +242,8 @@
                                     <div class="col-lg-12">
                                         <button type="submit"
                                             class="col-12 d-flex justify-content-center btn p-3 fw-semibold btn-rounded btn-primary shadow-btn align-items-center"><i
-                                                class="ti ti-switch-3 fs-6 me-2 center text-center"></i>
-                                            REASIGNAR TRÁMITE
+                                                class="ti ti-device-floppy fs-6 me-2 center text-center"></i>
+                                            GUARDAR
                                         </button>
                                     </div>
                                 </div>
@@ -455,92 +469,40 @@
                                 </div>
 
                                 <div class="px-4 py-3">
-                                    <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Ingreso del trámite
+                                    <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">Revision tecnica
+                                        vehicular
                                     </h5>
                                     <div class="py-3">
                                         <div class="row">
                                             <div class="col-lg-2">
                                                 <div class="mb-2">
-                                                    <label for="tipo_tramite" class="form-label fw-semibold">Tipo de
-                                                        identificación</label>
+                                                    <label for="tipo_tramite" class="form-label fw-semibold">Resultado
+                                                        final</label>
                                                     <input type="text" class="form-control"
-                                                        id="tipo_id_usuarioVisualizar" name="tipo_id_usuarioVisualizar"
-                                                        readonly>
+                                                        id="resultado_final_Visualizar"
+                                                        name="resultado_final_Visualizar" readonly="">
                                                 </div>
                                             </div>
                                             <div class="col-lg-2">
                                                 <div class="mb-2">
-                                                    <label for=""
-                                                        class="form-label fw-semibold">C.I/RUC/PASAPORTE</label>
-                                                    <input type="text" class="form-control" id="id_usuarioVisualizar"
-                                                        name="id_usuarioVisualizar" readonly>
+                                                    <label for="" class="form-label fw-semibold">Fecha</label>
+                                                    <input type="text" class="form-control" id="fecha_finalización_RTV"
+                                                        name="fecha_finalización_RTV" readonly="">
                                                 </div>
+
                                             </div>
                                             <div class="col-lg-8">
                                                 <div class="mb-2">
-                                                    <label for="" class="form-label fw-semibold">Nombre</label>
-                                                    <input type="text" class="form-control"
-                                                        id="nombre_usuarioVisualizar" name="nombre_usuarioVisualizar"
-                                                        readonly>
+                                                    <label for="" class="form-label fw-semibold">Nombre del
+                                                        funcionario</label>
+                                                    <input type="text" class="form-control" id="nombre_funcionario_RTV"
+                                                        name="nombre_funcionario_RTV" readonly="">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <div class="mb-2">
-                                                    <label for="tipo_tramite"
-                                                        class="form-label fw-semibold">Provincia</label>
-                                                    <input type="text" class="form-control"
-                                                        id="provincia_usuarioVisualizar"
-                                                        name="provincia_usuarioVisualizar" readonly>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="mb-2">
-                                                    <label for="" class="form-label fw-semibold">Canton</label>
-                                                    <input type="text" class="form-control"
-                                                        id="canton_usuarioVisualizar" name="canton_usuarioVisualizar"
-                                                        readonly>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="mb-2">
-                                                    <label for="" class="form-label fw-semibold">Parroquia</label>
-                                                    <input type="text" class="form-control"
-                                                        id="parroquia_usuarioVisualizar"
-                                                        name="parroquia_usuarioVisualizar" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="mb-2">
-                                                    <label for="tipo_tramite"
-                                                        class="form-label fw-semibold">Dirección</label>
-                                                    <input type="text" class="form-control"
-                                                        id="direccion_usuarioVisualizar"
-                                                        name="direccion_usuarioVisualizar" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="mb-2">
-                                                    <label for="tipo_tramite"
-                                                        class="form-label fw-semibold">Celular</label>
-                                                    <input type="text" class="form-control"
-                                                        id="celular_usuarioVisualizar" name="celular_usuarioVisualizar"
-                                                        readonly>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="mb-2">
-                                                    <label for="" class="form-label fw-semibold">Email</label>
-                                                    <input type="text" class="form-control" id="email_usuarioVisualizar"
-                                                        name="email_usuarioVisualizar" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
+
+
+
                                     </div>
                                 </div>
 
@@ -553,101 +515,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="modal fade" id="modalEliminarTramite" aria-hidden="true"
-                aria-labelledby="modalEliminarTramiteLabel" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-
-                            <form action="/estado-eliminar-tramite" method="post" id="eliminarForm" class="">
-                                <div class="border-bottom">
-                                    <div
-                                        class="modal-title d-flex justify-content-between text-black align-items-center mt-2 mb-3">
-                                        <div class="d-flex">
-                                            <h5 class="mb-0">Eliminar trámite</h5>
-                                        </div>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                </div>
-
-                                <div class="px-4 py-3">
-                                    <div class="py-1">
-                                        <div class="row d-flex">
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="eliminar_placa"
-                                                        class="col-lg-6 form-label fw-normal">Placa:</label>
-                                                    <input type="text" name="eliminar_placa" id="eliminar_placa"
-                                                        class="form-control" readonly>
-                                                    <input type="hidden" name="eliminar_id_tramite"
-                                                        id="eliminar_id_tramite" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="eliminar_nombre_usuario"
-                                                        class="col-lg-6 form-label fw-normal">Propietario:</label>
-                                                    <input type="text" name="eliminar_nombre_usuario"
-                                                        id="eliminar_nombre_usuario" class="form-control" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="mb-3">
-                                                    <label for="tipo_tramite" class="col-4 form-label fw-normal">Tipo
-                                                        de
-                                                        trámite:</label>
-                                                    <input type="text" name="eliminar_tipo_tramite"
-                                                        id="eliminar_tipo_tramite" class="form-control" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="mb-3">
-                                                    <label for="tipo_tramite" class="col-4 form-label fw-semibold">
-                                                        <span class="text-red">*</span> Observación:
-                                                    </label>
-
-                                                    <textarea class="form-control" rows="3"
-                                                        name="observaciones_ELIMINACION" id="observaciones_ELIMINACION"
-                                                        autocomplete="off" maxlength="200" required></textarea>
-                                                    <div class="invalid-feedback">
-                                                        Debe ingresar una observacion de anulacion.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="px-4 py-3 mb-2">
-                                    <div class="col-12 d-flex gap-2">
-
-                                        <button type="button"
-                                            class="col-9 justify-content-center btn p-2 fw-semibold btn-rounded btn-secondary align-items-center"
-                                            data-bs-dismiss="modal" aria-label="Close">
-                                            CANCELAR
-                                        </button>
-
-                                        <button type="submit"
-                                            class="col-3 d-flex justify-content-center btn p-2 fw-normal btn-rounded btn-danger align-items-center"><i
-                                                class="ti ti-trash fs-4 me-2"></i>
-                                            ELIMINAR
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 
 
             <div id="alert-container"></div>

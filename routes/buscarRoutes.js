@@ -106,6 +106,8 @@ router.get('/buscar-tramite-filtro-seleccionado', async (req, res) => {
 router.get('/buscar-tramite-id', async (req, res) => {
     const { idTramite } = req.query;
 
+    console.log('/buscar-tramite-id');
+
     try {
         const tramite = await Tramite.findByPk(idTramite);
 

@@ -120,7 +120,7 @@ router.get('/visualizar-turnos-agenda', async (req, res) => {
 router.get('/visualizar-turnos-rtv', async (req, res) => {
     try {
         const username = req.session.user.username;
-        
+
         const { startOfDay, endOfDay } = getRangeCurrentDay();
 
         const columnas = [
@@ -134,7 +134,8 @@ router.get('/visualizar-turnos-rtv', async (req, res) => {
             'revision_tecnica_vehicular_TURNO',
             'verificacion_improntas_TURNO',
             'cambio_servicio_TURNO',
-            'cambio_color_TURNO'
+            'cambio_color_TURNO',
+            'resultado_final_RTV'
         ];
 
         const tramitesUsuario = await Tramite.findAll({
@@ -179,8 +180,7 @@ router.get('/visualizar-turnos-rtv-filtro', async (req, res) => {
         const username = req.session.user.username;
         const { placa } = req.query;
 
-        console.log('/visualizar-turnos-rtv-filtro', placa );
-        
+
         const { startOfDay, endOfDay } = getRangeCurrentDay();
 
         const columnas = [
@@ -194,7 +194,8 @@ router.get('/visualizar-turnos-rtv-filtro', async (req, res) => {
             'revision_tecnica_vehicular_TURNO',
             'verificacion_improntas_TURNO',
             'cambio_servicio_TURNO',
-            'cambio_color_TURNO'
+            'cambio_color_TURNO',
+            'resultado_final_RTV'
         ];
 
         const tramitesUsuario = await Tramite.findAll({
@@ -219,9 +220,6 @@ router.get('/visualizar-turnos-rtv-filtro', async (req, res) => {
             cambio_servicio_TURNO: tramite.cambio_servicio_TURNO === 'SI' ? 'SI' : '',
             cambio_color_TURNO: tramite.cambio_color_TURNO === 'SI' ? 'SI' : '',
         }));
-
-        console.log('/visualizar-turnos-rtv-filtro', tramitesProcesados );
-
 
         res.json({ success: true, tramitesUsuario: tramitesProcesados });
 
