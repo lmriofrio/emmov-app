@@ -207,6 +207,19 @@
                                                         técnica:</label>
                                                     <input type="datetime-local" name="fecha_finalización_RTV"
                                                         id="fecha_finalización_RTV" class="form-control">
+                                                    <script>
+                                                        var fecha = new Date();
+                                                        var year = fecha.getFullYear();
+                                                        var month = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                                                        var day = fecha.getDate().toString().padStart(2, '0');
+
+                                                        var hours = fecha.getHours().toString().padStart(2, '0');
+                                                        var minutes = fecha.getMinutes().toString().padStart(2, '0');
+
+                                                        var formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+                                                        document.getElementById('fecha_finalización_RTV').value = formattedDate;
+                                                    </script>
 
                                                 </div>
                                             </div>
@@ -215,8 +228,8 @@
                                                     <label for="nombre_funcionario_asignado_INFORMACION"
                                                         class="col-12 form-label fw-semibold"><span
                                                             class="text-red">*</span>N° Fojas:</label>
-                                                    <input type="number" name="numero_fojas_RTV"
-                                                        id="numero_fojas_RTV" class="form-control" value="2">
+                                                    <input type="number" name="numero_fojas_RTV" id="numero_fojas_RTV"
+                                                        class="form-control" value="2">
 
                                                 </div>
                                             </div>
