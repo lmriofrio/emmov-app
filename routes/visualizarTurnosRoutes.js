@@ -119,7 +119,7 @@ router.get('/visualizar-turnos-agenda', async (req, res) => {
 
 router.get('/visualizar-turnos-rtv', async (req, res) => {
     try {
-        const username = req.session.user.username;
+        
 
         const { startOfDay, endOfDay } = getRangeCurrentDay();
 
@@ -174,6 +174,8 @@ router.get('/visualizar-turnos-rtv', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
+
 
 router.get('/visualizar-turnos-rtv-filtro', async (req, res) => {
     try {

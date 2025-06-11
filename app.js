@@ -1944,6 +1944,13 @@ app.get('/servicios/generacion-turnos-web', async (req, res) => {
 
 });
 
+app.get('/servicios/vista-turnos-rtv', async (req, res) => {
+
+
+
+  res.render('servicios/vista-turnos-rtv', {});
+
+});
 
 //////////////////////////////////////////////////////////
 //////////   ADMINISTRACION DE EMPRESA         ///////////

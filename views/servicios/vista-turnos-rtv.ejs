@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Vista de turnos para rtv</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="/js/visualizar-turnos-rtv3.js"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+    <script src="/js/spinners.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <style>
+        .table thead th {
+            background-color: #f3f4f8;
+        }
+
+        .body-wrapper2 {
+            margin: 70px;
+            transition: .2s ease-in;
+        }
+
+        @media (max-width: 768px) {
+            .body-wrapper2 {
+                margin: 5px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+
+        <!-- Fin de barra de navegación -->
+        <!--  Contendio principal -->
+        <div class="body-wrapper2">
+            <!--  Encabezado de pagina -->
+
+            <!--  Fin de encabezado de pagina  -->
+            <div class="container-fluid">
+                <div class="widget-content searchable-container list">
+                    <div class="card card-body h-100">
+
+
+                        <div class="row align-items-center justify-content-center p-2">
+                            <div class=" d-flex justify-content-center align-items-center">
+                                <div
+                                    class="col-md-12 justify-content-center align-items-center  flex-wrap align-items-center mb-2">
+                                    <a href="/" class="d-flex align-items-center gap-2 rounded logo-img">
+                                        <div class="rounded d-flex justify-content-center align-items-center"
+                                            style="background: white; width: 45px; height: 45px;">
+                                            <img src="/images/favicon.ico" class="rounded-circle" width="30"
+                                                height="34">
+                                        </div>
+                                        <div
+                                            style="white-space: nowrap; text-overflow: ellipsis; max-width: 170px; overflow: hidden;">
+                                            <h2 class="mb-1 fw-semibold text-black">
+                                                emmov
+                                            </h2>
+                                        </div>
+
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="d-flex pb-4 justify-content-center align-items-center">
+                                <div
+                                    class="col-md-12 justify-content-center align-items-center  flex-wrap align-items-center mb-2">
+                                    <h2
+                                        class="fw-normal mb-0 justify-content-center align-items-center text-center fw-semibold">
+                                        VISTA DE TURNOS PARA RTV
+                                    </h2>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="" id="thead-tramites">
+
+                                            <tr class="text-dark">
+                                                <th class="text-center align-middle px-2 py-2">N°</th>
+                                                <th class="text-center align-middle px-2 py-2">TRÁMITE</th>
+                                                <th class="text-center align-middle px-2 py-2">PLACA</th>
+                                                <th class="text-center align-middle px-2 py-2 text-overflow-12">TIPO
+                                                    DE
+                                                    TRAMITE</th>
+                                                <th class="text-center align-middle px-2 py-2">FECHA DE TURNO (RTV)</th>
+                                                <th
+                                                    class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                    TURNO (RTV)</th>
+                                                <th
+                                                    class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
+                                                    REVISIÓN TÉCNICA
+                                                </th>
+                                                <th
+                                                    class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
+                                                    IMPRONTAS
+                                                </th>
+                                                <th
+                                                    class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
+                                                    CAMBIO DE SERVICIO
+                                                </th>
+                                                <th
+                                                    class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
+                                                    CAMBIO DE COLOR
+                                                </th>
+                                                <th
+                                                    class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
+                                                    RESULTADO (RTV)
+                                                </th>
+                                                <th
+                                                    class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                    USUARIO ASIGNADO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody-tramites">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <div class="d-none d-flex col-8 row align-items-center justify-content-center border rounded"
+                                id="sinResultados">
+                                <div class="pt-4 pb-4 col-12 d-flex align-items-center justify-content-center">
+                                    <br>
+                                    <h4>Sin registros</h4>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+            </div>
+
+
+            <div id="spinner-wrapper" class="spinner-wrapper">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading..</span>
+                </div>
+            </div>
+
+            <div id="alert-container"></div>
+
+
+
+        </div>
+    </div>
+
+    <script>
+        setInterval(() => {
+            location.reload();
+        }, 20000); 
+    </script>
+
+
+</body>
+
+</html>
