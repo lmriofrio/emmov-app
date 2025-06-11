@@ -80,7 +80,6 @@ $(document).ready(function () {
                     const newRow = `
                         <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
                             <td class="text-center">${numeroFila}</td>
-                            <td class="text-center">${tramite.id_tramite}</td>
                             <td class="text-center fw-semibold">${tramite.placa}</td>
                             <td class="text-overflow-12">${tramite.tipo_tramite}</td>
                             <td class="text-center">${fechaIngresoFormateada}</td>
@@ -101,24 +100,8 @@ $(document).ready(function () {
                                 <span class="${estadoColor} badge bg-primary-red rounded fw-semibold
                                  mb-0 px-3"">${tramite.cambio_color_TURNO}</span>
                             </td>
-
-<td class="d-flex align-items-center justify-content-start text-overflow-5">
-  <span class="round-8 ${estadoClass} rounded-circle d-inline-block ms-2"></span>
-  <span class="badge text-dark rounded-pill fw-normal ms-2">${tramite.resultado_final_RTV || ''}</span>
-</td>
-
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
-                                                        <td class="text-center align-items-center justify-content-center p-2">
-                                <div class="btn-group">
-                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
-                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Acción
-                                    </button>
-                                    <ul class="dropdown-menu border" aria-labelledby="dropdownMenuButton">
-                                        ${opcionesMenu}
-                                    </ul>
-                                </div>
-                            </td>
+                                                        
                         </tr>
                     `;
                     tbody.append(newRow);
@@ -310,49 +293,33 @@ $(document).ready(function () {
 
                         const opcionesMenu = opcionesHabilitadas.join('');
 
-                        const newRow = `
-                            <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
-                                <td class="text-center">${numeroFila}</td>
-                                <td class="text-center">${tramite.id_tramite}</td>
-                                <td class="text-center fw-semibold">${tramite.placa}</td>
-                                <td class="text-overflow-12">${tramite.tipo_tramite}</td>
-                                <td class="text-center">${fechaIngresoFormateada}</td>
-                                <td class="text-center text-overflow-3 fw-semibold">TURNO ${tramite.numero_turno_rtv_INFORMACION}</td>
-                                <td class="text-center text-overflow-3 bg-four-card">
-                                    <span class="${estadoColor} badge bg-primary-red rounded fw-semibold
-                                     mb-0 px-3"">${tramite.revision_tecnica_vehicular_TURNO}</span>
-                                </td>
-                                <td class="text-center text-overflow-3 bg-four-card">
-                                    <span class="${estadoColor} badge bg-primary-red rounded fw-semibold
-                                     mb-0 px-3"">${tramite.verificacion_improntas_TURNO}</span>
-                                </td>
-                                <td class="text-center text-overflow-3 bg-four-card">
-                                    <span class="${estadoColor} badge bg-primary-red rounded fw-semibold
-                                     mb-0 px-3"">${tramite.cambio_servicio_TURNO}</span>
-                                </td>
-                                <td class="text-center text-overflow-3 bg-four-card">
-                                    <span class="${estadoColor} badge bg-primary-red rounded fw-semibold
-                                     mb-0 px-3"">${tramite.cambio_color_TURNO}</span>
-                                </td>
-<td class="d-flex align-items-center justify-content-start text-overflow-5">
-  <span class="round-8 ${estadoClass} rounded-circle d-inline-block ms-2"></span>
-  <span class="badge text-dark rounded-pill fw-normal ms-2">${tramite.resultado_final_RTV || ''}</span>
-</td>
-
-                                <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
-                                                            <td class="text-center align-items-center justify-content-center p-2">
-                                    <div class="btn-group">
-                                        <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
-                                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Acción
-                                        </button>
-                                        <ul class="dropdown-menu border" aria-labelledby="dropdownMenuButton">
-                                            ${opcionesMenu}
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        `;
+                    const newRow = `
+                        <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
+                            <td class="text-center">${numeroFila}</td>
+                            <td class="text-center fw-semibold">${tramite.placa}</td>
+                            <td class="text-overflow-12">${tramite.tipo_tramite}</td>
+                            <td class="text-center">${fechaIngresoFormateada}</td>
+                            <td class="text-center text-overflow-3 fw-semibold">TURNO ${tramite.numero_turno_rtv_INFORMACION}</td>
+                            <td class="text-center text-overflow-3 bg-four-card">
+                                <span class="${estadoColor} badge bg-primary-red rounded fw-semibold
+                                 mb-0 px-3"">${tramite.revision_tecnica_vehicular_TURNO}</span>
+                            </td>
+                            <td class="text-center text-overflow-3 bg-four-card">
+                                <span class="${estadoColor} badge bg-primary-red rounded fw-semibold
+                                 mb-0 px-3"">${tramite.verificacion_improntas_TURNO}</span>
+                            </td>
+                            <td class="text-center text-overflow-3 bg-four-card">
+                                <span class="${estadoColor} badge bg-primary-red rounded fw-semibold
+                                 mb-0 px-3"">${tramite.cambio_servicio_TURNO}</span>
+                            </td>
+                            <td class="text-center text-overflow-3 bg-four-card">
+                                <span class="${estadoColor} badge bg-primary-red rounded fw-semibold
+                                 mb-0 px-3"">${tramite.cambio_color_TURNO}</span>
+                            </td>
+                            <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
+                                                        
+                        </tr>
+                    `;
                         tbody.append(newRow);
                         numeroFila++;
 

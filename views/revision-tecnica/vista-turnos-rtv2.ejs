@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-    <title>Vista de turnos RTV</title>
+    <title>Vista de turnos RTV2</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
     <link rel="stylesheet" href="../../public/css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
     <script src="/js/main.js"></script>
-    <script src="/js/visualizar-turnos-rtv.js"></script>
+    <script src="/js/visualizar-turnos-rtv2.js"></script>
     <script src="/js/spinners.js"></script>
     <script src="/js/activar-items-navbar.js"></script>
 
@@ -43,97 +43,59 @@
                         <div class="card card-body">
 
 
-                            <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
-                                <div class="mb-3 mb-sm-0">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item">
-                                            <a class="text-decoration-none text-black" href="/">Vista de turnos de
-                                                RTV</a>
-                                        </li>
-                                        <li class="breadcrumb-item text-muted" aria-current="page">
-                                            <%= currentDaySimple %>
-                                        </li>
+                            <div
+                                class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between mb-4">
+                                <ol class="breadcrumb mb-2 mb-sm-0">
+                                    <li class="breadcrumb-item">
+                                        <a class="text-decoration-none text-black" href="/">Vista de turnos de RTV</a>
+                                    </li>
+                                    <li class="breadcrumb-item text-muted" aria-current="page">
+                                        <%= currentDaySimple %>
+                                    </li>
+                                </ol>
+                            </div>
 
-                                    </ol>
-                                </div>
-                                <div style="width: 20%;">
-                                    <input type="text" name="" class="form-control-disable text-center" id=""
-                                        placeholder="">
+                            <div class="mb-3 d-none">
+                                <label for="placa" class="form-label">Ingrese el número de placa:</label>
+                                <div class="input-group">
+                                    <input type="text" name="placa" id="placa" class="form-control text-uppercase"
+                                        placeholder="" aria-label="Placa" aria-describedby="btnBuscar"
+                                        autocomplete="off" maxlength="10">
+                                    <button class="btn btn-search text-white font-medium" type="button"
+                                        id="consultarProcesoRTV">
+                                        <i class="ti ti-search fs-5"></i>
+                                    </button>
                                 </div>
                             </div>
 
-                            <br>
-
-                            <div>
-                                <div class="mt-2 row">
-                                    <div class="col-12 col-md-3 flex-wrap align-items-center mb-2">
-                                        <div class="col-12 col-md-12 d-flex">
-                                            <h6 class="fw-normal mb-0 text-start fw-normal">Ingrese el número de
-                                                placa:
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mt-0 row">
-                                    <div class="col-12 col-md-3 flex-wrap align-items-center mb-2">
-                                        <div class="col-12 col-md-12">
-                                            <div class="input-group">
-                                                <input type="text" name="placa" id="placa"
-                                                    class="form-control text-uppercase" placeholder=""
-                                                    aria-label="Recipient's username" aria-describedby="basic-addon2"
-                                                    autocomplete="off" maxlength="10">
-                                                <button class="btn btn-search text-white font-medium px-3" type="button"
-                                                    id="consultarProcesoRTV">
-                                                    <i class="ti ti-search fs-4"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <br>
-
-                            <div class="table-responsive2">
-                                <table class="table table-bordered">
-                                    <thead class="" id="thead-tramites">
-
-                                        <tr class="text-dark">
-                                            <th class="text-center align-middle px-2 py-2">N°</th>
-                                            <th class="text-center align-middle px-2 py-2">TRÁMITE</th>
-                                            <th class="text-center align-middle px-2 py-2">PLACA</th>
-                                            <th class="text-center align-middle px-2 py-2 text-overflow-12">TIPO
-                                                DE
-                                                TRAMITE</th>
-                                            <th class="text-center align-middle px-2 py-2">FECHA DE TURNO (RTV)</th>
-                                            <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
-                                                TURNO (RTV)</th>
-                                            <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
-                                                REVISIÓN TÉCNICA
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-center align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="text-center align-middle py-3 px-2">N°</th>
+                                            <th class="text-center align-middle py-3 px-2">PLACA</th>
+                                            <th class="text-center align-middle py-3 px-2 text-wrap">TIPO DE TRÁMITE
                                             </th>
-                                            <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
-                                                IMPRONTAS
+                                            <th class="text-center align-middle py-3 px-2 text-wrap">FECHA DE TURNO
+                                                (RTV)</th>
+                                            <th class="text-center align-middle py-3 px-2 text-wrap">TURNO (RTV)</th>
+                                            <th class="text-center align-middle py-3 px-2 text-wrap">REVISIÓN TÉCNICA
                                             </th>
-                                            <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
-                                                CAMBIO DE SERVICIO
+                                            <th class="text-center align-middle py-3 px-2 text-wrap">IMPRONTAS</th>
+                                            <th class="text-center align-middle py-3 px-2 text-wrap">CAMBIO DE SERVICIO
                                             </th>
-                                            <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
-                                                CAMBIO DE COLOR
+                                            <th class="text-center align-middle py-3 px-2 text-wrap">CAMBIO DE COLOR
                                             </th>
-                                            <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
-                                                RESULTADO (RTV)
+                                            <th class="text-center align-middle py-3 px-2 text-wrap">USUARIO ASIGNADO
                                             </th>
-                                            <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
-                                                USUARIO ASIGNADO</th>
-                                            <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
-                                                ACCIÓN</th>
                                         </tr>
                                     </thead>
+
                                     <tbody id="tbody-tramites">
                                     </tbody>
                                 </table>
                             </div>
+
 
                         </div>
                     </div>
@@ -215,8 +177,8 @@
                                                     <label for="nombre_funcionario_asignado_INFORMACION"
                                                         class="col-12 form-label fw-semibold"><span
                                                             class="text-red">*</span>N° Fojas:</label>
-                                                    <input type="number" name="numero_fojas_RTV"
-                                                        id="numero_fojas_RTV" class="form-control" value="2">
+                                                    <input type="number" name="numero_fojas_RTV" id="numero_fojas_RTV"
+                                                        class="form-control" value="2">
 
                                                 </div>
                                             </div>

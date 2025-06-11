@@ -299,7 +299,7 @@
 
                                                             <% } %>
                                                                 <!-- Fin -->
-                                                                 <!-- Modulo de RTV-->
+                                                                <!-- Modulo de RTV-->
                                                                 <% if (permisos.some(p=> p.id_modulo === 8 && p.acceso))
                                                                     { %>
                                                                     <li class="nav-small-cap">
@@ -319,11 +319,21 @@
                                                                     </li>
                                                                     <li class="sidebar-item">
                                                                         <a class="sidebar-link"
+                                                                            href="/revision-tecnica/vista-turnos-rtv2"
+                                                                            aria-expanded="false">
+                                                                            <span><i class="ti ti-tools"
+                                                                                    stroke-width="0.5"></i></span>
+                                                                            <span class="hide-menu">Improtas</span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li class="sidebar-item">
+                                                                        <a class="sidebar-link"
                                                                             href="/revision-tecnica/reporte-diario"
                                                                             aria-expanded="false">
                                                                             <span><i class="ti ti-report-search"
                                                                                     stroke-width="0.5"></i></span>
-                                                                            <span class="hide-menu">Reporte diario</span>
+                                                                            <span class="hide-menu">Reporte
+                                                                                diario</span>
                                                                         </a>
                                                                     </li>
                                                                     <% } %>
