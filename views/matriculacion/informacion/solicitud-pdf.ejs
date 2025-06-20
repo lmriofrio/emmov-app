@@ -165,8 +165,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row align-items-center">
-                                                <label
-                                                    class="col-sm-4 form-label  fw-normal mb-0 text-end"># Trámite:</label>
+                                                <label class="col-sm-4 form-label  fw-normal mb-0 text-end">#
+                                                    Trámite:</label>
                                                 <div class="col-sm-8">
                                                     <span class="form-control-plaintext fw-normal py-0">
                                                         <%= tramite.id_tramite %>
@@ -674,7 +674,8 @@
                                 <li class="list-group-item col-6  px-2 py-0">
                                     <div class="row">
                                         <div class="col">
-                                            <p class="form-control-plaintext mb-0 p-0 text-center text-uppercase fw-semibold">
+                                            <p
+                                                class="form-control-plaintext mb-0 p-0 text-center text-uppercase fw-semibold">
                                                 <%= tramite.nombre_usuario %>
                                             </p>
                                         </div>
@@ -683,7 +684,8 @@
                                 <li class="list-group-item col-6 px-2 py-0">
                                     <div class="row">
                                         <div class="col">
-                                            <p class="form-control-plaintext p-0 text-center text-uppercase fw-semibold">
+                                            <p
+                                                class="form-control-plaintext p-0 text-center text-uppercase fw-semibold">
                                                 <%= tramite.nombre_funcionario_INFORMACION %>
                                             </p>
                                         </div>
@@ -720,6 +722,62 @@
 
 
             </div>
+
+            <div class="card-body d-flex p-1 d-none" id="deudas_SRI" name="deudas_SRI">
+                <div class="col-12 mb-0">
+                    <div class="card-body p-2 rounded d-flex align-items-center">
+                        <i class="ti ti-exclamation-circle me-2 fs-5"></i>
+                        <div class="d-flex justify-content-left w-100">
+                            <h6 class="fw-normal mb-0 text-black me-2 d-none"
+                                data-informacion="<%= tramite.informacion_SRI %>">
+                            </h6>
+                            <h6 class="fw-normal mb-0 text-black me-2" id="mensaje_SRI">El vehiculo tiene deudas en el
+                                SRI:</h6>
+                            <h6 class="fw-semibold mb-0 text-start" id="deuda_total_SRI"></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body d-flex p-1 d-none" id="no_deudas_SRI" name="no_deudas_SRI">
+                <div class="col-12 mb-0">
+                    <div class="card-body p-2 rounded d-flex align-items-center">
+                        <i class="ti ti-exclamation-circle me-2 fs-5"></i>
+                        <div class="d-flex justify-content-left w-100">
+                            <h6 class="fw-normal mb-0 text-black me-2">Sin datos
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+
+                    const informacionSRI = '<%- tramite.informacion_SRI || "" %>';
+                    const totalSRI = '<%- tramite.total_SRI       || "" %>';
+
+                    const deudasCard = document.getElementById('deudas_SRI')
+                    const sinDeudasCard = document.getElementById('no_deudas_SRI');
+                    const totalH6 = document.getElementById('deuda_total_SRI');
+
+                    const infoVacia = !informacionSRI || informacionSRI.trim() === '';
+                    const totalConValor = totalSRI && totalSRI.toString().trim() !== '' && Number(totalSRI) > 0;
+
+                    if (infoVacia && totalConValor) {
+                        deudasCard.classList.remove('d-none');
+                        totalH6.textContent = totalSRI; 
+                    } else {
+                        sinDeudasCard.classList.remove('d-none');
+                    }
+                });
+            </script>
+
+
+
+
+
         </div>
 
     </div>

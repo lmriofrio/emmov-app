@@ -281,7 +281,8 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
 
     const { id_funcionario, username, nombre_funcionario, id_empresa, nombre_empresa, nombre_corto_empresa, estado_empresa, provincia_empresa, canton_empresa, id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion, id_centro_matriculacion_ASIGNACION_RTV } = req.session.user;
     const { tipo_peso, tipo_tramite, id_usuario, tipo_id_usuario, nombre_usuario, celular_usuario, email_usuario, provincia_usuario, canton_usuario, parroquia_usuario, direccion_usuario, clase_vehiculo_tipo, clase_vehiculo, tipo_vehiculo, clase_transporte, observaciones_INFORMACION,
-      revision_tecnica_vehicular_TURNO, verificacion_improntas_TURNO, cambio_servicio_TURNO, cambio_color_TURNO, cambio_motor_TURNO, tipo_asignacion, oficina_ASIGNACION, usuario_ASIGNACION } = req.body;
+      revision_tecnica_vehicular_TURNO, verificacion_improntas_TURNO, cambio_servicio_TURNO, cambio_color_TURNO, cambio_motor_TURNO, tipo_asignacion, oficina_ASIGNACION, usuario_ASIGNACION,
+    result_informacion, result_total } = req.body;
     let { placa, ramw } = req.body;
 
     const { result_placa, result_camvCpn, result_cilindraje, result_marca, result_modelo, result_anioModelo, result_paisFabricacion, result_clase, result_servicio } = req.body;
@@ -408,7 +409,7 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
       valor_pago_INFORMACION, observaciones_INFORMACION, id_funcionario_INFORMACION, username_funcionario_INFORMACION, nombre_funcionario_INFORMACION, fecha_ingreso_INFORMACION,
       id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion, fecha_final_PRESENTACION, fecha_turno_RTV,
       revision_tecnica_vehicular_TURNO, verificacion_improntas_TURNO, cambio_servicio_TURNO, cambio_color_TURNO, cambio_motor_TURNO, numero_turno_matriculacion_INFORMACION: TurnoMatr,
-      numero_turno_rtv_INFORMACION: TurnoRtv,
+      numero_turno_rtv_INFORMACION: TurnoRtv, result_informacion, result_total 
     });
 
     const idTramite = id_tramite;

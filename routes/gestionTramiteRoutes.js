@@ -52,10 +52,10 @@ router.post('/eliminar-tramite', async (req, res) => {
     if (tramite) {
       console.log('Trámite encontrado. Eliminando...');
       await tramite.destroy();
-
       console.log('Trámite eliminado');
 
-      res.render('home', { userData: req.session.user, permisos: req.session.permisos });
+      res.redirect('/home');
+
     } else {
       console.log('Trámite no encontrado');
       res.redirect('/login');

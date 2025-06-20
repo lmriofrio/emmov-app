@@ -13,11 +13,11 @@ router.get('/buscar-tramite', async (req, res) => {
     const { placa } = req.query;
 
     //console.log('Placa recibida:', placa);  
- 
+
     try {
-        const tramites = await Tramite.findAll({ 
+        const tramites = await Tramite.findAll({
             where: { placa },
-            order: [['fecha_ingreso', 'ASC']], 
+            order: [['fecha_ingreso', 'ASC']],
         });
 
         if (tramites.length > 0) {
@@ -32,7 +32,7 @@ router.get('/buscar-tramite', async (req, res) => {
 });
 
 router.get('/buscar-tramite-filtro', async (req, res) => {
-    
+
     const { placa } = req.query;
 
     const usernameSesion = req.session.user.username;
@@ -50,7 +50,7 @@ router.get('/buscar-tramite-filtro', async (req, res) => {
         });
 
         if (tramites.length > 0) {
-            res.json({ success: true, tramites, usernameSesion});
+            res.json({ success: true, tramites, usernameSesion });
         } else {
             res.json({ success: false, message: 'Trámites no encontrados' });
         }
@@ -61,7 +61,7 @@ router.get('/buscar-tramite-filtro', async (req, res) => {
 });
 
 router.get('/buscar-tramite-filtro-seleccionado', async (req, res) => {
-    
+
     const { tipoIdBusqueda, filtro } = req.query;
 
     if (tipoIdBusqueda === 'PLACA') {
@@ -72,7 +72,7 @@ router.get('/buscar-tramite-filtro-seleccionado', async (req, res) => {
             },
             order: [['fecha_final_PRESENTACION', 'DESC']]
         });
-       
+
         res.json({ success: true, tramites });
 
     } else if (tipoIdBusqueda === 'USUARIO') {
@@ -83,7 +83,7 @@ router.get('/buscar-tramite-filtro-seleccionado', async (req, res) => {
             },
             order: [['fecha_final_PRESENTACION', 'DESC']]
         });
-       
+
         res.json({ success: true, tramites });
 
     } else if (tipoIdBusqueda === 'CÉDULA') {
@@ -94,13 +94,13 @@ router.get('/buscar-tramite-filtro-seleccionado', async (req, res) => {
             },
             order: [['fecha_final_PRESENTACION', 'DESC']]
         });
-       
+
         res.json({ success: true, tramites });
 
     } else {
         res.status(400).json({ message: 'Filtro no válido' });
     }
-    
+
 });
 
 router.get('/buscar-tramite-id', async (req, res) => {
@@ -115,6 +115,45 @@ router.get('/buscar-tramite-id', async (req, res) => {
             res.json({ success: true, tramite });
         } else {
             res.json({ success: false, message: 'Trámite no encontrado' });
+        }
+    } catch (error) {
+        console.error('Error al buscar trámites:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
+
+router.get('/buscar-tramite-filtro-opt', async (req, res) => {
+
+    const { placa } = req.query;
+
+    const usernameSesion = req.session.user.username;
+
+    //console.log('Placa recibida2:', placa);
+    //console.log('Se realiza la consulta del vehiculo');  
+
+    try {
+        const tramites = await Tramite.findAll({
+            attributes: [
+                'id_tramite',
+                'fecha_final_PRESENTACION',
+                'placa',
+                'tipo_tramite',
+                'id_usuario',
+                'nombre_usuario',
+                'estado_tramite',
+                'username',
+                'username_funcionario_asignado_INFORMACION',],
+            where: {
+                placa,
+                estado_tramite: { [Op.or]: ['En proceso', 'Finalizado'] },
+            },
+            order: [['fecha_final_PRESENTACION', 'DESC']]
+        });
+
+        if (tramites.length > 0) {
+            res.json({ success: true, tramites, usernameSesion });
+        } else {
+            res.json({ success: false, message: 'Trámites no encontrados' });
         }
     } catch (error) {
         console.error('Error al buscar trámites:', error);
@@ -178,23 +217,24 @@ router.post('/buscar-vehiculo-sri', async (req, res) => {
     try {
 
         const response = await axios.get(`https://srienlinea.sri.gob.ec/movil-servicios/api/v1.0/matriculacion/valor/${id_vehiculo}`);
-        
+
         const vehiculo = response.data;
         //console.log('Datos recibidos:', vehiculo);
 
+
         if (vehiculo) {
             return res.json({ success: true, data: vehiculo });
-        } else  {
+        } else {
 
             return res.json({ success: false, message: 'Vehículo no encontrado' });
-            
-        } 
+
+        }
     } catch (error) {
 
         if (error.response && error.response.status === 404) {
             return res.json({ success: false, message: 'Vehículo no encontrado en SRI' });
         }
-        
+
         if (error.response && error.response.status === 503) {
             return res.status(503).json({ success: false, message: 'Servicio del SRI no disponible' });
         }
@@ -279,11 +319,11 @@ router.get('/buscar-tramite-rtv', async (req, res) => {
     const { placa } = req.query;
 
     //console.log('Placa recibida:', placa);  
- 
+
     try {
-        const tramites = await Tramite.findAll({ 
+        const tramites = await Tramite.findAll({
             where: { placa },
-            order: [['fecha_ingreso', 'ASC']], 
+            order: [['fecha_ingreso', 'ASC']],
         });
 
         if (tramites.length > 0) {

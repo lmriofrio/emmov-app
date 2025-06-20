@@ -256,6 +256,8 @@ $(document).ready(function () {
         $('#result_paisFabricacion2').text();
         $('#result_clase2').text();
         $('#result_servicio2').text();
+        $('#result_informacion').val();
+        $('#result_total').val();
 
         $('#noExisteVehiculoSRI').addClass('d-none');
 
@@ -277,6 +279,8 @@ $(document).ready(function () {
           $('#result_paisFabricacion').val(response.data.paisFabricacion);
           $('#result_clase').val(response.data.clase);
           $('#result_servicio').val(response.data.servicio);
+          $('#result_informacion').val(response.data.informacion);
+          $('#result_total').val(response.data.total);
 
           $('#result_placa2').text(response.data.placa);
           $('#result_camvCpn2').text(response.data.camvCpn);
@@ -406,6 +410,10 @@ $(document).ready(function () {
         $('#result_paisFabricacion').val('');
         $('#result_clase').val('');
         $('#result_servicio').val('');
+
+        $('#result_informacion').val();
+        $('#result_total').val();
+
         $('#result_placa2').text('');
         $('#result_camvCpn2').text('');
         $('#result_cilindraje2').text('');
@@ -435,6 +443,8 @@ $(document).ready(function () {
           $('#result_paisFabricacion').val(response.data.paisFabricacion);
           $('#result_clase').val(response.data.clase);
           $('#result_servicio').val(response.data.servicio);
+          $('#result_informacion').val(response.data.informacion);
+          $('#result_total').val(response.data.total);
 
           $('#result_placa2').text(response.data.placa);
           $('#result_camvCpn2').text(response.data.camvCpn);
@@ -688,10 +698,10 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('guardarTramiteAreaInformacion').addEventListener('click', async function (event) {
     event.preventDefault();
 
-    // Validación del formulario
+   
     if (!form.checkValidity()) {
       form.classList.add('was-validated'); // Mostrar mensajes de error de Bootstrap
-      return; // No continuar si algún campo esta vacío
+      return;
     }
 
     // Si la validación es correcta, procedemos a enviar el formulario
@@ -723,6 +733,8 @@ document.addEventListener('DOMContentLoaded', function () {
       alert('Error al guardar el trámite');
     }
   });
+
+  
 });
 
 // 6.- guradar el tramite desde REGISTRO DIARIO
@@ -1123,7 +1135,7 @@ if (document.getElementById('registroFormAreaInformacion')) {
         verificacion_improntas_TURNO: 'NO',
         revision_tecnica_vehicular_TURNO: 'SI',
         cambio_servicio_TURNO: 'NO'
-      },'CAMBIO DE CARACTERÍSTICAS': {
+      }, 'CAMBIO DE CARACTERÍSTICAS': {
         verificacion_improntas_TURNO: 'SI',
         revision_tecnica_vehicular_TURNO: 'SI',
         cambio_servicio_TURNO: 'NO'

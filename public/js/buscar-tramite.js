@@ -253,20 +253,22 @@ $(document).ready(function () {
 
 //Para la vista de consulta de vehiculos
 $(document).ready(function () {
-    $('#consultarVehiculo').click(function () {
-        const placa = $('input[name="placa"]').val();
+
+    function buscarPorPlaca() {
+        const placa = $('input[name="placa"]').val().trim();
+        if (!placa) return;
 
         $('#overlay').addClass('active');
+
         $.ajax({
             type: 'GET',
-            url: '/buscar-tramite-filtro',
+            url: '/buscar-tramite-filtro-opt',
             data: { placa },
             success: function (response) {
                 const tbody = $('#tbody-tramites');
                 tbody.empty();
 
                 if (response.success) {
-
                     let usernameSesion = response.usernameSesion;
 
                     $('#content').removeClass('d-none');
@@ -288,7 +290,6 @@ $(document).ready(function () {
 
                         if (tramite.estado_tramite === 'Finalizado') {
                             estadoClass = 'bg-info';
-
                         } else if (tramite.estado_tramite === 'En proceso') {
                             estadoClass = 'bg-wait';
                             opcionesHabilitadas.push(`
@@ -326,7 +327,6 @@ $(document).ready(function () {
                             }
                         }
 
-
                         opcionesHabilitadas.push(`
                             <li>
                                 <a class="dropdown-item visualizarTramite text-black px-4" href="#" 
@@ -354,7 +354,6 @@ $(document).ready(function () {
 
                         const newRow = `
                             <tr  style="border-style: none; border-bottom: 1px solid #dddee4;">
-
                                 <td class="text-center">${numeroFila}</td>
                                 <td class="text-center text-overflow-3">${tramite.id_tramite}</td>
                                 <td class="text-start text-overflow-4">${fechaFormateada}</td>
@@ -383,12 +382,9 @@ $(document).ready(function () {
                         numeroFila++;
                     });
 
-
-
+                   
                     $('#tbody-tramites').off('click', '.atenderTramite').on('click', '.atenderTramite', function () {
                         const idTramite = $(this).data('id-tramite');
-                        console.info(idTramite);
-
                         $.ajax({
                             type: 'GET',
                             url: `/buscar-tramite-id`,
@@ -400,8 +396,7 @@ $(document).ready(function () {
                                     alert('Error: no se pudo obtener la información del trámite.');
                                 }
                             },
-                            error: function (error) {
-                                console.error('Error al obtener detalles del trámite:', error);
+                            error: function () {
                                 alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
                             }
                         });
@@ -409,14 +404,12 @@ $(document).ready(function () {
 
                     $('#tbody-tramites').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
-
                         $.ajax({
                             type: 'GET',
                             url: `/buscar-tramite-id`,
                             data: { idTramite },
                             success: function (response) {
                                 if (response.success) {
-
                                     const fechaOriginal2 = response.tramite.fecha_final_PRESENTACION;
                                     const fecha = new Date(fechaOriginal2);
                                     fecha.setHours(fecha.getHours() + 5);
@@ -427,7 +420,6 @@ $(document).ready(function () {
                                     const minutos = fecha.getMinutes().toString().padStart(2, '0');
                                     const fechaFormateada = `${dia}-${mes}-${año} ${hora}:${minutos}`;
 
-
                                     $('#estado_tramite').text(response.tramite.estado_tramite);
                                     $('#placa').val(response.tramite.placa);
                                     $('#tipo_tramite').val(response.tramite.tipo_tramite);
@@ -437,28 +429,22 @@ $(document).ready(function () {
                                     $('#email_usuario').val(response.tramite.email_usuario);
                                     $('#nombre_usuario').val(response.tramite.nombre_usuario);
                                     $('#celular_usuario').val(response.tramite.celular_usuario);
-
                                     $('#clase_transporte').val(response.tramite.clase_transporte);
                                     $('#numero_adhesivo').val(response.tramite.numero_adhesivo);
                                     $('#numero_matricula').val(response.tramite.numero_matricula);
                                     $('#numero_fojas').val(response.tramite.numero_fojas);
-
                                     $('#pago_placas_entidad_bancaria').val(response.tramite.pago_placas_entidad_bancaria);
                                     $('#pago_placas_fecha').val(response.tramite.pago_placas_fecha);
                                     $('#pago_placas_newservicio').val(response.tramite.pago_placas_newservicio);
                                     $('#pago_placas_valor').val(response.tramite.pago_placas_valor);
                                     $('#pago_placas_comprobante').val(response.tramite.pago_placas_comprobante);
                                     $('#id_tramite_axis').val(response.tramite.id_tramite_axis);
-
                                     $('#nombre_funcionario').val(response.tramite.nombre_funcionario);
                                     $('#username').val(response.tramite.username);
-
                                     $('#username_funcionario_INFORMACION').val(response.tramite.username_funcionario_INFORMACION);
                                     $('#nombre_funcionario_INFORMACION').val(response.tramite.nombre_funcionario_INFORMACION);
-
                                     $('#fecha_ingreso').text(fechaFormateada);
                                     $('#id_tramite').text(response.tramite.id_tramite);
-
                                     $('#id_date_registraton').text(response.tramite.date_registraton);
 
                                     $('#permisosModal2').modal('show');
@@ -466,12 +452,12 @@ $(document).ready(function () {
                                     alert('Error: no se pudo obtener la información del trámite.');
                                 }
                             },
-                            error: function (error) {
-                                console.error('Error al obtener detalles del trámite:', error);
+                            error: function () {
                                 alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
                             }
                         });
                     });
+
                     $('#tbody-tramites').off('click', '.reasignarTramite').on('click', '.reasignarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
@@ -491,12 +477,12 @@ $(document).ready(function () {
                                     alert('Error: no se pudo obtener la información del trámite.');
                                 }
                             },
-                            error: function (error) {
-                                console.error('Error al obtener detalles del trámite:', error);
+                            error: function () {
                                 alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
                             }
                         });
                     });
+
                     $('#tbody-tramites').off('click', '.imprimirTramite').on('click', '.imprimirTramite', function () {
                         const idTramite = $(this).data('id-tramite');
                         $.ajax({
@@ -510,8 +496,7 @@ $(document).ready(function () {
                                     alert('Error: no se pudo obtener la información del trámite.');
                                 }
                             },
-                            error: function (error) {
-                                console.error('Error al obtener detalles del trámite:', error);
+                            error: function () {
                                 alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
                             }
                         });
@@ -535,21 +520,16 @@ $(document).ready(function () {
                                     alert('Error: no se pudo obtener la información del trámite.');
                                 }
                             },
-                            error: function (error) {
-                                console.error('Error al obtener detalles del trámite:', error);
+                            error: function () {
                                 alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
                             }
                         });
                     });
 
-
                     response.tramites.forEach(tramite => {
                         $(`#editar-${tramite.id_tramite}`).click(function () {
                             const idTramite = $(this).data('id-tramite');
                             const username = $(this).data('username');
-
-                            console.info('Nombre de usuario de la sesión:', usernameSesion);
-                            console.info('Nombre de usuario del trámite:', username);
 
                             if (username === usernameSesion) {
                                 window.location.href = `/matriculacion/gestion-tramite/edicion-tramite?id_tramite=${idTramite}`;
@@ -558,7 +538,6 @@ $(document).ready(function () {
                             }
                         });
                     });
-
                 } else {
                     console.log('TRÁMITES NO ENCONTRADOS');
                 }
@@ -574,10 +553,10 @@ $(document).ready(function () {
             url: '/buscar-vehiculo',
             data: { placa },
             success: function (response) {
+                // Limpiar campos
                 $('#ConsultaVehiculo_tipo_id_usuario').text('');
                 $('#ConsultaVehiculo_id_usuario').text('');
                 $('#ConsultaVehiculo_nombre_usuario').text('');
-
                 $('#placaConsultada').text('');
                 $('#ramw').text('');
                 $('#chasis').text('');
@@ -594,13 +573,11 @@ $(document).ready(function () {
                 $('#tipo_vehiculo').text('');
 
                 if (response.success) {
-
                     $('#sinResultados').addClass('d-none');
                     $('#content').removeClass('d-none');
                     $('#ConsultaVehiculo_tipo_id_usuario').text((response.vehiculo.tipo_id_usuario || '').toUpperCase());
                     $('#ConsultaVehiculo_id_usuario').text(response.vehiculo.id_usuario);
                     $('#ConsultaVehiculo_nombre_usuario').text(response.vehiculo.nombre_usuario);
-
                     $('#placaConsultada').text(response.vehiculo.placa);
                     $('#ramw').text(response.vehiculo.ramw);
                     $('#chasis').text(response.vehiculo.chasis);
@@ -615,12 +592,8 @@ $(document).ready(function () {
                     $('#clase_transporte').text(response.vehiculo.clase_transporte);
                     $('#clase_vehiculo').text(response.vehiculo.clase_vehiculo);
                     $('#tipo_vehiculo').text(response.vehiculo.tipo_vehiculo);
-
-
                     $('#overlay').removeClass('active');
                 } else {
-
-
                     $('#sinResultados').removeClass('d-none');
                     $('#content').addClass('d-none');
                     $('#overlay').removeClass('active');
@@ -628,14 +601,23 @@ $(document).ready(function () {
                 }
             },
             error: function (error) {
-                console.error('Error al buscar vehículo en la antigua js:', error);
+                console.error('Error al buscar vehículo:', error);
                 alert('Error al buscar vehículo. Por favor, inténtelo de nuevo.');
             }
         });
+    }
+
+    
+    $('#consultarVehiculo').click(buscarPorPlaca);
+
+    $(document).on('keyup', 'input[name="placa"]', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            buscarPorPlaca();
+        }
     });
+
 });
-
-
 
 $(document).ready(function () {
     $('#consultarTramite').click(function () {

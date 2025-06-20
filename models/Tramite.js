@@ -424,6 +424,19 @@ const Tramite = sequelize.define('registro-tramites', {
     allowNull: true
   },
 
+  //////////////////////////////////////////////////
+  ///// ==  DEUDAS SRI                     ==   ////
+  //////////////////////////////////////////////////
+
+  informacion_SRI: {
+    type: DataTypes.STRING(50),
+    allowNull: true
+  },
+  total_SRI: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+
 }, {
 
   tableName: 'registro-tramites',

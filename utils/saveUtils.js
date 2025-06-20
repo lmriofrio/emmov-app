@@ -334,7 +334,9 @@ async function createTramite({
     nombre_centro_matriculacion,
     canton_centro_matriculacion,
     fecha_final_PRESENTACION,
-    motivo_especie_anulada
+    motivo_especie_anulada,
+    result_informacion,
+    result_total
 }) {
 
     const tipo_id_usuarioUpper = (tipo_id_usuario || 'CÉDULA').toUpperCase();
@@ -343,6 +345,9 @@ async function createTramite({
     const placaMayus = (placa || '').toUpperCase();
     const RamwMayus = (ramw || '').toUpperCase();
     const motivo_especie_anuladaUpper = (motivo_especie_anulada || '').toUpperCase();
+
+    const result_informacion_SRI = (result_informacion || '');
+    const result_total_SRI = (result_total || '');
 
     console.log('------  Creando el nuevo trámite desde saveUtils  -------');
 
@@ -420,6 +425,8 @@ async function createTramite({
         canton_centro_matriculacion,
         fecha_final_PRESENTACION,
         motivo_especie_anulada: motivo_especie_anuladaUpper,
+        informacion_SRI: result_informacion_SRI,
+        total_SRI: result_total_SRI,
     });
 
     const id_tramite = nuevoTramite.id_tramite;

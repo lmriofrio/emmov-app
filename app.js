@@ -1326,13 +1326,12 @@ app.get('/home', async (req, res) => {
         }
       });
 
-
       const tramitesRTV = await Tramite.count({
         where: {
           id_centro_matriculacion: id_centro_matriculacion,
-          estado_tramite: {
-            [SequelizeOp.ne]: 'Eliminado'
-          },
+          [SequelizeOp.and]: [
+            { estado_tramite: { [SequelizeOp.ne]: 'Eliminado' } }
+          ],
           fecha_turno_RTV: {
             [SequelizeOp.between]: [startOfDay, endOfDay]
           }
@@ -2022,37 +2021,6 @@ app.get('/revision-tecnica/vista-turnos-rtv', async (req, res) => {
   }
 });
 
-app.get('/revision-tecnica/vista-turnos-rtv2', async (req, res) => {
-  try {
-    if (req.session.user, req.session.permisos) {
-
-      const { currentDaySimple } = getCurrentDaySimple();
-
-      const usernameSesion = req.session.user.username;
-      const idEmpresa = req.session.user.id_empresa;
-      const estadoFuncionario = 'ACTIVO';
-
-      //const recepcionTramites = 'HABILITADO';
-
-      const jefaturaDepartamento = 'UNIDAD DE MATRICULACIÓN';
-
-      const funcionariosActivos = await Funcionario.findAll({
-        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario, jefatura_departamento: jefaturaDepartamento },
-        attributes: ['id_funcionario', 'nombre_funcionario']
-      });
-
-
-      res.render('revision-tecnica/vista-turnos-rtv2', {
-        usernameSesion, userData: req.session.user, funcionariosActivos, currentDaySimple, permisos: req.session.permisos
-      });
-    } else {
-      res.redirect('/login');
-    }
-  } catch (error) {
-    console.error('Error al obtener los registros:', error);
-    res.status(500).send('Error al obtener los registros');
-  }
-});
 
 app.get('/revision-tecnica/reporte-diario', async (req, res) => {
   try {

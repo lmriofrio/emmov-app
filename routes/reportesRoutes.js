@@ -513,7 +513,7 @@ router.get('/exportar-datos-tramites-generales', async (req, res) => {
 
 
         const tramites = await Tramite.findAll({
-            attributes: ['id_tramite', 'tipo_tramite', 'id_usuario', 'nombre_usuario', 'placa', 'clase_vehiculo_tipo', 'clase_transporte', 'id_funcionario', 'nombre_funcionario', 'username', 'fecha_ingreso'],
+            attributes: ['id_tramite', 'tipo_tramite', 'id_usuario', 'nombre_usuario', 'placa', 'clase_vehiculo_tipo', 'clase_transporte', 'id_funcionario', 'nombre_funcionario', 'username', 'fecha_ingreso', 'estado_tramite'],
             where: whereClause
         });
 
