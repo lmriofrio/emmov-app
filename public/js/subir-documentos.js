@@ -4,9 +4,9 @@ $(document).ready(function () {
   const $btnSubir = $('#btnSubirDococumentoInformacion');
   const $successContainer = $('#upload-success-container');
 
-  // NOTA: No hace falta $dropZone.on('click') porque el label ya activa el fileInput automáticamente.
+  
 
-  // Detectar Cambio (Selección de archivo)
+  
   $fileInput.on('change', function () {
     const file = this.files[0];
     if (file) {
@@ -16,7 +16,7 @@ $(document).ready(function () {
         return;
       }
 
-      // Cambiar UI a modo "Listo para subir"
+     
       $successContainer.hide();
       $('#status-container').show();
 
@@ -55,19 +55,16 @@ $(document).ready(function () {
           mostrarAlerta(res.message, 'success');
           $('#id_documento_informacion').val(res.id_documento);
 
-          // FEEDBACK DE ÉXITO
+          
           $('#status-container').hide();
           $('#uploaded-file-name').text(file.name);
           $successContainer.fadeIn();
 
-          // RESET DEL CUADRO PARA PERMITIR REEMPLAZO
+         
           $dropZone.css('background-color', '#f0fff4');
           $dropZone.find('h6').text('¡Archivo guardado!');
           $dropZone.find('small').text('Haz clic aquí si quieres reemplazarlo por otro');
 
-          // --- TRUCO CLAVE ---
-          // Limpiamos el valor del input. Esto permite que el label 
-          // vuelva a funcionar libremente para la próxima selección.
           $fileInput.val('');
         } else {
           mostrarAlerta(res.message, 'warning');

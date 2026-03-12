@@ -345,7 +345,8 @@ router.get('/visualizar-titulos-credito-filtro', async (req, res) => {
                 'subtotal_concepto',
                 'fecha_titulo_credito',
                 'estado_titulo_credito',
-                'nombre_usuario'
+                'nombre_usuario', 
+                'id_usuario'
             ],
 
             where: {
@@ -356,7 +357,7 @@ router.get('/visualizar-titulos-credito-filtro', async (req, res) => {
 
         });
 
-        console.log(titulosCredito),
+       
 
         res.json({
             success: true,

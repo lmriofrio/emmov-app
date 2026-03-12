@@ -36,6 +36,8 @@ $(document).ready(function () {
                                 <td class="text-end">$${Number(titulo.valor_unitario_concepto).toFixed(2)}</td>
                                 <td class="text-end">$${subtotal.toFixed(2)}</td>
                                 <td class="text-center">${titulo.estado_titulo_credito}</td>
+                                <td class="text-center">${titulo.id_usuario}</td>
+                                <td class="text-center">${titulo.nombre_usuario}</td>
                             </tr>
                         `;
 
@@ -44,7 +46,7 @@ $(document).ready(function () {
 
                     });
 
-                    // mostrar total si tienes un elemento para eso
+                    
                     $('#totalTitulos').text(`$${total.toFixed(2)}`);
 
                 } else {
