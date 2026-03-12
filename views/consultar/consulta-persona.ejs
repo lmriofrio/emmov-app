@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -30,7 +30,7 @@
 
 <body>
 
-    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Inicio de barra de navegación -->
         <%- include('../body/navbar') %>
@@ -49,20 +49,17 @@
                                 <div class="mt-2 row">
                                     <div class="col-3 col-md-3 flex-wrap align-items-center mb-2">
                                         <div class="col-12 col-md-12 d-flex">
-                                            <h6 class="fw-normal mb-0 text-start">Tipo de identificación:
-                                            </h6>
+                                            <label class="fw-normal mb-0 text-start form-label">Tipo de identificación:</label>
                                         </div>
                                     </div>
                                     <div class="col-3 col-md-3 flex-wrap align-items-center mb-2 d-none" id="labelID">
                                         <div class="col-12 col-md-12 d-flex">
-                                            <h6 class="fw-normal mb-0 text-start">Ingrese el número de identificación
-                                            </h6>
+                                            <label class="fw-normal mb-0 text-start form-label">Ingrese el número de identificación:</label>
                                         </div>
                                     </div>
                                     <div class="col-3 col-md-3 flex-wrap align-items-center mb-2 d-none" id="labelNombre">
                                         <div class="col-12 col-md-12 d-flex">
-                                            <h6 class="fw-normal mb-0 text-start">Ingrese el nombre de la persona
-                                            </h6>
+                                            <label class="fw-normal mb-0 text-start form-label">Ingrese el nombre de la persona:</label>
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +72,7 @@
 
                                         <div class="col-12 col-md-12">
                                             <div class="input-group">
-                                                <select class="form-select" name="tipoIdBusqueda" id="tipoIdBusqueda">
+                                                <select class="form-select bg-white" name="tipoIdBusqueda" id="tipoIdBusqueda">
                                                     <option value="IDENTIFICACIÓN" selected>CÉDULA / RUC / PAS</option>
                                                     <option value="NOMBRE">NOMBRE</option>
                                                 </select>

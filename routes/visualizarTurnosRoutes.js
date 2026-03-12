@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Tramite = require('../models/Tramite');
+const TramitesAtencion = require('../models/TramitesAtencion');
+const ConceptoPago = require('../models/ConceptoPago');
+const TituloCredito = require('../models/TituloCredito');
 const { Op } = require('sequelize');
 const { getRangeCurrentDay } = require('../utils/dateUtils');
 
@@ -116,10 +119,61 @@ router.get('/visualizar-turnos-agenda', async (req, res) => {
     }
 });
 
+router.get('/visualizar-turnos-home', async (req, res) => {
+    try {
+        const { username, id_empresa } = req.session.user;
+        const { startOfDay, endOfDay } = getRangeCurrentDay();
+
+        const columnas = [
+            'id_tramite',
+            'placa',
+            'tipo_tramite',
+            'fecha_ingreso_INFORMACION',
+            'fecha_finalizacion',
+            'numero_turno_matriculacion_INFORMACION',
+            'estado_tramite',
+            'username_funcionario_INFORMACION',
+            'username_funcionario_asignado_INFORMACION'];
+
+        const [tramitesHoy, tramitesPendientes, tramitesPendientesEmpresa] = await Promise.all([
+            Tramite.findAll({
+                attributes: columnas,
+                where: {
+                    estado_tramite: { [Op.or]: ['En proceso', 'Finalizado'] },
+                    fecha_ingreso_INFORMACION: {
+                        [Op.between]: [startOfDay, endOfDay]
+                    }
+                },
+                order: [['fecha_ingreso_INFORMACION', 'ASC']]
+            }),
+            Tramite.findAll({
+                attributes: columnas,
+                where: {
+                    estado_tramite: 'En proceso'
+                },
+                order: [['fecha_ingreso_INFORMACION', 'ASC']]
+            }),
+            Tramite.findAll({
+                attributes: columnas,
+                where: {
+                    id_empresa,
+                    estado_tramite: 'En proceso'
+                },
+                order: [['fecha_ingreso_INFORMACION', 'ASC']]
+            })
+        ]);
+
+        res.json({ success: true, tramitesHoy, tramitesPendientes, tramitesPendientesEmpresa });
+
+    } catch (error) {
+        console.error('Error al buscar trámites:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
 
 router.get('/visualizar-turnos-rtv', async (req, res) => {
     try {
-        
+
 
         const { startOfDay, endOfDay } = getRangeCurrentDay();
 
@@ -174,7 +228,6 @@ router.get('/visualizar-turnos-rtv', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
-
 
 
 router.get('/visualizar-turnos-rtv-filtro', async (req, res) => {
@@ -232,6 +285,94 @@ router.get('/visualizar-turnos-rtv-filtro', async (req, res) => {
 });
 
 
+router.get('/visualizar-turnos-matriculacion-en-atencion', async (req, res) => {
+    try {
 
+
+        const tramitesEnAtencion = await TramitesAtencion.findAll({
+            attributes: [
+                'id_funcionario',
+                'nombre_funcionario_corto',
+                'placa_en_atención',
+                'id_tramite_en_atención',
+                'estado_en_atención',
+            ],
+            where: {
+                estado_funcionario: 'ACTIVO',
+            },
+            order: [['nombre_funcionario_corto', 'ASC']]
+        });
+        res.json({
+            success: true,
+            data: tramitesEnAtencion
+        });
+
+    } catch (error) {
+        console.error('Error al visualizar trámites en atención:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error interno del servidor'
+        });
+    }
+});
+
+
+
+router.get('/visualizar-titulos-credito-filtro', async (req, res) => {
+    try {
+
+        if (!req.session.user) {
+            return res.status(401).json({ success: false, message: 'No autorizado' });
+        }
+
+        const { placa } = req.query;
+
+        if (!placa) {
+            return res.status(400).json({ success: false, message: 'Debe proporcionar una placa' });
+        }
+
+        const placaBusqueda = placa.toUpperCase();
+
+        const titulosCredito = await TituloCredito.findAll({
+
+            attributes: [
+                'id_titulos_credito',
+                'id_tramite',
+                'placa',
+                'nombre_concepto',
+                'cantidad_concepto',
+                'valor_unitario_concepto',
+                'subtotal_concepto',
+                'fecha_titulo_credito',
+                'estado_titulo_credito',
+                'nombre_usuario'
+            ],
+
+            where: {
+                placa: placaBusqueda
+            },
+
+            order: [['fecha_titulo_credito', 'DESC']]
+
+        });
+
+        console.log(titulosCredito),
+
+        res.json({
+            success: true,
+            titulosCredito
+        });
+
+    } catch (error) {
+
+        console.error('Error al buscar títulos de crédito:', error);
+
+        res.status(500).json({
+            success: false,
+            message: 'Error interno del servidor'
+        });
+
+    }
+});
 
 module.exports = router;

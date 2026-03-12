@@ -5,10 +5,11 @@ const Vehiculo = require('../models/Vehiculo');
 const Funcionario = require('../models/Funcionario');
 const Usuario = require('../models/Usuario');
 const CentroMatriculacion = require('../models/CentroMatriculacion');
+const TituloCredito = require('../models/TituloCredito');
 const { sequelize } = require('sequelize');
 const { Op } = require('sequelize');
 const { getCurrentDay, getRangeCurrentDay } = require('../utils/dateUtils');
-const { updateVehiculo, createVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, solicitarTurnos } = require('../utils/saveUtils');
+const { updateTramite_id_documento, cerrarTituloCredito, createTitulosCreditos, updateVehiculo, createVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, solicitarTurnos } = require('../utils/saveUtils');
 
 router.post('/guardar-tramite-directo', async (req, res) => {
   try {
@@ -65,8 +66,6 @@ router.post('/guardar-tramite-directo', async (req, res) => {
     }
 
 
-
-
     // Verificar si el usuario ya existe
     console.log('  2 Verificando si el usuario ya existe... ');
     let usuario = await Usuario.findOne({ where: { id_usuario } });
@@ -84,6 +83,11 @@ router.post('/guardar-tramite-directo', async (req, res) => {
         email_usuario, fecha_ultimo_proceso, id_funcionario, username, id_centro_matriculacion
       });
     }
+
+
+    await cerrarTituloCredito(id_tramite);
+
+
 
     if (["CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR", "CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO", "CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA", "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A COMERCIAL", "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PARTICULAR", "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO", "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A USO DE CUENTA PROPIA", "CAMBIO DE SERVICIO DE PARTICULAR A COMERCIAL", "CAMBIO DE SERVICIO DE PARTICULAR A ESTATAL U OFICIAL", "CAMBIO DE SERVICIO DE PARTICULAR A PUBLICO", "CAMBIO DE SERVICIO DE PARTICULAR A USO DE CUENTA PROPIA", "CAMBIO DE SERVICIO DE PARTICULAR A USO DIPLOMATICO U ORGANISMOS INTERNACIONALES", "CAMBIO DE SERVICIO DE PUBLICO A COMERCIAL", "CAMBIO DE SERVICIO DE PUBLICO A PARTICULAR", "CAMBIO DE SERVICIO DE PUBLICO A USO DE CUENTA PROPIA", "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A COMERCIAL", "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR", "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PUBLICO", "DUPLICADO DE PLACAS", "EMISION DE MATRICULA POR PRIMERA VEZ"].includes(tipo_tramite)) {
       res.redirect(`/matriculacion/gestion-tramite/registrar-pago-placas?id_tramite=${id_tramite}`);
@@ -106,7 +110,8 @@ router.post('/guardar-tramite-turno', async (req, res) => {
   try {
 
     const { id_funcionario, username, nombre_funcionario, id_empresa, nombre_empresa, nombre_corto_empresa, estado_empresa, provincia_empresa, canton_empresa, id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion } = req.session.user;
-    const { id_tramite, tipo_tramite, id_usuario, nombre_usuario, celular_usuario, email_usuario, canton_usuario, clase_vehiculo_tipo, clase_vehiculo, clase_transporte, fecha_ingreso, numero_fojas, numero_adhesivo, numero_matricula } = req.body;
+    const { id_tramite, tipo_tramite, id_usuario, nombre_usuario, celular_usuario, email_usuario, canton_usuario, clase_vehiculo_tipo, clase_vehiculo, clase_transporte,
+      fecha_ingreso, numero_fojas, numero_adhesivo, numero_matricula } = req.body;
     let { placa } = req.body;
     const solicitud_del_servicio_INFORMACION = ('SI');
     const entrega_informe_certificado_FINALIZACION = ('SI');
@@ -258,6 +263,8 @@ router.post('/guardar-tramite-turno', async (req, res) => {
         });
       }
 
+      await cerrarTituloCredito(id_tramite);
+
       if (["CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR", "CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO", "CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA", "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A COMERCIAL", "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PARTICULAR", "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO", "CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A USO DE CUENTA PROPIA", "CAMBIO DE SERVICIO DE PARTICULAR A COMERCIAL", "CAMBIO DE SERVICIO DE PARTICULAR A ESTATAL U OFICIAL", "CAMBIO DE SERVICIO DE PARTICULAR A PUBLICO", "CAMBIO DE SERVICIO DE PARTICULAR A USO DE CUENTA PROPIA", "CAMBIO DE SERVICIO DE PARTICULAR A USO DIPLOMATICO U ORGANISMOS INTERNACIONALES", "CAMBIO DE SERVICIO DE PUBLICO A COMERCIAL", "CAMBIO DE SERVICIO DE PUBLICO A PARTICULAR", "CAMBIO DE SERVICIO DE PUBLICO A USO DE CUENTA PROPIA", "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A COMERCIAL", "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR", "CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PUBLICO", "DUPLICADO DE PLACAS", "EMISION DE MATRICULA POR PRIMERA VEZ"].includes(tipo_tramite)) {
         res.redirect(`/matriculacion/gestion-tramite/registrar-pago-placas?id_tramite=${id_tramite}`);
       } else {
@@ -282,7 +289,7 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
     const { id_funcionario, username, nombre_funcionario, id_empresa, nombre_empresa, nombre_corto_empresa, estado_empresa, provincia_empresa, canton_empresa, id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion, id_centro_matriculacion_ASIGNACION_RTV } = req.session.user;
     const { tipo_peso, tipo_tramite, id_usuario, tipo_id_usuario, nombre_usuario, celular_usuario, email_usuario, provincia_usuario, canton_usuario, parroquia_usuario, direccion_usuario, clase_vehiculo_tipo, clase_vehiculo, tipo_vehiculo, clase_transporte, observaciones_INFORMACION,
       revision_tecnica_vehicular_TURNO, verificacion_improntas_TURNO, cambio_servicio_TURNO, cambio_color_TURNO, cambio_motor_TURNO, tipo_asignacion, oficina_ASIGNACION, usuario_ASIGNACION,
-    result_informacion, result_total } = req.body;
+      result_informacion, result_total, id_documento_informacion } = req.body;
     let { placa, ramw } = req.body;
 
     const { result_placa, result_camvCpn, result_cilindraje, result_marca, result_modelo, result_anioModelo, result_paisFabricacion, result_clase, result_servicio } = req.body;
@@ -409,22 +416,22 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
       valor_pago_INFORMACION, observaciones_INFORMACION, id_funcionario_INFORMACION, username_funcionario_INFORMACION, nombre_funcionario_INFORMACION, fecha_ingreso_INFORMACION,
       id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion, fecha_final_PRESENTACION, fecha_turno_RTV,
       revision_tecnica_vehicular_TURNO, verificacion_improntas_TURNO, cambio_servicio_TURNO, cambio_color_TURNO, cambio_motor_TURNO, numero_turno_matriculacion_INFORMACION: TurnoMatr,
-      numero_turno_rtv_INFORMACION: TurnoRtv, result_informacion, result_total 
+      numero_turno_rtv_INFORMACION: TurnoRtv, result_informacion, result_total
     });
 
     const idTramite = id_tramite;
 
     try {
       if (asignacion === 'SI') {
+
         console.log('PASO : Ingresando los datos de asignación');
 
-        const [affectedCount, [nuevoTramite]] = await Tramite.update({
+        const [affectedCount] = await Tramite.update({
           id_funcionario_asignado_INFORMACION: funcionarioAsignado.id_funcionario,
           username_funcionario_asignado_INFORMACION: funcionarioDetails.username,
           nombre_funcionario_asignado_INFORMACION: funcionarioAsignado.nombre_funcionario,
         }, {
-          where: { id_tramite: idTramite },
-          returning: true
+          where: { id_tramite: idTramite }
         });
 
         if (affectedCount > 0) {
@@ -432,12 +439,16 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
         } else {
           console.log('No se encontraron registros para actualizar.');
         }
+
       } else {
         console.log('No se ingresan los datos de asignación.');
       }
+
     } catch (error) {
       console.error('Error en la lógica de asignación:', error);
     }
+
+
 
     // Verificar si el vehículo ya existe
     let vehiculo = await Vehiculo.findOne({ where: { placa } });
@@ -482,6 +493,37 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
         email_usuario, fecha_ultimo_proceso, id_funcionario, username, id_centro_matriculacion
       });
     }
+
+    console.log('  2 Titulos de creditos ');
+    const conceptosSeleccionados = Object.keys(req.body)
+      .filter(k => k.endsWith('_cantidad') && req.body[k] > 0)
+      .map(k => {
+        const id = k.replace('concepto_', '').replace('_cantidad', '');
+        return {
+          id_concepto: id,
+          cantidad: +req.body[k],
+          valor: +req.body[`concepto_${id}_valor`]
+        };
+      });
+
+    for (const { id_concepto, cantidad, valor, subtotal } of conceptosSeleccionados) {
+
+      await createTitulosCreditos({
+        id_tramite: idTramite,
+        id_concepto,
+        cantidad,
+        valor,
+        placa,
+        id_usuario,
+        nombre_usuario,
+      });
+
+    }
+
+    await updateTramite_id_documento({
+      id_tramite: idTramite,
+      id_documento_informacion
+    });
 
     res.redirect(`/matriculacion/informacion/turno-agregado?id_tramite=${idTramite}`);
 

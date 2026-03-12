@@ -142,7 +142,8 @@ router.get('/buscar-tramite-filtro-opt', async (req, res) => {
                 'nombre_usuario',
                 'estado_tramite',
                 'username',
-                'username_funcionario_asignado_INFORMACION',],
+                'username_funcionario_asignado_INFORMACION',
+                'id_documento_informacion'],
             where: {
                 placa,
                 estado_tramite: { [Op.or]: ['En proceso', 'Finalizado'] },
@@ -198,9 +199,11 @@ router.post('/buscar-vehiculo', async (req, res) => {
         const vehiculo = await Vehiculo.findOne({ where: { placa } });
 
         if (vehiculo) {
+            console.log('----  ROUTER:   Vehiculo encontrado:', vehiculo.placa);
             //console.log('Placa recibida:', vehiculo);
             res.json({ success: true, vehiculo });
         } else {
+            console.log('Vehiculo no encontrado:');
             res.json({ success: false, message: 'Vehículo no encontrado' });
         }
     } catch (error) {
@@ -220,7 +223,6 @@ router.post('/buscar-vehiculo-sri', async (req, res) => {
 
         const vehiculo = response.data;
         //console.log('Datos recibidos:', vehiculo);
-
 
         if (vehiculo) {
             return res.json({ success: true, data: vehiculo });

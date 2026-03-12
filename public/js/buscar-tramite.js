@@ -114,8 +114,7 @@ $(document).ready(function () {
                         const opcionesMenu = opcionesHabilitadas.join('');
 
                         const newRow = `
-                            <tr  style="border-style: none; border-bottom: 1px solid #dddee4;">
-
+                            <tr>
                                 <td class="text-center">${numeroFila}</td>
                                 <td class="text-center text-overflow-4">${fechaFormateada}</td>
                                 <td class="text-center">${tramite.placa}</td>
@@ -131,7 +130,7 @@ $(document).ready(function () {
 
                                 <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
-                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
+                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                         Acción
                                     </button>
@@ -319,12 +318,22 @@ $(document).ready(function () {
                                     <li>
                                        <a class="dropdown-item atenderTramite text-black px-4" href="#" 
                                            id="editar-${tramite.id_tramite}" 
-                                           data-id-tramite="${tramite.id_tramite}">
+                                           data-id-tramite="${tramite.id_tramite}" data-placa="${tramite.placa}">
                                            Atender
                                        </a>
                                     </li>
+                                    <li>
+                                        <a class="dropdown-item devolverTramite text-black px-4" href="#" data-bs-toggle="modal"
+                                           data-bs-target="#modalDevolverTramite" id="reasignar-${tramite.id_tramite}"
+                                           data-id-tramite="${tramite.id_tramite}" data-username="${tramite.username}">
+                                           Devolver proceso
+                                        </a>
+                                    </li>
                                `);
                             }
+                        } else if (tramite.estado_tramite === 'En devolución') {
+                            estadoClass = 'bg-danger';
+
                         }
 
                         opcionesHabilitadas.push(`
@@ -334,6 +343,15 @@ $(document).ready(function () {
                                    data-id-tramite="${tramite.id_tramite}"
                                    data-username="${tramite.username}">
                                    Visualizar
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item visualizarDocumentoInformacion text-black px-4" href="#" 
+                                   id="visualizar-${tramite.id_tramite}" 
+                                   data-id-tramite="${tramite.id_tramite}"
+                                   data-username="${tramite.username}"
+                                   data-id-documento-informacion="${tramite.id_documento_informacion}">
+                                   Visualizar documento (Información)
                                 </a>
                             </li>
                         `);
@@ -353,7 +371,7 @@ $(document).ready(function () {
                         const opcionesMenu = opcionesHabilitadas.join('');
 
                         const newRow = `
-                            <tr  style="border-style: none; border-bottom: 1px solid #dddee4;">
+                            <tr class="border-bottom-light">
                                 <td class="text-center">${numeroFila}</td>
                                 <td class="text-center text-overflow-3">${tramite.id_tramite}</td>
                                 <td class="text-start text-overflow-4">${fechaFormateada}</td>
@@ -368,7 +386,7 @@ $(document).ready(function () {
                                 <td class="text-center">${tramite.username || tramite.username_funcionario_asignado_INFORMACION}</td>
                                 <td class="text-center align-items-center justify-content-center p-2">
                                     <div class="btn-group">
-                                        <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
+                                        <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                              Acción
                                         </button>
@@ -382,25 +400,51 @@ $(document).ready(function () {
                         numeroFila++;
                     });
 
-                   
+
                     $('#tbody-tramites').off('click', '.atenderTramite').on('click', '.atenderTramite', function () {
                         const idTramite = $(this).data('id-tramite');
+                        const placa = $(this).data('placa');
+
                         $.ajax({
                             type: 'GET',
                             url: `/buscar-tramite-id`,
                             data: { idTramite },
                             success: function (response) {
-                                if (response.success) {
-                                    window.location.href = `/matriculacion/registro-por-turno?id_tramite=${idTramite}`;
-                                } else {
+
+                                if (!response.success) {
                                     alert('Error: no se pudo obtener la información del trámite.');
+                                    return;
                                 }
+
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/registrar-tramite-en-atencion',
+                                    data: {
+                                        id_tramite: idTramite,
+                                        placa: placa
+                                    },
+                                    success: function (res) {
+
+                                        if (!res.success) {
+                                            alert(res.message || 'No se pudo registrar el trámite en atención.');
+                                            return;
+                                        }
+
+                                        window.location.href =
+                                            `/matriculacion/registro-por-turno?id_tramite=${idTramite}`;
+                                    },
+                                    error: function () {
+                                        alert('Error al registrar el trámite en atención.');
+                                    }
+                                });
+
                             },
                             error: function () {
                                 alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
                             }
                         });
                     });
+
 
                     $('#tbody-tramites').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
@@ -526,6 +570,38 @@ $(document).ready(function () {
                         });
                     });
 
+                    $('#tbody-tramites').off('click', '.devolverTramite').on('click', '.devolverTramite', function () {
+                        const idTramite = $(this).data('id-tramite');
+                        $.ajax({
+                            type: 'GET',
+                            url: `/buscar-tramite-id`,
+                            data: { idTramite },
+                            success: function (response) {
+                                if (response.success) {
+                                    $('#devolución_placa').val(response.tramite.placa);
+                                    $('#devoluciór_id_usuario').val(response.tramite.id_usuario);
+                                    $('#devolución_nombre_usuario').val(response.tramite.nombre_usuario);
+                                    $('#devolución_nombre_funcionario').val(response.tramite.nombre_funcionario);
+                                    $('#devolución_tipo_tramite').val(response.tramite.tipo_tramite);
+                                    $('#devolución_id_tramite').val(response.tramite.id_tramite);
+                                } else {
+                                    alert('Error: no se pudo obtener la información del trámite.');
+                                }
+                            },
+                            error: function () {
+                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
+                            }
+                        });
+                    });
+
+                    $('#tbody-tramites').on('click', '.visualizarDocumentoInformacion', function () {
+                        const idDocumento = $(this).data('id-documento-informacion');
+                        $('#iframeDocumento').attr('src', `/documento/${idDocumento}`);
+                        $('#documentoModal').modal('show');
+                    });
+
+
+
                     response.tramites.forEach(tramite => {
                         $(`#editar-${tramite.id_tramite}`).click(function () {
                             const idTramite = $(this).data('id-tramite');
@@ -607,7 +683,7 @@ $(document).ready(function () {
         });
     }
 
-    
+
     $('#consultarVehiculo').click(buscarPorPlaca);
 
     $(document).on('keyup', 'input[name="placa"]', function (e) {
@@ -700,8 +776,7 @@ $(document).ready(function () {
                             const opcionesMenu = opcionesHabilitadas.join('');
 
                             const newRow = `
-                            <tr  style="border-style: none; border-bottom: 1px solid #dddee4;">
-
+                            <tr>
                                 <td class="text-center">${numeroFila}</td>
                                 <td class="text-overflow-4">${fechaFormateada}</td>
                                 <td class="text-center">${tramite.placa}</td>
@@ -715,7 +790,7 @@ $(document).ready(function () {
                                 <td class="text-center">${tramite.username || tramite.username_funcionario_asignado_INFORMACION}</td>
                                 <td class="text-center align-items-center justify-content-center p-2">
                                     <div class="btn-group">
-                                        <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
+                                        <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                              Acción
                                         </button>
@@ -890,8 +965,7 @@ $(document).ready(function () {
                         const opcionesMenu = opcionesHabilitadas.join('');
 
                         const newRow = `
-                            <tr  style="border-style: none; border-bottom: 1px solid #dddee4;">
-
+                            <tr>
                                 <td class="text-center">${numeroFila}</td>
                                 <td class="text-center text-overflow-4">${fechaFormateada}</td>
                                 <td class="text-center">${tramite.placa}</td>
@@ -907,7 +981,7 @@ $(document).ready(function () {
 
                                 <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
-                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
+                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                         Acción
                                     </button>

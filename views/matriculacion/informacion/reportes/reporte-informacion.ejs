@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -25,7 +25,7 @@
 
 <body>
 
-    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Inicio de barra de navegación -->
         <%- include('../../../body/navbar') %>
@@ -195,7 +195,7 @@
                                                 <div class="table-responsive fs-3">
                                                     <table class="table table-bordered">
                                                         <thead class="thead-primary">
-                                                            <tr>
+                                                            <tr class="text-black">
                                                                 <th
                                                                     class="text-center align-middle col-md-10 font-weight-bolder px-2 py-2">
                                                                     <b>DETALLE DE LOS TRÁMITES DE MATRICULACIÓN</b>
@@ -218,7 +218,7 @@
                                                     <table class="table table-bordered">
                                                         <thead class="thead-primary" id="thead-tramites">
 
-                                                            <tr>
+                                                            <tr class="text-black">
                                                                 <th class="text-center align-middle px-2 py-2">N°</th>
                                                                 <th class="text-center align-middle px-2 py-2">PLACA
                                                                 </th>
@@ -283,7 +283,12 @@
 
 
             </div>
-
+    </div>
+    <div id="overlay" class="overlay d-flex justify-content-center align-items-center">
+        <div class="loader text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
 
 
 

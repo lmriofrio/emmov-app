@@ -3,10 +3,14 @@ const router = express.Router();
 const Tramite = require('../models/Tramite');
 const Funcionario = require('../models/Funcionario');
 const CentroMatriculacion = require('../models/CentroMatriculacion');
+const TramitesAtencion = require('../models/TramitesAtencion');
 const { getCurrentDay, getRangeCurrentDay } = require('../utils/dateUtils');
 const { solicitarTurnos } = require('../utils/saveUtils');
 const { sequelize } = require('sequelize');
 const { Op } = require('sequelize');
+
+const { sendEvent } = require('./sseRoutes');
+
 
 router.post('/estado-eliminar-tramite', async (req, res) => {
   try {
@@ -38,7 +42,6 @@ router.post('/estado-eliminar-tramite', async (req, res) => {
   }
 });
 
-
 router.post('/eliminar-tramite', async (req, res) => {
 
   try {
@@ -65,7 +68,6 @@ router.post('/eliminar-tramite', async (req, res) => {
     res.status(500).send('Error al eliminar el trámite');
   }
 });
-
 
 router.post('/act-tramite', async (req, res) => {
   try {
@@ -140,7 +142,6 @@ router.post('/act-tramite', async (req, res) => {
   }
 });
 
-
 router.post('/registar-pago-placas', async (req, res) => {
   try {
     const { id_tramite, id_tramite_axis, pago_placas_entidad_bancaria, pago_placas_comprobante, pago_placas_fecha, pago_placas_newservicio } = req.body;
@@ -173,7 +174,6 @@ router.post('/registar-pago-placas', async (req, res) => {
     res.status(500).send('Error al actualizar el trámite');
   }
 });
-
 
 router.post('/reasignar-tramite', async (req, res) => {
   try {
@@ -211,7 +211,6 @@ router.post('/reasignar-tramite', async (req, res) => {
     }
   }
 });
-
 
 router.post('/reasignar-turno', async (req, res) => {
   try {
@@ -366,7 +365,6 @@ router.post('/reasignar-turno', async (req, res) => {
   }
 });
 
-
 router.post('/aprobar-revision-tecnica', async (req, res) => {
   try {
     const { id_funcionario, nombre_funcionario, username } = req.session.user;
@@ -396,6 +394,57 @@ router.post('/aprobar-revision-tecnica', async (req, res) => {
       console.error('Error al guardar el trámite en la ruta:', error);
       res.status(500).json({ success: false, message: 'Error al guardar el trámite' });
     }
+  }
+});
+
+router.post('/registrar-tramite-en-atencion', async (req, res) => {
+  try {
+
+    console.log('----  ROUTER:   Registrar trámite en acción');
+
+    const { id_tramite, placa } = req.body;
+    const digitador = req.session.user;
+
+    const registro = await TramitesAtencion.findOne({
+      where: {
+        id_funcionario: digitador.id_funcionario
+      }
+    });
+
+    const data = {
+      id_empresa: digitador.id_empresa,
+      nombre_corto_empresa: digitador.nombre_corto_empresa,
+
+      id_centro_matriculacion: digitador.id_centro_matriculacion,
+      nombre_centro_matriculacion: digitador.nombre_centro_matriculacion,
+
+      id_funcionario: digitador.id_funcionario,
+      nombre_funcionario_corto: digitador.nombre_funcionario_corto,
+
+      placa_en_atención: placa,
+      id_tramite_en_atención: id_tramite,
+      estado_en_atención: 'EN ATENCIÓN'
+    };
+
+    if (registro) {
+      await registro.update(data);
+    } else {
+      await TramitesAtencion.create(data);
+    }
+
+    sendEvent({
+      tipo: 'tramite_en_atencion',
+      id_funcionario: digitador.id_funcionario,
+      nombre_funcionario: digitador.nombre_funcionario_corto,
+      placa: placa,
+      id_centro_matriculacion: digitador.id_centro_matriculacion
+    });
+
+    res.json({ success: true });
+
+  } catch (error) {
+    console.error('ERROR registrar-tramite-en-atencion:', error);
+    res.json({ success: false, message: 'Error al registrar atención' });
   }
 });
 

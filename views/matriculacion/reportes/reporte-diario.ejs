@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -129,7 +129,8 @@
                                                         target="_blank" style="display: flex;">
                                                         <input type="hidden" class="form-control"
                                                             name="fecha_finalizacion_pdf" id="fecha_finalizacion_pdf">
-                                                        <button type="submit" class="btn btn-secondary me-3 justify-content-center" id="">
+                                                        <button type="submit"
+                                                            class="btn btn-secondary me-3 justify-content-center" id="">
                                                             <i class="ti ti-file-type-pdf fs-4 me-2"></i>
                                                             <span>Generar PDF</span>
                                                         </button>
@@ -167,36 +168,47 @@
                                                 <table class="table table-bordered">
                                                     <thead class="thead-primary">
                                                         <tr>
-                                                            <th class="text-center align-middle col-md-1 px-1 py-1">Nº
+                                                            <th
+                                                                class="text-center align-middle col-md-1 px-1 py-1 text-black">
+                                                                Nº
                                                             </th>
-                                                            <th class="text-center align-middle col-md-1 px-1 py-1">
+                                                            <th
+                                                                class="text-center align-middle col-md-1 px-1 py-1 text-black">
                                                                 SECCIÓN
                                                                 DOCUMENTAL
                                                             </th>
-                                                            <th class="text-center align-middle col-md-1 px-1 py-1">
+                                                            <th
+                                                                class="text-center align-middle col-md-1 px-1 py-1 text-black">
                                                                 SUBSECCIÓN
                                                                 DOCUMENTAL
                                                             </th>
-                                                            <th class="text-center align-middle col-md-1 px-1 py-1">
+                                                            <th
+                                                                class="text-center align-middle col-md-1 px-1 py-1 text-black">
                                                                 SERIE
                                                                 DOCUMENTAL</th>
-                                                            <th class="text-center align-middle col-md-3 px-1 py-1">
+                                                            <th
+                                                                class="text-center align-middle col-md-3 px-1 py-1 text-black">
                                                                 SUBSERIE
                                                                 DOCUMENTAL
                                                             </th>
-                                                            <th class="text-center align-middle col-md-1 px-1 py-1">N°
+                                                            <th
+                                                                class="text-center align-middle col-md-1 px-1 py-1 text-black">
+                                                                N°
                                                                 FOJAS
                                                             </th>
-                                                            <th class="text-center align-middle col-md-1 px-1 py-1">
+                                                            <th
+                                                                class="text-center align-middle col-md-1 px-1 py-1 text-black">
                                                                 DESCRIPCIÓN
                                                                 DE LA
                                                                 SERIE
                                                                 DOCUMENTAL</th>
-                                                            <th class="text-center align-middle col-md-2 px-1 py-1">
+                                                            <th
+                                                                class="text-center align-middle col-md-2 px-1 py-1 text-black">
                                                                 ORIGEN DE LA
                                                                 DOCUMENTACIÓN
                                                             </th>
-                                                            <th class="text-center align-middle col-md-1 px-1 py-1">
+                                                            <th
+                                                                class="text-center align-middle col-md-1 px-1 py-1 text-black">
                                                                 CONDICIONES
                                                                 DE ACCESO
                                                             </th>
@@ -238,6 +250,12 @@
                             <span class="visually-hidden">Loading..</span>
                         </div>
                     </div>
+            </div>
+
+            <div id="overlay" class="overlay d-flex justify-content-center align-items-center">
+                <div class="loader text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
 
 

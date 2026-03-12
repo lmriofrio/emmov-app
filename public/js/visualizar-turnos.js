@@ -115,7 +115,7 @@ $(document).ready(function () {
                     const opcionesMenu = opcionesHabilitadas.join('');
                     
                     const newRow = `
-                        <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
+                        <tr style="">
                             <td class="text-center">${numeroFila}</td>
                             <td class="text-center">${tramite.id_tramite}</td>
                             <td class="text-center">${tramite.placa}</td>
@@ -131,7 +131,7 @@ $(document).ready(function () {
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
                             <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
-                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
+                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                         Acción
                                     </button>
@@ -392,7 +392,7 @@ $(document).ready(function () {
                     const opcionesMenu = opcionesHabilitadas.join('');   
 
                     const newRow2 = `
-                            <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
+                            <tr style=" ">
                             <td class="text-center">${numeroFilaG}</td>
                             <td class="text-center">${tramite.id_tramite}</td>
                             <td class="text-center">${tramite.placa}</td>
@@ -408,7 +408,7 @@ $(document).ready(function () {
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
                             <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
-                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
+                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                         Acción
                                     </button>

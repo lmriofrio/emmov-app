@@ -95,7 +95,7 @@ $(document).ready(function () {
             const opcionesMenu = opcionesHabilitadas.join('');
 
             const newRow = `
-                    <tr  style="border-style: none; border-bottom: 1px solid #dddee4;">
+                    <tr>
                         <td class="text-center text-overflow-1">${numeroFila}</td>
                         <td class="text-center ${estadoFont} ${estadoText} text-overflow-2">${placaInventario.placa}</td>
                         <td class="text-center text-overflow-2 text-nowrap" >${placaInventario.clase_transporte}</td>
@@ -256,7 +256,7 @@ $(document).ready(function () {
             }
 
             const newRow = `
-                    <tr  style="border-style: none; border-bottom: 1px solid #dddee4;">
+                    <tr>
 
                         <td class="text-center text-overflow-3">${numeroFila}</td>
                         <td class="text-center ${estadoClass} ${estadoFont} text-overflow-3">${placaInventario.placa}</td>
@@ -352,7 +352,7 @@ $(document).ready(function () {
 
             const opcionesMenu = opcionesHabilitadas.join('');
             const newRow = `
-              <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
+              <tr>
                 <td class="text-center px-1 py-1 text-overflow-1">${numeroFila}</td>
                 <td class="text-center px-1 py-1 ${estadoClass} ${estadoFont} text-overflow-2">${placaInventario.placa}</td>
                 <td class="text-center px-1 py-1 text-overflow-2">${placaInventario.clase_transporte}</td>
@@ -481,7 +481,7 @@ $(document).ready(function () {
             const opcionesMenu = opcionesHabilitadas.join('');
 
             const newRow = `
-                    <tr  style="border-style: none; border-bottom: 1px solid #dddee4;">
+                    <tr>
                         <td class="text-center text-overflow-1">${numeroFila}</td>
                          <td class="text-center px-1 py-1 ${estadoClass} ${estadoFont} text-overflow-2">${placaInventario.placa}</td>
                         <td class="text-center text-overflow-2 text-nowrap" >${placaInventario.clase_transporte}</td>

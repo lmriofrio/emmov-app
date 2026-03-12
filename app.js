@@ -23,6 +23,13 @@ const Modulos = require('./models/Modulos');
 const PermisosUsuarios = require('./models/PermisosUsuarios');
 const InventarioPlacas = require('./models/InventarioPlacas');
 const SeleccionarTipoTramites = require('./models/SeleccionarTipoTramites');
+const ConceptoPago = require('./models/ConceptoPago');
+const TituloCredito = require('./models/TituloCredito');
+const Documento = require('./models/Documento');
+
+
+const sse = require('./routes/sseRoutes');
+const sseRoutes = require('./routes/sseRoutes');
 
 const util = require('util');
 
@@ -39,6 +46,7 @@ const gestionTramiteRoutes = require('./routes/gestionTramiteRoutes');
 const gestionTalentoHumano = require('./routes/gestionTalentoHumano');
 const buscarRoutes = require('./routes/buscarRoutes');
 const gestionInventarioRoutes = require('./routes/gestionInventarioRoutes');
+const gestionDocumentosRoutes = require('./routes/gestionDocumentosRoutes');
 
 // Declarar los archivos de la carpeta utlils
 const dateUtils = require('./utils/dateUtils');
@@ -65,6 +73,10 @@ app.set('port', config.app.port);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use('/js', express.static(__dirname + '/js'));
+
+app.use('/', sse.router);
+app.set('sendSSE', sse.sendEvent);
+app.use(sseRoutes.router);
 
 // Middleware para procesar datos en formularios
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -95,6 +107,7 @@ app.use('/node_modules', express.static(path.join(__dirname, 'node_modules'), { 
 app.use('/routes', express.static(path.join(__dirname, 'routes'), { index: false, extensions: ['js'] }))
 app.use('/public', express.static(path.join(__dirname, 'public'), { index: false, extensions: ['js'] }))
 app.use('/utils', express.static(path.join(__dirname, 'utils'), { index: false, extensions: ['js'] }))
+app.use('/archivos', express.static(path.join(__dirname, 'uploads')));
 
 // Favicon.ico
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
@@ -113,6 +126,7 @@ app.use('/', gestionTramiteRoutes);
 app.use('/', buscarRoutes);
 app.use('/', gestionInventarioRoutes);
 app.use('/', gestionTalentoHumano);
+app.use('/', gestionDocumentosRoutes);
 
 
 // Traer los datos del json cantones
@@ -161,6 +175,7 @@ app.post('/login', async (req, res) => {
       const userData = {
         id_funcionario: user.id_funcionario,
         username: user.username,
+        estado_funcionario: user.estado_funcionario,
         nombre_funcionario: user.nombre_funcionario,
         nombre_funcionario_corto: user.nombre_funcionario_corto,
         rol_funcionario: user.rol_funcionario,
@@ -659,7 +674,7 @@ app.get('/matriculacion/registro-especie-anulada', async (req, res) => {
           }
         },
         order: [['id_tramite', 'DESC']],
-        limit: 5
+        limit: 10
       });
 
       registrosTabla4.forEach(tramite => {
@@ -950,8 +965,17 @@ app.get('/matriculacion/informacion/agregar-turno', async (req, res) => {
         attributes: ['id_funcionario', 'nombre_funcionario']
       });
 
+      const conceptosPago = await ConceptoPago.findAll({
+        attributes: ['id_concepto', 'nombre_concepto', 'valor_concepto'],
+        where: {
+          tipo_servicio_concepto: 'MATRICULACION',
+          estado_concepto: 'ACTIVO'
+        },
+        order: [['categoria_concepto', 'ASC']]
+      });
+
       res.render('matriculacion/informacion/agregar-turno', {
-        cantones, tiposTramites, centrosMatriculacion, funcionariosActivos, userData: req.session.user, permisos: req.session.permisos
+        cantones, tiposTramites, centrosMatriculacion, funcionariosActivos, userData: req.session.user, permisos: req.session.permisos, conceptosPago
       });
     } else {
       res.redirect('/login');
@@ -1057,8 +1081,8 @@ app.get('/matriculacion/informacion/turno-rtv-pdf', async (req, res) => {
 
 app.get('/matriculacion/informacion/solicitud-pdf', async (req, res) => {
   try {
-    if (req.session.user, req.session.permisos) {
 
+    if (req.session.user && req.session.permisos) {
 
       const id_empresa = req.session.user.id_empresa;
       const empresa = await Empresa.findByPk(id_empresa);
@@ -1071,12 +1095,24 @@ app.get('/matriculacion/informacion/solicitud-pdf', async (req, res) => {
 
       const tramite = await Tramite.findByPk(idTramite);
 
-      res.render('matriculacion/informacion/solicitud-pdf', {
-        userData: req.session.user, tramite, empresa, permisos: req.session.permisos
+      // 🔹 obtener títulos de crédito del trámite
+      const titulosCredito = await TituloCredito.findAll({
+        where: { id_tramite: idTramite },
+        order: [['id_titulos_credito', 'ASC']]
       });
+
+      res.render('matriculacion/informacion/solicitud-pdf', {
+        userData: req.session.user,
+        permisos: req.session.permisos,
+        tramite,
+        empresa,
+        titulosCredito
+      });
+
     } else {
       res.redirect('/login');
     }
+
   } catch (error) {
     console.error('Error al obtener los registros:', error);
     res.status(500).send('Error al obtener los registros');
@@ -1299,6 +1335,7 @@ app.get('/home', async (req, res) => {
       const { id_centro_matriculacion_ASIGNACION_RTV, id_centro_matriculacion } = req.session.user;
       const { startOfDay, endOfDay } = getRangeCurrentDay();
       const estado = 'Finalizado';
+      const { currentDaySimple } = getCurrentDaySimple();
 
       const tramitesIngresados = await Tramite.count({
         where: {
@@ -1370,7 +1407,7 @@ app.get('/home', async (req, res) => {
 
       res.render('home', {
         userData: req.session.user, permisos: req.session.permisos, ultimoTurno, ultimoTurnoRTV,
-        tramitesRTV, tramitesFinalizados, id_centro_matriculacion_ASIGNACION_RTV, tramitesIngresados
+        tramitesRTV, tramitesFinalizados, id_centro_matriculacion_ASIGNACION_RTV, tramitesIngresados, currentDaySimple
       });
 
     } catch (error) {
@@ -1466,7 +1503,28 @@ app.get('/consultar/consulta-tramite', async (req, res) => {
   }
 });
 
+app.get('/consultar/consulta-parque-automotor', async (req, res) => {
+  if (req.session.user) {
 
+
+    const selectorTramites = new SeleccionarTipoTramites();
+
+    const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
+
+    let tiposTramites = await obtenerTiposTramitesAsync();
+
+    const tiposExcluir = ['ADHESIVO ANULADO', 'ESPECIE ANULADA', 'ESPECIE Y ADHESIVO ANULADO'];
+
+    tiposTramites = tiposTramites.filter(tipo => !tiposExcluir.includes(tipo.tipo_tramite));
+
+    const idEmpresa = req.session.user.id_empresa;
+
+
+    res.render('consultar/consulta-parque-automotor', { userData: req.session.user, tiposTramites, permisos: req.session.permisos });
+  } else {
+    res.redirect('/login');
+  }
+});
 
 
 
@@ -1506,6 +1564,14 @@ app.get('/inventario-placas/ingreso-placas/registro-placas-por-lotes-motocicleta
     res.redirect('/login');
   }
 });
+app.get('/inventario-placas/ingreso-placas/registro-placas-por-lotes-vehiculo', async (req, res) => {
+  if (req.session.user, req.session.permisos) {
+    res.render('inventario-placas/ingreso-placas/registro-placas-por-lotes-vehiculo', { userData: req.session.user, permisos: req.session.permisos });
+  } else {
+    res.redirect('/login');
+  }
+});
+
 
 app.get('/inventario-placas/entrega-placas/seleccion-individual', (req, res) => {
   if (req.session.user, req.session.permisos) {
@@ -1951,6 +2017,25 @@ app.get('/servicios/vista-turnos-rtv', async (req, res) => {
 
 });
 
+
+
+app.get('/servicios/vista-turnos-matriculacion', async (req, res) => {
+
+
+
+  res.render('servicios/vista-turnos-matriculacion', {});
+
+});
+
+
+app.get('/servicios/consulta-resultados-rtv', async (req, res) => {
+
+
+
+  res.render('servicios/consulta-resultados-rtv', {});
+
+});
+
 //////////////////////////////////////////////////////////
 //////////   ADMINISTRACION DE EMPRESA         ///////////
 /////////////////////////////////////////////////////////
@@ -2061,6 +2146,71 @@ app.post('/revision-tecnica/reporte-diario-pdf', (req, res) => {
     res.render('revision-tecnica/reporte-diario-pdf', { userData: req.session.user, fecha_finalizacion_pdf, permisos: req.session.permisos });
   } else {
     res.redirect('/login');
+  }
+});
+
+//////////////////////////////////////////////////////////
+//////////   RECAUDACION                ///////////
+/////////////////////////////////////////////////////////
+
+app.get('/recaudacion/vista-titulos-credito', async (req, res) => {
+  try {
+    if (req.session.user, req.session.permisos) {
+
+      const { currentDaySimple } = getCurrentDaySimple();
+
+      const usernameSesion = req.session.user.username;
+      const idEmpresa = req.session.user.id_empresa;
+      const estadoFuncionario = 'ACTIVO';
+
+      //const recepcionTramites = 'HABILITADO';
+
+      const jefaturaDepartamento = 'UNIDAD DE MATRICULACIÓN';
+
+      const funcionariosActivos = await Funcionario.findAll({
+        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario, jefatura_departamento: jefaturaDepartamento },
+        attributes: ['id_funcionario', 'nombre_funcionario']
+      });
+
+
+      res.render('recaudacion/vista-titulos-credito', {
+        usernameSesion, userData: req.session.user, funcionariosActivos, currentDaySimple, permisos: req.session.permisos
+      });
+    } else {
+      res.redirect('/login');
+    }
+  } catch (error) {
+    console.error('Error al obtener los registros:', error);
+    res.status(500).send('Error al obtener los registros');
+  }
+});
+
+
+
+app.get('/documento/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const documento = await Documento.findOne({ where: { id_documento: id } });
+
+    if (!documento) {
+      return res.status(404).send('Documento no encontrado');
+    }
+
+    const filePath = path.join(
+      __dirname,
+      'uploads',
+      documento.ruta_carpeta_documento,   
+      documento.nombre_servidor_documento
+    );
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).send('Archivo no encontrado en el servidor');
+    }
+
+    return res.sendFile(filePath);
+  } catch (error) {
+    console.error('Error al enviar el archivo físico:', error);
+    res.status(500).send('Error al obtener el documento');
   }
 });
 

@@ -384,6 +384,7 @@ $(document).ready(function () {
       contentType: 'application/json',
       data: JSON.stringify({ id_vehiculo }),
       success: function (response) {
+        console.log('Entro al succes');
 
         $('#placaVehiculoConsultada').val('');
         $('#tipo_peso').val('');
@@ -497,6 +498,7 @@ $(document).ready(function () {
         }
       },
       error: function (error) {
+        console.log('No Entro al succes');
         if (error.responseJSON && error.responseJSON.message === 'Servicio del SRI no disponible') {
         } else if (error.responseJSON && error.responseJSON.message === 'Vehículo no encontrado en SRI') {
           mostrarAlerta('Vehículo no existe en el SRI.', 'warning');
@@ -698,7 +700,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('guardarTramiteAreaInformacion').addEventListener('click', async function (event) {
     event.preventDefault();
 
-   
+
     if (!form.checkValidity()) {
       form.classList.add('was-validated'); // Mostrar mensajes de error de Bootstrap
       return;
@@ -734,7 +736,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  
+
 });
 
 // 6.- guradar el tramite desde REGISTRO DIARIO
@@ -1276,6 +1278,73 @@ document.addEventListener('DOMContentLoaded', () => {
   window.actualizarCantones = actualizarCantones;
 });
 
+// 11.- Selects vinculados de la provincia y cantones para la gestion del parque automotor
+document.addEventListener('DOMContentLoaded', () => {
+  const provinciaSelect = document.getElementById('provincia_vehiculo');
+  const cantonSelect = document.getElementById('canton_vehiculo');
+
+  // Datos: Provincias y cantones relacionados
+  const data = {
+    "Azuay": ["Todos", "Camilo Ponce Enríquez", "Cuenca", "Déleg", "Girón", "Guachapala", "Gualaceo", "Nabón", "Paute", "Pucará", "San Fernando", "Santa Isabel", "Sevilla de Oro", "Sígsig"],
+    "Bolívar": ["Todos", "Caluma", "Chillanes", "Chimbo", "Echeandía", "Guaranda", "Las Naves"],
+    "Cañar": ["Todos", "Azogues", "Biblián", "Cañar", "Déleg", "El Tambo", "La Troncal", "Suscal"],
+    "Carchi": ["Todos", "Bolívar", "Espejo", "Mira", "Montúfar", "San Pedro de Huaca", "Tulcán"],
+    "Chimborazo": ["Todos", "Alausí", "Chambo", "Chunchi", "Colta", "Cumandá", "Guamote", "Guano", "Pallatanga", "Penipe", "Riobamba"],
+    "Cotopaxi": ["Todos", "La Maná", "Latacunga", "Pangua", "Pujilí", "Salcedo", "Saquisilí", "Sigchos"],
+    "El Oro": ["Todos", "Arenillas", "Atahualpa", "Balsas", "Chilla", "El Guabo", "Huaquillas", "Las Lajas", "Machala", "Marcabelí", "Pasaje", "Piñas", "Portovelo", "Santa Rosa", "Zaruma"],
+    "Esmeraldas": ["Todos", "Atacames", "Eloy Alfaro", "Esmeraldas", "Muisne", "Quinindé", "Rioverde", "San Lorenzo"],
+    "Galápagos": ["Todos", "Isabela", "San Cristóbal", "Santa Cruz"],
+    "Guayas": ["Todos", "Alfredo Baquerizo", "Balao", "Balzar", "Colimes", "Daule", "Durán", "El Empalme", "General Antonio Elizalde", "Guayaquil", "Isidro Ayora", "Lomas de Sargentillo", "Marcelino Maridueña", "Milagro", "Naranjal", "Naranjito", "Nobol", "Palestina", "Pedro Carbo", "Playas", "Salitre", "Samborondón", "Santa Lucía", "Yaguachi"],
+    "Imbabura": ["Todos", "Antonio Ante", "Cotacachi", "Ibarra", "Otavalo", "Pimampiro", "San Miguel de Urcuquí"],
+    "Loja": ["Todos", "Calvas", "Catamayo", "Celica", "Chaguarpamba", "Espíndola", "Gonzanamá", "Loja", "Macará", "Olmedo", "Paltas", "Pindal", "Puyango", "Quilanga", "Saraguro", "Sozoranga", "Zapotillo"],
+    "Los Ríos": ["Todos", "Baba", "Babahoyo", "Buena Fe", "Mocache", "Montalvo", "Palenque", "Puebloviejo", "Quevedo", "Quinsaloma", "Urdaneta", "Valencia", "Ventanas", "Vinces"],
+    "Manabí": ["Todos", "24 de Mayo", "Bolívar", "Chone", "El Carmen", "Flavio Alfaro", "Jama", "Jaramijó", "Jipijapa", "Junín", "Manta", "Montecristi", "Olmedo", "Paján", "Pedernales", "Pichincha", "Portoviejo", "Puerto López", "Rocafuerte", "Santa Ana", "Sucre", "Tosagua"],
+    "Morona Santiago": ["Todos", "Gualaquiza", "Huamboya", "Limón Indanza", "Logroño", "Morona", "Pablo Sexto", "Palora", "Santiago de Méndez", "Sucúa", "Taisha", "Tiwintza"],
+    "Napo": ["Todos", "Arajuno", "Archidona", "Carlos Julio Arosemena Tola", "El Chaco", "Quijos", "Tena"],
+    "Orellana": ["Todos", "Aguarico", "La Joya de los Sachas", "Loreto", "Francisco de Orellana"],
+    "Pastaza": ["Todos", "Arajuno", "Mera", "Pastaza", "Santa Clara"],
+    "Pichincha": ["Todos", "Cayambe", "Mejía", "Pedro Moncayo", "Pedro Vicente Maldonado", "Puerto Quito", "Quito", "Rumiñahui", "San Miguel de los Bancos"],
+    "Santa Elena": ["Todos", "La Libertad", "Salinas", "Santa Elena"],
+    "Santo Domingo de los Tsáchilas": ["Todos", "La Concordia", "Santo Domingo"],
+    "Sucumbíos": ["Todos", "Cascales", "Cuyabeno", "Gonzalo Pizarro", "Lago Agrio", "Putumayo", "Shushufindi", "Sucumbíos"],
+    "Tungurahua": ["Todos", "Ambato", "Baños", "Cevallos", "Mocha", "Patate", "Quero", "San Pedro de Pelileo", "Santiago de Píllaro", "Tisaleo"],
+    "Zamora Chinchipe": ["Todos", "Centinela del Cóndor", "Chinchipe", "El Pangui", "Nangaritza", "Palanda", "Paquisha", "Yacuambi", "Yantzaza", "Zamora"],
+    "Todos": ["Todos"],
+  };
+
+  // Función para actualizar los cantones basados en la provincia seleccionada
+  function actualizarCantones(provinciaSeleccionada, cantonSeleccionado = '') {
+    // Reiniciar el select de cantón
+    cantonSelect.innerHTML = '<option value="">Seleccione el cantón</option>';
+    cantonSelect.disabled = true;
+
+    if (data[provinciaSeleccionada]) {
+      // Agregar las opciones de cantones correspondientes a la provincia seleccionada
+      data[provinciaSeleccionada].forEach(canton => {
+        const option = document.createElement('option');
+        option.value = canton;
+        option.textContent = canton;
+        cantonSelect.appendChild(option);
+      });
+      cantonSelect.disabled = false;
+
+      // Si se proporcionó un cantón seleccionado, establecerlo
+      if (cantonSeleccionado) {
+        cantonSelect.value = cantonSeleccionado;
+      }
+    }
+  }
+
+  // Evento cuando cambia el select de provincias
+  provinciaSelect.addEventListener('change', () => {
+    const provinciaSeleccionada = provinciaSelect.value;
+    actualizarCantones(provinciaSeleccionada); // Actualiza el select de cantones
+  });
+
+  // Hacer la función accesible desde otros scripts si es necesario
+  window.actualizarCantones = actualizarCantones;
+});
+
 // 11.- REASIGNAR un tramite a un usuario
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('reasignarForm');
@@ -1331,7 +1400,6 @@ if (document.getElementById('registroFormAreaInformacion')) {
 
 
 // 13.- evento que esucha el tipo de tramite para mostrar ALERTAS
-
 if (document.getElementById('registroFormAreaInformacion')) {
   $('#tipo_tramite').on('change', function () {
     var tipoSeleccionado = $(this).val();
@@ -1368,8 +1436,6 @@ if (document.getElementById('registroFormAreaInformacion')) {
   });
 
 }
-
-
 
 // 14.- consultar el valor de la matricula
 $(document).ready(function () {
@@ -1652,7 +1718,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-// 19.- guardar una nueva placa al IVENTARIO INSTITUCIONAL (por lotes)
+// 19.- guardar una nueva placa al IVENTARIO INSTITUCIONAL (por lotes - motocicletas)
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('ingresarPlacaInventarioFormLOTES');
   const previewCard = document.getElementById('previewPlacasCard');
@@ -1671,6 +1737,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const claseVehiculo = form.querySelector('select[name="clase_vehiculo"]').value;
     const claseTransporte = form.querySelector('select[name="clase_transporte"]').value;
     const cantidad = form.querySelector('input[name="cantidad"]').value;
+    const tipoTramite = form.querySelector('select[name="tipo_tramite"]').value;
 
     const cantidadBottom = form.querySelector('input[name="cantidad"]');
     cantidadBottom.classList.remove('is-valid');
@@ -1701,10 +1768,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="row">
                       <div class="row">
                         <div class="">
-                          <p><strong class="text-black">Clase de vehículo:</strong> ${claseVehiculo}</p>
-                          <p><strong class="text-black">Clase de transporte:</strong> ${claseTransporte}</p>
-                          <p><strong class="text-black">Cantidad de placas:</strong> ${cantidad}</p>
-                          <p><strong class="text-black">Total a generar:</strong> ${cantidadGenerar}</p>
+<div class="row mb-2">
+  <div class="col-lg-3"><strong class="text-black">Clase de vehículo:</strong></div>
+  <div class="col-lg-3">${claseVehiculo}</div>
+
+  <div class="col-lg-3"><strong class="text-black">Clase de transporte:</strong></div>
+  <div class="col-lg-3">${claseTransporte}</div>
+</div>
+
+<div class="row mb-2">
+  <div class="col-lg-3"><strong class="text-black">Cantidad de placas:</strong></div>
+  <div class="col-lg-3">${cantidad}</div>
+
+  <div class="col-lg-3"><strong class="text-black">Total a generar:</strong></div>
+  <div class="col-lg-3">${cantidadGenerar}</div>
+</div>
+
                           <ul class="list-group">
                             ${placas.map(placa => `<li class="list-group-item">${placa}</li>`).join('')}
                           </ul>
@@ -1750,13 +1829,14 @@ document.addEventListener('DOMContentLoaded', function () {
       ubicacion: form.querySelector('input[name="ubicacion"]').value.toUpperCase(),
       cantidad: form.querySelector('input[name="cantidad"]').value,
       ingreso_fecha: form.querySelector('input[name="ingreso_fecha"]').value,
+      tipo_tramite: form.querySelector('select[name="tipo_tramite"]').value,
 
     };
 
     $('#overlay').addClass('active');
 
     try {
-      const response = await fetch('/ingresar-placa-lotes', {
+      const response = await fetch('/ingresar-placa-lotes-motocicletas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -1778,6 +1858,146 @@ document.addEventListener('DOMContentLoaded', function () {
 
   }
 });
+
+// 19.- guardar una nueva placa al IVENTARIO INSTITUCIONAL (por lotes - vehiculos)
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('ingresarPlacaInventarioFormLOTESvehiculos');
+  const previewCard = document.getElementById('previewPlacasCard');
+
+  if (!form || !previewCard) return;
+
+  let placasGeneradas = [];
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const letrasInicial = form.querySelector('input[name="id_letrasInicial"]').value.toUpperCase();
+    const numerosInicial = parseInt(form.querySelector('input[name="id_numeros"]').value);
+    const cantidadGenerar = parseInt(form.querySelector('input[name="cantidadGenerar"]').value);
+    const claseVehiculo = form.querySelector('select[name="clase_vehiculo"]').value;
+    const claseTransporte = form.querySelector('select[name="clase_transporte"]').value;
+    const cantidad = form.querySelector('input[name="cantidad"]').value;
+    const tipoTramite = form.querySelector('select[name="tipo_tramite"]').value;
+
+    const cantidadBottom = form.querySelector('input[name="cantidad"]');
+    cantidadBottom.classList.remove('is-valid');
+    const ingreso_fechaBottom = form.querySelector('input[name="ingreso_fecha"]');
+    ingreso_fechaBottom.classList.remove('is-valid');
+
+    if (isNaN(numerosInicial) || isNaN(cantidadGenerar) || cantidadGenerar <= 0) {
+      mostrarAlerta('Por favor complete todos los campos correctamente.', 'danger');
+      return;
+    }
+
+    placasGeneradas = Array.from({ length: cantidadGenerar }, (_, i) =>
+      `${letrasInicial}${(numerosInicial + i).toString().padStart(4, '0')}`
+    );
+
+    mostrarPlacas(previewCard, placasGeneradas, claseVehiculo, cantidadGenerar, claseTransporte, cantidad);
+
+
+  });
+
+  function mostrarPlacas(previewCard, placas, claseVehiculo, cantidadGenerar, claseTransporte, cantidad) {
+    previewCard.innerHTML = `
+              <div class="card">
+                <div class="px-4 py-3">
+                  <h5 class="text-black fw-semibold text-start">2.- VISUALIZACIÓN (placas a generar):</h5>
+                  <hr>
+                  <div class="py-0">
+                    <div class="row">
+                      <div class="row">
+                        <div class="">
+<div class="row mb-2">
+  <div class="col-lg-3"><strong class="text-black">Clase de vehículo:</strong></div>
+  <div class="col-lg-3 text-black">${claseVehiculo}</div>
+
+  <div class="col-lg-3"><strong class="text-black">Clase de transporte:</strong></div>
+  <div class="col-lg-3 text-black">${claseTransporte}</div>
+</div>
+
+<div class="row mb-2">
+  <div class="col-lg-3"><strong class="text-black">Cantidad de placas:</strong></div>
+  <div class="col-lg-3 text-black">${cantidad}</div>
+
+  <div class="col-lg-3"><strong class="text-black">Total a generar:</strong></div>
+  <div class="col-lg-3 text-black">${cantidadGenerar}</div>
+</div>
+
+                          <ul class="list-group">
+                            ${placas.map(placa => `<li class="list-group-item text-black">${placa}</li>`).join('')}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="mb-1">
+                      <div class="card-body px-0 py-0 d-flex justify-content-end gap-2">
+                        <button type=""
+                          onclick="window.location.href='/home'" 
+                          class="col-lg-4 justify-content-center fw-semibold btn shadow-btn mb-1  btn-rounded btn-secondary align-items-center">Cancelar
+                          ingreso
+                        </button>
+                        <button type="submit"
+                          class="col-lg-4 justify-content-center fw-semibold btn shadow-btn  mb-1 btn-rounded btn-primary align-items-center"
+                          id="confirmarPlacasBtn">Confirmar
+                          ingreso
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    `;
+
+    previewCard.classList.remove('d-none');
+
+    const confirmButton = document.getElementById('confirmarPlacasBtn');
+    confirmButton.addEventListener('click', confirmarPlacas, { once: true });
+  }
+
+
+  async function confirmarPlacas() {
+    const formData = {
+      id_letrasInicial: form.querySelector('input[name="id_letrasInicial"]').value.toUpperCase(),
+      id_numeros: form.querySelector('input[name="id_numeros"]').value,
+      cantidadGenerar: form.querySelector('input[name="cantidadGenerar"]').value,
+      clase_vehiculo: form.querySelector('select[name="clase_vehiculo"]').value,
+      clase_transporte: form.querySelector('select[name="clase_transporte"]').value,
+      ubicacion: form.querySelector('input[name="ubicacion"]').value.toUpperCase(),
+      cantidad: form.querySelector('input[name="cantidad"]').value,
+      ingreso_fecha: form.querySelector('input[name="ingreso_fecha"]').value,
+      tipo_tramite: form.querySelector('select[name="tipo_tramite"]').value,
+
+    };
+
+    $('#overlay').addClass('active');
+
+    try {
+      const response = await fetch('/ingresar-placa-lotes-vehiculos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      $('#overlay').removeClass('active');
+      if (response.ok) {
+        window.location.href = result.redirectUrl;
+      } else {
+        mostrarAlerta(result.message, 'danger');
+      }
+
+
+    } catch (error) {
+      console.error('Error al guardar las placas:', error);
+      mostrarAlerta('Ocurrió un error al guardar las placas.', 'danger');
+    }
+
+  }
+});
+
 
 
 

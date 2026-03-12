@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../../public/css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-        
+
 
     <script src="/js/generar-reporte.js"></script>
     <script src="/js/spinners.js"></script>
@@ -20,11 +20,18 @@
     <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 
+    <style>
+        .table thead th {
+            background-color: #f3f4f8;
+        }
+    </style>
+
+
 </head>
 
 <body>
 
-    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Inicio de barra de navegación -->
         <%- include('../../body/navbar') %>
@@ -258,9 +265,11 @@
                                             <div class="table-responsive">
                                                 <table class="table table-bordered">
                                                     <thead class="thead-primary" id="thead-tramites">
-                                                        <tr>
+                                                        <tr class="text-black-font">
                                                             <th class="text-center align-middle px-2 py-2">N°</th>
-                                                            <th class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">FECHA DEL
+                                                            <th
+                                                                class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
+                                                                FECHA DEL
                                                                 TRÁMITE
                                                             </th>
                                                             <th

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -14,13 +14,20 @@
     <script src="/js/spinners.js"></script>
     <script src="/js/activar-items-navbar.js"></script>
 
-
     <script src="../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        .table thead th {
+            background-color: #f3f4f8;
+        }
+    </style>
+
+
 
 </head>
 
 <body>
-    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Inicio de barra de navegación -->
         <%- include('../../body/navbar') %>
@@ -99,7 +106,7 @@
                                                                     </div>
                                                                     <div class="col-4">
                                                                         <button
-                                                                            class="btn btn-search text-black btn-rounded px-4 fw-semibold fs-3 py-2  w-100"
+                                                                            class="btn btn-search btn-rounded px-4 fw-semibold fs-3 py-2  w-100"
                                                                             type="button" id="buscarVehiculo">BUSCAR
                                                                         </button>
                                                                     </div>
@@ -129,7 +136,7 @@
                                                                     </div>
                                                                     <div class="col-4">
                                                                         <button
-                                                                            class="btn btn-search text-black btn-rounded px-4 fw-semibold fs-3 py-2 w-100"
+                                                                            class="btn btn-search btn-rounded px-4 fw-semibold fs-3 py-2 w-100"
                                                                             type="button"
                                                                             id="buscarVehiculoSRI">CONSULTAR
                                                                             SRI
@@ -201,7 +208,7 @@
 
                                                             <div class="">
 
-                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                <h5 class="py-3 fs-4 fw-semibold">
                                                                     INFORMACIÓN DEL VEHÍCULO</h5>
 
                                                             </div>
@@ -276,7 +283,7 @@
                                                                             class="form-label col-md-4 fw-normal text-md-end">Tipo
                                                                             de servicio:</label>
                                                                         <div class="col-md-8">
-                                                                            <select class="form-select"
+                                                                            <select class="form-select bg-white"
                                                                                 name="clase_transporte"
                                                                                 aria-label="Default select example"
                                                                                 id="clase_transporte" required>
@@ -324,7 +331,7 @@
 
                                                             </div>
 
-                                                            <h5 class="py-3 fs-4 form-label fw-semibold d-none">
+                                                            <h5 class="py-3 fs-4 fw-semibold d-none">
                                                                 INFORMACIÓN DEL VEHÍCULO SRI</h5>
                                                             <div
                                                                 class="col pt-1 mx-auto d-flex flex-column align-items-center d-none">
@@ -452,8 +459,7 @@
                                                                             class="form-label col-md-4 fw-normal text-md-end">Deudas:</label>
                                                                         <div class="col-md-8">
                                                                             <input type="text" class="form-control"
-                                                                                id="result_total"
-                                                                                name="result_total">
+                                                                                id="result_total" name="result_total">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -467,7 +473,7 @@
 
                                                             <div class="pt-2">
 
-                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                <h5 class="py-3 fs-4 fw-semibold">
                                                                     INFORMACIÓN DEL USUARIO</h5>
 
                                                             </div>
@@ -706,68 +712,272 @@
                                                         <div class="">
                                                             <div class="">
 
-                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                <h5 class="py-3 fs-4 fw-semibold">
                                                                     VALOR Y OBSERVACIONES</h5>
                                                             </div>
 
-                                                            <div
-                                                                class="col pt-1 mx-auto d-flex flex-column align-items-center">
+                                                            <div class="col pt-1 mx-auto d-flex flex-column">
 
-                                                                <div class="col-10 mb-2">
-                                                                    <div class="form-group row justify-content-center">
-                                                                        <label
-                                                                            class="form-label col-md-4 fw-normal text-md-end">Valor:</label>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-sm align-middle">
+                                                                        <thead class="bg-four-card">
+                                                                            <tr class="text-black-font">
+                                                                                <th class="text-start p-2">Concepto</th>
+                                                                                <th class="text-center p-2">Valor</th>
+                                                                                <th class="text-center p-2">Cantidad
+                                                                                </th>
+                                                                                <th class="text-end p-2">Subtotal</th>
+                                                                            </tr>
+                                                                        </thead>
 
-                                                                        <div class="col-md-8">
-                                                                            <input type="number" class="form-control"
-                                                                                name="valor_pago_INFORMACION"
-                                                                                id="valor_pago_INFORMACION" step="0.01"
-                                                                                min="0.00" placeholder="0.00"
-                                                                                autocomplete="off" max="1000">
-                                                                        </div>
+                                                                        <tbody class="pt-2">
+
+                                                                            <% conceptosPago.forEach(concepto=> { %>
+
+                                                                                <tr>
+
+                                                                                    <td>
+                                                                                        <%= concepto.nombre_concepto %>
+                                                                                    </td>
+
+                                                                                    <td style="width:140px">
+
+                                                                                        <input type="number" step="0.01"
+                                                                                            class="form-control valor text-center"
+                                                                                            name="concepto_<%= concepto.id_concepto %>_valor"
+                                                                                            value="<%= parseFloat(concepto.valor_concepto).toFixed(2) %>">
+
+                                                                                    </td>
+
+                                                                                    <td style="width:120px">
+
+                                                                                        <input type="number"
+                                                                                            class="form-control cantidad text-center"
+                                                                                            value="0" min="0"
+                                                                                            name="concepto_<%= concepto.id_concepto %>_cantidad">
+
+                                                                                    </td>
+
+                                                                                    <td class="text-end subtotal">$0.00
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                                <% }) %>
+
+                                                                        </tbody>
+
+                                                                        <tfoot class="pt-2">
+                                                                            <tr class="table">
+                                                                                <th colspan="3" class="text-end">TOTAL A
+                                                                                    PAGAR
+                                                                                </th>
+                                                                                <th class="text-end fs-5 text-success"
+                                                                                    id="totalPago">$0.00</th>
+                                                                            </tr>
+                                                                        </tfoot>
+
+                                                                    </table>
+                                                                </div>
+
+                                                                <div class="mt-3">
+                                                                    <label class="form-label">Valor</label>
+                                                                    <input type="number" class="form-control"
+                                                                        name="valor_pago_INFORMACION"
+                                                                        id="valor_pago_INFORMACION" step="0.01"
+                                                                        min="0.00" placeholder="0.00" autocomplete="off"
+                                                                        max="1000">
+                                                                </div>
 
 
+                                                                <div class="mt-3">
+                                                                    <label class="form-label">Observaciones</label>
+                                                                    <div class="form-group">
+                                                                        <textarea class="form-control" rows="2"
+                                                                            name="observaciones_INFORMACION"
+                                                                            id="observaciones_INFORMACION"
+                                                                            autocomplete="off"
+                                                                            maxlength="100"></textarea>
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-10 mb-2">
-                                                                    <div class="form-group row justify-content-center">
-                                                                        <label
-                                                                            class="form-label col-md-4 fw-normal text-md-end">Observaciones:</label>
-                                                                        <div class="col-md-8">
-                                                                            <div class="form-group">
-                                                                                <textarea class="form-control" rows="2"
-                                                                                    name="observaciones_INFORMACION"
-                                                                                    id="observaciones_INFORMACION"
-                                                                                    autocomplete="off"
-                                                                                    maxlength="100"></textarea>
+                                                                <script src="/js/subir-documentos.js"></script>
+
+
+
+                                                                <div class="mt-3">
+                                                                    <label class="form-label"
+                                                                        style="font-size: 0.85rem; letter-spacing: 1px;">
+                                                                        Adjuntar Documentación
+                                                                    </label>
+
+
+                                                                    <label id="drop-zone" for="fileInput"
+                                                                        class="p-5 border border-2 rounded-3 text-center d-flex flex-column align-items-center justify-content-center w-100"
+                                                                        style="background-color: #f8fbff; cursor: pointer; border-style: dashed !important; border-color: #0d6efd !important; transition: all 0.3s ease;">
+
+
+
+                                                                        <small class="text-muted">Selecciona un
+                                                                            documento PDF con un peso maximo de 1
+                                                                            MB</small>
+
+                                                                        <input type="file" name="archivo_pdf"
+                                                                            id="fileInput" accept=".pdf" class="d-none">
+                                                                    </label>
+
+                                                                    <div class="mt-3">
+                                                                        <button type="button"
+                                                                            id="btnSubirDococumentoInformacion"
+                                                                            class="btn btn-dark w-100 py-2 fw-bold shadow-sm">
+                                                                            <i class="ti ti-cloud-upload me-2"></i>SUBIR
+                                                                            PDF
+                                                                        </button>
+                                                                    </div>
+
+                                                                    <div id="status-container" class="mt-3">
+                                                                        <div id="file-status-badge"
+                                                                            class="alert alert-danger d-flex align-items-center p-2 mb-0 border-0 shadow-sm"
+                                                                            style="font-size: 0.85rem;">
+                                                                            <i class="ti ti-alert-circle fs-4 me-2"></i>
+                                                                            <span id="status-text">No se ha
+                                                                                seleccionado ningún archivo</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div id="upload-success-container" class="mt-2"
+                                                                        style="display: none;">
+                                                                        <div class="alert alert-success d-flex align-items-center p-2 border-0 shadow-sm"
+                                                                            style="font-size: 0.85rem;">
+                                                                            <i class="ti ti-circle-check fs-4 me-2"></i>
+                                                                            <div>
+                                                                                <strong class="d-block">Archivo
+                                                                                    guardado correctamente:</strong>
+                                                                                <span id="uploaded-file-name"
+                                                                                    class="text-break"></span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
+
+                                                                    <div class="form-text mt-2 text-end"
+                                                                        style="font-size: 0.7rem;">
+                                                                        Solo formato PDF (Máx 1 MB)
+                                                                    </div>
+
+                                                                    <input type="hidden" name="id_documento_informacion"
+                                                                        id="id_documento_informacion" value="">
+
                                                                 </div>
 
-                                                                <script>
-                                                                    document.getElementById("tipo_tramite").addEventListener("change", function () {
-                                                                        const selectedValue = this.value;
-                                                                        const placaInput = document.getElementById("placa");
 
-                                                                        if (selectedValue === "BLOQUEO DE VEHÍCULO") {
-                                                                            placaInput.setAttribute("maxlength", "10");
-                                                                        } else {
-                                                                            placaInput.setAttribute("maxlength", "7");
-                                                                        }
-                                                                    });
 
-                                                                </script>
 
                                                             </div>
 
                                                         </div>
+
+
+                                                        <script>
+
+                                                            $(document).ready(function () {
+                                                                const $dropZone = $('#drop-zone');
+                                                                const $fileInput = $('#fileInput');
+                                                                const $statusBadge = $('#file-status-badge');
+                                                                const $statusText = $('#status-text');
+                                                                const $btnSubir = $('#btnSubirDococumentoInformacion');
+                                                                const $successContainer = $('#upload-success-container');
+                                                                const $uploadedFileName = $('#uploaded-file-name');
+
+                                                                // 1. Activar buscador al hacer clic en el cuadro
+                                                                $dropZone.on('click', function () {
+                                                                    $fileInput.click();
+                                                                });
+
+                                                                // 2. Al seleccionar un archivo (Cambio de estado a AZUL)
+                                                                $fileInput.on('change', function () {
+                                                                    const file = this.files[0];
+                                                                    if (file) {
+                                                                        // Validar tamaño 1MB
+                                                                        if (file.size > 1048576) {
+                                                                            mostrarAlerta('El archivo excede el límite de 1MB', 'danger');
+                                                                            this.value = '';
+                                                                            return;
+                                                                        }
+
+                                                                        // Actualizar el texto del cuadro grande
+                                                                        $dropZone.find('h6').text(`Archivo listo: ${file.name}`);
+                                                                        $dropZone.find('small').text('Haga clic si desea cambiar el archivo');
+                                                                        $dropZone.css('background-color', '#e7f1ff').addClass('border-primary');
+
+                                                                        // Cambiar el badge de abajo a AZUL
+                                                                        $statusBadge.removeClass('alert-danger').addClass('alert-info');
+                                                                        $statusText.html(`<strong>Seleccionado:</strong> ${file.name}`);
+                                                                    }
+                                                                });
+
+                                                                // 3. Al hacer clic en SUBIR (Cambio de estado a VERDE tras éxito)
+                                                                $btnSubir.on('click', function (e) {
+                                                                    e.preventDefault();
+                                                                    const file = $fileInput[0].files[0];
+
+                                                                    if (!file) {
+                                                                        mostrarAlerta('Por favor, selecciona un archivo primero.', 'warning');
+                                                                        return;
+                                                                    }
+
+                                                                    const formData = new FormData();
+                                                                    formData.append('archivo_pdf', file);
+                                                                    // Enviamos el id de referencia si existe
+                                                                    formData.append('id_documento_informacion', $('#id_documento_informacion').val());
+
+                                                                    $.ajax({
+                                                                        type: 'POST',
+                                                                        url: '/subir-documento-matriculacion',
+                                                                        data: formData,
+                                                                        processData: false,
+                                                                        contentType: false,
+                                                                        beforeSend: function () {
+                                                                            $btnSubir.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span> Subiendo...');
+                                                                        },
+                                                                        success: function (res) {
+                                                                            if (res.success) {
+                                                                                // ocultar badge de "No seleccionado/Seleccionado"
+                                                                                $('#status-container').fadeOut();
+
+                                                                                // Mostrar cuadro VERDE de éxito
+                                                                                $uploadedFileName.text(file.name);
+                                                                                $successContainer.fadeIn();
+
+                                                                                // Bloquear el cuadro para evitar más cambios
+                                                                                $dropZone.css({ 'pointer-events': 'none', 'opacity': '0.7', 'background-color': '#f0fff4' });
+                                                                                $dropZone.find('h6').text('Archivo procesado');
+                                                                                $btnSubir.hide();
+
+                                                                                mostrarAlerta('¡Documento guardado con éxito!', 'success');
+                                                                            } else {
+                                                                                mostrarAlerta(res.message, 'warning');
+                                                                                $btnSubir.prop('disabled', false).html('<i class="ti ti-cloud-upload me-2"></i> SUBIR PDF');
+                                                                            }
+                                                                        },
+                                                                        error: function () {
+                                                                            mostrarAlerta('Error crítico en el servidor', 'danger');
+                                                                            $btnSubir.prop('disabled', false).html('<i class="ti ti-cloud-upload me-2"></i> SUBIR PDF');
+                                                                        }
+                                                                    });
+                                                                });
+
+                                                                // Drag & Drop visual
+                                                                $dropZone.on('dragover', function (e) { e.preventDefault(); $(this).css('background-color', '#eef2ff'); });
+                                                                $dropZone.on('dragleave', function (e) { e.preventDefault(); $(this).css('background-color', '#f8fbff'); });
+                                                            });
+                                                        </script>
+
+
                                                     </div>
                                                     <div class="tab-pane fade" id="nav-profile" role="tabpanel"
                                                         aria-labelledby="nav-profile-tab">
                                                         <div class="">
-                                                            <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                            <h5 class="py-3 fs-4 fw-semibold">
                                                                 ASIGNACION DE TRÁMITE</h5>
                                                         </div>
                                                         <div
@@ -897,7 +1107,7 @@
 
                                                             <div class="">
 
-                                                                <h5 class="py-3 fs-4 form-label fw-semibold">
+                                                                <h5 class="py-3 fs-4 fw-semibold">
                                                                     PROCESOS RTV</h5>
 
                                                             </div>
@@ -1090,9 +1300,6 @@
                                     <div class="card d-none" id="cosultaSRI">
                                         <div class="card-body">
 
-
-
-
                                             <div class="d-flex align-items-center">
                                                 <span class="flex-shrink-0">
                                                     <img src="/images/sri_logo.jpg" class="rounded-circle"
@@ -1100,14 +1307,11 @@
                                                 </span>
 
                                                 <div class="ms-4">
-                                                    <h4 class="card-title text-dark mb-1">SRI</h4>
-                                                    <span class="fs-3 mt-1 ">Consulta valores a pagar</span>
+                                                    <h4 class="card-title text-black mb-1">SRI</h4>
+                                                    <span class="text-subtitle fs-3 mt-1 ">Consulta valores a
+                                                        pagar</span>
                                                 </div>
                                             </div>
-
-
-
-
 
                                             <div class="d-flex mt-3">
 
@@ -1209,7 +1413,7 @@
                                                                     <div class="row">
                                                                         <div>
                                                                             <div class="d-flex">
-                                                                                <span class="text-start fw-normal">Total
+                                                                                <span class="text-muted fw-normal">Total
                                                                                     de valores a pagar:</span>
                                                                             </div>
                                                                             <table class="table table-bordered mb-2"
@@ -1219,7 +1423,7 @@
                                                                                 </tbody>
                                                                             </table>
                                                                             <div class="col text-end p-1">
-                                                                                <span class="fw-normal fs-3">A
+                                                                                <span class="text-muted fs-3">A
                                                                                     pagar:
                                                                                 </span>
                                                                                 <strong><span class="text-red fs-4"
@@ -1257,10 +1461,10 @@
                                         <div class="card-body">
                                             <div class="d-flex align-items-center">
                                                 <span class="flex-shrink-0"><i
-                                                        class="ti ti-x text-danger display-6"></i></span>
+                                                        class="ti ti-x text-red display-6"></i></span>
                                                 <div class="ms-4">
-                                                    <h4 class="card-title text-dark mb-1">SRI</h4>
-                                                    <span class="fs-3 mt-1 ">Servicio no disponible</span>
+                                                    <h4 class="card-title text-black mb-1">SRI</h4>
+                                                    <span class="text-subtitle fs-3 mt-1">Servicio no disponible</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1273,13 +1477,60 @@
                                                 <span class="flex-shrink-0"><i
                                                         class="ti ti-bus-off text-red display-6"></i></span>
                                                 <div class="ms-4">
-                                                    <h4 class="card-title text-dark mb-1">SRI</h4>
-                                                    <span class="fs-3 mt-1 ">El vehiculo no existe en el SRI</span>
+                                                    <h4 class="card-title text-black mb-1">SRI</h4>
+                                                    <span class="text-subtitle fs-3 mt-1">El vehiculo no existe en el
+                                                        SRI</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="card" id="cosultaEMMOV">
+                                        <div class="card-body">
+
+                                            <div class="d-flex align-items-center">
+                                                <span class="flex-shrink-0">
+                                                    <img src="/images/favicon.ico" class="rounded-circle"
+                                                        style="width: 50px; height: 50px;">
+                                                </span>
+
+                                                <div class="ms-4">
+                                                    <h4 class="card-title text-black mb-1">EMMOV</h4>
+                                                    <span class="text-subtitle fs-3 mt-1 ">Consulta valores a
+                                                        pagar</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex mt-3">
+
+                                                <div class="col-12  mt-3">
+
+
+                                                    <div class="row">
+                                                        <div class="col-12">
+
+                                                            <div class="col text-center" id="conceptosSeleccionados">
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+
+
                                 </div>
+
+
                             </div>
 
 
@@ -1324,6 +1575,21 @@
             </div>
 
             <div id="alert-container"></div>
+
+
+            <script>
+                document.getElementById("tipo_tramite").addEventListener("change", function () {
+                    const selectedValue = this.value;
+                    const placaInput = document.getElementById("placa");
+
+                    if (selectedValue === "BLOQUEO DE VEHÍCULO") {
+                        placaInput.setAttribute("maxlength", "10");
+                    } else {
+                        placaInput.setAttribute("maxlength", "7");
+                    }
+                });
+
+            </script>
 
 
     </div>

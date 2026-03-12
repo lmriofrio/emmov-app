@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="es" data-bs-theme="light">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Consulta parque automotor</title>
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="node_modules/simplebar/dist/simplebar.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="/js/generar-reporte.js"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+    <script src="/js/spinners.js"></script>
+
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+        <%- include('../body/navbar') %>
+            <!-- Fin de barra de navegación -->
+            <!--  Contendio principal -->
+            <div class="body-wrapper">
+                <!--  Encabezado de pagina -->
+                <%- include('../body/header') %>
+                    <!--  Fin de encabezado de pagina  -->
+                    <div class="container-fluid">
+                        <div class="col-lg-12">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                            <div class="mb-3 mb-sm-0">
+                                                <ol class="breadcrumb">
+                                                    <li class="breadcrumb-item">
+                                                        <a class="text-decoration-none text-black"
+                                                            href="/">CONSULTAS</a>
+                                                    </li>
+                                                    <li class="breadcrumb-item text-muted" aria-current="page">
+                                                        Reporte del parque automotor
+                                                    </li>
+
+                                                </ol>
+                                            </div>
+                                            <div style="width: 20%;">
+                                                <input type="text" name="" class="form-control-disable text-center"
+                                                    id="" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <br>
+
+                                        <div class="col-12 mb-2">
+                                            <div class="form-group row">
+                                                <label for="area"
+                                                    class="col-md-2 form-label fw-normal  col-form-label">Provincia de
+                                                    domicilio:</label>
+                                                <div class="col-md-4">
+                                                    <select class="form-select" name="provincia_vehiculo"
+                                                        id="provincia_vehiculo" required>
+                                                        <option selected value="Todos">Todos</option>
+                                                        <option value="Azuay">Azuay</option>
+                                                        <option value="Bolívar">Bolívar
+                                                        </option>
+                                                        <option value="Cañar">Cañar</option>
+                                                        <option value="Carchi">Carchi
+                                                        </option>
+                                                        <option value="Chimborazo">
+                                                            Chimborazo
+                                                        </option>
+                                                        <option value="Cotopaxi">Cotopaxi
+                                                        </option>
+                                                        <option value="El Oro">El Oro
+                                                        </option>
+                                                        <option value="Esmeraldas">
+                                                            Esmeraldas
+                                                        </option>
+                                                        <option value="Galápagos">Galápagos
+                                                        </option>
+                                                        <option value="Guayas">Guayas
+                                                        </option>
+                                                        <option value="Imbabura">Imbabura
+                                                        </option>
+                                                        <option value="Loja">Loja</option>
+                                                        <option value="Los Ríos">Los Ríos
+                                                        </option>
+                                                        <option value="Manabí">Manabí
+                                                        </option>
+                                                        <option value="Morona Santiago">
+                                                            Morona
+                                                            Santiago</option>
+                                                        <option value="Napo">Napo</option>
+                                                        <option value="Sucumbíos">Sucumbíos
+                                                        </option>
+                                                        <option value="Pastaza">Pastaza
+                                                        </option>
+                                                        <option value="Pichincha">Pichincha
+                                                        </option>
+                                                        <option value="Santa Elena">Santa
+                                                            Elena
+                                                        </option>
+                                                        <option value="Santo Domingo de los Tsáchilas">
+                                                            Santo Domingo de los Tsáchilas
+                                                        </option>
+                                                        <option value="Orellana">
+                                                            Orellana</option>
+                                                        <option value="Tungurahua">
+                                                            Tungurahua
+                                                        </option>
+                                                        <option value="Zamora Chinchipe">
+                                                            Zamora
+                                                            Chinchipe</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Por favor, selecciona un valor.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 mb-2">
+                                            <div class="form-group row">
+                                                <label for="area"
+                                                    class="col-md-2 form-label fw-normal  col-form-label">Cantón de
+                                                    domicilio:</label>
+                                                <div class="col-md-4">
+                                                    <select class="form-select" name="canton_vehiculo"
+                                                        id="canton_vehiculo" required>
+                                                        <option select value="Todos" selected>Todos</option>
+                                                    </select>
+                                                    <div class="invalid-feedback">
+                                                        Por favor, selecciona un valor.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-12 mb-2">
+                                            <div class="form-group row">
+                                                <label for="area"
+                                                    class="col-md-2 form-label fw-normal  col-form-label">Fecha
+                                                    inicial:</label>
+                                                <div class="col-md-4">
+                                                    <input type="date" class="form-control fw-normal"
+                                                        name="fecha_inicial" id="fecha_inicial" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 mb-2">
+                                            <div class="form-group row">
+                                                <label for="area"
+                                                    class="col-md-2 form-label fw-normal  col-form-label">Fecha
+                                                    final:</label>
+                                                <div class="col-md-4">
+                                                    <input type="date" class="form-control fw-normal" name="fecha_final"
+                                                        id="fecha_final" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 mb-2">
+                                            <div class="form-group row">
+                                                <label for="area"
+                                                    class="col-md-2 form-label fw-semibold  col-form-label"></label>
+                                                <div class="col-md-4 d-flex">
+                                                    <button type="submit" class="btn btn-primary me-3"
+                                                        id="generarReporteParqueAutomotor"
+                                                        name="generarReporteParqueAutomotor">
+                                                        <i class="ti ti-search fs-4 me-2"></i>
+                                                        <span>Procesar consulta</span>
+                                                    </button>
+
+
+                                                    <input type="hidden" class="form-control"
+                                                        name="provincia_vehiculo_excel" id="provincia_vehiculo_excel">
+                                                    <input type="hidden" class="form-control"
+                                                        name="canton_vehiculo_excel" id="canton_vehiculo_excel">
+                                                    <input type="hidden" class="form-control" name="fecha_ingreso_excel"
+                                                        id="fecha_ingreso_excel">
+                                                    <input type="hidden" class="form-control" name="fecha_final_excel"
+                                                        id="fecha_final_excel">
+
+                                                    <button type="submit"
+                                                        class="btn btn-secondary me-3 btn-export d-none"
+                                                        id="generarReporteTramitesEXCEL"
+                                                        name="generarReporteTramitesEXCEL">
+                                                        <i class="ti ti-file-type-xls fs-4 me-2"></i>
+                                                        <span>Exportar excel</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-12 mb-2">
+                                            <div class="col-12 mb-2 ">
+
+                                                <br>
+
+                                                <div class="col-12 mb-2 d-none" id="content">
+
+                                                    <!-- ================= KPI INDICADORES ================= -->
+                                                    <div class="row mt-3 text-center">
+
+                                                        <div class="col-lg-3 col-6 mb-3">
+                                                            <div class="card overflow-hidden mb-0 shadow-sm">
+                                                                <div
+                                                                    class="card-body d-flex p-2 justify-content-center align-items-center">
+                                                                    <div class="p-4">
+                                                                        <h6 class="text-muted mb-1 text-center">Total de
+                                                                            vehículos</h6>
+                                                                        <h2 id="kpiTotalVehiculos"
+                                                                            class="fw-bold text-primary mb-0 text-center">
+                                                                            0</h2>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-3 col-6 mb-3">
+                                                            <div class="card overflow-hidden mb-0 shadow-sm">
+                                                                <div class="card-body d-flex p-2">
+                                                                    <div class="p-4 col-10">
+                                                                        <h6 class="text-muted mb-1 text-start">
+                                                                            Motocicletas</h6>
+                                                                        <h2 class="text-warning mb-0 text-start"
+                                                                            id="kpiTotalMotos">
+                                                                        </h2>
+
+                                                                    </div>
+                                                                    <div
+                                                                        class="rounded p-1 text-bg-secondary d-flex align-items-center justify-content-center col-2">
+                                                                        <h3
+                                                                            class="text-white box mb-0 align-items-center justify-content-center">
+                                                                            <i class="ti ti-motorbike"
+                                                                                style="font-size:40px;"></i>
+                                                                        </h3>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-3 col-6 mb-3">
+                                                            <div class="card overflow-hidden mb-0 shadow-sm">
+                                                                <div class="card-body d-flex p-2">
+                                                                    <div class="p-4 col-10">
+                                                                        <h6 class="text-muted mb-1 text-start">
+                                                                            Vehiculos</h6>
+                                                                        <h2 class="text-success mb-0 text-start"
+                                                                            id="kpiTotalAutos">
+                                                                        </h2>
+
+                                                                    </div>
+                                                                    <div
+                                                                        class="rounded p-1 text-bg-success d-flex align-items-center justify-content-center col-2">
+                                                                        <h3
+                                                                            class="text-white box mb-0 align-items-center justify-content-center">
+                                                                            <i class="ti ti-car"
+                                                                                style="font-size:40px;"></i>
+                                                                        </h3>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-lg-3 col-6 mb-3">
+                                                            <div class="card shadow-sm border-0">
+                                                                <div class="card-body border rounded">
+
+                                                                    <!-- FILA 1 -->
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center mb-2">
+
+                                                                        <div class="d-flex align-items-center gap-2">
+                                                                            <span class="text-muted">Vehículos
+                                                                                Livianos</span>
+                                                                            <span id="kpiVehiculosLivianos"
+                                                                                class="fw-bold text-success">0</span>
+                                                                        </div>
+
+                                                                        <small class="text-secondary">≤ 3,5 T</small>
+
+                                                                    </div>
+
+                                                                    <!-- FILA 2 -->
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center">
+
+                                                                        <div class="d-flex align-items-center gap-2">
+                                                                            <span class="text-muted">Vehículos
+                                                                                Pesados</span>
+                                                                            <span id="kpiTotalPesados"
+                                                                                class="fw-bold text-warning">0</span>
+                                                                        </div>
+
+                                                                        <small class="text-secondary">&gt; 3,5 T</small>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <!-- ================= FILA GRAFICOS PRINCIPALES ================= -->
+                                                    <div class="row mt-4">
+
+                                                        <!-- TIPOS DE VEHICULO -->
+                                                        <div class="col-lg-6 col-12 mb-4">
+
+                                                            <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">
+                                                                Distribución por Tipo de Vehículo
+                                                            </h5>
+
+                                                            <hr>
+
+                                                            <div class="d-flex justify-content-center">
+                                                                <div style="height:300px; width:300px;"
+                                                                    class="d-flex align-items-center">
+                                                                    <canvas id="graficoTiposVehiculo"></canvas>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <!-- VEHICULOS POR PROVINCIA -->
+                                                        <div class="col-lg-6 col-12 mb-4">
+
+                                                            <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">
+                                                                Vehículos por Provincia
+                                                            </h5>
+
+                                                            <hr>
+
+                                                            <canvas id="graficoProvincias"></canvas>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <!-- ================= FILA BARRAS PROVINCIAS ================= -->
+                                                    <div class="row mt-4">
+
+                                                        <div class="col-12">
+
+                                                            <div id="bloqueProvincias" class="d-none">
+
+                                                                <h5
+                                                                    class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">
+                                                                    Ranking de Vehículos por Provincia
+                                                                </h5>
+
+                                                                <hr>
+
+                                                                <div id="listaProvincias"></div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <!-- ================= FILA GRAFICOS CANTONES ================= -->
+                                                    <div class="row mt-4">
+
+                                                        <!-- GRAFICO CANTONES -->
+                                                        <div class="col-lg-6 col-12 mb-4">
+
+                                                            <h5 class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">
+                                                                Vehículos por Cantón
+                                                            </h5>
+
+                                                            <hr>
+
+                                                            <canvas id="graficoCantones"></canvas>
+
+                                                        </div>
+
+
+                                                        <!-- BARRAS CANTONES -->
+                                                        <div class="col-lg-6 col-12 mb-4">
+
+                                                            <div id="bloqueCantones" class="d-none">
+
+                                                                <h5
+                                                                    class="fixed-header px-2 py-2 fs-4 fw-semibold rounded">
+                                                                    Ranking de Vehículos por Cantón
+                                                                </h5>
+
+                                                                <hr>
+
+                                                                <div id="listaCantones"></div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <!-- ================= TEMPLATE REUTILIZABLE ================= -->
+                                                    <div id="templateBarra" class="mb-4 d-none">
+
+                                                        <div class="d-flex justify-content-between">
+
+                                                            <p class="text-muted mb-2 text-start nombre"></p>
+
+                                                            <p class="text-black fw-semibold text-center total"></p>
+
+                                                        </div>
+
+                                                        <div class="progress bg-five-card" style="height: 25px;">
+                                                            <div class="progress-bar barra"></div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div id="spinner-wrapper" class="spinner-wrapper">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading..</span>
+                        </div>
+                    </div>
+
+
+
+
+
+            </div>
+
+    </div>
+
+
+
+    <div id="overlay" class="overlay d-flex justify-content-center align-items-center">
+        <div class="loader text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+</body>
+
+</html>

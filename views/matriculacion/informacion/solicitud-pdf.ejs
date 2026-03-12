@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -38,7 +38,7 @@
 <body>
 
 
-    <div class="container-fluid bg-white ">
+    <div class="container-fluid bg-white">
         <div class="">
             <div class="card-body d-flex p-1">
                 <div class="col d-flex justify-content-end align-items-center">
@@ -53,7 +53,7 @@
                                         <div
                                             class="py-3 px-1 d-flex align-items-center justify-content-center bg-five-card rounded">
                                             <p
-                                                class="fw-semibold m-0 text-turner d-flex align-items-center justify-content-center fs-13">
+                                                class="text-black fw-semibold m-0 text-turner d-flex align-items-center justify-content-center fs-13">
                                                 <%= tramite.numero_turno_matriculacion_INFORMACION %>
                                             </p>
                                         </div>
@@ -159,7 +159,7 @@
                                                     a:</label>
                                                 <div class="col-sm-8">
                                                     <span id="proyect"
-                                                        class="form-control-plaintext fw-normal py-0 text-nowrap">
+                                                        class="form-control-plaintext fw-semibold py-0 text-nowrap text-black">
                                                         <%= tramite.nombre_funcionario_asignado_INFORMACION %>
                                                     </span>
                                                 </div>
@@ -310,7 +310,18 @@
                 <div class="mb-0 col-12">
                     <div class="card-body p-1">
 
-                        <h1 class="fw-semibold mb-4 mt-4 text-start text-center text-black">SOLICITUD DEL SERVICIO</h1>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <h2 class="fw-normal mb-2 mt-2 text-start text-center text-black">SOLICITUD DEL SERVICIO /
+                            </h2>
+
+                            <h2 class="fw-semibold mb-2 mt-2 ms-2 text-start text-center text-black">
+                                <%= tramite.placa %>
+                            </h2>
+
+
+                        </div>
+
+
 
                         <h6 id="fecha-actual" class="fw-normal mb-3 mt-1 text-start text-end text-black"></h6>
 
@@ -352,8 +363,7 @@
 
 
                 <div class="mb-0 col-12">
-                    <div class="card-body p-1">
-                        <h6 class="fw-normal mb-3 mt-0 text-start text-black">- DATOS DEL SOLICITANTE:</h6>
+                    <div class="card-body p-0">
                         <ul class="list-group list-group-flush border-light fs-2">
 
                             <div class="d-flex  border-bottom">
@@ -424,7 +434,7 @@
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0 text-nowrap">
-                                                Dirección:
+                                                Parroquia:
                                             </p>
                                         </div>
                                     </div>
@@ -433,16 +443,16 @@
                                     <div class="row">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0 text-nowrap">
-                                                <%= tramite.direccion_usuario %>
+                                                <%= tramite.parroquia_usuario %>
                                             </p>
                                         </div>
                                     </div>
                                 </li>
                             </div>
 
-                            <div class="d-flex border-bottom">
+                            <div class="d-flex">
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
+                                    class="list-group-item col-2 p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0 text-nowrap">
@@ -452,7 +462,7 @@
                                     </div>
                                 </li>
 
-                                <li class="list-group-item col-4 border-light-end p-2">
+                                <li class="list-group-item col-4 p-2">
                                     <div class="row">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0 text-nowrap text-uppercase">
@@ -462,7 +472,7 @@
                                     </div>
                                 </li>
                                 <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
+                                    class="list-group-item col-2 p-2 d-flex justify-content-start align-items-center bg-five-card">
                                     <div class="row w-100 text-start">
                                         <div class="col">
                                             <p class="form-control-plaintext mb-0 p-0">
@@ -481,49 +491,6 @@
                                     </div>
                                 </li>
                             </div>
-
-                            <div class="d-flex">
-                                <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
-                                    <div class="row w-100 text-start">
-                                        <div class="col">
-                                            <p class="form-control-plaintext mb-0 p-0">
-                                                Parroquia:
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li class="list-group-item col-4 border-light-end p-2">
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="form-control-plaintext mb-0 p-0 text-nowrap">
-                                                <%= tramite.parroquia_usuario %>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li
-                                    class="list-group-item col-2 border-light-end p-2 d-flex justify-content-start align-items-center bg-five-card">
-                                    <div class="row w-100 text-start">
-                                        <div class="col">
-                                            <p class="form-control-plaintext mb-0 p-0">
-                                                Teléfono:
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item col-4 p-2">
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="form-control-plaintext mb-0 p-0 text-nowrap">
-                                                <%= tramite.telefono_usuario %>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                            </div>
-
                         </ul>
 
                     </div>
@@ -538,9 +505,10 @@
 
 
                 <div class="mb-0 col-12">
-                    <div class="card-body p-1">
+                    <div class="card-body p-0">
 
-                        <h6 class="fw-normal mb-3 mt-0 text-start text-black">Por el presente solicito realizar el
+                        <h6 class="fw-normal mb-3 mt-0 text-start text-black d-none">Por el presente solicito realizar
+                            el
                             siguiente trámite que corresponde a:</h6>
 
                         <ul class="list-group list-group-flush border-light fs-2">
@@ -582,9 +550,9 @@
 
 
                 <div class="mb-0 col-12">
-                    <div class="card-body p-1">
+                    <div class="card-body p-0">
 
-                        <h6 class="fw-normal mb-3 mt-3 text-black">- DATOS DEL VEHICULO:</h6>
+                        <h6 class="fw-normal mb-2 mt-3 text-black d-none">- DATOS DEL VEHICULO:</h6>
                         <ul class="list-group list-group-flush border-light fs-2">
 
                             <div class="d-flex">
@@ -639,6 +607,91 @@
 
             </div>
 
+            <div class="card-body d-flex p-1">
+
+
+                <div class="mb-0 col-12">
+                    <div class="card-body p-1">
+
+                        <h5 class="fw-semibold mb-2 mt-2 text-start text-black">TITULO DE CRÉDITO</h5>
+
+                        <table class="table table-bordered table-sm mb-0">
+
+                            <thead>
+
+                                <tr>
+                                    <th class="border-end bg-five-card form-control-plaintext-d-flex fs-1">Nro.</th>
+                                    <th class="border-end bg-five-card form-control-plaintext-d-flex fs-1">Concepto</th>
+                                    <th class="border-end bg-five-card form-control-plaintext-d-flex fs-1">Cantidad</th>
+                                    <th class="border-end bg-five-card form-control-plaintext-d-flex fs-1">Valor unitario
+                                    </th>
+                                    <th class="border-end bg-five-card form-control-plaintext-d-flex fs-1">Subtotal</th>
+                                </tr>
+
+
+                            </thead>
+
+                            <tbody>
+
+                                <% let total=0; %>
+
+                                    <% titulosCredito.forEach((titulo, index)=> { %>
+
+                                        <tr>
+
+                                            <td class="text-center fs-1">
+                                                <%= index + 1 %>
+                                            </td>
+
+                                            <td class="fs-1">
+                                                <%= titulo.nombre_concepto %>
+                                            </td>
+
+                                            <td class="text-center fs-1">
+                                                <%= titulo.cantidad_concepto %>
+                                            </td>
+
+                                            <td class="text-end fs-1">
+                                                $ <%= Number(titulo.valor_unitario_concepto).toFixed(2) %>
+                                            </td>
+
+                                            <td class="text-end fs-1">
+                                                $ <%= Number(titulo.subtotal_concepto).toFixed(2) %>
+                                            </td>
+
+                                        </tr>
+
+                                        <% total +=Number(titulo.subtotal_concepto); %>
+
+                                            <% }) %>
+
+                            </tbody>
+
+                            <tfoot>
+
+                                <tr>
+
+                                    <th colspan="4" class="text-end fs-1">TOTAL $</th>
+
+                                    <th class="text-end fs-1">
+                                        <%= total.toFixed(2) %>
+                                    </th>
+
+                                </tr>
+
+                            </tfoot>
+
+                        </table>
+
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
             <div class="card-body d-flex p-1 ">
 
 
@@ -649,10 +702,10 @@
                             mis mas sinceros agradecimientos</h6>
 
 
-                        <h6 class="fw-normal mb-4 mt-3 text-start text-black pb-4">Atentamente.</h6>
+                        <h6 class="fw-normal mb-0 mt-3 text-start text-black pb-2 d-none">Atentamente.</h6>
                         <br>
                         <br>
-                        <ul class="list-group list-group-flush  fs-2 mt-4 pt-4">
+                        <ul class="list-group list-group-flush  fs-2 mt-4 pt-2">
 
                             <div class="d-flex">
                                 <li
@@ -725,7 +778,7 @@
 
             <div class="card-body d-flex p-1 d-none" id="deudas_SRI" name="deudas_SRI">
                 <div class="col-12 mb-0">
-                    <div class="card-body p-2 rounded d-flex align-items-center">
+                    <div class="card-body p-1 rounded d-flex align-items-center">
                         <i class="ti ti-exclamation-circle me-2 fs-5"></i>
                         <div class="d-flex justify-content-left w-100">
                             <h6 class="fw-normal mb-0 text-black me-2 d-none"
@@ -741,7 +794,7 @@
 
             <div class="card-body d-flex p-1 d-none" id="no_deudas_SRI" name="no_deudas_SRI">
                 <div class="col-12 mb-0">
-                    <div class="card-body p-2 rounded d-flex align-items-center">
+                    <div class="card-body p-1 rounded d-flex align-items-center">
                         <i class="ti ti-exclamation-circle me-2 fs-5"></i>
                         <div class="d-flex justify-content-left w-100">
                             <h6 class="fw-normal mb-0 text-black me-2">Sin datos
@@ -757,22 +810,36 @@
 
                     const informacionSRI = '<%- tramite.informacion_SRI || "" %>';
                     const totalSRI = '<%- tramite.total_SRI       || "" %>';
-
                     const deudasCard = document.getElementById('deudas_SRI')
                     const sinDeudasCard = document.getElementById('no_deudas_SRI');
                     const totalH6 = document.getElementById('deuda_total_SRI');
-
                     const infoVacia = !informacionSRI || informacionSRI.trim() === '';
                     const totalConValor = totalSRI && totalSRI.toString().trim() !== '' && Number(totalSRI) > 0;
 
                     if (infoVacia && totalConValor) {
                         deudasCard.classList.remove('d-none');
-                        totalH6.textContent = totalSRI; 
+                        totalH6.textContent = totalSRI;
                     } else {
                         sinDeudasCard.classList.remove('d-none');
                     }
                 });
             </script>
+
+
+            <div class="card-body d-flex p-1" id="no_deudas_SRI22" name="no_deudas_SRI22">
+                <div class="col-12 mb-0">
+                    <div class="card-body p-1 rounded d-flex align-items-center">
+                        <i class="ti ti-exclamation-circle me-2 fs-5"></i>
+                        <div class="d-flex justify-content-left w-100">
+                            <h6 class="fw-normal mb-0 text-black me-2 fs-2">Mediante Resolución N.°
+                                001-EXO-GER-2026-EMMSZACH-EP, se exonera el pago de multas por calendarización
+                                del año 2026 de todos los vehiculos cuyo numero de placa termina en digito 1, la exoneración referida estará vigente hasta el 31 de marzo del 2026.
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
 
 

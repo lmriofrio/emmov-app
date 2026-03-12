@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Tramite = require('../models/Tramite');
 const Funcionario = require('../models/Funcionario');
+const Vehiculo = require('../models/Vehiculo');
 const { Op, Sequelize } = require('sequelize');
 const { getChangeDate } = require('../utils/dateUtils');
 const XLSX = require('xlsx');
+const { ConsoleMessage } = require('puppeteer');
 
 
 router.get('/generar-reporte-diario', async (req, res) => {
@@ -246,6 +248,108 @@ router.get('/generar-reporte-general-tramites', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
+router.get('/generar-reporte-parque-automotor', async (req, res) => {
+
+    const { id_empresa } = req.session.user;
+    const { provincia_usuario, canton_usuario, fecha_inicial, fecha_final } = req.query;
+
+    const { startOfDay, endOfDay } = getChangeDate(fecha_inicial, fecha_final);
+
+    try {
+
+        const where = {
+            id_empresa,
+            fecha_ultimo_proceso: {
+                [Op.between]: [startOfDay, endOfDay]
+            }
+        };
+
+        if (provincia_usuario && provincia_usuario !== "Todos") {
+            where.provincia_usuario = provincia_usuario.trim();
+        }
+
+        if (canton_usuario && canton_usuario !== "Todos") {
+            where.canton_usuario = canton_usuario.trim();
+        }
+
+        //  POR PROVINCIA
+        const agrupadoPorProvincia = await Vehiculo.findAll({
+            attributes: [
+                'provincia_usuario',
+                [Sequelize.fn('COUNT', Sequelize.literal('*')), 'total']
+            ],
+            where,
+            group: ['provincia_usuario'],
+            order: [['provincia_usuario', 'ASC']]
+        });
+
+        //  POR CANTON
+        const agrupadoPorCanton = await Vehiculo.findAll({
+            attributes: [
+                'canton_usuario',
+                [Sequelize.fn('COUNT', Sequelize.literal('*')), 'total']
+            ],
+            where,
+            group: ['canton_usuario'],
+            order: [['canton_usuario', 'ASC']]
+        });
+
+        // MOTO VS VEHICULO
+        const agrupadoPorTipoGeneral = await Vehiculo.findAll({
+            attributes: [
+                'clase_vehiculo_tipo',
+                [Sequelize.fn('COUNT', Sequelize.literal('*')), 'total']
+            ],
+            where,
+            group: ['clase_vehiculo_tipo']
+        });
+
+        // CLASE VEHICULO
+        const agrupadoPorClaseVehiculo = await Vehiculo.findAll({
+            attributes: [
+                'clase_vehiculo',
+                [Sequelize.fn('COUNT', Sequelize.literal('*')), 'total']
+            ],
+            where,
+            group: ['clase_vehiculo']
+        });
+
+        // 🔹 TOTAL GENERAL
+        const totalVehiculos = await Vehiculo.count({ where });
+
+
+        // MOTO VS VEHICULO
+        const agrupadoPorTipoPeso = await Vehiculo.findAll({
+            attributes: [
+                'tipo_peso',
+                [Sequelize.fn('COUNT', Sequelize.literal('*')), 'total']
+            ],
+            where,
+            group: ['tipo_peso']
+        });
+
+        res.json({
+            success: true,
+            totalVehiculos,
+            porProvincia: agrupadoPorProvincia,
+            porCanton: agrupadoPorCanton,
+            porTipoGeneral: agrupadoPorTipoGeneral,
+            porClaseVehiculo: agrupadoPorClaseVehiculo,
+            porTipoPeso: agrupadoPorTipoPeso,
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+        res.status(500).json({ success: false });
+
+    }
+
+});
+
+
 
 router.get('/generar-reporte-general-tramites2', async (req, res) => {
 
@@ -492,7 +596,7 @@ router.get('/exportar-datos-tramites-generales', async (req, res) => {
 
     try {
         const whereClause = {
-            fecha_ingreso: { [Op.between]: [startOfDay, endOfDay] }
+            fecha_final_PRESENTACION: { [Op.between]: [startOfDay, endOfDay] }
         };
 
         if (cons_tipo_tramite && cons_tipo_tramite !== "TODOS") {
@@ -505,11 +609,13 @@ router.get('/exportar-datos-tramites-generales', async (req, res) => {
             }
         }
 
+        console.log('estado_tramite:', estado_tramite);
+
         if (estado_tramite && estado_tramite !== "TODOS") {
             whereClause.estado_tramite = estado_tramite;
         }
 
-        //console.log('whereClause:', whereClause);
+        console.log('whereClauseeeeee:', whereClause);
 
 
         const tramites = await Tramite.findAll({
@@ -518,6 +624,8 @@ router.get('/exportar-datos-tramites-generales', async (req, res) => {
         });
 
         const tramiteData = tramites.map(tramite => tramite.toJSON());
+
+        //console.log('whereClauseeeeee:', tramiteData);
 
         const workbook = XLSX.utils.book_new();
         const worksheet = XLSX.utils.json_to_sheet(tramiteData);
@@ -540,10 +648,10 @@ router.get('/exportar-datos-informacion', async (req, res) => {
 
     const id_funcionario = req.session.user.id_funcionario;
 
-    console.log('Entro a la ruta de exportar');
-    console.log('Fecha de ingreso recibida:', fecha_inicial);
-    console.log('Fecha final recibida:', fecha_final);
-    console.log('id_funcionario recibida:', id_funcionario);
+    console.log('----  ROUTER:   Entro a la ruta de exportar');
+    console.log('                Fecha de ingreso recibida:  ', fecha_inicial);
+    console.log('                Fecha final recibida:       ', fecha_final);
+    console.log('                id_funcionario recibida:    ', id_funcionario);
 
     if (!fecha_inicial || !fecha_final) {
         return res.status(400).json({ success: false, message: 'Por favor ingresa fechas válidas.' });
@@ -573,12 +681,13 @@ router.get('/exportar-datos-informacion', async (req, res) => {
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.send(buffer);
 
+        console.log('----  EXPORTACIÓN ÉXITOSA  ----');
+
     } catch (error) {
         console.error('Error al buscar trámites:', error.message, error.stack);
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
-
 
 router.get('/generar-reporte-diario-RTV', async (req, res) => {
     const { fecha_finalizacion, id_funcionario } = req.query;

@@ -584,6 +584,8 @@ $(document).ready(function () {
                 const tbodyDetalle2 = $('#tbody-tramitesDetalle2');
                 tbodyDetalle2.empty();
 
+                $('#overlay').addClass('active');
+
                 if (response.success) {
 
                     $('#content').removeClass('d-none');
@@ -650,7 +652,7 @@ $(document).ready(function () {
                         const estadoFont = tramite.estado_tramite === 'Finalizado' ? 'fw-normal' : tramite.estado_tramite === 'Eliminado' ? 'fw-normal' : 'fw-semibold';
 
                         const newRow = `
-                            <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
+                            <tr style=" ">
                                 <td class="text-center">${numeroFila}</td>
                                 <td class="text-center">${tramite.id_tramite}</td>
                                 <td class="text-center">${tramite.placa}</td>
@@ -712,8 +714,11 @@ $(document).ready(function () {
                         numeroFila2++;
                     });
 
+                    $('#overlay').removeClass('active');
+
                 } else {
                     alert('TRÁMITES NO ENCONTRADOS');
+                    $('#overlay').removeClass('active');
                 }
             },
             error: function (error) {
@@ -1216,7 +1221,7 @@ $(document).ready(function () {
                         const fechaIngresoFormateada = `${fechaIngreso.getDate().toString().padStart(2, '0')}-${(fechaIngreso.getMonth() + 1).toString().padStart(2, '0')}-${fechaIngreso.getFullYear()} ${fechaIngreso.getHours().toString().padStart(2, '0')}:${fechaIngreso.getMinutes().toString().padStart(2, '0')}`;
 
                         const newRow = `
-                        <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
+                        <tr>
                                 <td class="text-center">${contadorFilas}</td>
                                 <td class="text-center">${fechaIngresoFormateada}</td>
                                 <td class="text-dark" >${tramite.tipo_tramite || ''}</td>
@@ -1440,13 +1445,11 @@ $(document).ready(function () {
                 const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
                 const url = window.URL.createObjectURL(blob);
 
-
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = 'Tramites-informacion.xlsx';
                 document.body.appendChild(a);
                 a.click();
-
 
                 a.remove();
                 window.URL.revokeObjectURL(url);
@@ -1530,4 +1533,237 @@ $(document).ready(function () {
             }
         });
     });
+});
+
+
+//Para el paruq automotor
+$(document).ready(function () {
+
+    let chartTipos = null;
+    let chartProvincias = null;
+    let chartCantones = null;
+
+    $('#generarReporteParqueAutomotor').click(function () {
+
+        const provincia = $('select[name="provincia_vehiculo"]').val();
+        const canton = $('select[name="canton_vehiculo"]').val();
+        const fecha_inicial = $('input[name="fecha_inicial"]').val();
+        const fecha_final = $('input[name="fecha_final"]').val();
+
+        if (!provincia || !canton || !fecha_inicial || !fecha_final) {
+            alert("Completa todos los campos");
+            return;
+        }
+
+        $('#overlay').addClass('active');
+
+        $.ajax({
+            url: '/generar-reporte-parque-automotor',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                provincia_usuario: provincia,
+                canton_usuario: canton,
+                fecha_inicial,
+                fecha_final
+            },
+
+            success: function (res) {
+
+                console.log(res);
+
+                if (!res.success) {
+                    alert("No hay resultados");
+                    return;
+                }
+
+                $('#content').removeClass('d-none');
+
+                /* ================= KPI ================= */
+
+                $('#kpiTotalVehiculos').text(res.totalVehiculos);
+
+                let motos = 0;
+                let autos = 0;
+
+                (res.porTipoGeneral || []).forEach(t => {
+
+                    if (t.clase_vehiculo_tipo === "MOTOCICLETA") {
+                        motos = t.total;
+                    }
+
+                    if (t.clase_vehiculo_tipo === "VEHICULO") {
+                        autos = t.total;
+                    }
+
+                });
+
+                $('#kpiTotalMotos').text(motos);
+                $('#kpiTotalAutos').text(autos);
+                $('#kpiTotalPesados').text(res.totalVehiculos - motos - autos);
+
+
+                /* ================= GRAFICO TIPOS ================= */
+
+                const tipos = (res.porTipoGeneral || [])
+                    .filter(t => t.clase_vehiculo_tipo !== "");
+
+                if (chartTipos) chartTipos.destroy();
+
+                chartTipos = new Chart(
+                    document.getElementById('graficoTiposVehiculo'),
+                    {
+                        type: 'doughnut',
+                        data: {
+                            labels: tipos.map(t => t.clase_vehiculo_tipo),
+                            datasets: [{
+                                data: tipos.map(t => Number(t.total)),
+                                backgroundColor: ['#198754', '#0d6efd']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: 'bottom' }
+                            }
+                        }
+                    }
+                );
+
+
+                /* ================= GRAFICO PROVINCIAS ================= */
+
+                const provincias = (res.porProvincia || [])
+                    .sort((a, b) => b.total - a.total);
+
+                if (chartProvincias) chartProvincias.destroy();
+
+                chartProvincias = new Chart(
+                    document.getElementById('graficoProvincias'),
+                    {
+                        type: 'bar',
+                        data: {
+                            labels: provincias.map(p => p.provincia_usuario),
+                            datasets: [{
+                                label: 'Vehículos',
+                                data: provincias.map(p => Number(p.total)),
+                                backgroundColor: '#0d6efd'
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    }
+                );
+
+
+                /* ================= GRAFICO CANTONES ================= */
+
+                const cantones = (res.porCanton || [])
+                    .sort((a, b) => b.total - a.total)
+                    .slice(0, 10);
+
+                if (chartCantones) chartCantones.destroy();
+
+                chartCantones = new Chart(
+                    document.getElementById('graficoCantones'),
+                    {
+                        type: 'bar',
+                        data: {
+                            labels: cantones.map(c => c.canton_usuario),
+                            datasets: [{
+                                label: 'Vehículos',
+                                data: cantones.map(c => Number(c.total)),
+                                backgroundColor: '#20c997'
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    }
+                );
+
+
+                /* ================= LISTA PROVINCIAS ================= */
+
+                const totalProvincia = provincias.reduce((a, b) => a + Number(b.total), 0);
+
+                $('#listaProvincias').empty();
+                $('#bloqueProvincias').removeClass('d-none');
+
+                provincias.forEach(p => {
+
+                    const porcentaje = ((p.total / totalProvincia) * 100).toFixed(1);
+
+                    const barra = $('#templateBarra')
+                        .clone()
+                        .removeAttr('id')
+                        .removeClass('d-none');
+
+                    barra.find('.nombre').text(p.provincia_usuario);
+                    barra.find('.total').text(p.total);
+
+                    barra.find('.barra')
+                        .css('width', porcentaje + '%')
+                        .text(porcentaje + '%');
+
+                    $('#listaProvincias').append(barra);
+
+                });
+
+
+                /* ================= LISTA CANTONES ================= */
+
+                const cantonesOrdenados = (res.porCanton || [])
+                    .sort((a, b) => b.total - a.total);
+
+                const totalCantones = cantonesOrdenados.reduce((a, b) => a + Number(b.total), 0);
+
+                $('#listaCantones').empty();
+                $('#bloqueCantones').removeClass('d-none');
+
+                cantonesOrdenados.forEach(c => {
+
+                    const porcentaje = ((c.total / totalCantones) * 100).toFixed(1);
+
+                    const barra = $('#templateBarra')
+                        .clone()
+                        .removeAttr('id')
+                        .removeClass('d-none');
+
+                    barra.find('.nombre').text(c.canton_usuario);
+                    barra.find('.total').text(c.total);
+
+                    barra.find('.barra')
+                        .css('width', porcentaje + '%')
+                        .text(porcentaje + '%');
+
+                    $('#listaCantones').append(barra);
+
+                });
+
+            },
+
+            error: function (err) {
+
+                console.error(err);
+                alert("Error generando reporte");
+
+            },
+
+            complete: function () {
+
+                $('#overlay').removeClass('active');
+
+            }
+
+        });
+
+    });
+
 });

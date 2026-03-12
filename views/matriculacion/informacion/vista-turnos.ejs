@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Inicio de barra de navegación -->
         <%- include('../../body/navbar') %>
@@ -87,7 +87,7 @@
                                         <table class="table table-bordered">
                                             <thead class="" id="thead-tramites">
 
-                                                <tr class="text-dark">
+                                                <tr class="text-black-font">
                                                     <th class="text-center align-middle px-2 py-2">N°</th>
                                                     <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">TRÁMITE</th>
                                                     <th class="text-center align-middle px-2 py-2">PLACA</th>
@@ -124,7 +124,7 @@
                                     <table class="table table-bordered">
                                         <thead class="" id="thead-tramites">
 
-                                            <tr class="text-dark">
+                                            <tr class="text-black-font">
                                                 <th class="text-center align-middle px-2 py-2">N°</th>
                                                 <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">TRÁMITE</th>
                                                 <th class="text-center align-middle px-2 py-2">PLACA</th>
@@ -225,7 +225,7 @@
                                                 <div class="mb-3">
                                                     <label for="nombre_funcionario_asignado_INFORMACION"
                                                         class="col-4 form-label fw-semibold">Asignar a:</label>
-                                                    <select class="form-select"
+                                                    <select class="form-select bg-white"
                                                         name="nombre_funcionario_asignado_INFORMACION"
                                                         id="nombre_funcionario_asignado_INFORMACION" required>
                                                         <% if (funcionariosActivos && funcionariosActivos.length> 0) {

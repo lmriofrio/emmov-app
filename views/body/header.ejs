@@ -6,61 +6,74 @@
                     <i class="ti ti-menu-2"></i>
                 </a>
             </li>
-            <!-- Modulo de Reportes Generales -->
-            <% if (permisos.some(p => p.id_modulo === 5 && p.acceso)) { %>
-            <li class="nav-item border-end">
-                <a class="nav-link fs-4 btn-agenda d-flex align-items-center gap-1" href="/matriculacion/agenda-turnos"
-                    aria-expanded="false" title="Ver agenda de turnos">
-                    <i class="ti ti-address-book fs-9 d-none icon-nav"></i> <span class="nav-text fs-3">Agenda</span>
-                </a>
-            </li>
-            <% } %>
-            <!-- Fin -->
+            <!-- Modulo de Agenda -->
+            <% if (permisos.some(p=> p.id_modulo === 5 && p.acceso)) { %>
+                <li class="nav-item border-end">
+                    <a class="nav-link fs-4 btn-agenda d-flex align-items-center gap-1"
+                        href="/matriculacion/agenda-turnos" aria-expanded="false" title="Ver agenda de turnos">
+                        <i class="ti ti-address-book fs-9 d-none icon-nav"></i> <span
+                            class="nav-text fs-3">Agenda</span>
+                    </a>
+                </li>
+                <% } %>
+                    <!-- Fin -->
+                    <li class="nav-item border-end">
+                        <a class="nav-link fs-4 btn-agenda d-flex align-items-center gap-1 dropdown-toggle"
+                            href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="ti ti-search fs-9 d-none icon-nav"></i> <span
+                                class="nav-text fs-3">Consultar</span>
+                        </a>
+                        <div class="position-relative">
+                            <ul class="dropdown-menu dropdown-menu-start mt-3" aria-labelledby="drop2">
+                                <li class="">
+                                    <a class="dropdown-item sidebar-link d-flex align-items-center text-black"
+                                        href="/consultar/consulta-vehiculo">
 
+                                        <span class="hide-menu fw-normal">Buscar vehículo</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="dropdown-item sidebar-link d-flex align-items-center text-black"
+                                        href="/consultar/consulta-persona">
 
-            <li class="nav-item border-end">
-                <a class="nav-link fs-4 btn-agenda d-flex align-items-center gap-1 dropdown-toggle"
-                    href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="ti ti-search fs-9 d-none icon-nav"></i> <span class="nav-text fs-3">Consultar</span>
-                </a>
-                <div class="position-relative">
-                    <ul class="dropdown-menu dropdown-menu-start mt-3" aria-labelledby="drop2">
-                        <li class="">
-                            <a class="dropdown-item sidebar-link d-flex align-items-center text-black" href="/consultar/consulta-vehiculo">
-                                
-                                <span class="hide-menu fw-normal">Buscar vehículo</span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a class="dropdown-item sidebar-link d-flex align-items-center text-black" href="/consultar/consulta-persona">
-                                
-                                <span class="hide-menu fw-normal">Buscar personas</span>
-                            </a>
-                        </li>
-                        <li class="">
-                            <a class="dropdown-item sidebar-link d-flex align-items-center text-black" 
-                               href="/servicios/consulta-placas-inventario" 
-                               target="_blank">
-                              <span class="hide-menu fw-normal">Buscar placa metálica - inventario</span>
-                            </a>
-                          </li>
-                          
-                        <li class="">
-                            <a class="dropdown-item sidebar-link d-flex align-items-center text-black" href="/consultar/consulta-tramite">
-                                <span class="hide-menu fw-normal">Buscar trámite</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                
-            </li>
+                                        <span class="hide-menu fw-normal">Buscar personas</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="dropdown-item sidebar-link d-flex align-items-center text-black"
+                                        href="/servicios/consulta-placas-inventario" target="_blank">
+                                        <span class="hide-menu fw-normal">Buscar placa metálica - inventario</span>
+                                    </a>
+                                </li>
 
-            <li class="nav-item border-end d-none">
-                <a class="nav-link fs-4 btn-agenda d-flex align-items-center gap-1" href="/matriculacion/informacion/consulta-valor-matricula">
-                    <i class="ti ti-search fs-9 d-none icon-nav"></i> <span class="nav-text fs-3">Consultar SRI</span>
-                </a>
+                                <li class="">
+                                    <a class="dropdown-item sidebar-link d-flex align-items-center text-black"
+                                        href="/consultar/consulta-tramite">
+                                        <span class="hide-menu fw-normal">Buscar trámite</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
 
-            </li>
+                    </li>
+
+                    <li class="nav-item border-end d-none">
+                        <a class="nav-link fs-4 btn-agenda d-flex align-items-center gap-1"
+                            href="/matriculacion/informacion/consulta-valor-matricula">
+                            <i class="ti ti-search fs-9 d-none icon-nav"></i> <span class="nav-text fs-3">Consultar
+                                SRI</span>
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item border-end">
+                        <a class="nav-link fs-4 btn-agenda d-flex align-items-center gap-1"
+                            href="/consultar/consulta-parque-automotor">
+                            <i class="ti ti-search fs-9 d-none icon-nav"></i> <span class="nav-text fs-3">Parque automotor</span>
+                        </a>
+
+                    </li>
+
         </ul>
 
 
@@ -90,8 +103,8 @@
                 <!-- PERFIL DE  DROPDOWN             -->
                 <!-- ------------------------------- -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link border-start py-1 px-2 align-items-center d-flex gap-1" href="#" id="navbarDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link border-start py-1 px-2 align-items-center d-flex gap-1" href="#"
+                        id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="ti ti-user-circle"></i> <span class="fw-normal fs-3" id="header-nameShort"
                             name="header-nameShort">
                             <%= userData.nombre_funcionario_corto %>
@@ -202,6 +215,34 @@
                                 </div>
                             </div>
                         </li>
+
+                        <li class="dropdown-item">
+                            <div class="sidebar-link d-flex align-items-center text-black">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="switchTema">
+                                    <label class="form-check-label ms-2" for="switchTema">Color del sistema</label>
+                                </div>
+                            </div>
+                        </li>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", () => {
+                                const htmlTag = document.documentElement;
+                                const switchTema = document.getElementById("switchTema");
+
+                                const temaGuardado = localStorage.getItem("preferenciaTema") || "light";
+                                htmlTag.setAttribute("data-bs-theme", temaGuardado);
+
+                                switchTema.checked = (temaGuardado === "dark");
+
+                                switchTema.addEventListener("change", () => {
+                                    const temaNuevo = switchTema.checked ? "dark" : "light";
+
+                                    htmlTag.setAttribute("data-bs-theme", temaNuevo);
+                                    localStorage.setItem("preferenciaTema", temaNuevo);
+                                });
+                            });
+                        </script>
 
 
                         <!--

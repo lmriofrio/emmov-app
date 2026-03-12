@@ -436,6 +436,12 @@ const Tramite = sequelize.define('registro-tramites', {
     type: DataTypes.STRING(45),
     allowNull: true
   },
+  id_documento_informacion: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+
+  
 
 }, {
 

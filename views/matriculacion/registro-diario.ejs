@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+    <div class="page-wrapper" id="main-wrapper"  data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Inicio de barra de navegación -->
         <%- include('../body/navbar') %>
@@ -262,14 +262,11 @@
                                                         // Fetch all the forms we want to apply custom Bootstrap validation styles to
                                                         const forms = document.querySelectorAll('.needs-validation')
 
-                                                        // Loop over them and prevent submission
                                                         Array.from(forms).forEach(form => {
                                                             form.addEventListener('submit', event => {
                                                                 const celularUsuario = form.querySelector('#celular_usuario');
                                                                 let isValid = true;
 
-
-                                                                // Validar que el número de teléfono no tenga más de 10 dígitos
                                                                 if (celularUsuario.value.length > 10) {
                                                                     celularUsuario.setCustomValidity('El número de teléfono no puede tener más de 10 dígitos.');
                                                                     isValid = false;
@@ -313,7 +310,7 @@
                                                             <h3 class="text-warning mb-0 fs-6">
                                                                 <%= tramitesAnual %>
                                                             </h3>
-                                                            <span class="w-100 fs-2">Tramites anuales</span>
+                                                            <span class="w-100 fs-2 text-muted">Tramites anuales</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -333,7 +330,7 @@
                                                             <h3 class="text-warning mb-0 fs-6">
                                                                 <%= tramitesMensuales %>
                                                             </h3>
-                                                            <span class="w-100 fs-2">Tramites mensuales</span>
+                                                            <span class="w-100 fs-2 text-muted">Tramites mensuales</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -353,7 +350,7 @@
                                                             <h3 class="text-warning mb-0 fs-6">
                                                                 <%= tramitesDiarios %>
                                                             </h3>
-                                                            <span class="w-100 fs-2">Tramites diarios</span>
+                                                            <span class="w-100 fs-2 text-muted">Tramites diarios</span>
                                                         </div>
                                                     </div>
                                                 </div>

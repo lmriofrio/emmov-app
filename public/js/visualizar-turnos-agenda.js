@@ -81,17 +81,17 @@ $(document).ready(function () {
                         estadoClass = 'bg-wait';
                         estadoFont = 'fw-semibold';
                         estadoText = 'text-blue';
-                        placaCellContent = `<a href="#" class="atenderTramite" id="editar-${tramite.id_tramite}" data-id-tramite="${tramite.id_tramite}">${tramite.placa}</a>`;
+                        placaCellContent = `<a href="#" class="text-blue atenderTramite" id="editar-${tramite.id_tramite}" data-id-tramite="${tramite.id_tramite}">${tramite.placa}</a>`;
 
                         opcionesHabilitadas.push(`
                             <li>
                                 <a class="dropdown-item atenderTramite text-black px-4" href="#" 
                                    id="editar-${tramite.id_tramite}" 
-                                   data-id-tramite="${tramite.id_tramite}">
+                                   data-id-tramite="${tramite.id_tramite}"
+                                   data-placa="${tramite.placa}">
                                    Atender
                                </a>
                             </li>
-
 
                             <li>
                                 <a class="dropdown-item reasignarTramite text-black px-4" href="#" 
@@ -129,7 +129,7 @@ $(document).ready(function () {
 
 
                     const newRow = `
-                        <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
+                        <tr style=" ">
                             <td class="text-center">${numeroFila}</td>
                             <td class="text-center">${tramite.id_tramite}</td>
                             <td class="text-center ${estadoFont} ${estadoText}">
@@ -147,7 +147,7 @@ $(document).ready(function () {
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
                             <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
-                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
+                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                         Acción
                                     </button>
@@ -163,18 +163,42 @@ $(document).ready(function () {
 
                     $('#tbody-tramites').off('click', '.atenderTramite').on('click', '.atenderTramite', function () {
                         const idTramite = $(this).data('id-tramite');
-                        console.info(idTramite);
+                        const placa = $(this).data('placa');
+                        console.log('id-tramite', idTramite);
+                        console.log('placa', placa);
 
                         $.ajax({
                             type: 'GET',
                             url: `/buscar-tramite-id`,
                             data: { idTramite },
                             success: function (response) {
-                                if (response.success) {
-                                    window.location.href = `/matriculacion/registro-por-turno?id_tramite=${idTramite}`;
-                                } else {
+
+                                if (!response.success) {
                                     alert('Error: no se pudo obtener la información del trámite.');
+                                    return;
                                 }
+
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/registrar-tramite-en-atencion',
+                                    data: {
+                                        id_tramite: idTramite,
+                                        placa: placa
+                                    },
+                                    success: function (res) {
+
+                                        if (!res.success) {
+                                            alert(res.message || 'No se pudo registrar el trámite en atención.');
+                                            return;
+                                        }
+
+                                        window.location.href = `/matriculacion/registro-por-turno?id_tramite=${idTramite}`;
+                                    },
+                                    error: function () {
+                                        alert('Error al registrar el trámite en atención.');
+                                    }
+                                });
+
                             },
                             error: function (error) {
                                 console.error('Error al obtener detalles del trámite:', error);
@@ -208,6 +232,7 @@ $(document).ready(function () {
                             }
                         });
                     });
+
                     /*
                    $('#tbody-tramites').on('click', '.editarTramite', function () {
                        const idTramite = $(this).data('id-tramite');
@@ -397,7 +422,8 @@ $(document).ready(function () {
                             <li>
                                 <a class="dropdown-item atenderTramite text-black px-4" href="#" 
                                    id="editar-${tramite.id_tramite}" 
-                                   data-id-tramite="${tramite.id_tramite}">
+                                   data-id-tramite="${tramite.id_tramite}"
+                                   data-placa="${tramite.placa}">
                                    Atender
                                </a>
                             </li>
@@ -436,7 +462,7 @@ $(document).ready(function () {
                     const opcionesMenu = opcionesHabilitadas.join('');
 
                     const newRow2 = `
-                        <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
+                        <tr style=" ">
                             <td class="text-center">${numeroFilaG}</td>
                             <td class="text-center">${tramite.id_tramite}</td>
                             <td class="text-center fw-semibold text-blue">
@@ -458,7 +484,7 @@ $(document).ready(function () {
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
                             <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
-                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
+                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                         Acción
                                     </button>
@@ -473,18 +499,44 @@ $(document).ready(function () {
 
                     $('#tbody-tramitesGeneral').off('click', '.atenderTramite').on('click', '.atenderTramite', function () {
                         const idTramite = $(this).data('id-tramite');
-                        console.info(idTramite);
+                        const placa = $(this).data('placa');
+                        console.log('id-tramite', idTramite);
+                        console.log('placa', placa);
 
                         $.ajax({
                             type: 'GET',
                             url: `/buscar-tramite-id`,
                             data: { idTramite },
                             success: function (response) {
-                                if (response.success) {
-                                    window.location.href = `/matriculacion/registro-por-turno?id_tramite=${idTramite}`;
-                                } else {
+
+                                if (!response.success) {
                                     alert('Error: no se pudo obtener la información del trámite.');
+                                    return;
                                 }
+
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/registrar-tramite-en-atencion',
+                                    data: {
+                                        id_tramite: idTramite,
+                                        placa: placa
+                                    },
+                                    success: function (res) {
+
+                                        if (!res.success) {
+                                            alert(res.message || 'No se pudo registrar el trámite en atención.');
+                                            return;
+                                        }
+
+                                        window.location.href = `/matriculacion/registro-por-turno?id_tramite=${idTramite}`;
+                                    },
+                                    error: function () {
+                                        alert('Error al registrar el trámite en atención.');
+                                    }
+                                });
+
+
+
                             },
                             error: function (error) {
                                 console.error('Error al obtener detalles del trámite:', error);
@@ -723,7 +775,7 @@ $(document).ready(function () {
                     const opcionesMenu = opcionesHabilitadas.join('');
 
                     const newRow3 = `
-                        <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
+                        <tr style=" ">
                             <td class="text-center">${numeroFilaE}</td>
                             <td class="text-center">${tramite.id_tramite}</td>
                             <td class="text-center">${tramite.placa}</td>
@@ -739,7 +791,7 @@ $(document).ready(function () {
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
                             <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
-                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
+                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                         Acción
                                     </button>

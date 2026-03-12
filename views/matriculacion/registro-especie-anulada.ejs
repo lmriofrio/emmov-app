@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    <div class="page-wrapper" id="main-wrapper" data-theme="blue_theme" data-layout="vertical" data-sidebartype="full"
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Inicio de barra de navegación -->
         <%- include('../body/navbar') %>
@@ -54,7 +54,8 @@
 
                                             <div class="card-body p-4">
 
-                                                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                                                <div
+                                                    class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                                                     <div class="mb-3 mb-sm-0">
                                                         <ol class="breadcrumb">
                                                             <li class="breadcrumb-item">
@@ -74,8 +75,8 @@
                                                     </div>
                                                 </div>
 
-                                                <form action="/guardar-especie-anulada" method="post" id="anulacionEspecieForm"
-                                                    class="col needs-validation" novalidate>
+                                                <form action="/guardar-especie-anulada" method="post"
+                                                    id="anulacionEspecieForm" class="col needs-validation" novalidate>
 
 
                                                     <div class="form-items">
@@ -96,8 +97,9 @@
                                                     <div class="form-items">
                                                         <label for="" class="col-form-label">Motivo</label>
                                                         <input type="text" name="motivo_especie_anulada"
-                                                            class="form-control text-uppercase" id="motivo_especie_anulada"
-                                                            placeholder="" autocomplete="off" maxlength="45" required
+                                                            class="form-control text-uppercase"
+                                                            id="motivo_especie_anulada" placeholder=""
+                                                            autocomplete="off" maxlength="45" required
                                                             value="ERROR DE IMPRESIÓN">
                                                     </div>
 
@@ -126,6 +128,13 @@
 
                                                     <input type="hidden" name="date_registraton" class="form-control"
                                                         id="date_registraton" placeholder="" required>
+
+                                                    <div class="form-items">
+                                                        <label for="" class="col-form-label">N° de fojas</label>
+                                                        <input type="text" name="numero_fojas"
+                                                            class="form-control text-uppercase" id="numero_fojas"
+                                                            placeholder="1" autocomplete="off" maxlength="1" value="1" required>
+                                                    </div>
 
                                                     <div class="form-items">
                                                         <label for="" class="col-form-label">N° de especie</label>

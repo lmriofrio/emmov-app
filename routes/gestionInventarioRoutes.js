@@ -56,9 +56,9 @@ router.post('/ingresar-placa-individual', async (req, res) => {
   }
 });
 
-router.post('/ingresar-placa-lotes', async (req, res) => {
+router.post('/ingresar-placa-lotes-motocicletas', async (req, res) => {
   try {
-    const { id_letrasInicial, id_numeros, id_letrasFinal = '', cantidadGenerar, cantidad, clase_vehiculo, clase_transporte, } = req.body;
+    const { id_letrasInicial, id_numeros, id_letrasFinal = '', cantidadGenerar, cantidad, clase_vehiculo, clase_transporte, tipo_tramite } = req.body;
     const { id_funcionario, username, nombre_funcionario, id_empresa, nombre_corto_empresa, nombre_puesto_funcionario } = req.session.user;
     let { ubicacion, ingreso_fecha } = req.body;
 
@@ -102,6 +102,7 @@ router.post('/ingresar-placa-lotes', async (req, res) => {
         ingreso_fecha,
         cantidad,
         estado: 'POR ENTREGAR',
+        tipo_tramite,
         ingreso_id_funcionario,
         ingreso_funcionario,
         ingreso_nombre_puesto_funcionario,
@@ -124,6 +125,74 @@ router.post('/ingresar-placa-lotes', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error al guardar las placas' });
   }
 });
+
+router.post('/ingresar-placa-lotes-vehiculos', async (req, res) => {
+  try {
+    const { id_letrasInicial, id_numeros, cantidadGenerar, cantidad, clase_vehiculo, clase_transporte, tipo_tramite} = req.body;
+    const { id_funcionario, username, nombre_funcionario, id_empresa, nombre_corto_empresa, nombre_puesto_funcionario } = req.session.user;
+    let { ubicacion, ingreso_fecha } = req.body;
+
+    //console.log(req.body);
+
+    const numeroInicial = parseInt(id_numeros);
+    if (isNaN(numeroInicial) || cantidadGenerar <= 0) {
+      return res.status(400).json({ success: false, message: 'Datos inválidos: Verifique los campos' });
+    }
+
+    const ingreso_id_funcionario = id_funcionario;
+    const ingreso_funcionario = nombre_funcionario;
+    const ingreso_nombre_puesto_funcionario = nombre_puesto_funcionario;
+    const ingreso_username = username;
+
+    let { ChangeDay } = getChangeDay(ingreso_fecha);
+    ingreso_fecha = ChangeDay;
+
+    const prefijoInicial = id_letrasInicial.toUpperCase();
+    const placasPorLote = Array.from({ length: cantidadGenerar }, (_, i) =>
+      `${prefijoInicial}${(numeroInicial + i).toString().padStart(4, '0')}`
+    );
+
+    const primeraPlaca = placasPorLote[0];
+    const ultimaPlaca = placasPorLote[placasPorLote.length - 1];
+
+    const placasGeneradas = `${primeraPlaca} hasta la placa ${ultimaPlaca}`;
+
+    const ingreso_id_empresa = id_empresa;
+    const ingreso_nombre_corto_empresa = nombre_corto_empresa;
+
+    await Promise.all(placasPorLote.map(placa =>
+      InventarioPlacas.create({
+        placa,
+        clase_vehiculo,
+        clase_transporte,
+        ubicacion: ubicacion.toUpperCase(),
+        ingreso_fecha,
+        cantidad,
+        estado: 'POR ENTREGAR',
+        tipo_tramite,
+        ingreso_id_funcionario,
+        ingreso_funcionario,
+        ingreso_nombre_puesto_funcionario,
+        ingreso_username,
+        ingreso_id_empresa,
+        ingreso_nombre_corto_empresa
+      })
+    ));
+
+    res.status(200).json({
+      success: true,
+      message: 'Placas ingresadas con éxito',
+      redirectUrl: `/inventario-placas/ingreso-placas/placa-ingresada-lotes?clase_vehiculo=${clase_vehiculo}&clase_transporte=${clase_transporte}&ubicacion=${ubicacion}&nombre_corto_empresa=${nombre_corto_empresa}&ingreso_username=${ingreso_username}&ingreso_fecha=${ingreso_fecha}&cantidad=${cantidad}&cantidadGenerar=${cantidadGenerar}&placasGeneradas=${placasGeneradas}`,
+    });
+
+
+
+  } catch (error) {
+    console.error('Error al guardar las placas en lotes:', error);
+    res.status(500).json({ success: false, message: 'Error al guardar las placas' });
+  }
+});
+
 
 router.post('/editar-placa-inventario', async (req, res) => {
   try {

@@ -3,6 +3,8 @@ const Tramite = require('../models/Tramite');
 const Usuario = require('../models/Usuario');
 const FaltaAsistenciasTTHH = require('../models/FaltaAsistenciasTTHH');
 const InventarioPlacas = require('../models/InventarioPlacas');
+const TituloCredito = require('../models/TituloCredito');
+const ConceptoPago = require('../models/ConceptoPago');
 const { Op } = require('sequelize');
 
 
@@ -679,9 +681,102 @@ async function editarInventarioPlacas({
 }
 
 
+async function createTitulosCreditos({
+    id_tramite,
+    id_concepto,
+    cantidad,
+    valor,
+    placa,
+    id_usuario,
+    nombre_usuario
+}) {
+
+    const concepto = await ConceptoPago.findByPk(id_concepto);
+
+    const nombreConcepto = (concepto?.nombre_concepto || '').toUpperCase();
+
+    const cantidadNum = Number(cantidad) || 0;
+    const valorNum = Number(valor) || 0;
+
+    const subtotal = cantidadNum * valorNum;
+
+    console.log("Guardando título de crédito");
+
+    await TituloCredito.create({
+
+        id_tramite,
+        placa: (placa || '').toUpperCase(),
+        id_usuario,
+        nombre_usuario: (nombre_usuario || '').toUpperCase(),
+
+        nombre_concepto: nombreConcepto,
+
+        cantidad_concepto: cantidadNum,
+        valor_unitario_concepto: valorNum,
+        subtotal_concepto: subtotal,
+
+        fecha_titulo_credito: new Date(),
+        estado_titulo_credito: 'ABIERTO'
+
+    });
+
+}
+
+async function cerrarTituloCredito(id_tramite) {
+
+    try {
+
+        const [filasActualizadas] = await TituloCredito.update(
+            {
+                estado_titulo_credito: 'CERRADO'
+            },
+            {
+                where: { id_tramite: id_tramite }
+            }
+        );
+
+        if (filasActualizadas === 0) {
+            console.log("No se encontraron títulos de crédito para cerrar");
+            return false;
+        }
+
+        console.log(`Se cerraron títulos de crédito del trámite ${id_tramite}`);
+
+        return true;
+
+    } catch (error) {
+
+        console.error("Error al cerrar títulos de crédito:", error);
+        throw error;
+
+    }
+
+}
 
 
-module.exports = { editarInventarioPlacas, solicitarTurnos, createVehiculo, updateVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, createFaltaAsistencia, editarFaltaAsistencia };
+
+async function updateTramite_id_documento({ id_tramite, id_documento_informacion }) {
+  try {
+    const tramite = await Tramite.findOne({ where: { id_tramite } });
+
+    if (!tramite) {
+      throw new Error(`No se pudo encontrar el trámite con ID: ${id_tramite}`);
+    }
+
+    console.log('------ Actualizando el trámite desde saveUtils (updateTramite_id_documento) -------');
+
+    await tramite.update({ id_documento_informacion });
+
+    console.log(`El trámite con ID: ${id_tramite} fue actualizado exitosamente con el documento ${id_documento_informacion}, desde (updateTramite_id_documento)`);
+    return { success: true, message: 'Trámite actualizado correctamente con datos del documento' };
+  } catch (error) {
+    console.error('Error al actualizar el trámite con documento:', error);
+    return { success: false, message: error.message };
+  }
+}
+
+
+module.exports = { updateTramite_id_documento, cerrarTituloCredito, createTitulosCreditos, editarInventarioPlacas, solicitarTurnos, createVehiculo, updateVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, createFaltaAsistencia, editarFaltaAsistencia };
 
 
 
