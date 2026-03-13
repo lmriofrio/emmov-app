@@ -95,6 +95,15 @@ $(document).ready(function () {
                                Imprimir
                             </a>
                         </li>
+                        <li>
+                            <a class="dropdown-item visualizarDocumentoInformacion text-black px-4" href="#" 
+                                id="visualizar-${tramite.id_tramite}" 
+                                data-id-tramite="${tramite.id_tramite}"
+                                data-username="${tramite.username}"
+                                data-id-documento-informacion="${tramite.id_documento_informacion}">
+                                Visualizar documento (Información)
+                            </a>
+                        </li>
                     `);
 
                     const opcionesMenu = opcionesHabilitadas.join('');
@@ -135,52 +144,65 @@ $(document).ready(function () {
 
                     $('#tbody-tramites').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
-
                         $.ajax({
                             type: 'GET',
                             url: `/buscar-tramite-id`,
                             data: { idTramite },
                             success: function (response) {
                                 if (response.success) {
+                                    const fechaOriginal2 = response.tramite.fecha_final_PRESENTACION;
+                                    const fecha = new Date(fechaOriginal2);
+                                    fecha.setHours(fecha.getHours() + 5);
+                                    const dia = fecha.getDate().toString().padStart(2, '0');
+                                    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                                    const año = fecha.getFullYear();
+                                    const hora = fecha.getHours().toString().padStart(2, '0');
+                                    const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                                    const fechaFormateada = `${dia}-${mes}-${año} ${hora}:${minutos}`;
 
-                                    $('#visualizar_id_tramite').val(response.tramite.id_tramite);
-                                    $('#placaVisualizar').val(response.tramite.placa);
-                                    $('#tipo_tramiteVisualizar').val(response.tramite.tipo_tramite);
+                                    $('#estado_tramite').text(response.tramite.estado_tramite);
+                                    $('#placa').val(response.tramite.placa);
+                                    $('#tipo_tramite').val(response.tramite.tipo_tramite);
+                                    $('#clase_vehiculo').val(response.tramite.clase_vehiculo);
+                                    $('#id_usuario').val(response.tramite.id_usuario);
+                                    $('#canton_usuario').val(response.tramite.canton_usuario);
+                                    $('#email_usuario').val(response.tramite.email_usuario);
+                                    $('#nombre_usuario').val(response.tramite.nombre_usuario);
+                                    $('#celular_usuario').val(response.tramite.celular_usuario);
+                                    $('#clase_transporte').val(response.tramite.clase_transporte);
+                                    $('#numero_adhesivo').val(response.tramite.numero_adhesivo);
+                                    $('#numero_matricula').val(response.tramite.numero_matricula);
+                                    $('#numero_fojas').val(response.tramite.numero_fojas);
+                                    $('#pago_placas_entidad_bancaria').val(response.tramite.pago_placas_entidad_bancaria);
+                                    $('#pago_placas_fecha').val(response.tramite.pago_placas_fecha);
+                                    $('#pago_placas_newservicio').val(response.tramite.pago_placas_newservicio);
+                                    $('#pago_placas_valor').val(response.tramite.pago_placas_valor);
+                                    $('#pago_placas_comprobante').val(response.tramite.pago_placas_comprobante);
+                                    $('#id_tramite_axis').val(response.tramite.id_tramite_axis);
+                                    $('#nombre_funcionario').val(response.tramite.nombre_funcionario);
+                                    $('#username').val(response.tramite.username);
+                                    $('#username_funcionario_INFORMACION').val(response.tramite.username_funcionario_INFORMACION);
+                                    $('#nombre_funcionario_INFORMACION').val(response.tramite.nombre_funcionario_INFORMACION);
+                                    $('#fecha_ingreso').text(fechaFormateada);
+                                    $('#id_tramite').text(response.tramite.id_tramite);
+                                    $('#id_date_registraton').text(response.tramite.date_registraton);
 
-                                    $('#clase_vehiculoVisualizar').val(response.tramite.clase_vehiculo);
-                                    $('#tipo_vehiculoVisualizar').val(response.tramite.tipo_vehiculo);
-                                    $('#clase_transporteVisualizar').val(response.tramite.clase_transporte);
-                                    $('#tipo_pesoVisualizar').val(response.tramite.tipo_peso);
-
-                                    $('#tipo_id_usuarioVisualizar').val(response.tramite.tipo_id_usuario);
-                                    $('#id_usuarioVisualizar').val(response.tramite.id_usuario);
-                                    $('#nombre_usuarioVisualizar').val(response.tramite.nombre_usuario);
-                                    $('#provincia_usuarioVisualizar').val(response.tramite.provincia_usuario);
-                                    $('#canton_usuarioVisualizar').val(response.tramite.canton_usuario);
-                                    $('#parroquia_usuarioVisualizar').val(response.tramite.parroquia_usuario);
-                                    $('#direccion_usuarioVisualizar').val(response.tramite.direccion_usuario);
-                                    $('#email_usuarioVisualizar').val(response.tramite.email_usuario);
-                                    $('#celular_usuarioVisualizar').val(response.tramite.celular_usuario);
-
-                                    $('#nombre_funcionarioVisualizar').val(response.tramite.nombre_funcionario);
-                                    $('#usernameVisualizar').val(response.tramite.username);
-
-                                    $('#visualizar_fecha_ingreso').text(response.tramite.fecha_ingreso_INFORMACION);
-                                    $('#id_tramiteVisualizar').text(response.tramite.id_tramite);
-
-                                    $('#id_date_registratonVisualizar').text(response.tramite.date_registraton);
-
-                                    $('#modalVisualizarTramite').modal('show');
+                                    $('#permisosModal2').modal('show');
                                 } else {
                                     alert('Error: no se pudo obtener la información del trámite.');
                                 }
                             },
-                            error: function (error) {
-                                console.error('Error al obtener detalles del trámite:', error);
+                            error: function () {
                                 alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
                             }
                         });
                     });
+
+
+
+
+
+
 
                     $('#tbody-tramites').off('click', '.imprimirTramite').on('click', '.imprimirTramite', function () {
                         const idTramite = $(this).data('id-tramite');

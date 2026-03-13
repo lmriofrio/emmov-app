@@ -971,7 +971,7 @@ app.get('/matriculacion/informacion/agregar-turno', async (req, res) => {
           tipo_servicio_concepto: 'MATRICULACION',
           estado_concepto: 'ACTIVO'
         },
-        order: [['categoria_concepto', 'ASC']]
+        order: [['nombre_concepto', 'ASC']]
       });
 
       res.render('matriculacion/informacion/agregar-turno', {
@@ -1221,37 +1221,6 @@ app.get('/matriculacion/reportes-generales/reporte-general-tramites', async (req
     res.redirect('/login');
   }
 });
-app.get('/matriculacion/reportes-generales/reporte-general-tramites2', async (req, res) => {
-  if (req.session.user) {
-
-
-    const selectorTramites = new SeleccionarTipoTramites();
-
-    const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
-
-    let tiposTramites = await obtenerTiposTramitesAsync();
-
-    const tiposExcluir = ['ADHESIVO ANULADO', 'ESPECIE ANULADA', 'ESPECIE Y ADHESIVO ANULADO'];
-
-    tiposTramites = tiposTramites.filter(tipo => !tiposExcluir.includes(tipo.tipo_tramite));
-
-    const idEmpresa = req.session.user.id_empresa;
-
-    const centrosMatriculacion = await CentroMatriculacion.findAll({
-      where: { id_empresa: idEmpresa },
-      attributes: ['id_centro_matriculacion', 'nombre_centro_matriculacion']
-    });
-
-
-    const funcionarios = await Funcionario.findAll({
-      where: { id_empresa: idEmpresa },
-      attributes: ['id_funcionario', 'nombre_funcionario']
-    });
-    res.render('matriculacion/reportes-generales/reporte-general-tramites2', { userData: req.session.user, tiposTramites, centrosMatriculacion, funcionarios, permisos: req.session.permisos });
-  } else {
-    res.redirect('/login');
-  }
-});
 app.post('/matriculacion/reportes-generales/reporte-general-tramites-pdf', async (req, res) => {
   if (req.session.user) {
 
@@ -1265,7 +1234,6 @@ app.post('/matriculacion/reportes-generales/reporte-general-tramites-pdf', async
     res.redirect('/login');
   }
 });
-
 app.get('/matriculacion/reportes-generales/reporte-pago-placas', async (req, res) => {
 
   if (req.session.user, req.session.permisos) {
@@ -1290,11 +1258,36 @@ app.get('/matriculacion/reportes-generales/reporte-pago-placas', async (req, res
     res.redirect('/login');
   }
 });
+app.get('/matriculacion/reportes-generales/reporte-general-tramites-area-informacion', async (req, res) => {
+  if (req.session.user) {
+
+    const selectorTramites = new SeleccionarTipoTramites();
+
+    const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
+
+    let tiposTramites = await obtenerTiposTramitesAsync();
+
+    const tiposExcluir = ['ADHESIVO ANULADO', 'ESPECIE ANULADA', 'ESPECIE Y ADHESIVO ANULADO'];
+
+    tiposTramites = tiposTramites.filter(tipo => !tiposExcluir.includes(tipo.tipo_tramite));
+
+    const idEmpresa = req.session.user.id_empresa;
+
+    const centrosMatriculacion = await CentroMatriculacion.findAll({
+      where: { id_empresa: idEmpresa },
+      attributes: ['id_centro_matriculacion', 'nombre_centro_matriculacion']
+    });
 
 
-
-
-
+    const funcionarios = await Funcionario.findAll({
+      where: { id_empresa: idEmpresa },
+      attributes: ['id_funcionario', 'nombre_funcionario']
+    });
+    res.render('matriculacion/reportes-generales/reporte-general-tramites-area-informacion', { userData: req.session.user, tiposTramites, centrosMatriculacion, funcionarios, permisos: req.session.permisos });
+  } else {
+    res.redirect('/login');
+  }
+});
 
 app.get('/perfil/configuracion-cuenta', async (req, res) => {
   if (req.session.user, req.session.permisos) {
@@ -1418,26 +1411,6 @@ app.get('/home', async (req, res) => {
     res.redirect('/');
   }
 });
-
-app.get('/calcular-valores', async (req, res) => {
-  if (req.session.user, req.session.permisos) {
-
-    const selectorTramites = new SeleccionarTipoTramites();
-
-    let resultados;
-
-    const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
-    let tiposTramites = await obtenerTiposTramitesAsync();
-    const tiposExcluir = ['ADHESIVO ANULADO', 'ESPECIE ANULADA', 'ESPECIE Y ADHESIVO ANULADO'];
-    tiposTramites = tiposTramites.filter(tipo => !tiposExcluir.includes(tipo.tipo_tramite));
-    res.render('calcular-valores', {
-      userData: req.session.user, permisos: req.session.permisos, tiposTramites, resultados
-    });
-  } else {
-    res.redirect('/');
-  }
-});
-
 
 
 ////////////////////////////////////////////////

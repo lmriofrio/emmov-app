@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-    <title>Reporte de trámites en Información</title>
+    <title>Reporte de información</title>
     <link rel="stylesheet" href="../../../public/css/style.css">
     <script src="node_modules/simplebar/dist/simplebar.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
@@ -23,7 +23,7 @@
 
 <body>
 
-    <div class="page-wrapper" id="main-wrapper"  data-layout="vertical" data-sidebartype="full"
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <!-- Inicio de barra de navegación -->
         <%- include('../../body/navbar') %>
@@ -46,7 +46,7 @@
                                                         <a class="text-decoration-none text-black" href="/">REPORTES</a>
                                                     </li>
                                                     <li class="breadcrumb-item text-muted" aria-current="page">
-                                                        Reporte de trámites en la empresa
+                                                        Reporte del área de información
                                                     </li>
 
                                                 </ol>
@@ -159,31 +159,11 @@
                                                     class="col-md-2 form-label fw-semibold  col-form-label"></label>
                                                 <div class="col-md-4 d-flex">
                                                     <button type="submit" class="btn btn-primary me-3"
-                                                        id="generarReporteGeneralTramites2"
-                                                        name="generarReporteGeneralTramites2">
+                                                        id="generarReporteGeneralTramitesInformacion"
+                                                        name="generarReporteGeneralTramitesInformacion">
                                                         <i class="ti ti-search fs-4 me-2"></i>
                                                         <span>Procesar consulta</span>
                                                     </button>
-
-                                                    <div class="d-none">
-                                                        <form id="" action="reporte-general-tramites-pdf" method="post"
-                                                            target="_blank" style="display: flex;">
-                                                            <input type="hidden" class="form-control"
-                                                                name="funcionarioSeleccionado_pdf"
-                                                                id="funcionarioSeleccionado_pdf">
-                                                            <input type="hidden" class="form-control"
-                                                                name="tipo_tramite_pdf" id="tipo_tramite_pdf">
-                                                            <input type="hidden" class="form-control"
-                                                                name="fecha_ingreso_pdf" id="fecha_ingreso_pdf">
-                                                            <input type="hidden" class="form-control"
-                                                                name="fecha_final_pdf" id="fecha_final_pdf">
-                                                            <button type="submit" class="btn btn-secondary me-3" id="">
-                                                                <i class="ti ti-file-type-pdf fs-4 me-2"></i>
-                                                                <span>Generar PDF</span>
-                                                            </button>
-                                                        </form>
-                                                    </div>
-
 
 
                                                     <input type="hidden" class="form-control"
@@ -195,9 +175,10 @@
                                                     <input type="hidden" class="form-control" name="fecha_final_excel"
                                                         id="fecha_final_excel">
                                                     <input type="hidden" class="form-control"
-                                                        name="cons_clase_vehiculo_excel" id="cons_clase_vehiculo_excel">
-                                                    <button type="submit" class="btn btn-secondary me-3"
-                                                        id="generarReportePlacasEXCEL" name="generarReportePlacasEXCEL">
+                                                        name="cons_estado_tramite_excel" id="cons_estado_tramite_excel">
+                                                    <button type="submit" class="btn btn-secondary me-3 btn-export"
+                                                        id="generarReporteTramitesEXCEL"
+                                                        name="generarReporteTramitesEXCEL">
                                                         <i class="ti ti-file-type-xls fs-4 me-2"></i>
                                                         <span>Exportar excel</span>
                                                     </button>
@@ -236,62 +217,72 @@
 
                                                     <br>
 
+                                                    <div class="row">
 
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered">
-                                                            <thead class="thead-primary text-black">
-                                                                <tr>
-                                                                    <th colspan="2"
-                                                                        class="text-center align-middle font-weight-bolder px-2 py-2">
-                                                                        <b>MOTOCICLETAS</b>
-                                                                    </th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th
-                                                                        class="text-center  align-middle col-md-10 font-weight-bolder px-2 py-2">
-                                                                        <b>DETALLE DE LOS TRÁMITES DE MATRICULACIÓN</b>
-                                                                    </th>
-                                                                    <th
-                                                                        class="text-center  align-middle col-md-2 px-2 py-2">
-                                                                        <b>TOTAL</b>
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="tbody-tramites2">
+                                                        <div class="col-6">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-bordered">
+                                                                    <thead class="thead-primary text-black">
+                                                                        <tr>
+                                                                            <th colspan="2"
+                                                                                class="text-center align-middle font-weight-bolder px-2 py-2">
+                                                                                <b>MOTOCICLETAS</b>
+                                                                            </th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th
+                                                                                class="text-center  align-middle col-md-10 font-weight-bolder px-2 py-2">
+                                                                                <b>DETALLE DE LOS TRÁMITES DE
+                                                                                    MATRICULACIÓN</b>
+                                                                            </th>
+                                                                            <th
+                                                                                class="text-center  align-middle col-md-2 px-2 py-2">
+                                                                                <b>TOTAL</b>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tbody-tramites2">
 
-                                                            </tbody>
+                                                                    </tbody>
 
-                                                        </table>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-bordered">
+                                                                    <thead class="thead-primary text-black">
+                                                                        <tr>
+                                                                            <th colspan="2"
+                                                                                class="text-center align-middle font-weight-bolder px-2 py-2">
+                                                                                <b>VEHICULOS</b>
+                                                                            </th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th
+                                                                                class="text-center  align-middle col-md-10 font-weight-bolder px-2 py-2">
+                                                                                <b>DETALLE DE LOS TRÁMITES DE
+                                                                                    MATRICULACIÓN</b>
+                                                                            </th>
+                                                                            <th
+                                                                                class="text-center align-middle col-md-2 px-2 py-2">
+                                                                                <b>TOTAL</b>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="tbody-tramites3">
+
+                                                                    </tbody>
+
+                                                                </table>
+                                                            </div>
+                                                        </div>
                                                     </div>
+
 
                                                     <br>
 
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered">
-                                                            <thead class="thead-primary text-black">
-                                                                <tr>
-                                                                    <th colspan="2"
-                                                                        class="text-center align-middle font-weight-bolder px-2 py-2">
-                                                                        <b>VEHICULOS</b>
-                                                                    </th>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th
-                                                                        class="text-center  align-middle col-md-10 font-weight-bolder px-2 py-2">
-                                                                        <b>DETALLE DE LOS TRÁMITES DE MATRICULACIÓN</b>
-                                                                    </th>
-                                                                    <th
-                                                                        class="text-center align-middle col-md-2 px-2 py-2">
-                                                                        <b>TOTAL</b>
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="tbody-tramites3">
 
-                                                            </tbody>
-
-                                                        </table>
-                                                    </div>
 
 
 

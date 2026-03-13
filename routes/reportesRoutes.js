@@ -248,6 +248,53 @@ router.get('/generar-reporte-general-tramites', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+router.get('/generar-reporte-general-tramites-informacion', async (req, res) => {
+
+    const { id_empresa } = req.session.user;
+    const { funcionarioSeleccionado, tipo_tramite, fecha_inicial, fecha_final, estado_tramite } = req.query;
+
+    console.log('/generar-reporte-general-tramites-informacion', funcionarioSeleccionado, tipo_tramite, fecha_inicial, fecha_final, estado_tramite);
+
+    const { startOfDay, endOfDay } = getChangeDate(fecha_inicial, fecha_final);
+
+    console.log('/generar-reporte-general-tramites-informacion', startOfDay, endOfDay);
+
+    const where = {
+        id_empresa: id_empresa,
+        fecha_final_PRESENTACION: {
+            [Op.and]: [
+                { [Op.gte]: startOfDay },
+                { [Op.lte]: endOfDay }
+            ]
+        }
+    };
+
+    if (funcionarioSeleccionado && funcionarioSeleccionado !== "TODOS") {
+        where.id_funcionario_INFORMACION = funcionarioSeleccionado;
+    }
+
+    if (tipo_tramite && tipo_tramite !== "TODOS") {
+        where.tipo_tramite = tipo_tramite;
+    }
+
+    if (estado_tramite && estado_tramite !== "TODOS") {
+        where.estado_tramite = estado_tramite;
+    }
+
+    try {
+
+        const tramites = await Tramite.findAll({ where });
+        const tramitesDetalle = await Tramite.findAll({ where });
+
+        res.json({ success: true, tramites, tramitesDetalle });
+    } catch (error) {
+        console.error('Error al buscar trámites:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
+
+
+
 
 router.get('/generar-reporte-parque-automotor', async (req, res) => {
 
@@ -351,52 +398,6 @@ router.get('/generar-reporte-parque-automotor', async (req, res) => {
 
 
 
-router.get('/generar-reporte-general-tramites2', async (req, res) => {
-
-    const { id_empresa } = req.session.user;
-    const { funcionarioSeleccionado, tipo_tramite, fecha_inicial, fecha_final, estado_tramite } = req.query;
-
-    console.log('/generar-reporte-general-tramites2', funcionarioSeleccionado, tipo_tramite, fecha_inicial, fecha_final, estado_tramite);
-
-    const { startOfDay, endOfDay } = getChangeDate(fecha_inicial, fecha_final);
-
-    console.log('/generar-reporte-general-tramites2', startOfDay, endOfDay);
-
-    const where = {
-        id_empresa: id_empresa,
-        canton_usuario: 'El Pangui',
-        fecha_final_PRESENTACION: {
-            [Op.and]: [
-                { [Op.gte]: startOfDay },
-                { [Op.lte]: endOfDay }
-            ]
-        }
-    };
-
-    console.log('where', where);
-
-    if (funcionarioSeleccionado && funcionarioSeleccionado !== "TODOS") {
-        where.id_funcionario = funcionarioSeleccionado;
-    }
-
-    if (tipo_tramite && tipo_tramite !== "TODOS") {
-        where.tipo_tramite = tipo_tramite;
-    }
-
-    if (estado_tramite && estado_tramite !== "TODOS") {
-        where.estado_tramite = estado_tramite;
-    }
-
-    try {
-        const tramites = await Tramite.findAll({ where });
-        const tramitesDetalle = await Tramite.findAll({ where });
-
-        res.json({ success: true, tramites, tramitesDetalle });
-    } catch (error) {
-        console.error('Error al buscar trámites:', error);
-        res.status(500).json({ success: false, message: 'Error interno del servidor' });
-    }
-});
 
 router.get('/generar-reporte-placas', async (req, res) => {
     const { fecha_inicial, fecha_final, cons_tipo_tramite, cons_clase_vehiculo, cons_funcionario } = req.query;
