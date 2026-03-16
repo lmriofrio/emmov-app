@@ -666,6 +666,7 @@ $(document).ready(function () {
                                 </td>
                                 <td class="text-center text-overflow-4">${tramite.username_funcionario_INFORMACION}</td>
                                 <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
+                                <td class="text-center text-overflow-4">${tramite.id_documento_informacion || ''}</td>
                             </tr>`;
                         tbodyDetalle.append(newRow);
                         numeroFila++;
@@ -707,8 +708,9 @@ $(document).ready(function () {
                                 <td class="align-items-center justify-content-start text-overflow-4">
                                     <span class="badge text-dark rounded-pill fw-normal">${tramite.estado_tramite}</span>
                                 </td>
-                                <td class="text-center text-overflow-4">${tramite.username_funcionario_INFORMACION}</td>
+                                <td class="text-center text-overflow-4">${tramite.username_funcionario_INFORMACION}</td> 
                                 <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
+                                <td class="text-center text-overflow-4">${tramite.id_documento_informacion || ''}</td>
                             </tr>`;
                         tbodyDetalle2.append(newRow);
                         numeroFila2++;
@@ -1003,9 +1005,11 @@ $(document).ready(function () {
                 const tbody = $('#tbody-tramites');
                 const tbody2 = $('#tbody-tramites2');
                 const tbody3 = $('#tbody-tramites3');
+                const tbodyDetalle = $('#tbody-tramitesDetalle');
                 tbody.empty();
                 tbody2.empty();
                 tbody3.empty();
+                tbodyDetalle.empty();
 
                 if (response.success) {
 
@@ -1097,61 +1101,62 @@ $(document).ready(function () {
                         </tr> `;
                     tbody3.append(totalRow3);
 
+                    let numeroFila = 1;
+                    response.tramitesDetalle.forEach(tramite => {
+                        const fechaIngreso = new Date(tramite.fecha_ingreso_INFORMACION);
+                        fechaIngreso.setHours(fechaIngreso.getHours() + 5);
 
-                    const EspeciesUtilizadas = response.tramites.filter(tramite => {
-                        return tramite.tipo_tramite === 'CAMBIO DE CARACTERÍSTICAS'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE COMERCIAL A PARTICULAR'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE COMERCIAL A PUBLICO'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE COMERCIAL A USO DE CUENTA PROPIA'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A COMERCIAL'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PARTICULAR'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A PUBLICO'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE ESTATAL U OFICIAL A USO DE CUENTA PROPIA'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PARTICULAR A COMERCIAL'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PARTICULAR A ESTATAL U OFICIAL'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PARTICULAR A PUBLICO'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PARTICULAR A USO DE CUENTA PROPIA'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PARTICULAR A USO DIPLOMATICO U ORGANISMOS INTERNACIONALES'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PUBLICO A COMERCIAL'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PUBLICO A PARTICULAR'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE PUBLICO A USO DE CUENTA PROPIA'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A COMERCIAL'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PARTICULAR'
-                            || tramite.tipo_tramite === 'CAMBIO DE SERVICIO DE USO DE CUENTA PROPIA A PUBLICO'
-                            || tramite.tipo_tramite === 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA'
-                            || tramite.tipo_tramite === 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION'
-                            || tramite.tipo_tramite === 'EMISION DE MATRICULA POR PRIMERA VEZ'
-                            || tramite.tipo_tramite === 'RENOVACION DE MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION'
-                            || tramite.tipo_tramite === 'TRANSFERENCIA DE DOMINIO'
-                            || tramite.tipo_tramite === 'TRANSFERENCIA DE DOMINIO Y REVISION ANUAL';
+                        const fechaIngresoFormateada = `${fechaIngreso.getDate().toString().padStart(2, '0')}-${(fechaIngreso.getMonth() + 1).toString().padStart(2, '0')}-${fechaIngreso.getFullYear()} ${fechaIngreso.getHours().toString().padStart(2, '0')}:${fechaIngreso.getMinutes().toString().padStart(2, '0')}`;
+
+                        let tiempoEspera = '';
+                        if (tramite.fecha_finalizacion) {
+                            const fechaFinalizacion = new Date(tramite.fecha_finalizacion);
+                            fechaFinalizacion.setHours(fechaFinalizacion.getHours() + 5);
+
+                            const diffMs = fechaFinalizacion - fechaIngreso;
+                            const diferenciaHoras = Math.floor(diffMs / (1000 * 60 * 60));
+                            const diferenciaMinutos = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+                            tiempoEspera = `${diferenciaHoras} horas ${diferenciaMinutos} min.`;
+                        } else {
+                            const fechaActual = new Date();
+                            const diferenciaMs = fechaActual - fechaIngreso;
+                            const diferenciaHoras = Math.floor(diferenciaMs / (1000 * 60 * 60));
+                            const diferenciaMinutos = Math.floor((diferenciaMs % (1000 * 60 * 60)) / (1000 * 60));
+
+                            tiempoEspera = `${diferenciaHoras} horas ${diferenciaMinutos} min.`;
+                        }
+
+                        const estadoClass = tramite.estado_tramite === 'Finalizado' ? 'bg-info' :
+                            tramite.estado_tramite === 'En proceso' ? 'bg-wait' :
+                                'bg-danger';
+                        const estadoFont = tramite.estado_tramite === 'Finalizado' ? 'fw-normal' : tramite.estado_tramite === 'Eliminado' ? 'fw-normal' : 'fw-semibold';
+
+                        const newRow = `
+                            <tr style=" ">
+                                <td class="text-center">${numeroFila}</td>
+                                <td class="text-center">${tramite.id_tramite}</td>
+                                <td class="text-center">${tramite.placa}</td>
+                                <td class="text-overflow-13">${tramite.tipo_tramite}</td>
+                                <td class="text-center">${fechaIngresoFormateada}</td>
+                                <td class="text-center text-overflow-4 ${estadoFont}">${tiempoEspera}</td>
+                                <td class="text-center text-overflow-1">${tramite.numero_turno_matriculacion_INFORMACION}</td>
+                                <td class="align-items-center justify-content-start text-overflow-4">
+                                    <span class="round-8 ${estadoClass} rounded-circle d-inline-block ms-2"></span>
+                                    <span class="badge text-dark rounded-pill fw-normal">${tramite.estado_tramite}</span>
+                                </td>
+                                <td class="text-center text-overflow-4">${tramite.username_funcionario_INFORMACION}</td>
+                                <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
+                                <td class="text-center text-overflow-4">${tramite.id_documento_informacion || ''}</td>
+                            </tr>`;
+                        tbodyDetalle.append(newRow);
+                        numeroFila++;
                     });
 
-                    const EspeciesAnuladas = response.tramites.filter(tramite => {
-                        return tramite.tipo_tramite === 'ESPECIE ANULADA'
-                            || tramite.tipo_tramite === 'ESPECIE Y ADHESIVO ANULADO';
-                    });
-
-                    const AdhesivosEntregados = response.tramites.filter(tramite => {
-                        return tramite.tipo_tramite !== 'ACTUALIZACIÓN DE DATOS DEL VEHÍCULO' &&
-                            tramite.tipo_tramite !== 'ADHESIVO ANULADO' &&
-                            tramite.tipo_tramite !== 'ESPECIE ANULADA' &&
-                            tramite.tipo_tramite !== 'BLOQUEO DE VEHÍCULO' &&
-                            tramite.tipo_tramite !== 'CERTIFICADO DE POSEER VEHICULO' &&
-                            tramite.tipo_tramite !== 'CERTIFICADO UNICO VEHICULAR' &&
-                            tramite.tipo_tramite !== 'DESBLOQUEO DE VEHÍCULO' &&
-                            tramite.tipo_tramite !== 'DUPLICADO DE PLACAS' &&
-                            tramite.tipo_tramite !== 'DUPLICADO DEL DOCUMENTO DE LA MATRICULA' &&
-                            tramite.tipo_tramite !== 'ESPECIE ANULADA' &&
-                            tramite.tipo_tramite !== 'ESPECIE Y ADHESIVO ANULADO' &&
-                            tramite.tipo_tramite !== 'TRANSFERENCIA DE DOMINIO';
-                    });
 
                     $('input[name="fecha_ingresada"]').val(response.fecha_inicial);
                     $('input[name="fecha_ingresada2"]').val(response.fecha_final);
                     $('input[name="tramites_total"]').val(tramitesFiltrados.length);
-                    $('input[name="especies_utilizadas"]').val(EspeciesUtilizadas.length);
-                    $('input[name="especies_anuladas"]').val(EspeciesAnuladas.length);
-                    $('input[name="ahesivos_entregados"]').val(AdhesivosEntregados.length);
 
                     $('#overlay').removeClass('active');
                 } else {

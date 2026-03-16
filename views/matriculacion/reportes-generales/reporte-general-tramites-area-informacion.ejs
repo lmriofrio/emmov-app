@@ -176,7 +176,7 @@
                                                         id="fecha_final_excel">
                                                     <input type="hidden" class="form-control"
                                                         name="cons_estado_tramite_excel" id="cons_estado_tramite_excel">
-                                                    <button type="submit" class="btn btn-secondary me-3 btn-export"
+                                                    <button type="submit" class="btn btn-secondary me-3 btn-export d-none"
                                                         id="generarReporteTramitesEXCEL"
                                                         name="generarReporteTramitesEXCEL">
                                                         <i class="ti ti-file-type-xls fs-4 me-2"></i>
@@ -282,14 +282,55 @@
 
                                                     <br>
 
+                                                    <div class="table-responsive2 fs-3">
+                                                        <table class="table table-bordered">
+                                                            <thead class="thead-primary" id="thead-tramites">
 
+                                                                <tr class="text-black">
+                                                                    <th class="text-center align-middle px-2 py-2">N°
+                                                                    </th>
+                                                                    <th class="text-center align-middle px-2 py-2">
+                                                                        TRÁMITE
+                                                                    </th>
+                                                                    <th class="text-center align-middle px-2 py-2">PLACA
+                                                                    </th>
+                                                                    <th
+                                                                        class="text-center align-middle px-2 py-2 text-overflow-13">
+                                                                        TIPO
+                                                                        DE
+                                                                        TRAMITE</th>
+                                                                    <th class="text-center align-middle px-2 py-2">FECHA
+                                                                        DE
+                                                                        INGRESO</th>
+                                                                    <th
+                                                                        class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
+                                                                        TIEMPO EN ESPERA</th>
+                                                                    <th
+                                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                                        TURNO</th>
+                                                                    <th
+                                                                        class="text-center align-middle px-2 py-2 text-overflow-4">
+                                                                        ESTADO
+                                                                    </th>
+                                                                    <th
+                                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                                        USUARIO EN VENTANILLA</th>
+                                                                    <th
+                                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                                        USUARIO ASIGNADO</th>
+                                                                    <th
+                                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                                        PDF</th>
 
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbody-tramitesDetalle">
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
 
 
                                                 </div>
-
-
-
 
 
                                             </div>

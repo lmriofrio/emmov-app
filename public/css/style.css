@@ -25230,6 +25230,24 @@ fieldset:disabled .btn {
     --bs-btn-disabled-border-color: var(--bs-gray);
 }
 
+
+.btn-black {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--bs-gray);
+    --bs-btn-border-color: var(--bs-gray);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #4a5363;
+    --bs-btn-hover-border-color: #3f4959;
+    --bs-btn-focus-shadow-rgb: 74, 83, 99;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #555d6c;
+    --bs-btn-active-border-color: #3f4959;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--bs-gray);
+    --bs-btn-disabled-border-color: var(--bs-gray);
+}
+
 .btn-filter {
     --bs-btn-color: black;
     --bs-btn-bg: white;
