@@ -55140,22 +55140,25 @@ input.uppercase {
 }
 
 
+/* Clase que aplica el resaltado */
 .resaltar-fila {
-    animation: flash-turquesa 2.5s ease-out; 
+    /* Mantenemos la duración de 2.5s para un efecto elegante */
+    animation: flash-verde-vibrante 2.5s ease-out;
 }
 
-
-@keyframes flash-turquesa {
+/* Definición de la animación con tu nuevo color */
+@keyframes flash-verde-vibrante {
     0% { 
-        background-color: #89d5d0; 
-        color: #004d4a;           
-        font-weight: bold;
+        background-color: #3eba54; /* Tu verde vibrante exacto */
+        color: white;              /* Texto en blanco para máximo contraste inicial */
+        font-weight: bold;         /* Negrita para resaltar */
     }
     50% { 
-        background-color: #b5e6e3; 
+        background-color: #81d692; /* Un tono más claro y suave a la mitad */
     }
     100% { 
-        background-color: transparent; 
-        color: inherit;               
+        background-color: transparent; /* Vuelve al fondo original de la tabla */
+        color: inherit;               /* El texto vuelve a su color original */
+        font-weight: normal;          /* Volvemos al peso de fuente normal */
     }
 }

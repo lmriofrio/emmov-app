@@ -21,21 +21,31 @@ $(document).ready(function () {
         });
     }
 
+    /* =========================
+       1️⃣ CONFIGURACIÓN DE AUDIO
+       ========================= */
     const intentarDesbloquearAudio = async () => {
         if (audioHabilitado && sonido) {
             try {
+                // Guardamos el volumen original (por si no es 1)
+                const volumenOriginal = sonido.volume;
+
+                sonido.muted = true; // Silenciamos para el desbloqueo
                 await sonido.play();
                 sonido.pause();
                 sonido.currentTime = 0;
-                console.log('🔓 Canal de audio verificado/desbloqueado');
+                sonido.muted = false; // Restauramos para cuando llegue el SSE
+                sonido.volume = volumenOriginal;
+
+                console.log('🔓 Canal de audio verificado en silencio');
             } catch (err) {
-                console.warn('⚠️ Audio bloqueado por el navegador. Se requiere clic.');
+                console.warn('⚠️ Audio bloqueado por el navegador.');
             }
         }
     };
 
     document.addEventListener('click', intentarDesbloquearAudio, { once: false });
-    
+
     document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') {
             console.log('👁️ Pestaña activa, refrescando permisos de audio...');
@@ -102,7 +112,7 @@ $(document).ready(function () {
 
             if (placaActual !== placaNueva) {
                 console.log(`🔔 Cambio detectado: ${placaActual} -> ${placaNueva}`);
-                
+
                 // 1. Actualizar el texto
                 celdaPlaca.textContent = placaNueva;
 
@@ -132,7 +142,7 @@ $(document).ready(function () {
     if ('wakeLock' in navigator) {
         let lock = null;
         const requestLock = async () => {
-            try { lock = await navigator.wakeLock.request('screen'); } catch (e) {}
+            try { lock = await navigator.wakeLock.request('screen'); } catch (e) { }
         };
         requestLock();
         document.addEventListener('visibilitychange', () => {
