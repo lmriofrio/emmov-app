@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    console.log('📌 Documento listo, inicializando...');
+    console.log('📌 Inicializando sistema de turnos persistente...');
 
     // Elementos del DOM
     const sonido = document.getElementById('sonidoTurno');
@@ -7,101 +7,136 @@ $(document).ready(function () {
     const tbody = $('#tbody-tramites');
 
     // Estado del Audio
-    let audioDesbloqueado = false;
     let audioHabilitado = localStorage.getItem('sonidoTurnos') === 'true';
 
     /* =========================
-       1️⃣ CONFIGURACIÓN INICIAL
+       1️⃣ CONFIGURACIÓN DE AUDIO
        ========================= */
     if (switchSonido) {
         switchSonido.checked = audioHabilitado;
         switchSonido.addEventListener('change', () => {
             audioHabilitado = switchSonido.checked;
             localStorage.setItem('sonidoTurnos', audioHabilitado);
-            console.log('🔄 Sonido ' + (audioHabilitado ? 'HABILITADO' : 'DESHABILITADO'));
+            if (audioHabilitado) intentarDesbloquearAudio();
         });
     }
 
-    // Función para desbloquear el audio (necesaria para navegadores)
-    const desbloquearAudio = async () => {
-        if (audioHabilitado && !audioDesbloqueado && sonido) {
+    const intentarDesbloquearAudio = async () => {
+        if (audioHabilitado && sonido) {
             try {
                 await sonido.play();
                 sonido.pause();
                 sonido.currentTime = 0;
-                audioDesbloqueado = true;
-                console.log('🔓 Canal de audio desbloqueado por interacción');
-                document.removeEventListener('click', desbloquearAudio);
+                console.log('🔓 Canal de audio verificado/desbloqueado');
             } catch (err) {
-                console.warn('⚠️ Haz clic de nuevo para habilitar sonido');
+                console.warn('⚠️ Audio bloqueado por el navegador. Se requiere clic.');
             }
         }
     };
-    document.addEventListener('click', desbloquearAudio);
 
-    /* =========================
-       2️⃣ CARGA INICIAL (AJAX)
-       ========================= */
-    $.ajax({
-        type: 'GET',
-        url: '/visualizar-turnos-matriculacion-en-atencion',
-        success: function (response) {
-            console.log('✅ Carga inicial exitosa');
-            tbody.empty();
-            if (response.success) {
-                let numeroFila = 1;
-                response.data.forEach(item => {
-                    tbody.append(`
-                        <tr data-funcionario="${String(item.id_funcionario)}">
-                            <td class="text-center">${numeroFila++}</td>
-                            <td class="text-start">${item.nombre_funcionario_corto}</td>
-                            <td class="placa text-center fw-semibold">
-                                ${item.placa_en_atención || '-'}
-                            </td>
-                        </tr>
-                    `);
-                });
-            }
-        },
-        error: (xhr) => console.error('❌ Error en carga inicial:', xhr)
+    document.addEventListener('click', intentarDesbloquearAudio, { once: false });
+    
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            console.log('👁️ Pestaña activa, refrescando permisos de audio...');
+            intentarDesbloquearAudio();
+        }
     });
 
     /* =========================
-       3️⃣ SSE (TIEMPO REAL) - ÚNICA CONEXIÓN
+       2️⃣ CARGA INICIAL (AJAX) - SE MANTIENE
        ========================= */
-    const eventSource = new EventSource('/sse-tramites');
-    console.log('📡 Conectando a SSE...');
+    function cargarDatosIniciales() {
+        $.ajax({
+            type: 'GET',
+            url: '/visualizar-turnos-matriculacion-en-atencion',
+            success: function (response) {
+                console.log('✅ Carga AJAX inicial exitosa');
+                tbody.empty();
+                if (response.success) {
+                    let numeroFila = 1;
+                    response.data.forEach(item => {
+                        tbody.append(`
+                            <tr data-funcionario="${String(item.id_funcionario)}">
+                                <td class="text-center">${numeroFila++}</td>
+                                <td class="text-start">${item.nombre_funcionario_corto}</td>
+                                <td class="placa text-center fw-semibold">
+                                    ${item.placa_en_atención || '-'}
+                                </td>
+                            </tr>
+                        `);
+                    });
+                }
+            },
+            error: (xhr) => console.error('❌ Error en carga AJAX:', xhr)
+        });
+    }
 
-    eventSource.onopen = () => console.log('✅ Conexión SSE establecida');
-    eventSource.onerror = (err) => console.error('❌ Error SSE:', err);
+    cargarDatosIniciales();
 
-    eventSource.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        if (data.tipo !== 'tramite_en_atencion') return;
+    /* =========================
+       3️⃣ SSE (AUTORECONECTABLE)
+       ========================= */
+    let eventSource;
 
-        const fila = document.querySelector(`tr[data-funcionario="${String(data.id_funcionario)}"]`);
-        if (!fila) return;
+    function iniciarSSE() {
+        if (eventSource) {
+            eventSource.close();
+        }
 
-        const celdaPlaca = fila.querySelector('.placa');
-        const placaActual = celdaPlaca.textContent.trim();
-        const placaNueva = (data.placa || '').trim();
+        eventSource = new EventSource('/sse-tramites');
+        console.log('📡 Conectando a SSE...');
 
-        // Solo actuar si la placa realmente cambió
-        if (placaActual !== placaNueva) {
-            console.log(`🔔 Cambio detectado: ${placaActual} -> ${placaNueva}`);
-            celdaPlaca.textContent = placaNueva;
+        eventSource.onopen = () => console.log('✅ Conexión SSE establecida');
 
-            // Reproducir sonido
-            if (audioHabilitado) {
-                if (audioDesbloqueado && sonido) {
+        eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.tipo !== 'tramite_en_atencion') return;
+
+            const fila = document.querySelector(`tr[data-funcionario="${String(data.id_funcionario)}"]`);
+            if (!fila) return;
+
+            const celdaPlaca = fila.querySelector('.placa');
+            const placaActual = celdaPlaca.textContent.trim();
+            const placaNueva = (data.placa || '').trim();
+
+            if (placaActual !== placaNueva) {
+                console.log(`🔔 Cambio detectado: ${placaActual} -> ${placaNueva}`);
+                
+                // 1. Actualizar el texto
+                celdaPlaca.textContent = placaNueva;
+
+                // 2. APLICAR RESALTADO VISUAL (NUEVO)
+                fila.classList.remove('resaltar-fila'); // Reiniciar si ya existía
+                void fila.offsetWidth;                  // Forzar reflow para que la animación se repita
+                fila.classList.add('resaltar-fila');    // Disparar animación CSS
+
+                // 3. Reproducir sonido
+                if (audioHabilitado && sonido) {
+                    sonido.pause();
                     sonido.currentTime = 0;
-                    sonido.play()
-                        .then(() => console.log('🔊 Sonido reproducido con éxito'))
-                        .catch(e => console.error('❌ Error al reproducir:', e));
-                } else {
-                    console.warn('🚫 Sonido ON pero bloqueado. El usuario debe hacer clic en la pantalla.');
+                    sonido.play().catch(e => console.error('🚫 El navegador bloqueó el sonido:', e));
                 }
             }
-        }
-    };
+        };
+
+        eventSource.onerror = (err) => {
+            console.error('❌ Error SSE. Reintentando en 5 segundos...');
+            eventSource.close();
+            setTimeout(iniciarSSE, 5000);
+        };
+    }
+
+    iniciarSSE();
+
+    if ('wakeLock' in navigator) {
+        let lock = null;
+        const requestLock = async () => {
+            try { lock = await navigator.wakeLock.request('screen'); } catch (e) {}
+        };
+        requestLock();
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') requestLock();
+        });
+    }
 });

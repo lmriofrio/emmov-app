@@ -55138,3 +55138,24 @@ input.uppercase {
 [data-bs-theme="dark"] .table-row-selected {
     background-color: rgba(255, 255, 255, 0.06);
 }
+
+
+.resaltar-fila {
+    animation: flash-turquesa 2.5s ease-out; 
+}
+
+
+@keyframes flash-turquesa {
+    0% { 
+        background-color: #89d5d0; 
+        color: #004d4a;           
+        font-weight: bold;
+    }
+    50% { 
+        background-color: #b5e6e3; 
+    }
+    100% { 
+        background-color: transparent; 
+        color: inherit;               
+    }
+}
