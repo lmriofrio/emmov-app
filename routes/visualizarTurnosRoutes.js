@@ -24,6 +24,7 @@ router.get('/visualizar-turnos', async (req, res) => {
             'numero_turno_matriculacion_INFORMACION',
             'estado_tramite',
             'username_funcionario_INFORMACION',
+            'id_documento_informacion',
             'username_funcionario_asignado_INFORMACION'];
 
         const tramitesUsuario = await Tramite.findAll({
@@ -57,7 +58,18 @@ router.get('/visualizar-turnos', async (req, res) => {
             order: [['fecha_ingreso_INFORMACION', 'ASC']]
         });
 
-        res.json({ success: true, tramitesUsuario, tramitesGeneral });
+
+        const tramitesPendientesEmpresa = await Tramite.findAll({
+            attributes: columnas,
+            where: {
+                estado_tramite: 'En proceso',
+                id_empresa: id_empresa,
+            },
+            order: [['fecha_ingreso_INFORMACION', 'ASC']]
+        });
+
+       
+        res.json({ success: true, tramitesUsuario, tramitesGeneral, tramitesPendientesEmpresa });
 
     } catch (error) {
         console.error('Error al buscar trámites:', error);
@@ -345,7 +357,7 @@ router.get('/visualizar-titulos-credito-filtro', async (req, res) => {
                 'subtotal_concepto',
                 'fecha_titulo_credito',
                 'estado_titulo_credito',
-                'nombre_usuario', 
+                'nombre_usuario',
                 'id_usuario'
             ],
 
@@ -357,7 +369,7 @@ router.get('/visualizar-titulos-credito-filtro', async (req, res) => {
 
         });
 
-       
+
 
         res.json({
             success: true,

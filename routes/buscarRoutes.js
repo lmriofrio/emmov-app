@@ -12,7 +12,7 @@ const { Op } = require('sequelize');
 router.get('/buscar-tramite', async (req, res) => {
     const { placa } = req.query;
 
-    //console.log('Placa recibida:', placa);  
+    console.log('----  ROUTER:   Buscar tramite:', placa); 
 
     try {
         const tramites = await Tramite.findAll({
@@ -37,8 +37,7 @@ router.get('/buscar-tramite-filtro', async (req, res) => {
 
     const usernameSesion = req.session.user.username;
 
-    //console.log('Placa recibida2:', placa);
-    //console.log('Se realiza la consulta del vehiculo');  
+    console.log('----  ROUTER:   Buscar tramite filtro:', placa);  
 
     try {
         const tramites = await Tramite.findAll({
@@ -63,6 +62,8 @@ router.get('/buscar-tramite-filtro', async (req, res) => {
 router.get('/buscar-tramite-filtro-seleccionado', async (req, res) => {
 
     const { tipoIdBusqueda, filtro } = req.query;
+
+    console.log('----  ROUTER:   Buscar tramite filtro seleccionado:', tipoIdBusqueda, filtro);
 
     if (tipoIdBusqueda === 'PLACA') {
 
@@ -106,7 +107,7 @@ router.get('/buscar-tramite-filtro-seleccionado', async (req, res) => {
 router.get('/buscar-tramite-id', async (req, res) => {
     const { idTramite } = req.query;
 
-    console.log('/buscar-tramite-id');
+    console.log('----  ROUTER:   Buscar tramite id:', idTramite);
 
     try {
         const tramite = await Tramite.findByPk(idTramite);
@@ -128,8 +129,7 @@ router.get('/buscar-tramite-filtro-opt', async (req, res) => {
 
     const usernameSesion = req.session.user.username;
 
-    //console.log('Placa recibida2:', placa);
-    //console.log('Se realiza la consulta del vehiculo');  
+    console.log('----  ROUTER:   Buscar tramite filtro opt:', placa);
 
     try {
         const tramites = await Tramite.findAll({
@@ -169,6 +169,8 @@ router.get('/buscar-tramite-filtro-opt', async (req, res) => {
 router.post('/buscar-usuario', async (req, res) => {
     const { id_usuario } = req.body;
 
+        console.log('----  ROUTER:   Buscar usuario:', id_usuario);
+
     try {
         const usuario = await Usuario.findOne({ where: { id_usuario } });
 
@@ -193,13 +195,13 @@ router.post('/buscar-usuario', async (req, res) => {
 router.post('/buscar-vehiculo', async (req, res) => {
     const { placa } = req.body;
 
-    //console.log('Placa recibida:', placa);
+    console.log('----  ROUTER:   Buscar vehiculo:', placa);
 
     try {
         const vehiculo = await Vehiculo.findOne({ where: { placa } });
 
         if (vehiculo) {
-            console.log('----  ROUTER:   Vehiculo encontrado:', vehiculo.placa);
+            console.log('                Vehiculo encontrado en /buscar-vehiculo:', vehiculo.placa);
             //console.log('Placa recibida:', vehiculo);
             res.json({ success: true, vehiculo });
         } else {
@@ -215,7 +217,9 @@ router.post('/buscar-vehiculo', async (req, res) => {
 
 router.post('/buscar-vehiculo-sri', async (req, res) => {
     const { id_vehiculo } = req.body;
-    console.log('Placa que se va a enviar hacia el SRI:', id_vehiculo);
+    
+    console.log('----  ROUTER:   Buscar vehiculo SRI:', id_vehiculo);
+    console.log('                Placa que se va a enviar hacia el SRI:', id_vehiculo);
 
     try {
 
@@ -250,11 +254,10 @@ router.post('/buscar-vehiculo-sri', async (req, res) => {
 ///// ==      PLACA EN EL INVENTARIO   ==    ////
 ////////////////////////////////////
 
-
-
 router.get('/buscar-placa-id_inventario', async (req, res) => {
-    const { id_inventario } = req.query; // Aquí cambias req.body por req.query porque es una solicitud GET
-    console.log('ID de inventario recibido:', id_inventario);
+    const { id_inventario } = req.query;
+
+    console.log('----  ROUTER:   Buscar placa ID INVENTARIO:', id_inventario);
 
     try {
         const placaInventario = await InventarioPlacas.findOne({ where: { id_inventario } });
@@ -277,7 +280,8 @@ router.get('/buscar-placa-id_inventario', async (req, res) => {
 
 router.get('/buscar-funcionario-TTHH', async (req, res) => {
     const { idFuncionario } = req.query;
-    //console.log('entro a consultar', idFuncionario)
+   
+    console.log('----  ROUTER:   Buscar funcionario TTHH:', idFuncionario);
 
     try {
         const funcionarioTTHH = await FuncionarioTTHH.findByPk(idFuncionario);
@@ -296,7 +300,8 @@ router.get('/buscar-funcionario-TTHH', async (req, res) => {
 
 router.get('/buscar-falta-asistencia', async (req, res) => {
     const { id_registro } = req.query;
-    //console.log('entro a consultar', id_registro)
+    
+    console.log('----  ROUTER:   Buscar falta asistencia:', id_registro);
 
     try {
         const faltaAsistenciasTTHH = await FaltaAsistenciasTTHH.findByPk(id_registro);
@@ -320,7 +325,7 @@ router.get('/buscar-falta-asistencia', async (req, res) => {
 router.get('/buscar-tramite-rtv', async (req, res) => {
     const { placa } = req.query;
 
-    //console.log('Placa recibida:', placa);  
+    console.log('----  ROUTER:   Buscar tramite RTV:', placa);
 
     try {
         const tramites = await Tramite.findAll({

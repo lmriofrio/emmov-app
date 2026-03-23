@@ -36,7 +36,6 @@ function mostrarAlerta(mensaje, tipo = 'success') {
 }
 
 
-
 // 1.-Modifica el css del body para adaptarlo al tamaño de la PANTALLA
 document.addEventListener("DOMContentLoaded", function () {
   var mainWrapper = document.getElementById('main-wrapper');
@@ -659,6 +658,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('registroFormAreaInformacion');
   const placaInput = document.getElementById('placa');
   const tipoTramiteSelect = document.getElementById('tipo_tramite');
+  
 
   if (!form) return;
 
@@ -714,6 +714,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     try {
+
       const response = await fetch('/guardar-tramite-informacion', {
         method: 'POST',
         headers: {
@@ -728,12 +729,14 @@ document.addEventListener('DOMContentLoaded', function () {
       } else {
         const errorText = await response.text();
         console.error('Error al guardar el trámite:', errorText);
-        alert('Error al guardar el trámite: ' + errorText);
+        alert('Error al guardar el trámite: ' + errorText);SVGAElement
       }
     } catch (error) {
       console.error('Error al guardar el trámite:', error);
       alert('Error al guardar el trámite');
     }
+
+
   });
 
 
@@ -1210,8 +1213,6 @@ if (document.getElementById('registroFormAreaInformacion')) {
 }
 
 
-
-
 // 10.- Selects vinculados de la provincia y cantones
 document.addEventListener('DOMContentLoaded', () => {
   const provinciaSelect = document.getElementById('provincia_usuario');
@@ -1664,7 +1665,7 @@ $(document).ready(function () {
 });
 
 
-// 18.- guardar una nueva placa al IVENTARIO INSTITUCIONAL (individual)
+// 20.- guardar una nueva placa al IVENTARIO INSTITUCIONAL (individual)
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('ingresarPlacaInventarioForm');
   if (!form) return;
@@ -1718,7 +1719,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-// 19.- guardar una nueva placa al IVENTARIO INSTITUCIONAL (por lotes - motocicletas)
+// 21.- guardar una nueva placa al IVENTARIO INSTITUCIONAL (por lotes - motocicletas)
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('ingresarPlacaInventarioFormLOTES');
   const previewCard = document.getElementById('previewPlacasCard');
@@ -1859,7 +1860,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-// 19.- guardar una nueva placa al IVENTARIO INSTITUCIONAL (por lotes - vehiculos)
+// 22.- guardar una nueva placa al IVENTARIO INSTITUCIONAL (por lotes - vehiculos)
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('ingresarPlacaInventarioFormLOTESvehiculos');
   const previewCard = document.getElementById('previewPlacasCard');
@@ -1997,6 +1998,93 @@ document.addEventListener('DOMContentLoaded', function () {
 
   }
 });
+
+// 23.- actualizar el tramite desde el area de Informacion
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('actualizarTramiteAreaInformacion-Form');
+  const placaInput = document.getElementById('placa');
+  const tipoTramiteSelect = document.getElementById('tipo_tramite');
+
+  if (!form) return;
+
+  // Validación de Bootstrap
+  form.addEventListener('submit', function (event) {
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    form.classList.add('was-validated');
+  }, false);
+
+  // Función para validar si la placa es obligatoria según el tipo de trámite
+  function validarRequerimientoPlaca() {
+    const tipoTramite = tipoTramiteSelect.value;
+
+    // Tipos de trámite que no requieren la placa
+    const tiposSinPlaca = ["CERTIFICADO DE POSEER VEHICULO", "EMISION DE MATRICULA POR PRIMERA VEZ"];
+
+    if (tiposSinPlaca.includes(tipoTramite)) {
+      placaInput.removeAttribute('required');
+      document.getElementById('clase_vehiculo').removeAttribute('required');
+      document.getElementById('tipo_vehiculo').removeAttribute('required');
+      document.getElementById('clase_transporte').removeAttribute('required');
+      document.getElementById('tipo_peso').removeAttribute('required');  // No es obligatorio
+    } else {
+      placaInput.setAttribute('required', 'required'); // Es obligatorio
+    }
+  }
+
+  // Detectar cambio en el select de tipo_tramite
+  tipoTramiteSelect.addEventListener('change', function () {
+    validarRequerimientoPlaca();
+  });
+
+  // Llamar a la función de validación al cargar la página, por si hay un valor preseleccionado
+  validarRequerimientoPlaca();
+
+  document.getElementById('guardarTramiteAreaInformacion').addEventListener('click', async function (event) {
+    event.preventDefault();
+
+
+    if (!form.checkValidity()) {
+      form.classList.add('was-validated'); // Mostrar mensajes de error de Bootstrap
+      return;
+    }
+
+    // Si la validación es correcta, procedemos a enviar el formulario
+    const formData = new FormData(form);
+    const formObject = {};
+    formData.forEach((value, key) => {
+      formObject[key] = value;
+    });
+
+    try {
+      const response = await fetch('/guardar-tramite-informacion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formObject),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Trámite guardado con éxito:', result);
+      } else {
+        const errorText = await response.text();
+        console.error('Error al guardar el trámite:', errorText);
+        alert('Error al guardar el trámite: ' + errorText);
+      }
+    } catch (error) {
+      console.error('Error al guardar el trámite:', error);
+      alert('Error al guardar el trámite');
+    }
+  });
+
+
+});
+
+
 
 
 

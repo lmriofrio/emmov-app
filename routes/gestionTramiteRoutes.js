@@ -11,7 +11,6 @@ const { Op } = require('sequelize');
 
 const { sendEvent } = require('./sseRoutes');
 
-
 router.post('/estado-eliminar-tramite', async (req, res) => {
   try {
     const { id_funcionario, nombre_funcionario, username } = req.session.user;
@@ -448,5 +447,43 @@ router.post('/registrar-tramite-en-atencion', async (req, res) => {
   }
 });
 
+router.post('/actualizar-tramite-desde-informacion', async (req, res) => {
+  try {
+    let { id_tramite, tipo_tramite, placa, id_usuario,
+      nombre_usuario, celular_usuario, id_documento_informacion } = req.body;
+
+    tipo_tramite = tipo_tramite?.toUpperCase();
+    placa = placa?.toUpperCase();
+    nombre_usuario = nombre_usuario?.toUpperCase();
+
+    console.log('----  ROUTER:   actualizar-tramite-desde-informacion');
+
+    const tramite = await Tramite.findOne({ where: { id_tramite } });
+
+    if (tramite) {
+
+      console.log('                Trámite encontrado, actualizando campos...');
+      tramite.tipo_tramite = tipo_tramite;
+      tramite.placa = placa;
+      tramite.id_usuario = id_usuario;
+      tramite.nombre_usuario = nombre_usuario;
+      tramite.celular_usuario = celular_usuario;
+      tramite.id_documento_informacion = id_documento_informacion;
+
+      await tramite.save();
+
+      console.log('                Atualizado correctamente');
+
+      res.redirect(`/matriculacion/informacion/turno-agregado?id_tramite=${id_tramite}`);
+
+    } else {
+      console.log('Trámite no encontrado');
+      res.redirect('/error-tramite-no-encontrado');
+    }
+  } catch (error) {
+    console.error('Error al actualizar el trámite:', error);
+    res.status(500).send('Error al actualizar el trámite');
+  }
+});
 
 module.exports = router;

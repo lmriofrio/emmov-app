@@ -67,7 +67,7 @@
                                     <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
                                         aria-selected="true">Hoy (<%= userData.nombre_funcionario_corto %>)
-                                        <span id="TraPersonal" class="ms-1"></span>
+                                            <span id="TraPersonal" class="ms-1"></span>
 
                                     </button>
                                     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
@@ -75,7 +75,12 @@
                                         aria-controls="nav-profile" aria-selected="false">Todos los usuarios
                                         <span id="TraGeneral" class="ms-1"></span>
                                     </button>
-                                        
+
+                                    <button class="nav-link" id="nav-empresa-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-empresa" type="button" role="tab"
+                                        aria-controls="nav-empresa" aria-selected="false">Pendientes (Empresa)
+                                        <span id="TraGeneralEmpresa" class="ms-1"></span>
+                                    </button>
 
                                 </div>
                             </nav>
@@ -89,7 +94,9 @@
 
                                                 <tr class="text-black-font">
                                                     <th class="text-center align-middle px-2 py-2">N°</th>
-                                                    <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">TRÁMITE</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap d-none">
+                                                        TRÁMITE</th>
                                                     <th class="text-center align-middle px-2 py-2">PLACA</th>
                                                     <th class="text-center align-middle px-2 py-2 text-overflow-12">TIPO
                                                         DE
@@ -110,6 +117,9 @@
                                                     <th
                                                         class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
                                                         USUARIO ASIGNADO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        DOCUMENTO</th>
                                                     <th class="text-center align-middle px-2 py-2">ACCIÓN</th>
                                                 </tr>
                                             </thead>
@@ -126,7 +136,9 @@
 
                                             <tr class="text-black-font">
                                                 <th class="text-center align-middle px-2 py-2">N°</th>
-                                                <th class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">TRÁMITE</th>
+                                                <th
+                                                    class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap d-none">
+                                                    TRÁMITE</th>
                                                 <th class="text-center align-middle px-2 py-2">PLACA</th>
                                                 <th class="text-center align-middle px-2 py-2 text-overflow-12">TIPO DE
                                                     TRAMITE</th>
@@ -146,12 +158,56 @@
                                                 <th
                                                     class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
                                                     USUARIO ASIGNADO</th>
+                                                <th
+                                                    class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                    DOCUMENTO</th>
                                                 <th class="text-center align-middle px-2 py-2">ACCIÓN</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tbody-tramitesGeneral">
                                         </tbody>
                                     </table>
+                                </div>
+                                <div class="tab-pane fade animated fadeInUp" id="nav-empresa" role="tabpanel"
+                                    aria-labelledby="nav-empresa-tab">
+                                    <div class="table-responsive2">
+                                        <table class="table table-bordered">
+                                            <thead id="thead-tramites-empresa">
+                                                <tr class="text-black-font">
+                                                    <th class="text-center align-middle px-2 py-2">N°</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap d-none">
+                                                        TRÁMITE</th>
+                                                    <th class="text-center align-middle px-2 py-2">PLACA</th>
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-12">TIPO
+                                                        DE
+                                                        TRAMITE</th>
+                                                    <th class="text-center align-middle px-2 py-2">FECHA DE INGRESO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-4 text-wrap">
+                                                        TIEMPO EN ESPERA</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        TURNO</th>
+
+                                                    <th class="text-center align-middle px-2 py-2 text-overflow-4">
+                                                        ESTADO
+                                                    </th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        USUARIO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        USUARIO ASIGNADO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        DOCUMENTO</th>
+                                                    <th class="text-center align-middle px-2 py-2">ACCIÓN</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody-tramitesEmpresa"></tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="nav-contact" role="tabpanel"
@@ -672,11 +728,165 @@
                 </div>
             </div>
 
+            <div class="modal fade" id="modalAdjuntarDocumento" aria-hidden="true"
+                aria-labelledby="modalAdjuntarDocumentoLabel" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+
+                            <form action="" method="post" id="" class="">
+                                <div class="border-bottom">
+                                    <div
+                                        class="modal-title d-flex justify-content-between text-black align-items-center mt-2 mb-3">
+                                        <div class="d-flex">
+                                            <h5 class="mb-0">Adjuntar documento pdf</h5>
+                                        </div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3">
+                                    <div class="py-1">
+                                        <div class="row d-flex">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="adjuntar_documento__placa"
+                                                        class="col-lg-6 form-label fw-normal">Placa:</label>
+                                                    <input type="text" name="adjuntar_documento_placa"
+                                                        id="adjuntar_documento_placa" class="form-control" readonly>
+                                                    <input type="hidden" name="adjuntar_documento_id_tramite"
+                                                        id="adjuntar_documento_id_tramite" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label for="adjuntar_documento_nombre_usuario"
+                                                        class="col-lg-6 form-label fw-normal">Propietario:</label>
+                                                    <input type="text" name="adjuntar_documento_nombre_usuario"
+                                                        id="adjuntar_documento_nombre_usuario" class="form-control"
+                                                        readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="mb-3">
+                                                    <label for="tipo_tramite" class="col-4 form-label fw-normal">Tipo
+                                                        de
+                                                        trámite:</label>
+                                                    <input type="text" name="adjuntar_documento_tipo_tramite"
+                                                        id="adjuntar_documento_tipo_tramite" class="form-control"
+                                                        readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <script src="/js/registrar-documentos.js"></script>
+
+
+                                            <div class="mt-3">
+                                                <label class="form-label small fw-bold text-uppercase"
+                                                    style="letter-spacing: 1px;">
+                                                    Adjuntar Documentación
+                                                </label>
+
+                                                <label id="drop-zone" for="fileInput"
+                                                    class="p-5 border border-2 border-primary border-dashed rounded-3 text-center d-flex flex-column align-items-center justify-content-center w-100 bg-light bg-gradient"
+                                                    style="cursor: pointer; transition: all 0.3s ease;">
+
+                                                    <h6 class="mb-1 text-primary fw-semibold">
+                                                        Haz clic para seleccionar o reemplazar el
+                                                        PDF
+                                                    </h6>
+                                                    <small class="text-muted">Peso máximo: 1
+                                                        MB</small>
+
+                                                    <input type="file" name="archivo_pdf" id="fileInput" accept=".pdf"
+                                                        class="d-none">
+                                                </label>
+
+                                                <div class="mt-3">
+
+                                                </div>
+
+                                                <div id="status-container" class="mt-3">
+                                                    <div id="file-status-badge"
+                                                        class="alert alert-danger d-flex align-items-center p-2 mb-0 border-0 shadow-sm small">
+                                                        <i class="ti ti-alert-circle fs-5 me-2"></i>
+                                                        <span id="status-text">No se ha seleccionado
+                                                            ningún archivo</span>
+                                                    </div>
+                                                </div>
+
+                                                <div id="upload-success-container" class="mt-2" style="display: none;">
+                                                    <div
+                                                        class="alert alert-success d-flex align-items-center p-2 border-0 shadow-sm small">
+                                                        <i class="ti ti-circle-check fs-5 me-2"></i>
+                                                        <div>
+                                                            <strong class="d-block">Archivo guardado
+                                                                correctamente:</strong>
+                                                            <span id="uploaded-file-name" class="text-break"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-text mt-2 text-end" style="font-size: 0.7rem;"
+                                                    id="infoTamañoPDF">
+                                                    Solo formato PDF (Máx 1 MB)
+                                                </div>
+
+                                                <input type="hidden" name="id_documento_informacion"
+                                                    id="id_documento_informacion" value="">
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-4 py-3 mb-2">
+                                    <div class="col-12 d-flex gap-2">
+
+
+                                        <button type="button" id="btnSubirDococumentoInformacion"
+                                            class="col-12 d-flex justify-content-center btn p-3 fw-semibold btn-rounded btn-primary shadow-btn align-items-center">
+                                            <i class="ti ti-cloud-upload me-2 fs-5"></i>
+                                            SUBIR PDF
+                                        </button>
+
+                                        <button type="button" id="cerrarModal" data-bs-dismiss="modal"
+                                            aria-label="Close"
+                                            class="col-12 justify-content-center btn p-3 fw-semibold btn-rounded btn-secondary align-items-center d-none">
+                                            FINALIZAR
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
 
             <div id="alert-container"></div>
 
-            
+
+
+            <div id="overlay" class="overlay d-flex justify-content-center align-items-center">
+                <div class="loader text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+
 
 
 

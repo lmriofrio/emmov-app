@@ -78,7 +78,7 @@ $(document).ready(function () {
                     const opcionesMenu = opcionesHabilitadas.join('');
 
                     const newRow = `
-                        <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
+                        <tr class="text-black-font">
                             <td class="text-center">${numeroFila}</td>
                             <td class="text-center">${tramite.id_tramite}</td>
                             <td class="text-center fw-semibold">${tramite.placa}</td>
@@ -311,7 +311,7 @@ $(document).ready(function () {
                         const opcionesMenu = opcionesHabilitadas.join('');
 
                         const newRow = `
-                            <tr style="border-style: none; border-bottom: 1px solid #dddee4;">
+                            <tr class="text-black-font">
                                 <td class="text-center">${numeroFila}</td>
                                 <td class="text-center">${tramite.id_tramite}</td>
                                 <td class="text-center fw-semibold">${tramite.placa}</td>

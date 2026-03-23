@@ -61,6 +61,7 @@
     --bs-cyan: #539BFF;
     --bs-black: #000;
     --bs-white: #fff;
+    --bs-gray-two: #2A3547;
     --bs-gray: #2A3547;
     --bs-gray-rgb: 42, 53, 71;
     --bs-gray-dark: #343a40;
@@ -261,6 +262,7 @@
     --bs-form-invalid-border-color: #fcb8a6;
     --bs-black: #ffffff;
     --bs-gray: #bcc2d0;
+    --bs-gray-two: #4a5363;
     --bs-gray-rgb: 221, 227, 236;
     --bs-white: #21222d;
     --bs-white-rgb: 33, 34, 45;
@@ -24136,16 +24138,16 @@ progress {
 }
 
 .form-control-plaintext-d-flex {
-  display: table-cell;         
-  text-align: center;           
-  vertical-align: middle;      
-  padding: 8px 0;
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--color-fuente);
-  background-color: transparent;
-  border: solid transparent;
-  border-width: var(--bs-border-width) 0;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    padding: 8px 0;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-fuente);
+    background-color: transparent;
+    border: solid transparent;
+    border-width: var(--bs-border-width) 0;
 }
 
 
@@ -25215,21 +25217,53 @@ fieldset:disabled .btn {
 
 .btn-dark {
     --bs-btn-color: #fff;
-    --bs-btn-bg: var(--bs-gray);
-    --bs-btn-border-color: var(--bs-gray);
+    --bs-btn-bg: var(--bs-gray-two);
+    --bs-btn-border-color: var(--bs-gray-two);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #4a5363;
-    --bs-btn-hover-border-color: #3f4959;
+    --bs-btn-hover-bg: #546E7A;
+    --bs-btn-hover-border-color: #546E7A;
     --bs-btn-focus-shadow-rgb: 74, 83, 99;
     --bs-btn-active-color: #fff;
     --bs-btn-active-bg: #555d6c;
     --bs-btn-active-border-color: #3f4959;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: var(--bs-gray);
-    --bs-btn-disabled-border-color: var(--bs-gray);
+    --bs-btn-disabled-bg: var(--bs-gray-two);
+    --bs-btn-disabled-border-color: var(--bs-gray-two);
 }
 
+.btn-carbon-slate {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #343b47; 
+    --bs-btn-border-color: #3f4754;
+    
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #4a5568; 
+    --bs-btn-hover-border-color: #4a5568;
+    
+    --bs-btn-focus-shadow-rgb: 74, 85, 104;
+    
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #2d3748; 
+    --bs-btn-active-border-color: #2d3748;
+
+    /* Transición suave para los cambios de estado */
+    transition: all 0.2s ease-in-out;
+}
+
+/* --- MEJORA PARA ESTADO DESHABILITADO --- */
+.btn-carbon-slate:disabled, 
+.btn-carbon-slate.disabled {
+    --bs-btn-disabled-color: #a0aec0; /* Texto gris claro */
+    --bs-btn-disabled-bg: #2d333d;    /* Fondo más oscuro y apagado */
+    --bs-btn-disabled-border-color: #2d333d;
+    
+    opacity: 0.65;           /* Se vuelve traslúcido */
+    cursor: not-allowed;     /* Cambia el puntero a un círculo tachado */
+    pointer-events: none;    /* Ignora clics y efectos hover */
+    filter: grayscale(0.5);  /* Desatura un poco el color */
+    box-shadow: none;        /* Quita cualquier sombra activa */
+}
 
 .btn-black {
     --bs-btn-color: #fff;
@@ -33185,6 +33219,11 @@ fieldset:disabled .btn {
 .bg-danger {
     --bs-bg-opacity: 1;
     background-color: var(--bs-red);
+}
+
+.bg-light {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important
 }
 
 .bg-light {
@@ -55130,7 +55169,7 @@ input.uppercase {
 
 
 .table-row-selected {
-    background-color: rgba(13, 110, 253, 0.08); 
+    background-color: rgba(13, 110, 253, 0.08);
     transition: background-color 0.2s ease;
 }
 
@@ -55148,17 +55187,31 @@ input.uppercase {
 
 /* Definición de la animación con tu nuevo color */
 @keyframes flash-verde-vibrante {
-    0% { 
-        background-color: #3eba54; /* Tu verde vibrante exacto */
-        color: white;              /* Texto en blanco para máximo contraste inicial */
-        font-weight: bold;         /* Negrita para resaltar */
+    0% {
+        background-color: #3eba54;
+        /* Tu verde vibrante exacto */
+        color: white;
+        /* Texto en blanco para máximo contraste inicial */
+        font-weight: bold;
+        /* Negrita para resaltar */
     }
-    50% { 
-        background-color: #81d692; /* Un tono más claro y suave a la mitad */
+
+    50% {
+        background-color: #81d692;
+        /* Un tono más claro y suave a la mitad */
     }
-    100% { 
-        background-color: transparent; /* Vuelve al fondo original de la tabla */
-        color: inherit;               /* El texto vuelve a su color original */
-        font-weight: normal;          /* Volvemos al peso de fuente normal */
+
+    100% {
+        background-color: transparent;
+        /* Vuelve al fondo original de la tabla */
+        color: inherit;
+        /* El texto vuelve a su color original */
+        font-weight: normal;
+        /* Volvemos al peso de fuente normal */
     }
+}
+
+
+.border-dashed {
+    border-style: dashed !important;
 }

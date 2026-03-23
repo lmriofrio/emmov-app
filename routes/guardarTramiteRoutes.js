@@ -303,6 +303,8 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
       "DUPLICADO DEL DOCUMENTO DE LA MATRICULA",
       "DUPLICADO DEL DOCUMENTO DE LA MATRICULA Y EMISION DEL DOCUMENTO ANUAL DE CIRCULACION"
     ];
+
+
     let { valor_pago_INFORMACION } = req.body;
 
     valor_pago_INFORMACION = valor_pago_INFORMACION === '' ? null : valor_pago_INFORMACION;
@@ -322,6 +324,7 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
     const fecha_turno_RTV = currentDay;
 
     let fecha_ultimo_proceso = fecha_ingreso_INFORMACION;
+
 
     if (tipo_tramite === 'EMISION DE MATRICULA POR PRIMERA VEZ') {
       placa = ramw;

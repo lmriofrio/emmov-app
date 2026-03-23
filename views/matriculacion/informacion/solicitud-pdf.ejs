@@ -706,7 +706,16 @@
                         <h6 class="fw-normal mb-0 mt-3 text-start text-black pb-2 d-none">Atentamente.</h6>
                         <br>
                         <br>
-                        <ul class="list-group list-group-flush  fs-2 mt-4 pt-2">
+
+                        <div class="firma-contenedor">
+                            <div class="col-6 d-flex justify-content-center align-items-center">
+                                <img src="/archivos/<%= archivoFirma %>" style="width: 150px;" alt="">
+                            </div>
+                            <div class="col-6"></div>
+
+
+                        </div>
+                        <ul class="list-group list-group-flush  fs-2 mt-0 pt-2">
 
                             <div class="d-flex">
                                 <li
@@ -725,16 +734,6 @@
 
 
                             <div class="d-flex ">
-                                <li class="list-group-item col-6  px-2 py-0">
-                                    <div class="row">
-                                        <div class="col">
-                                            <p
-                                                class="form-control-plaintext mb-0 p-0 text-center text-uppercase fw-semibold">
-                                                <%= tramite.nombre_usuario %>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
                                 <li class="list-group-item col-6 px-2 py-0">
                                     <div class="row">
                                         <div class="col">
@@ -745,23 +744,33 @@
                                         </div>
                                     </div>
                                 </li>
-                            </div>
-
-                            <div class="d-flex ">
                                 <li class="list-group-item col-6  px-2 py-0">
                                     <div class="row">
                                         <div class="col">
-                                            <p class="form-control-plaintext mb-0 p-0 text-center">
-                                                SOLICITANTE
+                                            <p
+                                                class="form-control-plaintext mb-0 p-0 text-center text-uppercase fw-semibold">
+                                                <%= tramite.nombre_usuario %>
                                             </p>
                                         </div>
                                     </div>
                                 </li>
+                            </div>
+
+                            <div class="d-flex ">
                                 <li class="list-group-item col-6 px-2 py-0">
                                     <div class="row">
                                         <div class="col">
                                             <p class="form-control-plaintext p-0 text-center">
                                                 FUNCIONARIO
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item col-6  px-2 py-0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="form-control-plaintext mb-0 p-0 text-center">
+                                                SOLICITANTE
                                             </p>
                                         </div>
                                     </div>
@@ -784,7 +793,9 @@
                         <i class="ti ti-exclamation-circle me-2 fs-5"></i>
                         <div class="d-flex justify-content-left w-100">
                             <h6 class="fw-normal mb-0 text-black me-2" id="">OBSERVACIÓN:</h6>
-                            <h6 class="fw-semibold mb-0 text-start" id=""><%= tramite.observaciones_INFORMACION %></h6>
+                            <h6 class="fw-semibold mb-0 text-start" id="">
+                                <%= tramite.observaciones_INFORMACION %>
+                            </h6>
                         </div>
                     </div>
                 </div>

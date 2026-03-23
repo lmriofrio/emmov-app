@@ -42,15 +42,17 @@ const Documento = sequelize.define('registro-documentos', {
   },
 
   fecha_creacion_documento: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING(45),
     allowNull: true,
-    defaultValue: DataTypes.NOW
   },
 
-  fecha_actualizacion__documento: {
-    type: DataTypes.DATE,
+  fecha_actualizacion_documento: {
+    type: DataTypes.STRING(45),
     allowNull: true,
-    defaultValue: DataTypes.NOW
+  },
+  id_funcionario_documento: {
+    type: DataTypes.INTEGER,
+    allowNull: true
   }
 
 }, {

@@ -97,7 +97,7 @@ const Funcionario = db.define('Funcionario', {
   },
 
   ///// ==    ASIGNACION DE TRAMITES ==      ////
-  
+
   tipo_ASIGNACION: {
     type: DataTypes.STRING(45),
     allowNull: true
@@ -119,6 +119,10 @@ const Funcionario = db.define('Funcionario', {
     allowNull: true
   },
   id_centro_matriculacion_ASIGNACION_RTV: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
+  id_firma_funcionario: {
     type: DataTypes.STRING(45),
     allowNull: true
   },

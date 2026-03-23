@@ -1,63 +1,76 @@
 const express = require('express');
 const router = express.Router();
-const { uploadArchivosMatriculacion } = require('../utils/uploadConfig');
+const { uploadArchivosPDF } = require('../utils/uploadConfig');
 const Documento = require('../models/Documento');
+const { getCurrentDay } = require('../utils/dateUtils');
+const { updateTramite_id_documento } = require('../utils/saveUtils');
 
-router.post('/subir-documento-matriculacion', uploadArchivosMatriculacion.single('archivo_pdf'), async (req, res) => {
+router.post('/subir-documento-pdf', (req, res, next) => {
+
+    const tipo = req.query.tipo || 'matriculacion';
+    let carpeta = 'general';
+    let limiteMB = 1;
+
+    if (tipo === 'matriculacion') { carpeta = 'matriculacion'; limiteMB = 2; }
+    else if (tipo === 'rtv')      { carpeta = 'rtv';           limiteMB = 1; }
+    else if (tipo === 'archivo')  { carpeta = 'archivo';       limiteMB = 5; }
+
+    console.log('----  ROUTER:   Subir documento pdf:', tipo, limiteMB);
+
+    return uploadArchivosPDF(carpeta, limiteMB)(req, res, next);
+
+}, async (req, res) => {
     const start = Date.now();
-    console.log('--- INICIO DE PROCESO DE SUBIDA (MATRICULACIÓN) ---');
     
     try {
         if (!req.file) {
-            console.warn('[WARN] Intento de subida sin archivo o formato no válido');
-            return res.json({ success: false, message: 'No se cargó ningún archivo o el formato es incorrecto' });
+            return res.status(400).json({ 
+                success: false, 
+                message: 'No se cargó ningún archivo o el formato no es PDF' 
+            });
         }
 
-        const { id_referencia } = req.body;
+        const { id_funcionario } = req.session.user;
+        const { currentDay } = getCurrentDay();
+        
         const ahora = new Date();
         const anio = ahora.getFullYear().toString();
         const mes = (ahora.getMonth() + 1).toString().padStart(2, '0');
-        const dia = ahora.getDate().toString().padStart(2, '0');   // <-- añadimos el día
+        const dia = ahora.getDate().toString().padStart(2, '0');
 
-        // Ahora la ruta incluye año, mes y día
-        const rutaRelativa = `matriculacion/${anio}/${mes}/${dia}`;
+        // La carpeta principal viene de lo que configuramos arriba
+        const carpetaBase = req.subCarpetaDestino || 'general';
+        const rutaRelativa = `${carpetaBase}/${anio}/${mes}/${dia}`;
 
-        console.log('----- Intentando crear registro en MySQL...');
-        
+        console.log('                procesando pdf...');
+
         const nuevoRegistro = await Documento.create({
             nombre_original_documento: req.file.originalname,
             nombre_servidor_documento: req.file.filename,
             ruta_carpeta_documento: rutaRelativa,
             mimetype_documento: req.file.mimetype,
             tamano_documento: req.file.size,
-            id_referencia_documento: (id_referencia && id_referencia !== "") ? id_referencia : null,
-            fecha_creacion_documento: ahora,
-            fecha_actualizacion__documento: ahora
+            fecha_creacion_documento: currentDay,
+            fecha_actualizacion_documento: currentDay,
+            id_funcionario_documento: id_funcionario
         });
 
-        const duration = Date.now() - start;
+        console.log('                subida exitosa del pdf ID:', nuevoRegistro.id_documento);
 
-        if (nuevoRegistro) {
-            console.log(`----- Registro de matriculación creado con ID: ${nuevoRegistro.id_documento}`);
-            res.json({ 
-                success: true, 
-                message: 'Archivo cargado correctamente',
-                id_documento: nuevoRegistro.id_documento
-            });
-        } else {
-            console.error('[ERROR] El registro no se creó en la base de datos.');
-            res.json({ success: false, message: 'No se pudo crear el registro en la base de datos' });
-        }
+        return res.json({
+            success: true,
+            message: 'Archivo cargado y registrado correctamente',
+            id_documento: nuevoRegistro.id_documento
+        });
 
     } catch (error) {
-        console.error('[CRITICAL ERROR] Fallo en el flujo de subida de matriculación:');
-        console.error(error.stack);
-        
-        res.status(500).json({ 
-            success: false, 
-            message: 'Error interno del servidor al procesar archivo de matriculación' 
+        console.error('[CRITICAL ERROR] Error en /subir-documento-pdf:', error.stack);
+        return res.status(500).json({
+            success: false,
+            message: 'Error interno al procesar el registro del documento'
         });
     }
 });
+
 
 module.exports = router;

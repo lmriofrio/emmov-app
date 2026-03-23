@@ -26,6 +26,7 @@ const SeleccionarTipoTramites = require('./models/SeleccionarTipoTramites');
 const ConceptoPago = require('./models/ConceptoPago');
 const TituloCredito = require('./models/TituloCredito');
 const Documento = require('./models/Documento');
+const DocumentoFirma = require('./models/Documento-firma');
 
 
 const sse = require('./routes/sseRoutes');
@@ -969,9 +970,41 @@ app.get('/matriculacion/informacion/agregar-turno', async (req, res) => {
         attributes: ['id_concepto', 'nombre_concepto', 'valor_concepto'],
         where: {
           tipo_servicio_concepto: 'MATRICULACION',
-          estado_concepto: 'ACTIVO'
+          estado_concepto: {
+            [SequelizeOp.ne]: 'INACTIVO'
+          }
         },
-        order: [['nombre_concepto', 'ASC']]
+        order: [
+          [
+            literal(`FIELD(nombre_concepto, 
+        'Revisión Técnica Vehicular-Taxis/Busetas/Furgonetas/Camionetas',
+        'Revisión Técnica Vehicular-Motocicletas y Plataformas',
+        'Revisión Técnica Vehicular-Pesados',
+        'Revisión Técnica Vehicular-Livianos',
+        'Revisión Técnica Vehicular-Buses',
+        'Adhesivo de Revisión Vehicular',
+        'Rodaje Vehicular',
+        'Emisión Renovación de Matrícula',
+        'Duplicado de Matrícula',
+        'Verificación extracción de improntas vehicular',
+        'Recargo por retraso en el proceso de matriculación vehicular / revisión anual dentro de la calendarización',
+        'Certificado de no adeudar',
+        'Certificado único vehicular (CUV)',
+        'Certificado de poseer vehículos (CPV)',
+        'Cambio de tipo de vehículo',
+        'Cambio de color',
+        'Cambio de pasajeros',
+        'Cambio de carrocería',
+        'Cambio de motor',
+        'Cambio de servicio',
+        'Duplicado del documento anual de circulación vehicular',
+        'Duplicado de Adhesivo de Revisión Vehicular',
+        'Registro de bloqueo o gravamen del vehículo',
+        'Registro de desbloqueo o levantamiento de gravamen del vehículo'
+      )`),
+            'ASC'
+          ]
+        ]
       });
 
       res.render('matriculacion/informacion/agregar-turno', {
@@ -995,36 +1028,17 @@ app.get('/matriculacion/informacion/editar-turno', async (req, res) => {
       const obtenerTiposTramitesAsync = util.promisify(selectorTramites.obtenerTiposTramites.bind(selectorTramites));
 
       const tiposTramites = await obtenerTiposTramitesAsync();
-
       const idTramite = req.query.id_tramite;
-
       const tramite = await Tramite.findByPk(idTramite);
-
-      const idEmpresa = req.session.user.id_empresa;
-
-      const centrosMatriculacion = await CentroMatriculacion.findAll({
-        where: { id_empresa: idEmpresa },
-        attributes: ['id_centro_matriculacion', 'nombre_centro_matriculacion']
-      });
-
-      const estadoFuncionario = 'ACTIVO';
-      //const recepcionTramites = 'HABILITADO';
-
-      const funcionariosActivos = await Funcionario.findAll({
-        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario },
-        attributes: ['id_funcionario', 'nombre_funcionario']
-      });
-
-      console.log(tramite)
-
 
       res.render('matriculacion/informacion/editar-turno', {
         tiposTramites,
-        centrosMatriculacion, funcionariosActivos,
         userData: req.session.user,
         tramite,
         permisos: req.session.permisos
       });
+
+
     } else {
       res.redirect('/login');
     }
@@ -1081,38 +1095,52 @@ app.get('/matriculacion/informacion/turno-rtv-pdf', async (req, res) => {
 
 app.get('/matriculacion/informacion/solicitud-pdf', async (req, res) => {
   try {
-
     if (req.session.user && req.session.permisos) {
-
-      const id_empresa = req.session.user.id_empresa;
-      const empresa = await Empresa.findByPk(id_empresa);
-
       const idTramite = req.query.id_tramite;
+      if (!idTramite) return res.status(400).send('ID del trámite no proporcionado.');
 
-      if (!idTramite) {
-        return res.status(400).send('ID del trámite no proporcionado.');
+      // 1. Obtener Empresa y Trámite
+      const id_empresa = req.session.user.id_empresa;
+      const [empresa, tramite] = await Promise.all([
+        Empresa.findByPk(id_empresa),
+        Tramite.findByPk(idTramite)
+      ]);
+
+      if (!tramite) return res.status(404).send('Trámite no encontrado.');
+
+      // 2. Obtener Títulos de Crédito y DATOS DE LA FIRMA
+      let firmaData = null;
+
+      // Buscamos al funcionario que ingresó la información
+      const funcionario = await Funcionario.findByPk(tramite.id_funcionario_INFORMACION);
+
+      if (funcionario && funcionario.id_firma_funcionario) {
+        // Buscamos el registro del PNG en tu nueva tabla
+        firmaData = await DocumentoFirma.findByPk(funcionario.id_firma_funcionario);
       }
 
-      const tramite = await Tramite.findByPk(idTramite);
+      const archivoFirma = firmaData
+        ? `${firmaData.ruta_carpeta_documento_firma}/${firmaData.nombre_servidor_documento_firma || firmaData.nombre_original_documento_firma}`
+        : null;
 
-      // 🔹 obtener títulos de crédito del trámite
       const titulosCredito = await TituloCredito.findAll({
         where: { id_tramite: idTramite },
         order: [['id_titulos_credito', 'ASC']]
       });
 
+      // 3. Renderizar enviando la variable de la firma
       res.render('matriculacion/informacion/solicitud-pdf', {
         userData: req.session.user,
         permisos: req.session.permisos,
         tramite,
         empresa,
-        titulosCredito
+        titulosCredito,
+        archivoFirma // Aquí envías toda la info (ruta, nombre del servidor, etc.)
       });
 
     } else {
       res.redirect('/login');
     }
-
   } catch (error) {
     console.error('Error al obtener los registros:', error);
     res.status(500).send('Error al obtener los registros');
@@ -2172,7 +2200,7 @@ app.get('/documento/:id', async (req, res) => {
     const filePath = path.join(
       __dirname,
       'uploads',
-      documento.ruta_carpeta_documento,   
+      documento.ruta_carpeta_documento,
       documento.nombre_servidor_documento
     );
 

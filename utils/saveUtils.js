@@ -680,7 +680,6 @@ async function editarInventarioPlacas({
     return { id_inv };
 }
 
-
 async function createTitulosCreditos({
     id_tramite,
     id_concepto,
@@ -752,8 +751,6 @@ async function cerrarTituloCredito(id_tramite) {
     }
 
 }
-
-
 
 async function updateTramite_id_documento({ id_tramite, id_documento_informacion }) {
   try {
