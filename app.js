@@ -970,41 +970,9 @@ app.get('/matriculacion/informacion/agregar-turno', async (req, res) => {
         attributes: ['id_concepto', 'nombre_concepto', 'valor_concepto'],
         where: {
           tipo_servicio_concepto: 'MATRICULACION',
-          estado_concepto: {
-            [SequelizeOp.ne]: 'INACTIVO'
-          }
+          estado_concepto: 'ACTIVO'
         },
-        order: [
-          [
-            literal(`FIELD(nombre_concepto, 
-        'Revisión Técnica Vehicular-Taxis/Busetas/Furgonetas/Camionetas',
-        'Revisión Técnica Vehicular-Motocicletas y Plataformas',
-        'Revisión Técnica Vehicular-Pesados',
-        'Revisión Técnica Vehicular-Livianos',
-        'Revisión Técnica Vehicular-Buses',
-        'Adhesivo de Revisión Vehicular',
-        'Rodaje Vehicular',
-        'Emisión Renovación de Matrícula',
-        'Duplicado de Matrícula',
-        'Verificación extracción de improntas vehicular',
-        'Recargo por retraso en el proceso de matriculación vehicular / revisión anual dentro de la calendarización',
-        'Certificado de no adeudar',
-        'Certificado único vehicular (CUV)',
-        'Certificado de poseer vehículos (CPV)',
-        'Cambio de tipo de vehículo',
-        'Cambio de color',
-        'Cambio de pasajeros',
-        'Cambio de carrocería',
-        'Cambio de motor',
-        'Cambio de servicio',
-        'Duplicado del documento anual de circulación vehicular',
-        'Duplicado de Adhesivo de Revisión Vehicular',
-        'Registro de bloqueo o gravamen del vehículo',
-        'Registro de desbloqueo o levantamiento de gravamen del vehículo'
-      )`),
-            'ASC'
-          ]
-        ]
+        order: [['nombre_concepto', 'ASC']]
       });
 
       res.render('matriculacion/informacion/agregar-turno', {
