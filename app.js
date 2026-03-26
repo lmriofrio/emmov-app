@@ -27,7 +27,7 @@ const ConceptoPago = require('./models/ConceptoPago');
 const TituloCredito = require('./models/TituloCredito');
 const Documento = require('./models/Documento');
 const DocumentoFirma = require('./models/Documento-firma');
-
+const TurnoBasico = require('./models/TurnoBasico');
 
 const sse = require('./routes/sseRoutes');
 const sseRoutes = require('./routes/sseRoutes');
@@ -1949,6 +1949,14 @@ app.get('/servicios/consulta-placas-inventario', async (req, res) => {
 
 
   res.render('servicios/consulta-placas-inventario', {});
+
+});
+
+app.get('/servicios/generacion-turnos-basico', async (req, res) => {
+
+
+
+  res.render('servicios/generacion-turnos-basico', {});
 
 });
 

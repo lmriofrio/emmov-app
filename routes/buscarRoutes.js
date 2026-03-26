@@ -6,13 +6,15 @@ const Vehiculo = require('../models/Vehiculo');
 const InventarioPlacas = require('../models/InventarioPlacas');
 const FuncionarioTTHH = require('../models/FuncionarioTTHH');
 const FaltaAsistenciasTTHH = require('../models/FaltaAsistenciasTTHH');
+const TurnoBasico = require('../models/TurnoBasico');
 const axios = require('axios');
 const { Op } = require('sequelize');
+const { getCurrentDay, getRangeCurrentDay } = require('../utils/dateUtils');
 
 router.get('/buscar-tramite', async (req, res) => {
     const { placa } = req.query;
 
-    console.log('----  ROUTER:   Buscar tramite:', placa); 
+    console.log('----  ROUTER:   Buscar tramite:', placa);
 
     try {
         const tramites = await Tramite.findAll({
@@ -37,7 +39,7 @@ router.get('/buscar-tramite-filtro', async (req, res) => {
 
     const usernameSesion = req.session.user.username;
 
-    console.log('----  ROUTER:   Buscar tramite filtro:', placa);  
+    console.log('----  ROUTER:   Buscar tramite filtro:', placa);
 
     try {
         const tramites = await Tramite.findAll({
@@ -169,7 +171,7 @@ router.get('/buscar-tramite-filtro-opt', async (req, res) => {
 router.post('/buscar-usuario', async (req, res) => {
     const { id_usuario } = req.body;
 
-        console.log('----  ROUTER:   Buscar usuario:', id_usuario);
+    console.log('----  ROUTER:   Buscar usuario:', id_usuario);
 
     try {
         const usuario = await Usuario.findOne({ where: { id_usuario } });
@@ -217,7 +219,7 @@ router.post('/buscar-vehiculo', async (req, res) => {
 
 router.post('/buscar-vehiculo-sri', async (req, res) => {
     const { id_vehiculo } = req.body;
-    
+
     console.log('----  ROUTER:   Buscar vehiculo SRI:', id_vehiculo);
     console.log('                Placa que se va a enviar hacia el SRI:', id_vehiculo);
 
@@ -280,7 +282,7 @@ router.get('/buscar-placa-id_inventario', async (req, res) => {
 
 router.get('/buscar-funcionario-TTHH', async (req, res) => {
     const { idFuncionario } = req.query;
-   
+
     console.log('----  ROUTER:   Buscar funcionario TTHH:', idFuncionario);
 
     try {
@@ -300,7 +302,7 @@ router.get('/buscar-funcionario-TTHH', async (req, res) => {
 
 router.get('/buscar-falta-asistencia', async (req, res) => {
     const { id_registro } = req.query;
-    
+
     console.log('----  ROUTER:   Buscar falta asistencia:', id_registro);
 
     try {
@@ -343,5 +345,73 @@ router.get('/buscar-tramite-rtv', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
+
+////////////////////////////////////
+///// ==      GENERAR TURNO BASICO   ==    ////
+////////////////////////////////////
+
+
+router.post('/generar-turno-basico', async (req, res) => {
+    const { placa, servicio, tramite } = req.body;
+    console.log('----  ROUTER:   GENERAR TURNO BÁSICO ---');
+
+    try {
+        const placaUpper = placa ? placa.toUpperCase().trim() : '';
+        
+        // Usamos tus utilidades de fecha
+        const { currentDay } = getCurrentDay(); 
+        const { startOfDay, endOfDay } = getRangeCurrentDay();
+
+        console.log(`                Buscando vehículo para placa:`, placaUpper);
+        const vehiculo = await Vehiculo.findOne({ where: { placa: placaUpper } });
+
+        // Si no hay vehículo, inicializamos valores vacíos para que no falle el .create
+        const datosUsuario = {
+            id_usuario: vehiculo ? vehiculo.id_usuario : '',
+            nombre_usuario: vehiculo ? vehiculo.nombre_usuario : 'USUARIO NO REGISTRADO'
+        };
+
+        if (!vehiculo) {
+            console.warn(`                Vehículo [${placaUpper}] no encontrado. Continuando con datos vacíos.`);
+        }
+
+        // 2. Buscamos el último turno del día usando el rango de tu utilidad
+        const ultimoTurno = await TurnoBasico.findOne({ 
+            where: { 
+                fecha_creacion: {
+                    [Op.between]: [startOfDay, endOfDay]
+                }
+            },
+            order: [['id', 'DESC']] 
+        });
+
+        const proximoNumero = ultimoTurno && ultimoTurno.numero_turno ? parseInt(ultimoTurno.numero_turno) + 1 : 1;
+        const numeroTurnoFinal = proximoNumero.toString();
+
+        console.log('                Guardando en registro-turnos-basicos');
+        const nuevoTurno = await TurnoBasico.create({
+            numero_turno: numeroTurnoFinal,
+            placa: placaUpper,
+            servicio: servicio || 'MATRICULACIÓN',
+            tramite: tramite,
+            identificacion_propietario: datosUsuario.id_usuario,
+            nombre_propietario: datosUsuario.nombre_usuario,
+            fecha_creacion: currentDay
+        });
+
+        res.json({
+            success: true,
+            turno: nuevoTurno
+        });
+
+        console.log(`                Turno ${numeroTurnoFinal} generado exitosamente.`);
+
+    } catch (error) {
+        console.error('!!! [ERROR] !!!', error);
+        res.status(500).json({ success: false, message: 'Error de servidor', error: error.message });
+    }
+});
+
 
 module.exports = router;

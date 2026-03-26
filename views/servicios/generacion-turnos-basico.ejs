@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="es" data-bs-theme="light">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Generar turnos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.46.0/tabler-icons.min.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="/js/generar-turno-basico.js"></script>
+    <script src="/js/activar-items-navbar.js"></script>
+    <script src="/js/spinners.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body,
+        html {
+            height: 100%;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Estilos para el botón principal de inicio */
+        .btn-kiosk-main {
+            padding: 80px 140px;
+            font-size: 4rem;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-kiosk-main:active {
+            transform: scale(0.95);
+            opacity: 0.9;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #ticket-print,
+            #ticket-print * {
+                visibility: visible;
+            }
+
+            #ticket-print {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 80mm;
+                text-align: center;
+            }
+        }
+    </style>
+
+    <style>
+        /* Estilos generales para el Quiosco */
+        .hidden {
+            display: none !important;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* CRÍTICO: Configuración para la Impresora Termal */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            /* Oculta todo el sitio */
+            #ticket-print,
+            #ticket-print * {
+                visibility: visible;
+            }
+
+            /* Muestra solo el ticket */
+            #ticket-print {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                display: block !important;
+            }
+
+            @page {
+                margin: 0;
+                size: auto;
+            }
+
+            /* Elimina encabezados de página del navegador */
+        }
+
+        @media print {
+    @page {
+        size: 80mm auto; /* El alto es automático según el contenido */
+        margin: 0;       /* Elimina márgenes que causan saltos de página */
+    }
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    #ticket-print {
+        width: 100%;    /* Ocupa todo el ancho de los 80mm */
+        page-break-after: always; /* Indica a la impresora que aquí termina el ticket */
+    }
+}
+    </style>
+
+
+
+</head>
+
+<body>
+
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Inicio de barra de navegación -->
+
+        <!-- Fin de barra de navegación -->
+        <!--  Contendio principal -->
+        <div class="body-wrapper2">
+            <!--  Encabezado de pagina -->
+
+            <!--  Fin de encabezado de pagina  -->
+
+            <style>
+                /* Estilos generales para el Quiosco */
+                .hidden {
+                    display: none !important;
+                }
+
+                .animate-fade-in {
+                    animation: fadeIn 0.3s ease-in;
+                }
+
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                    }
+
+                    to {
+                        opacity: 1;
+                    }
+                }
+
+                /* CRÍTICO: Configuración para la Impresora Termal */
+                @media print {
+                    body * {
+                        visibility: hidden;
+                    }
+
+                    /* Oculta todo el sitio */
+                    #ticket-print,
+                    #ticket-print * {
+                        visibility: visible;
+                    }
+
+                    /* Muestra solo el ticket */
+                    #ticket-print {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        display: block !important;
+                    }
+
+                    @page {
+                        margin: 0;
+                        size: auto;
+                    }
+
+                    /* Elimina encabezados de página del navegador */
+                }
+            </style>
+
+            <div class="container-fluid min-vh-100 d-flex flex-column p-0">
+                <header class="d-flex justify-content-center align-items-center p-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="rounded d-flex justify-content-center align-items-center bg-white shadow-sm"
+                            style="width: 50px; height: 50px;">
+                            <img src="/images/favicon.ico" class="rounded-circle" width="35" height="35">
+                        </div>
+                        <h2 class="mb-0 fw-bold text-muted text-uppercase" style="letter-spacing: 2px;">emmov</h2>
+                    </div>
+                </header>
+
+                <main class="flex-grow-1 d-flex align-items-center justify-content-center px-4">
+                    <div id="pantalla-inicio" class="text-center animate-fade-in">
+                        <button class="btn btn-primary shadow-lg fw-bold border-0"
+                            style="padding: 80px 120px; font-size: 3.5rem; border-radius: 40px;"
+                            onclick="mostrarPantalla('pantalla-seleccion')">
+                            GENERAR TURNO
+                        </button>
+                    </div>
+
+                    <div id="pantalla-seleccion" class="hidden w-100 animate-fade-in">
+                        <div class="card shadow-lg p-5 border-0 mx-auto" style="max-width: 800px; border-radius: 35px;">
+                            <h4 class="text-center mb-5 fw-normal display-6">Ingresar información del turno</h4>
+
+                            <div class="mb-4">
+                                <label class="form-label text-muted fw-bold ps-2">SERVICIO</label>
+                                <select id="select-categoria" class="form-select form-select-lg fw-bold border-2"
+                                    style="height: 80px; font-size: 1.8rem; border-radius: 20px;">
+                                    <option value="MATRICULACION">MATRICULACIÓN</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label text-muted fw-bold ps-2">TRÁMITE</label>
+                                <select id="select-servicio" class="form-select form-select-lg fw-bold border-2"
+                                    style="height: 80px; font-size: 1.8rem; border-radius: 20px;">
+                                    <option value="" selected disabled></option>
+                                    <option value="REVISIÓN ANUAL">REVISIÓN ANUAL</option>
+                                    <option value="TRANSFERENCIA DE DOMINIO">TRANSFERENCIA DE DOMINIO</option>
+                                    <option value="CAMBIO DE SERVICIO">CAMBIO DE SERVICIO</option>
+                                    <option value="RTV (REVISIÓN TÉCNICA VEHICULAR)">RTV (REVISIÓN TÉCNICA VEHICULAR)
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-5">
+                                <label class="form-label text-muted fw-bold ps-2">PLACA DEL VEHÍCULO</label>
+                                <input type="text" id="input-placa"
+                                    class="form-control form-control-lg text-center fw-bold border-2" placeholder=""
+                                    autocomplete="off"
+                                    style="height: 100px; font-size: 3.5rem; text-transform: uppercase; border-radius: 20px;">
+                            </div>
+
+                            <div class="row g-4">
+                                <div class="col-6">
+                                    <button
+                                        class="w-100 p-4 btn btn-secondary me-6 fw-semibold btn-rounded shadow-btn px-4 fw-semibold fs-5"
+                                        onclick="mostrarPantalla('pantalla-inicio')">CANCELAR</button>
+                                </div>
+                                <div class="col-6">
+                                    <button
+                                        class="w-100 p-4 btn btn-primary fw-semibold btn-rounded shadow-btn px-4 fw-semibold fs-5"
+                                        id="GenerarTurnoBasico" onclick="procesarDatos()">GUARDAR</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="pantalla-confirmacion" class="hidden w-100 animate-fade-in text-center">
+                        <div class="p-4 card shadow-lg border-0 mx-auto"
+                            style="max-width: 650px; border-radius: 40px; overflow: hidden;">
+
+                            <div class="p-2 text-white">
+                                <h3 class="fw-bold m-0" style="letter-spacing: 1px;">TURNO GENERADO</h3>
+                            </div>
+
+                            <div class="card-body p-2">
+                                <div class="mb-4">
+                                    <h2 id="view-turno" class="display-1 fw-bold text-primary m-0"
+                                        style="font-size: 8rem; line-height: 1;">---</h2>
+                                </div>
+
+                                <div class="rounded-4 p-4 text-start mb-2">
+                                    <div class="p-3">
+                                        <div class="row align-items-center mb-3">
+                                            <div class="col-4 text-start">
+                                                <label class="text-muted small fw-bold text-uppercase m-0">Placa</label>
+                                            </div>
+                                            <div class="col-8 text-start">
+                                                <span id="view-placa"
+                                                    class="fs-5 fw-bold text-uppercase text-black">---</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row align-items-center mb-3">
+                                            <div class="col-4 text-start">
+                                                <label
+                                                    class="text-muted small fw-bold text-uppercase m-0">Identificación</label>
+                                            </div>
+                                            <div class="col-8 text-start">
+                                                <span id="view-identificacion"
+                                                    class="fs-5 fw-bold text-black">---</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row align-items-center mb-3">
+                                            <div class="col-4 text-start">
+                                                <label
+                                                    class="text-muted small fw-bold text-uppercase m-0">Propietario</label>
+                                            </div>
+                                            <div class="col-8 text-start">
+                                                <span id="view-nombre" class="fs-5 fw-bold text-black">---</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row align-items-top">
+                                            <div class="col-4 text-start">
+                                                <label
+                                                    class="text-muted small fw-bold text-uppercase m-0">Trámite</label>
+                                            </div>
+                                            <div class="col-8 text-start">
+                                                <span id="view-servicio" class="fs-5 fw-bold text-black">---</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-grid gap-3">
+                                    <button
+                                        class="w-100 p-4 btn btn-primary fw-semibold btn-rounded shadow-btn px-4 fw-semibold fs-5"
+                                        onclick="imprimirTurno()">
+                                        <i class="bi bi-printer-fill me-3"></i><strong>IMPRIMIR TICKET</strong>
+                                    </button>
+
+                                    <button
+                                        class="w-100 p-4 btn btn-secondary fw-semibold btn-rounded shadow-btn px-4 fw-semibold fs-5"
+                                        style="border-radius: 20px;" onclick="mostrarPantalla('pantalla-inicio')">
+                                        FINALIZAR SIN IMPRIMIR
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </main>
+
+                <footer class="p-4 d-flex align-items-center justify-content-center">
+                    <label for="switchTema" class="form-label mb-0 text-muted me-3">Tema</label>
+                    <div class="form-check form-switch m-0">
+                        <input class="form-check-input" type="checkbox" id="switchTema"
+                            style="width: 50px; height: 25px;">
+                    </div>
+                </footer>
+            </div>
+
+            <div id="ticket-print" class="hidden">
+                <div
+                    style="width: 80mm; font-family: 'Courier New', Courier, monospace; color: #000; padding: 5px; margin: 0 auto;">
+
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <h2 style="margin: 0; font-size: 1.2rem;">EMMSZCH E.P.</h2>
+                    </div>
+
+                    <div
+                        style="text-align: center; border-top: 1px dashed #000; border-bottom: 1px dashed #000; padding: 10px 0; margin-bottom: 10px;">
+                        <span style="font-size: 0.9rem; font-weight: bold; display: block;">SU TURNO ES:</span>
+                        <h1 id="t-numero" style="font-size: 5rem; margin: 5px 0; line-height: 1;">00</h1>
+                    </div>
+
+                    <div style="font-size: 0.85rem; line-height: 1.4;">
+                        <div style="display: flex;">
+                            <div style="flex: 0 0 35%; font-weight: bold;">NOMBRE:</div>
+                            <div id="t-nombre" style="flex: 1;">---</div>
+                        </div>
+                        <div style="display: flex;">
+                            <div style="flex: 0 0 35%; font-weight: bold;">ID:</div>
+                            <div id="t-identificacion" style="flex: 1;">---</div>
+                        </div>
+                        <div style="display: flex;">
+                            <div style="flex: 0 0 35%; font-weight: bold;">PLACA:</div>
+                            <div id="t-placa" style="flex: 1; font-weight: bold;">---</div>
+                        </div>
+                        <div style="display: flex;">
+                            <div style="flex: 0 0 35%; font-weight: bold;">TRAMITE:</div>
+                            <div id="t-servicio" style="flex: 1;">---</div>
+                        </div>
+                        <div style="display: flex; margin-top: 8px; font-size: 0.75rem;">
+                            <div style="flex: 0 0 35%;">FECHA:</div>
+                            <div id="t-fecha" style="flex: 1;">---</div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; border-top: 1px dashed #000; margin-top: 15px; padding-top: 10px;">
+                        <p style="font-size: 0.7rem; margin: 5px 0;">*** POR FAVOR ESPERE EN SALA ***</p>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function mostrarPantalla(id) {
+                    ['pantalla-inicio', 'pantalla-seleccion', 'pantalla-confirmacion'].forEach(p => {
+                        const el = document.getElementById(p);
+                        if (el) el.classList.add('hidden');
+                    });
+
+                    const target = document.getElementById(id);
+                    if (target) target.classList.remove('hidden');
+
+                    // Limpiar campos y reactivar botón si volvemos al inicio
+                    if (id === 'pantalla-inicio') {
+                        document.getElementById('input-placa').value = "";
+                        document.getElementById('select-servicio').selectedIndex = 0;
+
+                        // Reactivamos el botón de generación por si quedó deshabilitado
+                        const btnGenerar = document.getElementById('GenerarTurnoBasico');
+                        if (btnGenerar) {
+                            btnGenerar.disabled = false;
+                            btnGenerar.innerText = 'GENERAR TURNO';
+                        }
+                    }
+                }
+
+                function imprimirTurno() {
+                    // Ejecuta la impresión sin redirección automática
+                    window.print();
+                }
+            </script>
+
+
+
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const htmlTag = document.documentElement;
+            const switchTema = document.getElementById("switchTema");
+
+            if (!switchTema) return;
+
+            const tema = localStorage.getItem("preferenciaTema") || "light";
+            htmlTag.setAttribute("data-bs-theme", tema);
+            switchTema.checked = (tema === "dark");
+
+            switchTema.addEventListener("change", () => {
+                const nuevo = switchTema.checked ? "dark" : "light";
+                htmlTag.setAttribute("data-bs-theme", nuevo);
+                localStorage.setItem("preferenciaTema", nuevo);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

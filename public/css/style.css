@@ -55182,7 +55182,7 @@ input.uppercase {
 /* Clase que aplica el resaltado */
 .resaltar-fila {
     /* Mantenemos la duración de 2.5s para un efecto elegante */
-    animation: flash-verde-vibrante 2.5s ease-out;
+    animation: flash-verde-vibrante 5s ease-out;
 }
 
 /* Definición de la animación con tu nuevo color */
