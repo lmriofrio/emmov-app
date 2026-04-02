@@ -355,6 +355,8 @@ $(document).ready(function () {
 
                 });
 
+
+                /* 
                 let numeroFilaG = 1;
                 response.tramitesPendientes.forEach(tramite => {
 
@@ -986,11 +988,13 @@ $(document).ready(function () {
 
 
                 });
+                */
 
                 $('#TraPersonalHoy').text(`${response.tramitesHoy.length}`);
+                /*
                 $('#TraPersonalPendientes').text(`${response.tramitesPendientes.length}`);
                 $('#TraGeneral').text(`${response.tramitesPendientesEmpresa.length}`);
-
+*/
 
             } else {
                 console.log('TRÁMITES NO ENCONTRADOS');

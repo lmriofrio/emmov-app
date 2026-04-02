@@ -600,6 +600,15 @@ $(document).ready(function () {
                                Imprimir
                             </a>
                         </li>
+                                                    <li>
+                                <a class="dropdown-item eliminarTramite text-black px-4" href="#" 
+                                   data-bs-toggle="modal" data-bs-target="#modalEliminarTramite" 
+                                   id="eliminar-${tramite.id_tramite}" 
+                                   data-id-tramite="${tramite.id_tramite}" 
+                                   data-username="${tramite.username}">
+                                   Eliminar
+                                </a>
+                            </li>
                     `);
 
                     const opcionesMenu = opcionesHabilitadas.join('');
@@ -681,6 +690,30 @@ $(document).ready(function () {
                         } else {
                             console.warn("El ID del documento está vacío o no es válido");
                         }
+                    });
+
+                    $('#tbody-tramitesEmpresa').off('click', '.eliminarTramite').on('click', '.eliminarTramite', function () {
+                        const idTramite = $(this).data('id-tramite');
+                        $.ajax({
+                            type: 'GET',
+                            url: `/buscar-tramite-id`,
+                            data: { idTramite },
+                            success: function (response) {
+                                if (response.success) {
+                                    $('#eliminar_placa').val(response.tramite.placa);
+                                    $('#eliminar_nombre_usuario').val(response.tramite.nombre_usuario);
+                                    $('#eliminar_nombre_funcionario').val(response.tramite.nombre_funcionario);
+                                    $('#eliminar_tipo_tramite').val(response.tramite.tipo_tramite);
+                                    $('#eliminar_id_tramite').val(response.tramite.id_tramite);
+                                } else {
+                                    alert('Error: no se pudo obtener la información del trámite.');
+                                }
+                            },
+                            error: function (error) {
+                                console.error('Error al obtener detalles del trámite:', error);
+                                alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
+                            }
+                        });
                     });
 
 

@@ -106,6 +106,7 @@ router.get('/visualizar-turnos-agenda', async (req, res) => {
                 },
                 order: [['fecha_ingreso_INFORMACION', 'ASC']]
             }),
+            /*
             Tramite.findAll({
                 attributes: columnas,
                 where: {
@@ -121,10 +122,10 @@ router.get('/visualizar-turnos-agenda', async (req, res) => {
                     estado_tramite: 'En proceso'
                 },
                 order: [['fecha_ingreso_INFORMACION', 'ASC']]
-            })
+            })*/
         ]);
 
-        res.json({ success: true, tramitesHoy, tramitesPendientes, tramitesPendientesEmpresa });
+        res.json({ success: true, tramitesHoy });
 
     } catch (error) {
         console.error('Error al buscar trámites:', error);
