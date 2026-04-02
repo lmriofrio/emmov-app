@@ -24,7 +24,9 @@ $(document).ready(function () {
                     let estadoClass = '';
                     let estadoColor = '';
                     let estadoFont = '';
+                    let estadoText = '';
                     let opcionesHabilitadas = [];
+                    let pdfInformacionCellContent = '';
 
                     estadoColor = 'bg-primary-green';
 
@@ -41,13 +43,16 @@ $(document).ready(function () {
                     if (tramite.resultado_final_RTV === 'Aprobado') {
                         estadoClass = 'bg-info';
                         estadoFont = 'fw-normal';
+                        estadoText = 'text-dark';
 
                     } else if (tramite.resultado_final_RTV === 'Condicionado') {
                         estadoClass = 'bg-wait';
                         estadoFont = 'fw-normal';
+                        estadoText = 'text-dark';
 
                     } else if (tramite.resultado_final_RTV === '' || tramite.resultado_final_RTV === null) {
                         estadoFont = 'fw-semibold';
+                        estadoText = 'text-blue';
 
                         opcionesHabilitadas.push(`
         <li>
@@ -76,6 +81,12 @@ $(document).ready(function () {
                     `);
 
                     const opcionesMenu = opcionesHabilitadas.join('');
+                    pdfInformacionCellContent = `
+                        <a href="#" 
+                            class="visualizarDocumentoInformacion" 
+                            data-id-documento-informacion="${tramite.id_documento_informacion || ''}">
+                            ${tramite.id_documento_informacion || ''}
+                        </a>`;
 
                     const newRow = `
                         <tr class="text-black-font">
@@ -108,9 +119,12 @@ $(document).ready(function () {
 </td>
 
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
-                                                        <td class="text-center align-items-center justify-content-center p-2">
+                            <td class="text-center ${estadoFont} ${estadoText}">
+                                ${pdfInformacionCellContent}
+                            </td>
+                            <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
-                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
+                                    <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                         Acción
                                     </button>
@@ -219,6 +233,23 @@ $(document).ready(function () {
                         });
                     });
 
+                    $('#tbody-tramites').off('click', '.visualizarDocumentoInformacion').on('click', '.visualizarDocumentoInformacion', function (e) {
+                        e.preventDefault();
+
+                        const idDocumento = $(this).data('id-documento-informacion');
+                        console.log("ID detectado:", idDocumento);
+
+                        if (idDocumento && idDocumento !== "" && idDocumento !== "undefined") {
+                            const url = `/ver-documento-pdf/${idDocumento}`;
+                            console.log("Cargando URL:", url);
+
+                            $('#iframeDocumento').attr('src', url);
+                            $('#modalDcoumentoPDF').modal('show');
+                        } else {
+                            console.warn("El ID del documento está vacío o no es válido");
+                        }
+                    });
+
 
 
                 });
@@ -266,10 +297,14 @@ $(document).ready(function () {
                         const minutosIngreso = fechaIngreso.getMinutes().toString().padStart(2, '0');
                         const fechaIngresoFormateada = `${diaIngreso}-${mesIngreso}-${añoIngreso} ${horaIngreso}:${minutosIngreso}`;
 
+
+
                         let estadoClass = '';
                         let estadoColor = '';
                         let estadoFont = '';
+                        let estadoText = '';
                         let opcionesHabilitadas = [];
+                        let pdfInformacionCellContent = '';
 
                         estadoColor = 'bg-primary-green';
 
@@ -286,14 +321,17 @@ $(document).ready(function () {
                         if (tramite.resultado_final_RTV === 'Aprobado') {
                             estadoClass = 'bg-info';
                             estadoFont = 'fw-normal';
+                            stadoText = 'text-dark';
 
                         } else if (tramite.resultado_final_RTV === 'Condicionado') {
                             estadoClass = 'bg-wait';
                             estadoFont = 'fw-normal';
+                            stadoText = 'text-dark';
 
                         } else if (tramite.resultado_final_RTV === '' || tramite.resultado_final_RTV === null) {
 
                             estadoFont = 'fw-semibold';
+                            stadoText = 'text-blue';
 
                             opcionesHabilitadas.push(`
         <li>
@@ -309,6 +347,12 @@ $(document).ready(function () {
                         }
 
                         const opcionesMenu = opcionesHabilitadas.join('');
+                        pdfInformacionCellContent = `
+                        <a href="#" 
+                            class="visualizarDocumentoInformacion" 
+                            data-id-documento-informacion="${tramite.id_documento_informacion || ''}">
+                            ${tramite.id_documento_informacion || ''}
+                        </a>`;
 
                         const newRow = `
                             <tr class="text-black-font">
@@ -340,9 +384,12 @@ $(document).ready(function () {
 </td>
 
                                 <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
+                                                            <td class="text-center ${estadoFont} ${estadoText}">
+                                ${pdfInformacionCellContent}
+                            </td>
                                                             <td class="text-center align-items-center justify-content-center p-2">
                                     <div class="btn-group">
-                                        <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1" type="button" 
+                                        <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 boder-0" type="button" 
                                                 id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                             Acción
                                         </button>
@@ -468,6 +515,24 @@ $(document).ready(function () {
                                 }
                             });
                         });
+
+                                            $('#tbody-tramites').off('click', '.visualizarDocumentoInformacion').on('click', '.visualizarDocumentoInformacion', function (e) {
+                        e.preventDefault();
+
+                        const idDocumento = $(this).data('id-documento-informacion');
+                        console.log("ID detectado:", idDocumento);
+
+                        if (idDocumento && idDocumento !== "" && idDocumento !== "undefined") {
+                            const url = `/ver-documento-pdf/${idDocumento}`;
+                            console.log("Cargando URL:", url);
+
+                            $('#iframeDocumento').attr('src', url);
+                            $('#modalDcoumentoPDF').modal('show');
+                        } else {
+                            console.warn("El ID del documento está vacío o no es válido");
+                        }
+                    });
+
 
 
                     });

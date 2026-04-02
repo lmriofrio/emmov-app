@@ -596,8 +596,8 @@ $(document).ready(function () {
 
                     $('#tbody-tramites').on('click', '.visualizarDocumentoInformacion', function () {
                         const idDocumento = $(this).data('id-documento-informacion');
-                        $('#iframeDocumento').attr('src', `/documento/${idDocumento}`);
-                        $('#documentoModal').modal('show');
+                        $('#iframeDocumento').attr('src', `/ver-documento-pdf/${idDocumento}`);
+                        $('#modalDcoumentoPDF').modal('show');
                     });
 
 

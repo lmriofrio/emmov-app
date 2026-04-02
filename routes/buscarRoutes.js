@@ -414,4 +414,54 @@ router.post('/generar-turno-basico', async (req, res) => {
 });
 
 
+//////////////////////////////////////////
+///// ==      PARA AGREGAR EL PDF DE ARCHIVO GENERAL   ==    ////
+//////////////////////////////////////////
+
+
+router.get('/buscar-tramite-agregar-archivo-general', async (req, res) => {
+
+
+
+    const { placa } = req.query;
+    const usernameSesion = req.session.user.username;
+
+    console.log('----  ROUTER:   Buscar tramite para agregar archivo general, placa:', placa);
+
+    try {
+        const tramites = await Tramite.findAll({
+            attributes: [
+                'id_tramite',
+                'fecha_final_PRESENTACION',
+                'placa',
+                'tipo_tramite',
+                'id_usuario',
+                'nombre_usuario',
+                'estado_tramite',
+                'username',
+                'username_funcionario_asignado_INFORMACION',
+                'id_documento_informacion'],
+            where: {
+                placa,
+                estado_tramite: { [Op.or]: ['En proceso', 'Finalizado'] },
+            },
+            order: [['fecha_final_PRESENTACION', 'DESC']]
+        });
+
+        if (tramites.length > 0) {
+            console.log('                trámite NO encontrado');
+            res.json({ success: true, tramites, usernameSesion });
+        } else {
+            console.log('                trámite encontrado');
+            res.json({ success: false, message: 'Trámites no encontrados' });
+        }
+    } catch (error) {
+        console.error('Error al buscar trámites:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
+
+
+
+
 module.exports = router;

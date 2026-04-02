@@ -261,7 +261,7 @@ router.get('/generar-reporte-general-tramites-informacion', async (req, res) => 
 
     const where = {
         id_empresa: id_empresa,
-        fecha_final_PRESENTACION: {
+        fecha_ingreso_INFORMACION: {
             [Op.and]: [
                 { [Op.gte]: startOfDay },
                 { [Op.lte]: endOfDay }
@@ -642,6 +642,65 @@ router.get('/exportar-datos-tramites-generales', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
+router.get('/exportar-datos-tramites-area-informacion', async (req, res) => {
+    const { cons_funcionario, cons_tipo_tramite, fecha_inicial, fecha_final, estado_tramite } = req.query;
+
+
+    if (!fecha_inicial || !fecha_final) {
+        return res.status(400).json({ success: false, message: 'Por favor ingresa fechas válidas.' });
+    }
+
+    const { startOfDay, endOfDay } = getChangeDate(fecha_inicial, fecha_final);
+
+    try {
+        const whereClause = {
+            fecha_final_PRESENTACION: { [Op.between]: [startOfDay, endOfDay] }
+        };
+
+        if (cons_tipo_tramite && cons_tipo_tramite !== "TODOS") {
+            whereClause.tipo_tramite = cons_tipo_tramite;
+        }
+
+        if (cons_funcionario) {
+            if (cons_funcionario !== 'TODOS') {
+                whereClause.id_funcionario_INFORMACION = cons_funcionario;
+            }
+        }
+
+        console.log('estado_tramite:', estado_tramite);
+
+        if (estado_tramite && estado_tramite !== "TODOS") {
+            whereClause.estado_tramite = estado_tramite;
+        }
+
+        console.log('whereClauseeeeee:', whereClause);
+
+
+        const tramites = await Tramite.findAll({
+            attributes: ['id_tramite', 'tipo_tramite', 'id_usuario', 'nombre_usuario', 'placa', 'clase_vehiculo_tipo', 'clase_transporte', 'id_funcionario_INFORMACION', 'nombre_funcionario_INFORMACION', 'username_funcionario_INFORMACION', 'fecha_ingreso_INFORMACION', 'estado_tramite'],
+            where: whereClause
+        });
+
+        const tramiteData = tramites.map(tramite => tramite.toJSON());
+
+        //console.log('whereClauseeeeee:', tramiteData);
+
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils.json_to_sheet(tramiteData);
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Tramites');
+
+        const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+        res.setHeader('Content-Disposition', 'attachment; filename="Tramites-filtrados.xlsx"');
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.send(buffer);
+
+    } catch (error) {
+        console.error('Error al buscar trámites:', error.message, error.stack);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
+
 
 router.get('/exportar-datos-informacion', async (req, res) => {
 

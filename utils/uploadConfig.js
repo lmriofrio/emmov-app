@@ -11,9 +11,9 @@ const storage = multer.diskStorage({
         const mes = (ahora.getMonth() + 1).toString().padStart(2, '0');
         const dia = ahora.getDate().toString().padStart(2, '0');
 
-        const ruta = path.join(__dirname, '../uploads', subCarpeta, anio, mes, dia);
+        // Usamos process.cwd() para asegurar que la ruta sea relativa a la raíz del proyecto
+        const ruta = path.join(process.cwd(), 'uploads', subCarpeta, anio, mes, dia);
 
-        // Crear directorios de forma segura
         try {
             if (!fs.existsSync(ruta)) {
                 fs.mkdirSync(ruta, { recursive: true });
@@ -25,11 +25,10 @@ const storage = multer.diskStorage({
         }
     },
     filename: function (req, file, cb) {
-        // Mejoramos la limpieza: quitamos tildes, eñes y caracteres especiales
         const nombreLimpio = file.originalname
-            .normalize("NFD") // Descompone caracteres acentuados
-            .replace(/[\u0300-\u036f]/g, "") // Quita los acentos
-            .replace(/[^a-zA-Z0-9.]/g, "-") // Cambia todo lo que no sea letra/número por guion
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-zA-Z0-9.]/g, "-")
             .toLowerCase();
             
         const nombreFinal = `${Date.now()}-${nombreLimpio}`;
@@ -37,12 +36,21 @@ const storage = multer.diskStorage({
     }
 });
 
-const uploadArchivosPDF = (carpeta, limiteMB = 5) => {
+/**
+ * @param {string} carpeta - Nombre de la subcarpeta destino
+ * @param {number} valorLimite - Valor numérico (ej: 5 o 499)
+ * @param {boolean} esKB - Si es true, el valor se trata como KB. Si es false, como MB.
+ */
+const uploadArchivosPDF = (carpeta, valorLimite = 5, esKB = false) => {
+    
+    // CAMBIO SUSTANCIAL: Cálculo dinámico de bytes
+    const factor = esKB ? 1024 : (1024 * 1024);
+    const maxSizeBytes = Math.floor(valorLimite * factor);
+
     const upload = multer({
         storage: storage,
-        limits: { fileSize: limiteMB * 1024 * 1024 },
+        limits: { fileSize: maxSizeBytes },
         fileFilter: (req, file, cb) => {
-            // Verificación estricta de MIME y extensión
             const filetypes = /pdf/;
             const mimetype = filetypes.test(file.mimetype);
             const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -65,7 +73,9 @@ const uploadArchivosPDF = (carpeta, limiteMB = 5) => {
                 if (err instanceof multer.MulterError) {
                     codigoError = err.code;
                     if (err.code === 'LIMIT_FILE_SIZE') {
-                        mensaje = `El archivo es muy pesado para esta sección. Máximo permitido: ${limiteMB}MB`;
+                        // Mensaje dinámico según la unidad de medida
+                        const unidad = esKB ? 'KB' : 'MB';
+                        mensaje = `El archivo es muy pesado. Máximo permitido: ${valorLimite} ${unidad}`;
                     }
                 } else {
                     mensaje = err.message;

@@ -90,6 +90,7 @@ router.get('/visualizar-turnos-agenda', async (req, res) => {
             'fecha_finalizacion',
             'numero_turno_matriculacion_INFORMACION',
             'estado_tramite',
+            'id_documento_informacion',
             'username_funcionario_INFORMACION',
             'username_funcionario_asignado_INFORMACION'];
 
@@ -201,7 +202,8 @@ router.get('/visualizar-turnos-rtv', async (req, res) => {
             'verificacion_improntas_TURNO',
             'cambio_servicio_TURNO',
             'cambio_color_TURNO',
-            'resultado_final_RTV'
+            'resultado_final_RTV',
+            'id_documento_informacion',
         ];
 
         const tramitesUsuario = await Tramite.findAll({
@@ -232,7 +234,6 @@ router.get('/visualizar-turnos-rtv', async (req, res) => {
             cambio_color_TURNO: tramite.cambio_color_TURNO === 'SI' ? 'SI' : '',
         }));
 
-
         res.json({ success: true, tramitesUsuario: tramitesProcesados });
 
     } catch (error) {
@@ -262,7 +263,8 @@ router.get('/visualizar-turnos-rtv-filtro', async (req, res) => {
             'verificacion_improntas_TURNO',
             'cambio_servicio_TURNO',
             'cambio_color_TURNO',
-            'resultado_final_RTV'
+            'resultado_final_RTV',
+            'id_documento_informacion',
         ];
 
         const tramitesUsuario = await Tramite.findAll({

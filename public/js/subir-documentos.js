@@ -12,14 +12,15 @@ $(document).ready(function () {
 
   function obtenerReglas() {
     const tipo = $('#area_documento').val() || 'matriculacion';
-    let limite = 1;
+    let limiteKB = 1024;
 
-    if (tipo === 'matriculacion') limite = 2;
-    if (tipo === 'rtv') limite = 1;
-    if (tipo === 'archivo') limite = 5;
-    if (tipo === 'secretaria') limite = 5;
+    if (tipo === 'matriculacion' || tipo === 'rtv') {
+      limiteKB = 499;
+    } else if (tipo === 'archivo' || tipo === 'secretaria') {
+      limiteKB = 5120;
+    }
 
-    return { tipo, limite };
+    return { tipo, limiteKB };
   }
 
   $dropZone.on('click', () => $fileInput.click());
@@ -37,7 +38,7 @@ $(document).ready(function () {
   // 1. Validación al seleccionar el archivo
   $fileInput.on('change', function () {
     const file = this.files[0];
-    const { tipo, limite } = obtenerReglas();
+    const { tipo, limiteKB } = obtenerReglas(); 
 
     if (file) {
       const esPDF = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
@@ -48,11 +49,14 @@ $(document).ready(function () {
         return;
       }
 
-      if (file.size > limite * 1024 * 1024) {
-        mostrarAlerta(`El archivo es muy grande. Máximo permitido ${limite} MB.`, 'danger');
+
+      const limiteEnBytes = limiteKB * 1024;
+      if (file.size > limiteEnBytes) {
+        mostrarAlerta(`El archivo pdf es muy grande`, 'danger');
         this.value = '';
         return;
       }
+      // -----------------------------------------------------------------
 
       $successContainer.hide();
       $statusContainer.fadeIn();
@@ -62,10 +66,11 @@ $(document).ready(function () {
       $dropZone.css({ 'background-color': '#e7f1ff', 'border-color': '#0d6efd' });
 
       $statusBadge.removeClass('alert-danger text-danger').addClass('alert-info text-primary');
-      $statusText.html(`<strong>Seleccionado:</strong> ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+
+      const pesoKB = (file.size / 1024).toFixed(2);
+      $statusText.html(`<strong>Seleccionado:</strong> ${file.name} (${pesoKB} KB)`);
     }
   });
-
   // 2. Proceso de subida al servidor
   $btnSubir.on('click', function (e) {
     e.preventDefault();
@@ -106,7 +111,7 @@ $(document).ready(function () {
           $successContainer.fadeIn();
 
           // Ocultar información adicional del dropzone
-          
+
 
           // Estilo de zona bloqueada y exitosa
           $dropZone.css({

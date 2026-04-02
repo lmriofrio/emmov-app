@@ -60,6 +60,7 @@ $(document).ready(function () {
                     let estadoFont = '';
                     let estadoText = '';
                     let opcionesHabilitadas = [];
+                    let pdfInformacionCellContent = '';
 
                     opcionesHabilitadas.push(`
                         <li>
@@ -126,7 +127,12 @@ $(document).ready(function () {
                     `);
 
                     const opcionesMenu = opcionesHabilitadas.join('');
-
+                    pdfInformacionCellContent = `
+                        <a href="#" 
+                            class="visualizarDocumentoInformacion" 
+                            data-id-documento-informacion="${tramite.id_documento_informacion || ''}">
+                            ${tramite.id_documento_informacion || ''}
+                        </a>`;
 
                     const newRow = `
                         <tr style=" ">
@@ -145,6 +151,9 @@ $(document).ready(function () {
                             </td>
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_INFORMACION}</td>
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
+                            <td class="text-center ${estadoFont} ${estadoText}">
+                                ${pdfInformacionCellContent}
+                            </td>
                             <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
                                     <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
@@ -159,7 +168,6 @@ $(document).ready(function () {
                         </tr>`;
                     tbody.append(newRow);
                     numeroFila++;
-
 
                     $('#tbody-tramites').off('click', '.atenderTramite').on('click', '.atenderTramite', function () {
                         const idTramite = $(this).data('id-tramite');
@@ -232,29 +240,6 @@ $(document).ready(function () {
                             }
                         });
                     });
-
-                    /*
-                   $('#tbody-tramites').on('click', '.editarTramite', function () {
-                       const idTramite = $(this).data('id-tramite');
-                       $.ajax({
-                           type: 'GET',
-                           url: `/buscar-tramite-id`,
-                           data: { idTramite },
-                           success: function (response) {
-                               if (response.success) {
-                                   window.location.href = `/matriculacion/informacion/editar-turno?id_tramite=${idTramite}`;
-                               } else {
-                                   alert('Error: no se pudo obtener la información del trámite.');
-                               }
-                           },
-                           error: function (error) {
-                               console.error('Error al obtener detalles del trámite:', error);
-                               alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
-                           }
-                       });
-                   });
-               
-                     */
 
                     $('#tbody-tramites').off('click', '.visualizarTramite').on('click', '.visualizarTramite', function () {
                         const idTramite = $(this).data('id-tramite');
@@ -349,6 +334,24 @@ $(document).ready(function () {
                         });
                     });
 
+                    $('#tbody-tramites').off('click', '.visualizarDocumentoInformacion').on('click', '.visualizarDocumentoInformacion', function (e) {
+                        e.preventDefault();
+
+                        const idDocumento = $(this).data('id-documento-informacion');
+                        console.log("ID detectado:", idDocumento);
+
+                        if (idDocumento && idDocumento !== "" && idDocumento !== "undefined") {
+                            const url = `/ver-documento-pdf/${idDocumento}`;
+                            console.log("Cargando URL:", url);
+
+                            $('#iframeDocumento').attr('src', url);
+                            $('#modalDcoumentoPDF').modal('show');
+                        } else {
+                            console.warn("El ID del documento está vacío o no es válido");
+                        }
+                    });
+
+
 
                 });
 
@@ -398,7 +401,9 @@ $(document).ready(function () {
 
                     let estadoClass = '';
                     let estadoFont = '';
+                    let estadoText = '';
                     let opcionesHabilitadas = [];
+                    let pdfInformacionCellContent = '';
 
                     opcionesHabilitadas.push(`
                         <li>
@@ -460,6 +465,12 @@ $(document).ready(function () {
                     `);
 
                     const opcionesMenu = opcionesHabilitadas.join('');
+                    pdfInformacionCellContent = `
+                        <a href="#" 
+                            class="visualizarDocumentoInformacion" 
+                            data-id-documento-informacion="${tramite.id_documento_informacion || ''}">
+                            ${tramite.id_documento_informacion || ''}
+                        </a>`;
 
                     const newRow2 = `
                         <tr style=" ">
@@ -482,6 +493,9 @@ $(document).ready(function () {
                             </td>
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_INFORMACION}</td>
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
+                            <td class="text-center ${estadoFont} ${estadoText}">
+                                ${pdfInformacionCellContent}
+                            </td>
                             <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
                                     <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
@@ -685,6 +699,24 @@ $(document).ready(function () {
                         });
                     });
 
+                    $('#tbody-tramitesGeneral').off('click', '.visualizarDocumentoInformacion').on('click', '.visualizarDocumentoInformacion', function (e) {
+                        e.preventDefault();
+
+                        const idDocumento = $(this).data('id-documento-informacion');
+                        console.log("ID detectado:", idDocumento);
+
+                        if (idDocumento && idDocumento !== "" && idDocumento !== "undefined") {
+                            const url = `/ver-documento-pdf/${idDocumento}`;
+                            console.log("Cargando URL:", url);
+
+                            $('#iframeDocumento').attr('src', url);
+                            $('#modalDcoumentoPDF').modal('show');
+                        } else {
+                            console.warn("El ID del documento está vacío o no es válido");
+                        }
+                    });
+
+
                 });
 
                 let numeroFilaE = 1;
@@ -728,7 +760,9 @@ $(document).ready(function () {
 
                     let estadoClass = '';
                     let estadoFont = '';
+                    let estadoText = '';
                     let opcionesHabilitadas = [];
+                    let pdfInformacionCellContent = '';
 
                     opcionesHabilitadas.push(`
                         <li>
@@ -773,6 +807,12 @@ $(document).ready(function () {
                     `);
 
                     const opcionesMenu = opcionesHabilitadas.join('');
+                    pdfInformacionCellContent = `
+                        <a href="#" 
+                            class="visualizarDocumentoInformacion" 
+                            data-id-documento-informacion="${tramite.id_documento_informacion || ''}">
+                            ${tramite.id_documento_informacion || ''}
+                        </a>`;
 
                     const newRow3 = `
                         <tr style=" ">
@@ -789,6 +829,9 @@ $(document).ready(function () {
                             </td>
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_INFORMACION}</td>
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
+                            <td class="text-center ${estadoFont} ${estadoText}">
+                                ${pdfInformacionCellContent}
+                            </td>
                             <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
                                     <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
@@ -923,6 +966,24 @@ $(document).ready(function () {
                             }
                         });
                     });
+
+                    $('#tbody-tramitesEmpresa').off('click', '.visualizarDocumentoInformacion').on('click', '.visualizarDocumentoInformacion', function (e) {
+                        e.preventDefault();
+
+                        const idDocumento = $(this).data('id-documento-informacion');
+                        console.log("ID detectado:", idDocumento);
+
+                        if (idDocumento && idDocumento !== "" && idDocumento !== "undefined") {
+                            const url = `/ver-documento-pdf/${idDocumento}`;
+                            console.log("Cargando URL:", url);
+
+                            $('#iframeDocumento').attr('src', url);
+                            $('#modalDcoumentoPDF').modal('show');
+                        } else {
+                            console.warn("El ID del documento está vacío o no es válido");
+                        }
+                    });
+
 
                 });
 

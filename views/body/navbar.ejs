@@ -356,6 +356,28 @@
                                                                             <% } %>
                                                                                 <!-- Fin -->
 
+                                                                                <!-- Modulo de archivo-->
+                                                                        <% if (permisos.some(p=> p.id_modulo === 10 &&
+                                                                            p.acceso))
+                                                                            { %>
+                                                                            <li class="nav-small-cap text-black">
+                                                                                <i
+                                                                                    class="ti ti-file-dollar nav-small-cap-icon fs-4"></i>
+                                                                                <span
+                                                                                    class="hide-menu">Archivo</span>
+                                                                            </li>
+                                                                            <li class="sidebar-item">
+                                                                                <a class="sidebar-link"
+                                                                                    href="/archivo-general/agregar-archivo"
+                                                                                    aria-expanded="false">
+                                                                                    <span><i class="ti ti-file-dollar"
+                                                                                            stroke-width="0.5"></i></span>
+                                                                                    <span class="hide-menu">Agregar archivo digital</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <% } %>
+                                                                                <!-- Fin -->
+
 
             </ul>
         </nav>
@@ -363,8 +385,8 @@
         <!-- Slider -->
         <div class="p-3 mx-4 mb-2 rounded mt-3 text-center text-black card border shadow-none">
             <div class="d-flex flex-column align-items-center justify-content-center">
-                <span class="text-uppercase fw-normal fs-3 border-bottom">Marzo / dígito</span>
-                <span class="fw-bold fs-12 text-success">2</span>
+                <span class="text-uppercase fw-normal fs-3 border-bottom">Abril / dígito</span>
+                <span class="fw-bold fs-12 text-success">3</span>
             </div>
         </div>
 

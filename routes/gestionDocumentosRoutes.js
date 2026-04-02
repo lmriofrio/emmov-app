@@ -1,4 +1,6 @@
 const express = require('express');
+const path = require('path')
+const fs = require('fs');
 const router = express.Router();
 const { uploadArchivosPDF } = require('../utils/uploadConfig');
 const Documento = require('../models/Documento');
@@ -72,5 +74,32 @@ router.post('/subir-documento-pdf', (req, res, next) => {
     }
 });
 
+
+router.get('/ver-documento-pdf/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        console.log('----  ROUTER:   Intentando buscar un documento PDF, id:', id);
+        
+        const doc = await Documento.findByPk(id);
+
+        if (!doc) return res.status(404).send('Documento no encontrado');
+
+        const filePath = path.resolve('uploads', doc.ruta_carpeta_documento, doc.nombre_servidor_documento);
+
+        if (!fs.existsSync(filePath)) return res.status(404).send('Archivo físico no existe');
+
+        res.setHeader('Content-Disposition', `inline; filename="${doc.nombre_original_documento || doc.nombre_servidor_documento}"`);
+        res.contentType("application/pdf");
+
+        console.log('                encontrado, devolviendo PDF al navegador');
+
+        return res.sendFile(filePath);
+
+    } catch (error) {
+        console.error('[ERROR]', error.stack);
+        res.status(500).send('Error interno');
+    }
+});
 
 module.exports = router;

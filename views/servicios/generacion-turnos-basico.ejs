@@ -19,50 +19,6 @@
 
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    <style>
-        body,
-        html {
-            height: 100%;
-            overflow: hidden;
-            user-select: none;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* Estilos para el botón principal de inicio */
-        .btn-kiosk-main {
-            padding: 80px 140px;
-            font-size: 4rem;
-            border-radius: 40px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-kiosk-main:active {
-            transform: scale(0.95);
-            opacity: 0.9;
-        }
-
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-
-            #ticket-print,
-            #ticket-print * {
-                visibility: visible;
-            }
-
-            #ticket-print {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 80mm;
-                text-align: center;
-            }
-        }
-    </style>
 
     <style>
         /* Estilos generales para el Quiosco */
@@ -84,49 +40,54 @@
             }
         }
 
-        /* CRÍTICO: Configuración para la Impresora Termal */
         @media print {
-            body * {
-                visibility: hidden;
+
+            /* 1. Ocultamos TODO excepto el contenedor del ticket */
+            body>*:not(#ticket-print) {
+                display: none !important;
             }
 
-            /* Oculta todo el sitio */
-            #ticket-print,
-            #ticket-print * {
-                visibility: visible;
+            /* 2. Configuración de la página */
+            @page {
+                size: 80mm auto;
+                margin: 0;
             }
 
-            /* Muestra solo el ticket */
-            #ticket-print {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
+            /* 3. Aseguramos que el body y el contenedor sean visibles */
+            body {
+                margin: 0;
+                padding: 0;
+                background: #fff;
                 display: block !important;
             }
 
-            @page {
-                margin: 0;
-                size: auto;
+            #ticket-print {
+                display: block !important;
+                visibility: visible !important;
+                width: 75mm;
+                margin: 0 auto !important;
+                padding: 5px !important;
             }
 
-            /* Elimina encabezados de página del navegador */
-        }
+            /* 4. Forzamos que los elementos flex internos se vean y mantengan su fila */
+            #ticket-print div {
+                display: block;
+                /* Por defecto */
+                visibility: visible !important;
+            }
 
-        @media print {
-    @page {
-        size: 80mm auto; /* El alto es automático según el contenido */
-        margin: 0;       /* Elimina márgenes que causan saltos de página */
-    }
-    body {
-        margin: 0;
-        padding: 0;
-    }
-    #ticket-print {
-        width: 100%;    /* Ocupa todo el ancho de los 80mm */
-        page-break-after: always; /* Indica a la impresora que aquí termina el ticket */
-    }
-}
+            /* Regla específica para las filas de datos */
+            #ticket-print div[style*="display: flex"] {
+                display: flex !important;
+                flex-direction: row !important;
+                visibility: visible !important;
+            }
+
+            /* Aseguramos que el contenido dentro de los divs sea visible */
+            #ticket-print * {
+                visibility: visible !important;
+            }
+        }
     </style>
 
 
@@ -141,259 +102,245 @@
 
         <!-- Fin de barra de navegación -->
         <!--  Contendio principal -->
-        <div class="body-wrapper2">
+        <div class="body-wrapper2 col-12 d-flex">
             <!--  Encabezado de pagina -->
 
             <!--  Fin de encabezado de pagina  -->
 
-            <style>
-                /* Estilos generales para el Quiosco */
-                .hidden {
-                    display: none !important;
-                }
 
-                .animate-fade-in {
-                    animation: fadeIn 0.3s ease-in;
-                }
 
-                @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                    }
 
-                    to {
-                        opacity: 1;
-                    }
-                }
-
-                /* CRÍTICO: Configuración para la Impresora Termal */
-                @media print {
-                    body * {
-                        visibility: hidden;
-                    }
-
-                    /* Oculta todo el sitio */
-                    #ticket-print,
-                    #ticket-print * {
-                        visibility: visible;
-                    }
-
-                    /* Muestra solo el ticket */
-                    #ticket-print {
-                        position: absolute;
-                        left: 0;
-                        top: 0;
-                        width: 100%;
-                        display: block !important;
-                    }
-
-                    @page {
-                        margin: 0;
-                        size: auto;
-                    }
-
-                    /* Elimina encabezados de página del navegador */
-                }
-            </style>
-
-            <div class="container-fluid min-vh-100 d-flex flex-column p-0">
-                <header class="d-flex justify-content-center align-items-center p-4">
+            <div class="container-fluid min-vh-100 d-flex flex-column p-0 col-7">
+                <header class="d-flex justify-content-between align-items-center p-4">
                     <div class="d-flex align-items-center gap-2">
                         <div class="rounded d-flex justify-content-center align-items-center bg-white shadow-sm"
                             style="width: 50px; height: 50px;">
                             <img src="/images/favicon.ico" class="rounded-circle" width="35" height="35">
                         </div>
-                        <h2 class="mb-0 fw-bold text-muted text-uppercase" style="letter-spacing: 2px;">emmov</h2>
+                        <h2 class="mb-0 fw-bold text-uppercase" style="letter-spacing: 2px;">emmov</h2>
+                    </div>
+
+                    <div class="form-check form-switch m-0">
+                        <input class="form-check-input mt-0" type="checkbox" id="switchTema"
+                            style="width: 50px; height: 25px;">
                     </div>
                 </header>
 
-                <main class="flex-grow-1 d-flex align-items-center justify-content-center px-4">
-                    <div id="pantalla-inicio" class="text-center animate-fade-in">
-                        <button class="btn btn-primary shadow-lg fw-bold border-0"
-                            style="padding: 80px 120px; font-size: 3.5rem; border-radius: 40px;"
-                            onclick="mostrarPantalla('pantalla-seleccion')">
-                            GENERAR TURNO
-                        </button>
-                    </div>
+                <div class="d-flex col-12 justify-content-center align-items-center">
+                    <div class="d-flex col-12 justify-content-center align-items-center">
+                        <main class="d-flex col-12 align-items-center justify-content-center px-2">
+                            <div id="pantalla-inicio"
+                                class="animate-fade-in d-flex justify-content-center align-items-center"
+                                style="min-height: 70vh; width: 100%;">
 
-                    <div id="pantalla-seleccion" class="hidden w-100 animate-fade-in">
-                        <div class="card shadow-lg p-5 border-0 mx-auto" style="max-width: 800px; border-radius: 35px;">
-                            <h4 class="text-center mb-5 fw-normal display-6">Ingresar información del turno</h4>
-
-                            <div class="mb-4">
-                                <label class="form-label text-muted fw-bold ps-2">SERVICIO</label>
-                                <select id="select-categoria" class="form-select form-select-lg fw-bold border-2"
-                                    style="height: 80px; font-size: 1.8rem; border-radius: 20px;">
-                                    <option value="MATRICULACION">MATRICULACIÓN</option>
-                                </select>
+                                <button class="btn btn-primary shadow-lg fw-bold border-0"
+                                    style="padding: 80px 120px; font-size: 3.5rem; border-radius: 20px;"
+                                    onclick="mostrarPantalla('pantalla-seleccion')">
+                                    GENERAR TURNO
+                                </button>
                             </div>
 
-                            <div class="mb-4">
-                                <label class="form-label text-muted fw-bold ps-2">TRÁMITE</label>
-                                <select id="select-servicio" class="form-select form-select-lg fw-bold border-2"
-                                    style="height: 80px; font-size: 1.8rem; border-radius: 20px;">
-                                    <option value="" selected disabled></option>
-                                    <option value="REVISIÓN ANUAL">REVISIÓN ANUAL</option>
-                                    <option value="TRANSFERENCIA DE DOMINIO">TRANSFERENCIA DE DOMINIO</option>
-                                    <option value="CAMBIO DE SERVICIO">CAMBIO DE SERVICIO</option>
-                                    <option value="RTV (REVISIÓN TÉCNICA VEHICULAR)">RTV (REVISIÓN TÉCNICA VEHICULAR)
-                                    </option>
-                                </select>
-                            </div>
+                            <div id="pantalla-seleccion" class="hidden w-100 animate-fade-in">
+                                <div class="card shadow-lg p-5 border-0 mx-auto mb-4"
+                                    style="max-width: 650px; border-radius: 20px;">
+                                    <h2 class="text-center mb-5 fw-normal border-bottom pb-5">Ingresar la información
+                                        del turno
+                                    </h2>
 
-                            <div class="mb-5">
-                                <label class="form-label text-muted fw-bold ps-2">PLACA DEL VEHÍCULO</label>
-                                <input type="text" id="input-placa"
-                                    class="form-control form-control-lg text-center fw-bold border-2" placeholder=""
-                                    autocomplete="off"
-                                    style="height: 100px; font-size: 3.5rem; text-transform: uppercase; border-radius: 20px;">
-                            </div>
+                                    <div class="mb-4 d-none">
+                                        <label class="form-label text-muted fw-bold ps-2">SERVICIO</label>
+                                        <select id="select-categoria"
+                                            class="form-select form-select-lg fw-bold border-1"
+                                            style="height: 80px; font-size: 1.8rem; border-radius: 20px;">
+                                            <option value="MATRICULACION">MATRICULACIÓN</option>
+                                        </select>
+                                    </div>
 
-                            <div class="row g-4">
-                                <div class="col-6">
-                                    <button
-                                        class="w-100 p-4 btn btn-secondary me-6 fw-semibold btn-rounded shadow-btn px-4 fw-semibold fs-5"
-                                        onclick="mostrarPantalla('pantalla-inicio')">CANCELAR</button>
-                                </div>
-                                <div class="col-6">
-                                    <button
-                                        class="w-100 p-4 btn btn-primary fw-semibold btn-rounded shadow-btn px-4 fw-semibold fs-5"
-                                        id="GenerarTurnoBasico" onclick="procesarDatos()">GUARDAR</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label fw-normal ps-2">TRÁMITE</label>
+                                        <select id="select-servicio" class="form-select form-select-lg fw-bold border-1"
+                                            style="height: 80px; font-size: 1.8rem; ">
+                                            <option value="" selected disabled></option>
+                                            <option value="REVISIÓN ANUAL">REVISIÓN ANUAL</option>
+                                            <option value="TRANSFERENCIA DE DOMINIO">TRANSFERENCIA DE DOMINIO</option>
+                                            <option value="CAMBIO DE SERVICIO">CAMBIO DE SERVICIO</option>
+                                            <option value="MATRICULA POR PRIMERA VEZ">MATRICULA POR PRIMERA VEZ</option>
+                                            <option value="CERTIFICADO UNICO VEHICULAR">CERTIFICADO UNICO VEHICULAR
+                                            </option>
+                                            <option value="RTV (REVISIÓN TÉCNICA VEHICULAR)">RTV (REVISIÓN TÉCNICA
+                                                VEHICULAR)
+                                            </option>
+                                        </select>
+                                    </div>
 
-                    <div id="pantalla-confirmacion" class="hidden w-100 animate-fade-in text-center">
-                        <div class="p-4 card shadow-lg border-0 mx-auto"
-                            style="max-width: 650px; border-radius: 40px; overflow: hidden;">
+                                    <div class="mb-4">
+                                        <label class="form-label fw-normal ps-2">PLACA DEL VEHÍCULO</label>
+                                        <input type="text" id="input-placa"
+                                            class="form-control form-control-lg text-center fw-bold border-1"
+                                            placeholder="" autocomplete="off"
+                                            style="height: 80px; font-size: 1.8rem; text-transform: uppercase;">
+                                    </div>
 
-                            <div class="p-2 text-white">
-                                <h3 class="fw-bold m-0" style="letter-spacing: 1px;">TURNO GENERADO</h3>
-                            </div>
-
-                            <div class="card-body p-2">
-                                <div class="mb-4">
-                                    <h2 id="view-turno" class="display-1 fw-bold text-primary m-0"
-                                        style="font-size: 8rem; line-height: 1;">---</h2>
-                                </div>
-
-                                <div class="rounded-4 p-4 text-start mb-2">
-                                    <div class="p-3">
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-4 text-start">
-                                                <label class="text-muted small fw-bold text-uppercase m-0">Placa</label>
-                                            </div>
-                                            <div class="col-8 text-start">
-                                                <span id="view-placa"
-                                                    class="fs-5 fw-bold text-uppercase text-black">---</span>
-                                            </div>
+                                    <div class="row g-4 mb-2 mt-0">
+                                        <div class="col-6">
+                                            <button
+                                                class="w-100 p-4 btn btn-secondary fw-semibold btn-rounded shadow-btn px-4 fw-semibold fs-5"
+                                                onclick="mostrarPantalla('pantalla-inicio')">CANCELAR</button>
                                         </div>
-
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-4 text-start">
-                                                <label
-                                                    class="text-muted small fw-bold text-uppercase m-0">Identificación</label>
-                                            </div>
-                                            <div class="col-8 text-start">
-                                                <span id="view-identificacion"
-                                                    class="fs-5 fw-bold text-black">---</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="row align-items-center mb-3">
-                                            <div class="col-4 text-start">
-                                                <label
-                                                    class="text-muted small fw-bold text-uppercase m-0">Propietario</label>
-                                            </div>
-                                            <div class="col-8 text-start">
-                                                <span id="view-nombre" class="fs-5 fw-bold text-black">---</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="row align-items-top">
-                                            <div class="col-4 text-start">
-                                                <label
-                                                    class="text-muted small fw-bold text-uppercase m-0">Trámite</label>
-                                            </div>
-                                            <div class="col-8 text-start">
-                                                <span id="view-servicio" class="fs-5 fw-bold text-black">---</span>
-                                            </div>
+                                        <div class="col-6">
+                                            <button
+                                                class="w-100 p-4 btn btn-primary fw-semibold btn-rounded shadow-btn px-4 fw-semibold fs-5"
+                                                id="GenerarTurnoBasico" onclick="procesarDatos()">GUARDAR</button>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="d-grid gap-3">
-                                    <button
-                                        class="w-100 p-4 btn btn-primary fw-semibold btn-rounded shadow-btn px-4 fw-semibold fs-5"
-                                        onclick="imprimirTurno()">
-                                        <i class="bi bi-printer-fill me-3"></i><strong>IMPRIMIR TICKET</strong>
-                                    </button>
+                            <div id="pantalla-confirmacion" class="hidden w-100 animate-fade-in text-center">
+                                <div class="p-2 card shadow-lg border-0 mx-auto"
+                                    style="max-width: 550px; overflow: hidden; border-radius: 20px;">
 
-                                    <button
-                                        class="w-100 p-4 btn btn-secondary fw-semibold btn-rounded shadow-btn px-4 fw-semibold fs-5"
-                                        style="border-radius: 20px;" onclick="mostrarPantalla('pantalla-inicio')">
-                                        FINALIZAR SIN IMPRIMIR
-                                    </button>
+                                    <div class="card-body pt-2">
+                                        <div class="p-0 pb-2 text-white">
+                                            <h3 class="m-2 fw-normal text-center text-black">TURNO GENERADO</h3>
+                                        </div>
+
+                                        <div class="card-body p-0">
+                                            <div class="mb-4 p-2 bg-four-card rounded">
+                                                <h2 id="view-turno"
+                                                    class="display-1 fw-semibold m-0 text-turner d-flex align-items-center justify-content-center fs-14 text-black"
+                                                    style="font-size: 8rem; line-height: 1;">---</h2>
+                                            </div>
+
+                                            <div class="rounded-4 p-0 text-start mb-4">
+                                                <div class="p-0">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-3 text-start">
+                                                            <label class="form-label fw-normal m-0">Placa:</label>
+                                                        </div>
+                                                        <div class="col-9 text-start">
+                                                            <span id="view-placa"
+                                                                class="fs-5 form-control-plaintext fw-normal py-0">---</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row align-items-center">
+                                                        <div class="col-3 text-start">
+                                                            <label
+                                                                class="form-label fw-normal m-0">Identificación:</label>
+                                                        </div>
+                                                        <div class="col-9 text-start">
+                                                            <span id="view-identificacion"
+                                                                class="fs-5 form-control-plaintext fw-normal py-0">---</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row align-items-center">
+                                                        <div class="col-3 text-start">
+                                                            <label class="form-label fw-normal m-0">Propietario:</label>
+                                                        </div>
+                                                        <div class="col-9 text-start">
+                                                            <span id="view-nombre"
+                                                                class="fs-5 form-control-plaintext fw-normal py-0">---</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row align-items-center">
+                                                        <div class="col-3 text-start">
+                                                            <label class="form-label fw-normal m-0">Trámite:</label>
+                                                        </div>
+                                                        <div class="col-9 text-start">
+                                                            <span id="view-servicio"
+                                                                class="fs-5 form-control-plaintext fw-normal py-0">---</span>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row align-items-center d-none">
+                                                        <div class="col-3 text-start">
+                                                            <label class="form-label fw-normal m-0">Fecha:</label>
+                                                        </div>
+                                                        <div class="col-9 text-start">
+                                                            <span id="view-nombress"
+                                                                class="fs-5 form-control-plaintext fw-normal py-0">---</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="d-grid gap-3 pt-4">
+                                                <button
+                                                    class="w-100 p-4 btn btn-primary fw-semibold btn-rounded shadow-btn px-4 fw-semibold fs-5"
+                                                    onclick="imprimirTurno()">
+                                                    <i class="bi bi-printer-fill me-3"></i><strong>IMPRIMIR
+                                                        TICKET</strong>
+                                                </button>
+
+                                                <button
+                                                    class="w-100 p-4 btn btn-secondary fw-semibold btn-rounded shadow-btn px-4 fw-semibold fs-5"
+                                                    onclick="mostrarPantalla('pantalla-inicio')">
+                                                    FINALIZAR
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </div>
-                        </div>
+                        </main>
                     </div>
 
+                </div>
 
-                </main>
 
-                <footer class="p-4 d-flex align-items-center justify-content-center">
-                    <label for="switchTema" class="form-label mb-0 text-muted me-3">Tema</label>
-                    <div class="form-check form-switch m-0">
-                        <input class="form-check-input" type="checkbox" id="switchTema"
-                            style="width: 50px; height: 25px;">
-                    </div>
-                </footer>
+
+                <label for="switchTema" class="form-label mb-0 text-muted me-3 d-none"></label>
+
             </div>
 
-            <div id="ticket-print" class="hidden">
-                <div
-                    style="width: 80mm; font-family: 'Courier New', Courier, monospace; color: #000; padding: 5px; margin: 0 auto;">
+            <div class="col-lg-4 col-md-4 col-12 p-0 d-flex bg-transparent">
+                <div id="sliderTurnos" class="carousel slide carousel-fade w-100 bg-transparent" data-bs-ride="carousel"
+                    data-bs-interval="5000" style="height: 100%;">
 
-                    <div style="text-align: center; margin-bottom: 10px;">
-                        <h2 style="margin: 0; font-size: 1.2rem;">EMMSZCH E.P.</h2>
-                    </div>
+                    <div class="carousel-inner shadow-sm"
+                        style="border-radius: 15px; overflow: hidden; height: 100%; min-height: 80vh; background: transparent;">
 
-                    <div
-                        style="text-align: center; border-top: 1px dashed #000; border-bottom: 1px dashed #000; padding: 10px 0; margin-bottom: 10px;">
-                        <span style="font-size: 0.9rem; font-weight: bold; display: block;">SU TURNO ES:</span>
-                        <h1 id="t-numero" style="font-size: 5rem; margin: 5px 0; line-height: 1;">00</h1>
-                    </div>
+                        <div class="carousel-item active" style="height: 100%;">
+                            <div class="h-100 w-100 d-flex align-items-center justify-content-center bg-transparent">
+                                <img src="/images/Abril_4.webp" class="d-block"
+                                    style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Banner 1">
+                            </div>
+                        </div>
 
-                    <div style="font-size: 0.85rem; line-height: 1.4;">
-                        <div style="display: flex;">
-                            <div style="flex: 0 0 35%; font-weight: bold;">NOMBRE:</div>
-                            <div id="t-nombre" style="flex: 1;">---</div>
+                        <div class="carousel-item" style="height: 100%;">
+                            <div class="h-100 w-100 d-flex align-items-center justify-content-center bg-transparent">
+                                <img src="/images/Abril_1.webp" class="d-block"
+                                    style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Banner 2">
+                            </div>
                         </div>
-                        <div style="display: flex;">
-                            <div style="flex: 0 0 35%; font-weight: bold;">ID:</div>
-                            <div id="t-identificacion" style="flex: 1;">---</div>
-                        </div>
-                        <div style="display: flex;">
-                            <div style="flex: 0 0 35%; font-weight: bold;">PLACA:</div>
-                            <div id="t-placa" style="flex: 1; font-weight: bold;">---</div>
-                        </div>
-                        <div style="display: flex;">
-                            <div style="flex: 0 0 35%; font-weight: bold;">TRAMITE:</div>
-                            <div id="t-servicio" style="flex: 1;">---</div>
-                        </div>
-                        <div style="display: flex; margin-top: 8px; font-size: 0.75rem;">
-                            <div style="flex: 0 0 35%;">FECHA:</div>
-                            <div id="t-fecha" style="flex: 1;">---</div>
-                        </div>
-                    </div>
 
-                    <div style="text-align: center; border-top: 1px dashed #000; margin-top: 15px; padding-top: 10px;">
-                        <p style="font-size: 0.7rem; margin: 5px 0;">*** POR FAVOR ESPERE EN SALA ***</p>
+
+                        <div class="carousel-item active" style="height: 100%;">
+                            <div class="h-100 w-100 d-flex align-items-center justify-content-center bg-transparent">
+                                <img src="/images/Abril_2.webp" class="d-block"
+                                    style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Banner 1">
+                            </div>
+                        </div>
+
+
+                        <div class="carousel-item" style="height: 100%;">
+                            <div class="h-100 w-100 d-flex align-items-center justify-content-center bg-transparent">
+                                <img src="/images/Abril_3.webp" class="d-block"
+                                    style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Banner 3">
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
+
 
             <script>
                 function mostrarPantalla(id) {
@@ -425,11 +372,60 @@
                 }
             </script>
 
-
-
         </div>
+
+
+
     </div>
 
+    <div id="ticket-print" class="hidden">
+        <div
+            style="width: 80mm; font-family: 'Courier New', Courier, monospace; color: #000; padding: 5px; margin: 0 auto; overflow: hidden;">
+
+            <div style="text-align: center; margin-bottom: 2px;">
+                <h2 style="margin: 0; font-size: 1.2rem; font-weight: bold;">EMMSZCH E.P.</h2>
+            </div>
+
+            <div
+                style="text-align: center; border-top: 1px dashed #000; border-bottom: 1px dashed #000; padding: 0px 0; margin-bottom: 0px;">
+                <span style="font-size: 0.9rem; font-weight: normal; display: block;">SU TURNO ES:</span>
+                <h1 id="t-numero" style="font-size: 5rem; margin: 0px 0; line-height: 1; font-weight: bold;">00</h1>
+            </div>
+
+
+            <div style="font-size: 0.85rem; line-height: 1.4; width: 100%;">
+                <div style="display: flex; justify-content: flex-start; align-items: baseline; margin-bottom: 2px;">
+                    <div style="font-weight: bold; min-width: 55px; font-size: 0.7rem;">NOMBRE:</div>
+                    <div id="t-nombre" style="flex: 1; word-break: break-word; padding-left: 5px;">---</div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-start; align-items: baseline; margin-bottom: 2px;">
+                    <div style="font-weight: bold; min-width: 55px; font-size: 0.7rem;">CEDULA:</div>
+                    <div id="t-identificacion" style="flex: 1; padding-left: 5px;">---</div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-start; align-items: baseline; margin-bottom: 2px;">
+                    <div style="font-weight: bold; min-width: 55px; font-size: 0.7rem;">PLACA:</div>
+                    <div id="t-placa" style="flex: 1; font-weight: bold; padding-left: 5px;">---</div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-start; align-items: baseline; margin-bottom: 2px;">
+                    <div style="font-weight: bold; min-width: 55px; font-size: 0.7rem;">TRAMITE:</div>
+                    <div id="t-servicio" style="flex: 1; padding-left: 5px;">---</div>
+                </div>
+
+                <div
+                    style="display: flex; justify-content: flex-start; align-items: baseline; margin-top: 6px; font-size: 0.7rem; border-top: 1px dashed #000; padding-top: 0px;">
+                    <div style="font-weight: bold; min-width: 55px; font-size: 0.7rem;">FECHA:</div>
+                    <div id="t-fecha" style="flex: 1; padding-left: 5px;">---</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; border-top: 1px dashed #000; margin-top: 2px; padding-top: 0px;">
+                <p style="font-size: 0.7rem; margin: 5px 0;">*** POR FAVOR ESPERE EN SALA ***</p>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -449,6 +445,32 @@
             });
         });
     </script>
+
+    <style>
+        /* Transición Cross-Fade Ultra Suave */
+        .carousel-fade .carousel-item {
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+            /* 2 segundos para máxima suavidad */
+        }
+
+        .carousel-fade .carousel-item.active {
+            opacity: 1;
+        }
+
+        /* Forzar el alto del carrusel para que coincida con la columna de los botones */
+        .carousel-inner {
+            display: flex;
+            align-items: stretch;
+        }
+
+        /* Corrección del problema de imagen cortada/parpadeo */
+        .carousel-item img {
+            backface-visibility: hidden;
+            -webkit-perspective: 1000;
+            transform: translateZ(0);
+        }
+    </style>
 
 </body>
 

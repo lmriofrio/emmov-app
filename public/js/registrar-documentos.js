@@ -23,7 +23,7 @@ $(document).ready(function () {
                 mostrarAlerta('Solo se permiten archivos PDF.', 'danger');
                 this.value = '';
                 $dropZone.find('h6').text('Haz clic aquí o arrastra tu PDF');
-                $dropZone.find('small').text('Solo formato PDF (Máx 1 MB)');
+                $dropZone.find('small').text('Solo formato PDF (Máx 500 KB)');
                 $dropZone.css({ 'background-color': '#fff', 'border-color': '#ccc' });
                 $statusBadge.removeClass('alert-info alert-success').addClass('alert-danger');
                 $statusText.html('<strong>Error:</strong> formato no válido');
@@ -35,7 +35,7 @@ $(document).ready(function () {
                 mostrarAlerta('El archivo excede el límite de 1MB.', 'danger');
                 this.value = '';
                 $dropZone.find('h6').text('Haz clic aquí o arrastra tu PDF');
-                $dropZone.find('small').text('Solo formato PDF (Máx 1 MB)');
+                $dropZone.find('small').text('Solo formato PDF (Máx 500 KB)');
                 $dropZone.css({ 'background-color': '#fff', 'border-color': '#ccc' });
                 $statusBadge.removeClass('alert-info alert-success').addClass('alert-danger');
                 $statusText.html('<strong>Error:</strong> archivo demasiado grande');
@@ -87,7 +87,7 @@ $(document).ready(function () {
                     $successContainer.show();
 
                     setTimeout(function () {
-                        location.reload(); // recargar página después de 2 segundos
+                        location.reload();
                     }, 2000);
                 } else {
                     mostrarAlerta(res.message, 'warning');

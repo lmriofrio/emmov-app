@@ -2162,34 +2162,42 @@ app.get('/recaudacion/vista-titulos-credito', async (req, res) => {
   }
 });
 
+//////////////////////////////////////////////////////////
+//////////   ARCHIVO GENERAL                  ///////////
+/////////////////////////////////////////////////////////
 
-
-app.get('/documento/:id', async (req, res) => {
+app.get('/archivo-general/agregar-archivo', async (req, res) => {
   try {
-    const { id } = req.params;
-    const documento = await Documento.findOne({ where: { id_documento: id } });
+    if (req.session.user, req.session.permisos) {
 
-    if (!documento) {
-      return res.status(404).send('Documento no encontrado');
+      const { currentDaySimple } = getCurrentDaySimple();
+
+      const usernameSesion = req.session.user.username;
+      const idEmpresa = req.session.user.id_empresa;
+      const estadoFuncionario = 'ACTIVO';
+
+      //const recepcionTramites = 'HABILITADO';
+
+      const jefaturaDepartamento = 'UNIDAD DE MATRICULACIÓN';
+
+      const funcionariosActivos = await Funcionario.findAll({
+        where: { id_empresa: idEmpresa, estado_funcionario: estadoFuncionario, jefatura_departamento: jefaturaDepartamento },
+        attributes: ['id_funcionario', 'nombre_funcionario']
+      });
+
+
+      res.render('archivo-general/agregar-archivo', {
+        usernameSesion, userData: req.session.user, funcionariosActivos, currentDaySimple, permisos: req.session.permisos
+      });
+    } else {
+      res.redirect('/login');
     }
-
-    const filePath = path.join(
-      __dirname,
-      'uploads',
-      documento.ruta_carpeta_documento,
-      documento.nombre_servidor_documento
-    );
-
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).send('Archivo no encontrado en el servidor');
-    }
-
-    return res.sendFile(filePath);
   } catch (error) {
-    console.error('Error al enviar el archivo físico:', error);
-    res.status(500).send('Error al obtener el documento');
+    console.error('Error al obtener los registros:', error);
+    res.status(500).send('Error al obtener los registros');
   }
 });
+
 
 
 app.get('/node_modules/@tabler/icons/dist/cjs/tabler-icons.js', (req, res) => {
