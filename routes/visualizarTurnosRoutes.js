@@ -147,7 +147,8 @@ router.get('/visualizar-turnos-home', async (req, res) => {
             'numero_turno_matriculacion_INFORMACION',
             'estado_tramite',
             'username_funcionario_INFORMACION',
-            'username_funcionario_asignado_INFORMACION'];
+            'username_funcionario_asignado_INFORMACION',
+            'id_documento_informacion',];
 
         const [tramitesHoy, tramitesPendientes, tramitesPendientesEmpresa] = await Promise.all([
             Tramite.findAll({

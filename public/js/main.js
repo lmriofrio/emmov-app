@@ -258,6 +258,8 @@ $(document).ready(function () {
         $('#result_informacion').val();
         $('#result_total').val();
 
+        $('#id_consulta_sri').val();
+
         $('#noExisteVehiculoSRI').addClass('d-none');
 
         if (response.success) {
@@ -268,6 +270,9 @@ $(document).ready(function () {
 
           $('#informacion').text(response.data.informacion);
           $('#total').text(`USD $ ${(response.data.total)} `);
+
+          $('#id_consulta_sri').val(response.id_consulta_sri);
+
 
           $('#result_placa').val(response.data.placa);
           $('#result_camvCpn').val(response.data.camvCpn);
@@ -383,7 +388,7 @@ $(document).ready(function () {
       contentType: 'application/json',
       data: JSON.stringify({ id_vehiculo }),
       success: function (response) {
-        console.log('Entro al succes');
+        console.log('Entro al success');
 
         $('#placaVehiculoConsultada').val('');
         $('#tipo_peso').val('');
@@ -424,10 +429,13 @@ $(document).ready(function () {
         $('#result_clase2').text('');
         $('#result_servicio2').text('');
 
+        $('#id_consulta_sri').val();
+
         $('#contentAggTurno').addClass('animated fadeInRight');
         $('#nav-tabTittle').removeClass('d-none');
         $('#nav-tabContent').removeClass('d-none');
         $('#form-actions-save-turn').removeClass('d-none');
+
 
         if (response.success) {
 
@@ -446,6 +454,8 @@ $(document).ready(function () {
           $('#result_informacion').val(response.data.informacion);
           $('#result_total').val(response.data.total);
 
+          $('#id_consulta_sri').val(response.id_consulta_sri);
+
           $('#result_placa2').text(response.data.placa);
           $('#result_camvCpn2').text(response.data.camvCpn);
           $('#result_cilindraje2').text(response.data.cilindraje);
@@ -455,6 +465,9 @@ $(document).ready(function () {
           $('#result_paisFabricacion2').text(response.data.paisFabricacion);
           $('#result_clase2').text(response.data.clase);
           $('#result_servicio2').text(response.data.servicio);
+
+
+          $('#id_consulta_sri').val(response.id_consulta_sri);
 
           $('#clase_vehiculo').trigger('change');
           $('#provincia_usuario').trigger('change');
@@ -658,7 +671,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('registroFormAreaInformacion');
   const placaInput = document.getElementById('placa');
   const tipoTramiteSelect = document.getElementById('tipo_tramite');
-  
+
 
   if (!form) return;
 
@@ -729,7 +742,7 @@ document.addEventListener('DOMContentLoaded', function () {
       } else {
         const errorText = await response.text();
         console.error('Error al guardar el trámite:', errorText);
-        alert('Error al guardar el trámite: ' + errorText);SVGAElement
+        alert('Error al guardar el trámite: ' + errorText); SVGAElement
       }
     } catch (error) {
       console.error('Error al guardar el trámite:', error);

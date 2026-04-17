@@ -59,6 +59,7 @@ $(document).ready(function () {
                     let estadoFont = '';
                     let estadoText = '';
                     let opcionesHabilitadas = [];
+                    let pdfInformacionCellContent = '';
 
                     opcionesHabilitadas.push(`
                         <li>
@@ -81,7 +82,6 @@ $(document).ready(function () {
                         estadoFont = 'fw-semibold';
                         estadoText = 'text-blue';
                         placaCellContent = `<a href="#" class="text-blue atenderTramite" id="editar-${tramite.id_tramite}" data-id-tramite="${tramite.id_tramite}">${tramite.placa}</a>`;
-
                         opcionesHabilitadas.push(`
                         `);
                     }
@@ -107,6 +107,12 @@ $(document).ready(function () {
                     `);
 
                     const opcionesMenu = opcionesHabilitadas.join('');
+                    pdfInformacionCellContent = `
+                        <a href="#" 
+                            class="visualizarDocumentoInformacion" 
+                            data-id-documento-informacion="${tramite.id_documento_informacion || ''}">
+                            ${tramite.id_documento_informacion || ''}
+                        </a>`;
 
 
                     const newRow = `
@@ -126,6 +132,9 @@ $(document).ready(function () {
                             </td>
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_INFORMACION}</td>
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
+                            <td class="text-center ${estadoFont} ${estadoText}">
+                                ${pdfInformacionCellContent}
+                            </td>
                             <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
                                     <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
@@ -198,10 +207,22 @@ $(document).ready(function () {
                         });
                     });
 
+                    $('#tbody-tramites').off('click', '.visualizarDocumentoInformacion').on('click', '.visualizarDocumentoInformacion', function (e) {
+                        e.preventDefault();
 
+                        const idDocumento = $(this).data('id-documento-informacion');
+                        console.log("ID detectado:", idDocumento);
 
+                        if (idDocumento && idDocumento !== "" && idDocumento !== "undefined") {
+                            const url = `/ver-documento-pdf/${idDocumento}`;
+                            console.log("Cargando URL:", url);
 
-
+                            $('#iframeDocumento').attr('src', url);
+                            $('#modalDcoumentoPDF').modal('show');
+                        } else {
+                            console.warn("El ID del documento está vacío o no es válido");
+                        }
+                    });
 
 
                     $('#tbody-tramites').off('click', '.imprimirTramite').on('click', '.imprimirTramite', function () {
@@ -266,9 +287,12 @@ $(document).ready(function () {
                         tiempoEspera = `${diferenciaHoras} horas ${diferenciaMinutos} min.`;
                     }
 
+                    let placaCellContent = '';
                     let estadoClass = '';
                     let estadoFont = '';
+                    let estadoText = '';
                     let opcionesHabilitadas = [];
+                    let pdfInformacionCellContent = '';
 
                     opcionesHabilitadas.push(`
                         <li>
@@ -281,13 +305,17 @@ $(document).ready(function () {
                     `);
 
                     if (tramite.estado_tramite === 'Finalizado') {
+
                         estadoClass = 'bg-info';
                         estadoFont = 'fw-normal';
+                        estadoText = 'text-dark';
+                        placaCellContent = tramite.placa;
 
                     } else if (tramite.estado_tramite === 'En proceso') {
                         estadoClass = 'bg-wait';
                         estadoFont = 'fw-semibold';
-
+                        estadoText = 'text-blue';
+                        placaCellContent = `<a href="#" class="text-blue atenderTramite" id="editar-${tramite.id_tramite}" data-id-tramite="${tramite.id_tramite}">${tramite.placa}</a>`;
                         opcionesHabilitadas.push(`
                         `);
                     }
@@ -304,6 +332,12 @@ $(document).ready(function () {
                     `);
 
                     const opcionesMenu = opcionesHabilitadas.join('');
+                    pdfInformacionCellContent = `
+                        <a href="#" 
+                            class="visualizarDocumentoInformacion" 
+                            data-id-documento-informacion="${tramite.id_documento_informacion || ''}">
+                            ${tramite.id_documento_informacion || ''}
+                        </a>`;
 
                     const newRow3 = `
                         <tr style=" ">
@@ -320,6 +354,9 @@ $(document).ready(function () {
                             </td>
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_INFORMACION}</td>
                             <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
+                            <td class="text-center ${estadoFont} ${estadoText}">
+                                ${pdfInformacionCellContent}
+                            </td>
                             <td class="text-center align-items-center justify-content-center p-2">
                                 <div class="btn-group">
                                     <button class="btn btn-light-primary text-primary dropdown-toggle px-2 py-1 border-0" type="button" 
@@ -402,6 +439,23 @@ $(document).ready(function () {
                                 alert('Error al obtener detalles del trámite. Por favor, inténtelo de nuevo.');
                             }
                         });
+                    });
+
+                    $('#tbody-tramitesEmpresa').off('click', '.visualizarDocumentoInformacion').on('click', '.visualizarDocumentoInformacion', function (e) {
+                        e.preventDefault();
+
+                        const idDocumento = $(this).data('id-documento-informacion');
+                        console.log("ID detectado:", idDocumento);
+
+                        if (idDocumento && idDocumento !== "" && idDocumento !== "undefined") {
+                            const url = `/ver-documento-pdf/${idDocumento}`;
+                            console.log("Cargando URL:", url);
+
+                            $('#iframeDocumento').attr('src', url);
+                            $('#modalDcoumentoPDF').modal('show');
+                        } else {
+                            console.warn("El ID del documento está vacío o no es válido");
+                        }
                     });
 
                 });

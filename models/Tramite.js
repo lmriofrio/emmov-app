@@ -440,7 +440,10 @@ const Tramite = sequelize.define('registro-tramites', {
     type: DataTypes.STRING(45),
     allowNull: true
   },
-
+  id_consulta_sri: {
+    type: DataTypes.STRING(45),
+    allowNull: true
+  },
   
 
 }, {

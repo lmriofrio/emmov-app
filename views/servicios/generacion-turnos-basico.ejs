@@ -42,18 +42,15 @@
 
         @media print {
 
-            /* 1. Ocultamos TODO excepto el contenedor del ticket */
             body>*:not(#ticket-print) {
                 display: none !important;
             }
 
-            /* 2. Configuración de la página */
             @page {
                 size: 80mm auto;
                 margin: 0;
             }
 
-            /* 3. Aseguramos que el body y el contenedor sean visibles */
             body {
                 margin: 0;
                 padding: 0;
@@ -69,21 +66,17 @@
                 padding: 5px !important;
             }
 
-            /* 4. Forzamos que los elementos flex internos se vean y mantengan su fila */
             #ticket-print div {
                 display: block;
-                /* Por defecto */
                 visibility: visible !important;
             }
 
-            /* Regla específica para las filas de datos */
             #ticket-print div[style*="display: flex"] {
                 display: flex !important;
                 flex-direction: row !important;
                 visibility: visible !important;
             }
 
-            /* Aseguramos que el contenido dentro de los divs sea visible */
             #ticket-print * {
                 visibility: visible !important;
             }
@@ -106,9 +99,6 @@
             <!--  Encabezado de pagina -->
 
             <!--  Fin de encabezado de pagina  -->
-
-
-
 
             <div class="container-fluid min-vh-100 d-flex flex-column p-0 col-7">
                 <header class="d-flex justify-content-between align-items-center p-4">
@@ -380,16 +370,15 @@
 
     <div id="ticket-print" class="hidden">
         <div
-            style="width: 80mm; font-family: 'Courier New', Courier, monospace; color: #000; padding: 5px; margin: 0 auto; overflow: hidden;">
+            style="width: 80mm; font-family: 'Courier New', Courier, monospace; padding: 5px; margin: 0 auto; overflow: hidden;">
 
             <div style="text-align: center; margin-bottom: 2px;">
-                <h2 style="margin: 0; font-size: 1.2rem; font-weight: bold;">EMMSZCH E.P.</h2>
+                <h2 style="margin: 0; font-size: 1.2rem; font-weight: bold; color: black">EMMSZCH E.P.</h2>
             </div>
 
-            <div
-                style="text-align: center; border-top: 1px dashed #000; border-bottom: 1px dashed #000; padding: 0px 0; margin-bottom: 0px;">
+            <div style="text-align: center; border-top: 1px dashed #000; border-bottom: 1px dashed #000; padding: 0px 0; margin-bottom: 0px;">
                 <span style="font-size: 0.9rem; font-weight: normal; display: block;">SU TURNO ES:</span>
-                <h1 id="t-numero" style="font-size: 5rem; margin: 0px 0; line-height: 1; font-weight: bold;">00</h1>
+                <h1 id="t-numero" style="font-weight: bold; font-size: 5rem; margin: 0px 0; line-height: 1; color: black">00</h1>
             </div>
 
 
@@ -447,24 +436,20 @@
     </script>
 
     <style>
-        /* Transición Cross-Fade Ultra Suave */
         .carousel-fade .carousel-item {
             opacity: 0;
             transition: opacity 2s ease-in-out;
-            /* 2 segundos para máxima suavidad */
         }
 
         .carousel-fade .carousel-item.active {
             opacity: 1;
         }
 
-        /* Forzar el alto del carrusel para que coincida con la columna de los botones */
         .carousel-inner {
             display: flex;
             align-items: stretch;
         }
 
-        /* Corrección del problema de imagen cortada/parpadeo */
         .carousel-item img {
             backface-visibility: hidden;
             -webkit-perspective: 1000;

@@ -5,6 +5,7 @@ const FaltaAsistenciasTTHH = require('../models/FaltaAsistenciasTTHH');
 const InventarioPlacas = require('../models/InventarioPlacas');
 const TituloCredito = require('../models/TituloCredito');
 const ConceptoPago = require('../models/ConceptoPago');
+const ConsultasSRI = require('../models/ConsultasSRI');
 const { Op } = require('sequelize');
 
 
@@ -351,7 +352,7 @@ async function createTramite({
     const result_informacion_SRI = (result_informacion || '');
     const result_total_SRI = (result_total || '');
 
-    console.log('------  Creando el nuevo trámite desde saveUtils  -------');
+    console.log('                Creando el nuevo trámite desde saveUtils                .......');
 
     const nuevoTramite = await Tramite.create({
         id_tramite_axis,
@@ -432,6 +433,8 @@ async function createTramite({
     });
 
     const id_tramite = nuevoTramite.id_tramite;
+
+    console.log('                Finalizando la creacion del nuevo trámite               .......');
 
 
     return { id_tramite, nuevoTramite };
@@ -608,9 +611,8 @@ async function solicitarTurnos({
 
 }) {
 
-    console.log('------ Generando turnos desde saveUtils -------');
+    console.log('                Generando turnos desde saveUtils                        .......');
 
-    // Buscar el último turno asignado (MATR) en el día actual
     const lastCurrentTurner = await Tramite.findOne({
         where: {
             fecha_final_PRESENTACION: {
@@ -628,7 +630,6 @@ async function solicitarTurnos({
 
     const TurnoMatr = lastCurrentTurner ? lastCurrentTurner.numero_turno_matriculacion_INFORMACION + 1 : 1;
 
-    // Buscar el último turno asignado (RTV) en el día actual para una empresa
     const lastCurrentTurnerRTV = await Tramite.findOne({
         where: {
             fecha_turno_RTV: {
@@ -640,6 +641,8 @@ async function solicitarTurnos({
     });
 
     const TurnoRtv = lastCurrentTurnerRTV ? lastCurrentTurnerRTV.numero_turno_rtv_INFORMACION + 1 : 1;
+
+    console.log('                Finalizacion la generacion de turnos                  .......');
 
     return { TurnoMatr, TurnoRtv };
 }
@@ -680,6 +683,7 @@ async function editarInventarioPlacas({
     return { id_inv };
 }
 
+// Listo
 async function createTitulosCreditos({
     id_tramite,
     id_concepto,
@@ -721,6 +725,7 @@ async function createTitulosCreditos({
 
 }
 
+// Listo
 async function cerrarTituloCredito(id_tramite) {
 
     try {
@@ -752,28 +757,110 @@ async function cerrarTituloCredito(id_tramite) {
 
 }
 
+// Listo
 async function updateTramite_id_documento({ id_tramite, id_documento_informacion }) {
-  try {
-    const tramite = await Tramite.findOne({ where: { id_tramite } });
+    try {
+        const tramite = await Tramite.findOne({ where: { id_tramite } });
 
-    if (!tramite) {
-      throw new Error(`No se pudo encontrar el trámite con ID: ${id_tramite}`);
+        if (!tramite) {
+            throw new Error(`No se pudo encontrar el trámite con ID: ${id_tramite}`);
+        }
+
+        console.log('------ Actualizando el trámite desde saveUtils (updateTramite_id_documento) -------');
+
+        await tramite.update({ id_documento_informacion });
+
+        console.log(`El trámite con ID: ${id_tramite} fue actualizado exitosamente con el documento ${id_documento_informacion}, desde (updateTramite_id_documento)`);
+        return { success: true, message: 'Trámite actualizado correctamente con datos del documento' };
+    } catch (error) {
+        console.error('Error al actualizar el trámite con documento:', error);
+        return { success: false, message: error.message };
+    }
+}
+
+// Listo
+async function createConsultasSRI(vehiculo, currentDay) {
+
+    if (!vehiculo || !vehiculo.placa) {
+        console.error("---- ERROR: Datos de vehículo inválidos para guardar en BD.");
+        return;
     }
 
-    console.log('------ Actualizando el trámite desde saveUtils (updateTramite_id_documento) -------');
+    const placaFinal = (vehiculo.placa || '').toUpperCase();
 
-    await tramite.update({ id_documento_informacion });
+    try {
+        
+        const ultimoRegistro = await ConsultasSRI.findOne({
+            attributes: ['id_consulta_sri'],
+            order: [['id_consulta_sri', 'DESC']]
+        });
 
-    console.log(`El trámite con ID: ${id_tramite} fue actualizado exitosamente con el documento ${id_documento_informacion}, desde (updateTramite_id_documento)`);
-    return { success: true, message: 'Trámite actualizado correctamente con datos del documento' };
-  } catch (error) {
-    console.error('Error al actualizar el trámite con documento:', error);
-    return { success: false, message: error.message };
-  }
+        const nuevoIdConsulta = ultimoRegistro ? (Number(ultimoRegistro.id_consulta_sri) + 1) : 1;
+
+        const tieneValoresPendientes = (vehiculo.total !== null && vehiculo.total > 0 && vehiculo.deudas && vehiculo.deudas.length > 0);
+
+        console.log(`----  UTILS:    Registrando la consulta realizada al SRI:               ${placaFinal}`);
+
+        if (tieneValoresPendientes) {
+            // CASO 1: TIENE DEUDAS - Todas las filas llevan el mismo nuevoIdConsulta
+            for (const deuda of vehiculo.deudas) {
+                await ConsultasSRI.create({
+                    id_consulta_sri: nuevoIdConsulta,
+                    placa: placaFinal,
+                    id_tramite: null,
+                    descripcion_rubro: (deuda.descripcion || 'RUBRO DESCONOCIDO').toUpperCase(),
+                    valor: Number(deuda.subtotal) || 0.00,
+                    tiene_deudas: 'SI',
+                    fecha_consulta: currentDay
+                });
+            }
+        } else {
+            // CASO 2: AL DÍA - Una sola fila con el nuevoIdConsulta
+            await ConsultasSRI.create({
+                id_consulta_sri: nuevoIdConsulta,
+                placa: placaFinal,
+                id_tramite: null,
+                descripcion_rubro: (vehiculo.informacion || 'EL VEHICULO NO TIENE REGISTROS POR PAGAR').toUpperCase(),
+                valor: 0.00,
+                tiene_deudas: 'NO',
+                fecha_consulta: currentDay
+            });
+        }
+
+        console.log(`----  UTILS:    Datos guardados de la consulta del SRI:                 ${placaFinal}`);
+
+        return nuevoIdConsulta;
+
+    } catch (err) {
+        console.error(`---- ERROR CRÍTICO al insertar en registro-consultas-sri:`, err.message);
+    }
 }
 
 
-module.exports = { updateTramite_id_documento, cerrarTituloCredito, createTitulosCreditos, editarInventarioPlacas, solicitarTurnos, createVehiculo, updateVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, createFaltaAsistencia, editarFaltaAsistencia };
+// Listo
+async function updateTramite_id_consulta_sri({ id_tramite, id_consulta_sri }) {
+    try {
+        const tramite = await Tramite.findOne({ where: { id_tramite } });
+
+        if (!tramite) {
+            throw new Error(`No se pudo encontrar el trámite con ID: ${id_tramite}`);
+        }
+
+        console.log('------ Actualizando el trámite desde saveUtils (updateTramite_id_consulta_sri) -------');
+
+        await tramite.update({ id_consulta_sri });
+
+        console.log(`El trámite con ID: ${id_tramite} fue actualizado exitosamente con el documento ${id_consulta_sri}, desde (updateTramite_id_consulta_sri)`);
+        return { success: true, message: 'Trámite actualizado correctamente con datos del documento' };
+    } catch (error) {
+        console.error('Error al actualizar el trámite con documento:', error);
+        return { success: false, message: error.message };
+    }
+}
+
+
+
+module.exports = { updateTramite_id_consulta_sri, createConsultasSRI, updateTramite_id_documento, cerrarTituloCredito, createTitulosCreditos, editarInventarioPlacas, solicitarTurnos, createVehiculo, updateVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, createFaltaAsistencia, editarFaltaAsistencia };
 
 
 

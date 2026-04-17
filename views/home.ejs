@@ -18,11 +18,8 @@
     <script src="/js/logout-script.js"></script>
     <script src="/js/visualizar-turnos-matriculacion-home.js"></script>
 
-
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../node_modules/echarts/dist/echarts.min.js"></script>
-
-
 
     <style>
         .table thead th {
@@ -361,6 +358,9 @@
                                                     <th
                                                         class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
                                                         USUARIO ASIGNADO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        PDF (Info)</th>
                                                     <th class="text-center align-middle px-2 py-2">ACCIÓN</th>
                                                 </tr>
                                             </thead>
@@ -395,6 +395,9 @@
                                                     <th
                                                         class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
                                                         USUARIO ASIGNADO</th>
+                                                    <th
+                                                        class="text-center align-middle px-2 py-2 text-overflow-3 text-wrap">
+                                                        PDF (Info)</th>
                                                     <th class="text-center align-middle px-2 py-2">ACCIÓN</th>
                                                 </tr>
                                             </thead>
@@ -744,7 +747,7 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="documentoModal" tabindex="-1">
+                    <div class="modal fade" id="modalDcoumentoPDF" tabindex="-1">
                         <div class="modal-dialog modal-xl">
                             <div class="modal-content">
                                 <div class="modal-body">
@@ -753,9 +756,12 @@
                             </div>
                         </div>
                     </div>
+
+
+
             </div>
 
-    </div>
+
 </body>
 
 </html>

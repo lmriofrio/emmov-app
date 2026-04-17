@@ -7,11 +7,9 @@ $(document).ready(function () {
         const rol_funcionario = $('input[name="rol_funcionario"]').val();
         const nombre_funcionario = $('input[name="nombre_funcionario"]').val();
 
-
         console.log('La fecha que biene es:' + fecha_finalizacion);
 
         $('input[name="fecha_finalizacion_pdf"]').val(fecha_finalizacion);
-
 
         if (!fecha_finalizacion) {
             alert('Por favor ingresa una fecha válidasss.');
@@ -1109,6 +1107,11 @@ $(document).ready(function () {
                         const fechaIngresoFormateada = `${fechaIngreso.getDate().toString().padStart(2, '0')}-${(fechaIngreso.getMonth() + 1).toString().padStart(2, '0')}-${fechaIngreso.getFullYear()} ${fechaIngreso.getHours().toString().padStart(2, '0')}:${fechaIngreso.getMinutes().toString().padStart(2, '0')}`;
 
                         let tiempoEspera = '';
+                        let placaCellContent = '';
+                        let estadoText = '';
+                        let opcionesHabilitadas = [];
+                        let pdfInformacionCellContent = '';
+
                         if (tramite.fecha_finalizacion) {
                             const fechaFinalizacion = new Date(tramite.fecha_finalizacion);
                             fechaFinalizacion.setHours(fechaFinalizacion.getHours() + 5);
@@ -1127,10 +1130,25 @@ $(document).ready(function () {
                             tiempoEspera = `${diferenciaHoras} horas ${diferenciaMinutos} min.`;
                         }
 
-                        const estadoClass = tramite.estado_tramite === 'Finalizado' ? 'bg-info' :
-                            tramite.estado_tramite === 'En proceso' ? 'bg-wait' :
-                                'bg-danger';
-                        const estadoFont = tramite.estado_tramite === 'Finalizado' ? 'fw-normal' : tramite.estado_tramite === 'Eliminado' ? 'fw-normal' : 'fw-semibold';
+                        // Definición lógica de la clase de fondo (Background)
+                        const estadoClass = tramite.estado_tramite === 'Finalizado'
+                            ? 'bg-info'
+                            : tramite.estado_tramite === 'En proceso'
+                                ? 'bg-wait'
+                                : 'bg-danger';
+
+                        // Definición lógica de la fuente (Font Weight)
+                        const estadoFont = (tramite.estado_tramite === 'Finalizado' || tramite.estado_tramite === 'Eliminado')
+                            ? 'fw-normal'
+                            : 'fw-semibold';
+
+                        // Construcción del contenido de la celda
+                        pdfInformacionCellContent = `
+    <a href="#" 
+        class="visualizarDocumentoInformacion" 
+        data-id-documento-informacion="${tramite.id_documento_informacion || ''}">
+        ${tramite.id_documento_informacion || ''}
+    </a>`;
 
                         const newRow = `
                             <tr style=" ">
@@ -1147,7 +1165,9 @@ $(document).ready(function () {
                                 </td>
                                 <td class="text-center text-overflow-4">${tramite.username_funcionario_INFORMACION}</td>
                                 <td class="text-center text-overflow-4">${tramite.username_funcionario_asignado_INFORMACION}</td>
-                                <td class="text-center text-overflow-4">${tramite.id_documento_informacion || ''}</td>
+                                <td class="text-center ${estadoFont} ${estadoText}">
+                                ${pdfInformacionCellContent}
+                                </td>
                             </tr>`;
                         tbodyDetalle.append(newRow);
                         numeroFila++;
@@ -1159,6 +1179,25 @@ $(document).ready(function () {
                     $('input[name="tramites_total"]').val(tramitesFiltrados.length);
 
                     $('#overlay').removeClass('active');
+
+                    $('#tbody-tramitesDetalle').off('click', '.visualizarDocumentoInformacion').on('click', '.visualizarDocumentoInformacion', function (e) {
+                        e.preventDefault();
+
+                        const idDocumento = $(this).data('id-documento-informacion');
+                        console.log("ID detectado:", idDocumento);
+
+                        if (idDocumento && idDocumento !== "" && idDocumento !== "undefined") {
+                            const url = `/ver-documento-pdf/${idDocumento}`;
+                            console.log("Cargando URL:", url);
+
+                            $('#iframeDocumento').attr('src', url);
+                            $('#modalDcoumentoPDF').modal('show');
+                        } else {
+                            console.warn("El ID del documento está vacío o no es válido");
+                        }
+                    });
+
+
                 } else {
                     alert('TRÁMITES NO ENCONTRADOS');
                 }

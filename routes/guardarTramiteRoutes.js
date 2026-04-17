@@ -9,7 +9,7 @@ const TituloCredito = require('../models/TituloCredito');
 const { sequelize } = require('sequelize');
 const { Op } = require('sequelize');
 const { getCurrentDay, getRangeCurrentDay } = require('../utils/dateUtils');
-const { updateTramite_id_documento, cerrarTituloCredito, createTitulosCreditos, updateVehiculo, createVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, solicitarTurnos } = require('../utils/saveUtils');
+const { updateTramite_id_consulta_sri, updateTramite_id_documento, cerrarTituloCredito, createTitulosCreditos, updateVehiculo, createVehiculo, createUsuario, actualizarUsuario, createTramite, updateTramite_placa, updateTramite_id_usuario, updateVehiculo_DateSRI, solicitarTurnos } = require('../utils/saveUtils');
 
 router.post('/guardar-tramite-directo', async (req, res) => {
   try {
@@ -289,7 +289,7 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
     const { id_funcionario, username, nombre_funcionario, id_empresa, nombre_empresa, nombre_corto_empresa, estado_empresa, provincia_empresa, canton_empresa, id_centro_matriculacion, nombre_centro_matriculacion, canton_centro_matriculacion, id_centro_matriculacion_ASIGNACION_RTV } = req.session.user;
     const { tipo_peso, tipo_tramite, id_usuario, tipo_id_usuario, nombre_usuario, celular_usuario, email_usuario, provincia_usuario, canton_usuario, parroquia_usuario, direccion_usuario, clase_vehiculo_tipo, clase_vehiculo, tipo_vehiculo, clase_transporte, observaciones_INFORMACION,
       revision_tecnica_vehicular_TURNO, verificacion_improntas_TURNO, cambio_servicio_TURNO, cambio_color_TURNO, cambio_motor_TURNO, tipo_asignacion, oficina_ASIGNACION, usuario_ASIGNACION,
-      result_informacion, result_total, id_documento_informacion } = req.body;
+      result_informacion, result_total, id_documento_informacion, id_consulta_sri } = req.body;
     let { placa, ramw } = req.body;
 
     const { result_placa, result_camvCpn, result_cilindraje, result_marca, result_modelo, result_anioModelo, result_paisFabricacion, result_clase, result_servicio } = req.body;
@@ -325,6 +325,7 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
 
     let fecha_ultimo_proceso = fecha_ingreso_INFORMACION;
 
+    console.log(`----  ROUTER:   !!! Guardar trámite desde información !!!                 .......`);
 
     if (tipo_tramite === 'EMISION DE MATRICULA POR PRIMERA VEZ') {
       placa = ramw;
@@ -346,11 +347,11 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
     let funcionarioDetails;
 
     if (tipo_tramite === 'PROCESO - VERIFICACIÓN Y EXTRACCIÓN DE IMPRONTAS' || tipo_tramite === 'PROCESO - REVISIÓN TECNICA VEHICULAR') {
-      console.log('PASO 6: Validando si el tramite necesita asignacion');
+      console.log(`                PASO 6: Validando si el tramite necesita asignacion:              ....`);
 
     } else {
 
-      console.log('PASO 7: NECESITA ASIGNACION, validando el tipo de asignacion');
+      console.log(`                PASO 7: NECESITA ASIGNACION, validando el tipo          .......`);
 
       // Lógica de asignación automática o manual
       if (tipo_asignacion === 'AUTOMÁTICA') {
@@ -401,7 +402,8 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
         }
       }
 
-      console.log('PASO 8: ASIGNACION REALIZADA, guardando el tramite');
+
+      console.log(`                PASO 8: ASIGNACION REALIZADA, guardando el tramite      .......`);
 
       asignacion = 'SI';
 
@@ -427,7 +429,7 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
     try {
       if (asignacion === 'SI') {
 
-        console.log('PASO : Ingresando los datos de asignación');
+        console.log(`                PASO 9: Ingresando los datos de asignación             .......`);
 
         const [affectedCount] = await Tramite.update({
           id_funcionario_asignado_INFORMACION: funcionarioAsignado.id_funcionario,
@@ -438,9 +440,9 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
         });
 
         if (affectedCount > 0) {
-          console.log('Datos de asignación actualizados exitosamente.');
+          console.log(`                Datos de asignación actualizados exitosamente             .......`);
         } else {
-          console.log('No se encontraron registros para actualizar.');
+          console.log(`                Datos de asignación no actualizados                       .......`);
         }
 
       } else {
@@ -526,6 +528,11 @@ router.post('/guardar-tramite-informacion', async (req, res) => {
     await updateTramite_id_documento({
       id_tramite: idTramite,
       id_documento_informacion
+    });
+
+    await updateTramite_id_consulta_sri({
+      id_tramite: idTramite,
+      id_consulta_sri
     });
 
     res.redirect(`/matriculacion/informacion/turno-agregado?id_tramite=${idTramite}`);

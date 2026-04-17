@@ -10,6 +10,7 @@ const TurnoBasico = require('../models/TurnoBasico');
 const axios = require('axios');
 const { Op } = require('sequelize');
 const { getCurrentDay, getRangeCurrentDay } = require('../utils/dateUtils');
+const { createConsultasSRI} = require('../utils/saveUtils');
 
 router.get('/buscar-tramite', async (req, res) => {
     const { placa } = req.query;
@@ -187,27 +188,25 @@ router.post('/buscar-usuario', async (req, res) => {
     }
 });
 
-
 ////////////////////////////////////
 ///// ==      VEHICULO    ==    ////
 ////////////////////////////////////
 
 
-
 router.post('/buscar-vehiculo', async (req, res) => {
     const { placa } = req.body;
 
-    console.log('----  ROUTER:   Buscar vehiculo:', placa);
+    console.log(`----  ROUTER:   Buscar vehiculo:                                        ${placa}`);
 
     try {
         const vehiculo = await Vehiculo.findOne({ where: { placa } });
 
         if (vehiculo) {
-            console.log('                Vehiculo encontrado en /buscar-vehiculo:', vehiculo.placa);
+            console.log(`                Vehiculo encontrado en /buscar-vehiculo:                ${vehiculo.placa}       `);
             //console.log('Placa recibida:', vehiculo);
             res.json({ success: true, vehiculo });
         } else {
-            console.log('Vehiculo no encontrado:');
+            console.log(`                Vehiculo NO encontrado en /buscar-vehiculo:             ${placa}       `);
             res.json({ success: false, message: 'Vehículo no encontrado' });
         }
     } catch (error) {
@@ -216,12 +215,11 @@ router.post('/buscar-vehiculo', async (req, res) => {
     }
 });
 
-
 router.post('/buscar-vehiculo-sri', async (req, res) => {
     const { id_vehiculo } = req.body;
 
-    console.log('----  ROUTER:   Buscar vehiculo SRI:', id_vehiculo);
-    console.log('                Placa que se va a enviar hacia el SRI:', id_vehiculo);
+    console.log(`----  ROUTER:   Buscar vehiculo SRI:                                    ${id_vehiculo}`);
+    console.log(`                Placa que se va a enviar hacia el SRI:                  ${id_vehiculo}`);
 
     try {
 
@@ -229,11 +227,15 @@ router.post('/buscar-vehiculo-sri', async (req, res) => {
 
         const vehiculo = response.data;
         //console.log('Datos recibidos:', vehiculo);
+        const { currentDay } = getCurrentDay();
 
         if (vehiculo) {
-            return res.json({ success: true, data: vehiculo });
+            console.log(`                Vehiculo encontrado en el SRI:                          ${id_vehiculo}`);
+            const id_consulta_sri = await createConsultasSRI(vehiculo, currentDay);
+            return res.json({ success: true, data: vehiculo, id_consulta_sri });
         } else {
 
+            console.log(`                Vehiculo NO encontrado en el SRI:               ${id_vehiculo}`);
             return res.json({ success: false, message: 'Vehículo no encontrado' });
 
         }
@@ -274,7 +276,6 @@ router.get('/buscar-placa-id_inventario', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
-
 
 ////////////////////////////////////
 ///// ==      Funcionario TTHH   ==    ////
@@ -358,9 +359,9 @@ router.post('/generar-turno-basico', async (req, res) => {
 
     try {
         const placaUpper = placa ? placa.toUpperCase().trim() : '';
-        
+
         // Usamos tus utilidades de fecha
-        const { currentDay } = getCurrentDay(); 
+        const { currentDay } = getCurrentDay();
         const { startOfDay, endOfDay } = getRangeCurrentDay();
 
         console.log(`                Buscando vehículo para placa:`, placaUpper);
@@ -377,13 +378,13 @@ router.post('/generar-turno-basico', async (req, res) => {
         }
 
         // 2. Buscamos el último turno del día usando el rango de tu utilidad
-        const ultimoTurno = await TurnoBasico.findOne({ 
-            where: { 
+        const ultimoTurno = await TurnoBasico.findOne({
+            where: {
                 fecha_creacion: {
                     [Op.between]: [startOfDay, endOfDay]
                 }
             },
-            order: [['id', 'DESC']] 
+            order: [['id', 'DESC']]
         });
 
         const proximoNumero = ultimoTurno && ultimoTurno.numero_turno ? parseInt(ultimoTurno.numero_turno) + 1 : 1;

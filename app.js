@@ -28,6 +28,7 @@ const TituloCredito = require('./models/TituloCredito');
 const Documento = require('./models/Documento');
 const DocumentoFirma = require('./models/Documento-firma');
 const TurnoBasico = require('./models/TurnoBasico');
+const ConsultasSRI = require('./models/ConsultasSRI');
 
 const sse = require('./routes/sseRoutes');
 const sseRoutes = require('./routes/sseRoutes');
@@ -204,6 +205,8 @@ app.post('/login', async (req, res) => {
       const result = await obtenerPermisosUsuario(user.id_funcionario);
 
       req.session.permisos = result.permisos;
+
+      console.log('----  APP:      El usuario ha ingresado al sistema:', userData.username);
 
       return res.json({ success: true });
 
@@ -822,9 +825,9 @@ app.get('/matriculacion/gestion-tramite/registrar-pago-placas', async (req, res)
       let pago_placas_newservicio;
 
       if (tramite.clase_vehiculo_tipo === 'VEHICULO') {
-        valor = '23.00';
+        valor = '26.00';
       } else if (tramite.clase_vehiculo_tipo === 'MOTOCICLETA') {
-        valor = '13.00';
+        valor = '17.00';
       }
 
       if (tramite.clase_transporte === 'COMERCIAL') {
@@ -1076,6 +1079,51 @@ app.get('/matriculacion/informacion/solicitud-pdf', async (req, res) => {
 
       if (!tramite) return res.status(404).send('Trámite no encontrado.');
 
+      // --- PROCESAMIENTO DE DATOS SRI DESDE LA TABLA registro-consultas-sri ---
+      let datosSRI = {
+        estado: 'NO_DISPONIBLE', // Controla el d-none
+        filas: [],
+        totalPagar: "0.00",
+        mensajeInformacion: ""
+      };
+
+      if (tramite.id_consulta_sri) {
+        const registros = await ConsultasSRI.findAll({
+          where: { id_consulta_sri: tramite.id_consulta_sri }
+        });
+
+        if (registros && registros.length > 0) {
+          const tieneDeudaReal = registros.some(reg => reg.tiene_deudas === 'SI');
+
+          if (tieneDeudaReal) {
+            datosSRI.estado = 'CON_DEUDAS';
+            datosSRI.filas = registros;
+            const suma = registros.reduce((sum, reg) => sum + parseFloat(reg.valor || 0), 0);
+            datosSRI.totalPagar = suma.toFixed(2);
+          } else {
+            datosSRI.estado = 'SIN_DEUDAS';
+            // Tomamos la descripción de la primera fila (ej: "EL VEHICULO NO TIENE REGISTROS...")
+            datosSRI.mensajeInformacion = registros[0].descripcion_rubro;
+          }
+        }
+      }
+
+      if (tramite.id_consulta_sri) {
+        const registros = await ConsultasSRI.findAll({
+          where: { id_consulta_sri: tramite.id_consulta_sri }
+        });
+
+        if (registros && registros.length > 0) {
+          datosSRI.rubros = registros;
+          // Sumamos la columna 'valor'
+          datosSRI.total = registros.reduce((sum, reg) => sum + parseFloat(reg.valor || 0), 0);
+
+          // Verificamos si alguna fila marca que 'SI' tiene deudas
+          const tieneDeudaReal = registros.some(reg => reg.tiene_deudas === 'SI');
+          datosSRI.estado = tieneDeudaReal ? 'CON_DEUDAS' : 'SIN_DEUDAS';
+        }
+      }
+
       // 2. Obtener Títulos de Crédito y DATOS DE LA FIRMA
       let firmaData = null;
 
@@ -1103,7 +1151,8 @@ app.get('/matriculacion/informacion/solicitud-pdf', async (req, res) => {
         tramite,
         empresa,
         titulosCredito,
-        archivoFirma // Aquí envías toda la info (ruta, nombre del servidor, etc.)
+        archivoFirma,
+        datosSRI
       });
 
     } else {
