@@ -28,6 +28,38 @@
             justify-content: center;
             background: white;
         }
+
+        @media print {
+
+            /* Forzar la impresión de colores de fondo y sombras */
+            .card,
+            .bg-blue-sri,
+            .badge,
+            .text-bg-primary {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            /* Asegurar que el fondo azul sea visible */
+            .bg-blue-sri {
+                background-color: #004595 !important;
+                /* Ajusta al azul exacto que usas */
+                color: white !important;
+            }
+
+            /* Asegurar que la tarjeta interna blanca se mantenga blanca y no transparente */
+            #cosultaSRI {
+                background-color: white !important;
+                border: 1px solid #dee2e6 !important;
+                /* Un borde fino ayuda en la impresión */
+            }
+
+            /* Evitar que el texto blanco desaparezca si el fondo falla */
+            .text-white {
+                color: white !important;
+            }
+        }
     </style>
 
 
@@ -573,7 +605,7 @@
                                                     <div class="row w-100 text-start">
                                                         <div class="col">
                                                             <p class="form-control-plaintext mb-0 p-0">
-                                                                Placa / Rawn:
+                                                                Placa:
                                                             </p>
                                                         </div>
                                                     </div>
@@ -896,110 +928,99 @@
 
                         <div class="col-3">
 
+
                             <% if (datosSRI.estado==='CON_DEUDAS' || datosSRI.estado==='SIN_DEUDAS' ) { %>
+
                                 <div class="col-12 fs-2 ms-1 shadow-none" id="contentConSRI">
-                                    <div class="card shadow-none" id="cosultaSRI">
-                                        <div class="card-body p-2 shadow-none">
-                                            <div class="d-flex align-items-center">
-                                                <span class="flex-shrink-0">
-                                                    <img src="/images/sri_logo.jpg" class="rounded-circle"
-                                                        style="width: 30px; height: 30px;">
-                                                </span>
-                                                <div class="ms-1">
-                                                    <h4 class="card-title text-black mb-1 fs-3">SRI</h4>
-                                                    <span class="text-subtitle mt-1">Valores a pagar</span>
+                                    <div class="card bg-blue-sri border-0 w-100 shadow-none">
+                                        <div class="card-body p-2 pb-0 shadow-none">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <div>
+                                                    <h4 class="fw-semibold mb-0 text-white card-title">SRI</h4>
+                                                    <p class="fs-3 mb-0 text-white">Valores a pagar</p>
+                                                </div>
+                                                <div class="flex-shrink-0">
+                                                    <img src="/images/sri_logo.jpg"
+                                                        class="rounded-circle border border-2 border-white"
+                                                        style="width: 45px; height: 45px; object-fit: cover;">
                                                 </div>
                                             </div>
 
-                                            <div class="d-flex mt-1">
-                                                <div class="col-12">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <div class="col text-center">
-                                                                <div class="col-12 text-start py-2">
-                                                                    <div class="d-flex gap-2 mb-1">
-                                                                        <strong
-                                                                            class="form-label fw-semibold mb-0 col-5">Placa:</strong>
-                                                                        <div class="form-label mb-0 fw-normal">
-                                                                            <%= tramite.placa %>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="d-flex gap-2 mb-1">
-                                                                        <strong
-                                                                            class="form-label fw-semibold mb-0 col-5">Cilindraje:</strong>
-                                                                        <div class="form-label mb-0 fw-normal">
-                                                                            <%= tramite.cilindraje %>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="d-flex gap-2 mb-1">
-                                                                        <strong
-                                                                            class="form-label fw-semibold mb-0 col-5">Marca:</strong>
-                                                                        <div class="form-label mb-0 fw-normal">
-                                                                            <%= tramite.marca %>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                            <div class="py-2"></div>
+                                        </div>
 
-                                                                <div class="col-12 justify-content-center pt-1 <%= datosSRI.estado === 'SIN_DEUDAS' ? '' : 'd-none' %>"
-                                                                    id="sinDeudasSRI">
-                                                                    <div class="pt-1 px-4 pb-1 text-center">
-                                                                        <img src="/images/ic_tick.png"
-                                                                            class="rounded-circle" width="75"
-                                                                            height="75">
-                                                                    </div>
-                                                                    <div class="form-label fw-normal text-center fs-2 pb-2 pt-4"
-                                                                        id="informacion">
-                                                                        <%= datosSRI.mensajeInformacion %>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-12 justify-content-center pt-0 <%= datosSRI.estado === 'CON_DEUDAS' ? '' : 'd-none' %>"
-                                                                    id="DeudasSRI">
-                                                                    <div class="row">
-                                                                        <div>
-                                                                            <div class="d-flex">
-                                                                                <span class="text-muted fw-normal">Total
-                                                                                    de valores a pagar:</span>
-                                                                            </div>
-                                                                            <table class="table table-bordered mb-1"
-                                                                                role="presentation">
-                                                                                <tbody id="deudasTableBody">
-                                                                                    <% datosSRI.filas.forEach(function(fila)
-                                                                                        { %>
-                                                                                        <tr>
-                                                                                            <td
-                                                                                                class="col-5 fw-normal text-start fs-1 text-uppercase">
-                                                                                                <%= fila.descripcion_rubro
-                                                                                                    %>
-                                                                                            </td>
-                                                                                            <td
-                                                                                                class="col-6 text-end fw-semibold fs-2">
-                                                                                                USD $<%=
-                                                                                                    parseFloat(fila.valor).toFixed(2)
-                                                                                                    %>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                        <% }); %>
-                                                                                </tbody>
-                                                                            </table>
-                                                                            <div class="col text-end p-0">
-                                                                                <span class="text-muted">A pagar:</span>
-                                                                                <strong><span class="text-red fs-3"
-                                                                                        id="total">USD $<%=
-                                                                                            datosSRI.totalPagar %>
-                                                                                    </span></strong>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                        <div class="card mx-2 mb-2 mt-n4 shadow-none" id="cosultaSRI">
+                                            <div class="card-body p-2">
+                                                <div class="row mb-1">
+                                                    <div class="col-12">
+                                                        <div class="d-flex gap-2 mb-0">
+                                                            <strong
+                                                                class="form-label fw-semibold mb-0 col-5 fs-2">Placa:</strong>
+                                                            <div class="form-label mb-0 fw-normal fs-2">
+                                                                <%= tramite.placa %>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex gap-2 mb-0">
+                                                            <strong
+                                                                class="form-label fw-semibold mb-0 col-5 fs-2">Marca:</strong>
+                                                            <div class="form-label mb-0 fw-normal fs-2">
+                                                                <%= tramite.marca %>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+
+                                                <div class="col-12 py-0 <%= datosSRI.estado === 'SIN_DEUDAS' ? '' : 'd-none' %>"
+                                                    id="sinDeudasSRI">
+                                                    <div class="text-center">
+                                                        <img src="/images/ic_tick.png" class="rounded-circle mb-2"
+                                                            width="50" height="50">
+                                                        <div class="form-label fw-normal text-center fs-2 pt-2">
+                                                            <%= datosSRI.mensajeInformacion %>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 <%= datosSRI.estado === 'CON_DEUDAS' ? '' : 'd-none' %>"
+                                                    id="DeudasSRI">
+                                                    <p class="text-muted small fw-normal mb-2">Detalle de rubros:</p>
+                                                    <table class="table table-sm table-borderless mb-2">
+                                                        <tbody>
+                                                            <% datosSRI.filas.forEach(function(fila) { %>
+                                                                <tr class="border-bottom border-light">
+                                                                    <td
+                                                                        class="text-start fs-1 text-uppercase text-muted py-2">
+                                                                        <%= fila.descripcion_rubro %>
+                                                                    </td>
+                                                                    <td class="text-end fw-semibold fs-2 py-2">
+                                                                        $<%= parseFloat(fila.valor).toFixed(2) %>
+                                                                    </td>
+                                                                </tr>
+                                                                <% }); %>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <div class="d-flex justify-content-between align-items-center p-0">
+                                                        <span class="text-muted small fw-normal fs-1">Total a
+                                                            pagar:</span>
+                                                        <span class="badge bg-danger fs-2" id="total">
+                                                            USD $<%= datosSRI.totalPagar %>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mt-0 pt-0">
+                                                    <p class="mb-0 text-center text-muted" style="font-size: 0.7rem;">
+                                                        Consulta realizada en: <br>
+                                                        <span class="">https://srienlinea.sri.gob.ec</span>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+
                                 <% } else { %>
                                     <div class="col-12 fs-2 ms-1 shadow-none" id="noDisponibleSRI">
                                         <div class="card shadow-none">

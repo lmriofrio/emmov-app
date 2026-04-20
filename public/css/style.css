@@ -30154,6 +30154,11 @@ fieldset:disabled .btn {
     background-color: var(--color-primario) !important
 }
 
+.text-bg-primary {
+    color: #fff !important;
+    background-color: var(--color-primario) !important
+}
+
 .text-bg-secondary {
     color: #fff !important;
     background-color: var(--color-secunadario)
